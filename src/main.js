@@ -6,8 +6,13 @@ import router from './router'
 import VueMaterial from 'vue-material'
 
 import 'vue-material/dist/vue-material.css'
-import "vue-material/dist/theme/default.css";
-import './assets/icon.css'
+import "vue-material/dist/theme/default.css"
+import 'vue-material/dist/theme/default-dark.css'
+import 'vue-material/dist/theme/black-green-dark.css'
+import 'vue-material/dist/theme/black-green-light.css'
+
+
+import './assets/libs/icon.css'
 Vue.config.productionTip = false
 
 Vue.use(VueMaterial)

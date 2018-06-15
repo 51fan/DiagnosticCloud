@@ -1,12 +1,15 @@
 <template>
   <div>
-    <!-- <img src="./assets/logo.png"> -->
-    <router-view/>
+    <layouts></layouts>
   </div>
 </template>
 
 <script>
+import layouts from "./common/layouts.vue";
 export default {
+  components:{
+    layouts
+  },
   name: 'App'
 }
 </script>
