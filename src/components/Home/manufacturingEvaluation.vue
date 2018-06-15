@@ -12,7 +12,7 @@
             </md-card-header-text>
 
         </md-card-header>
-
+        <scoreStar></scoreStar>
         <md-card-actions style="justify-content:center!important;background-color: #eee">
             <md-button>立即测评</md-button>
         </md-card-actions>
@@ -34,12 +34,17 @@
 .md-card-actions {
   padding: 0;
 }
+
 </style>
 
 <script>
+import scoreStar from "./scoreStar.vue";
 export default {
-    name:'manufacturingEvaluation'
-}
+  name: "manufacturingEvaluation",
+  components:{
+      scoreStar
+  }
+};
 </script>
 
 
