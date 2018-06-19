@@ -1,5 +1,5 @@
 <template>
     <div>
-        expertTeam
+        专家团队
     </div>
 </template>

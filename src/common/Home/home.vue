@@ -84,7 +84,7 @@
 </style>
 
 <script>
-import evaluating from "./evaluating.vue";
+import evaluating from "../Evaluating/evaluating.vue";
 
 export default {
   name: "LastRowFixed",

@@ -1,5 +1,5 @@
 <template>
     <div>
-        example
+        案例
     </div>
 </template>

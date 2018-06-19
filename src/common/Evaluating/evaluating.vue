@@ -7,7 +7,7 @@
             <!-- 搜索栏 -->
             <div style="width: 30%;margin-left: 35%;">
                 <md-field>
-                    <md-input v-model="initial" placeholder="关键字搜索"></md-input>
+                    <md-input v-model="searchKey" placeholder="关键字搜索"></md-input>
                     <i class="material-icons">search</i>
                 </md-field>
             </div>
@@ -27,15 +27,6 @@
         </div>
     </div>
 </template>
-
-<script>
-import ManufacturingEvaluation from "./manufacturingEvaluation.vue";
-export default {
-  components: {
-    ManufacturingEvaluation
-  }
-};
-</script>
 
 <style lang="scss" scoped>
 .mypanel {
@@ -60,6 +51,30 @@ export default {
   font-size: x-large;
 }
 </style>
+<script>
+import ManufacturingEvaluation from "./Evaluatiions/manufacturingEvaluation.vue";
+import Vue from 'vue';
+export default {
+  components: {
+    ManufacturingEvaluation
+  },
+  data: () => ({
+    searchKey: ""
+  }),
+  mounted:function () {
+      var apiKry = "";
+      var require = {};
+      var host = "";
+      Vue.$http.post('../../assets/jspns/test.json',{
+         apiKry, require
+      }).then(res=>{
+          
+      })
+  },
+};
+</script>
+
+
 
 
 

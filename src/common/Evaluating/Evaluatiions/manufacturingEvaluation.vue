@@ -3,7 +3,7 @@
         <md-card>
         <md-card-header>
             <md-card-media md-medium style="margin-left: 0px!important;">
-            <img src="../../assets/images/ico.png">
+            <img src="../../../assets/images/ico.png">
             </md-card-media>
 
             <md-card-header-text style="padding: 10px 10px 0 10px;">
@@ -14,7 +14,7 @@
         </md-card-header>
         <scoreStar></scoreStar>
         <md-card-actions style="justify-content:center!important;background-color: #eee">
-            <md-button>立即测评</md-button>
+            <md-button to="./evaluatingPage">立即测评</md-button>
         </md-card-actions>
         </md-card>
     </div>
@@ -38,7 +38,7 @@
 </style>
 
 <script>
-import scoreStar from "./scoreStar.vue";
+import scoreStar from "../../../components/wheels/scoreStar.vue";
 export default {
   name: "manufacturingEvaluation",
   components:{

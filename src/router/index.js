@@ -1,16 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from '@/components/Home/home'
-import evaluating from '@/components/Home/evaluating'
-import overview from '@/components/Home/overview'
-import example from '@/components/Home/example'
-import expertTeam from '@/components/Home/expertTeam'
+import home from '@/common/Home/home'
+import evaluating from '@/common/Evaluating/evaluating'
+import overview from '@/common/Home/overview'
+import example from '@/common/Example/example'
+import expertTeam from '@/common/ExpertTeam/expertTeam'
+import evaluatingPage from '@/common/Evaluating/evaluatingPage'
+
 
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: '/overview',
       name: 'overview',
       component: overview
@@ -29,6 +30,11 @@ export default new Router({
       path: '/expertTeam',
       name: 'expertTeam',
       component: expertTeam
+    },
+    {
+      path: '/evaluatingPage',
+      name: 'evaluatingPage',
+      component: evaluatingPage
     }
-]
+  ]
 })

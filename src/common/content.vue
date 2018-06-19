@@ -11,7 +11,7 @@
 
 
 <script>
-import home from "../components/Home/home";
+import home from "./Home/home";
 export default {
   components:{
       home

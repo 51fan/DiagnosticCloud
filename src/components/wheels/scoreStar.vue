@@ -50,82 +50,11 @@
 .star_5 {
   left: 96px;
 }
-/* .star:hover {
-  background: url(../../assets/images/star.png) repeat-x 0 -20px !important;
-  left: 0;
-  z-index: 2;
-}
-.star_1 {
-  left: 0;
-}
-.star_2 {
-  left: 24px;
-}
-.star_3 {
-  left: 48px;
-}
-.star_4 {
-  left: 72px;
-}
-.star_5 {
-  left: 96px;
-}
-.star_1:hover {
-  width: 24px;
-}
-.star_2:hover {
-  width: 48px;
-}
-.star_3:hover {
-  width: 72px;
-}
-.star_4:hover {
-  width: 96px;
-}
-.star_5:hover {
-  width: 120px;
-} */
-
-/* label {
-  display: block;
-  _display: inline;
-  height: 100%;
-  width: 100%;
-  cursor: pointer;
-} */
-
-/* 幕后的英雄，单选按钮 */
-/* .score {
-  position: absolute;
-  clip: rect(0 0 0 0);
-} */
-/* .score:checked + .star {
-  background: url(../../assets/images/star.png) repeat-x 0 -20px;
-  left: 0;
-  z-index: 1;
-} */
-/* .score_1:checked ~ .star_1 {
-  width: 24px;
-}
-.score_2:checked ~ .star_2 {
-  width: 48px;
-}
-.score_3:checked ~ .star_3 {
-  width: 72px;
-}
-.score_4:checked ~ .star_4 {
-  width: 96px;
-}
-.score_5:checked ~ .star_5 {
-  width: 120px;
-} */
-
-/* .star_bg:hover .star {
-  background-image: none;
-} */
 </style>
 
 <script>
-export default {};
+export default {
+  name:'scoreStar',
+};
 </script>
 
