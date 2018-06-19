@@ -62,7 +62,7 @@
         </md-list>
       </md-app-drawer>
 
-      <md-app-content>
+      <md-app-content style="background-color: rgba(216, 209, 202, 0.13);">
        <router-view></router-view>
       </md-app-content>
     </md-app>

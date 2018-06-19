@@ -1,18 +1,17 @@
 <template>
-    <div style="text-align: center;">
+    <div style="text-align: center;padding: 10px;">
         <div style="text-align: center;display: inline-flex">
             <span style="padding: 0 15px">热度:</span>
             <div id="starBg" class="star_bg">                    	
-                <!-- <input type="radio" id="starScore1" class="score score_1" value="1" name="score"> -->
-                <a href="#starScore1" class="star star_1" title="差"><label for="starScore1">差</label></a>
-                <!-- <input type="radio" id="starScore2" class="score score_2" value="2" name="score"> -->
-                <a href="#starScore2" class="star star_2" title="较差"><label for="starScore2">较差</label></a>
-                <!-- <input type="radio" id="starScore3" class="score score_3" value="3" name="score"> -->
-                <a href="#starScore3" class="star star_3" title="普通"><label for="starScore3">普通</label></a>
-                <!-- <input type="radio" id="starScore4" class="score score_4" value="4" name="score"> -->
-                <a href="#starScore4" class="star star_4" title="较好"><label for="starScore4">较好</label></a>
-                <!-- <input type="radio" id="starScore5" class="score score_5" value="5" name="score"> -->
-                <a href="#5" class="star star_5" title="好"><label for="starScore5">好</label></a>
+                <a  class="star star_1" ></a>
+               
+                <a  class="star star_2" ></a>
+               
+                <a  class="star star_3"></a>
+               
+                <a  class="star star_4" ></a>
+               
+                <a  class="star star_5" ></a>
             </div>
             <span style="padding: 0 10px">3星</span>
         </div>
@@ -29,14 +28,27 @@
 }
 .star {
   height: 100%;
-  width: 72px;
+  width: 72px;/*星星的长度*/
   line-height: 6em;
   position: absolute;
   z-index: 3;
 }
+.star_1 {
+  left: 0;
+  background: url(../../assets/images/star.png) repeat-x 0 -20px !important;
+}
+.star_2 {
+  left: 24px;
+}
 .star_3 {
   left: 48px;
-  width: 72px;
+ 
+}
+.star_4 {
+  left: 72px;
+}
+.star_5 {
+  left: 96px;
 }
 /* .star:hover {
   background: url(../../assets/images/star.png) repeat-x 0 -20px !important;
