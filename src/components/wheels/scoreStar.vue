@@ -13,7 +13,7 @@
                
                 <a  class="star star_5" ></a>
             </div>
-            <span style="padding: 0 10px">3星</span>
+            <span style="padding: 0 10px">{{score}}星</span>
         </div>
     </div>
 </template>
@@ -55,6 +55,18 @@
 <script>
 export default {
   name:'scoreStar',
+  props:{
+    score:Number
+  },
+  mounted:function () {
+    
+  },
+  data:()=>{
+    star=>{
+      this.score=this.score*24;
+      console.log(this.score)
+    }
+  },
 };
 </script>
 

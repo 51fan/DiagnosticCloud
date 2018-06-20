@@ -12,18 +12,20 @@
                 </md-field>
             </div>
             <md-tabs>
-                <md-tab id="tab-home" md-label="全部"></md-tab>
-                <md-tab id="tab-pages" md-label="汽车行业"></md-tab>
-                <md-tab id="tab-posts" md-label="3C行业"></md-tab>
-                <md-tab id="tab-favorites" md-label="政府机构"></md-tab>
+                <md-tab :md-label="category.name" v-for="category in categories" :category="category" :key="category.name" ></md-tab>
+                <!-- <md-tab id="tab-all" md-label="全部"></md-tab>
+                <md-tab id="tab-vehicle" md-label="汽车行业"></md-tab>
+                <md-tab id="tab-3C" md-label="3C行业"></md-tab>
+                <md-tab id="tab-gov" md-label="政府机构"></md-tab>    -->
             </md-tabs>
         </div>
 
         <div class="md-layout md-gutter  mypanel">
-            <ManufacturingEvaluation class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"></ManufacturingEvaluation>
-            <ManufacturingEvaluation class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"></ManufacturingEvaluation>
-            <ManufacturingEvaluation class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"></ManufacturingEvaluation>
-            <ManufacturingEvaluation class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"></ManufacturingEvaluation>
+            <EvaluationCard  class="md-layout-item md-size-25  md-medium-size-33 md-small-size-50 md-xsmall-size-100" v-for="evalution in evalutionLists" :evalution="evalution" :key="evalution.id"></EvaluationCard>
+            <!-- <EvaluationCard class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"></EvaluationCard>
+            <EvaluationCard class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"></EvaluationCard>
+            <EvaluationCard class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"></EvaluationCard>
+            <EvaluationCard class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"></EvaluationCard> -->
         </div>
     </div>
 </template>
@@ -52,25 +54,52 @@
 }
 </style>
 <script>
-import ManufacturingEvaluation from "./Evaluatiions/manufacturingEvaluation.vue";
-import Vue from 'vue';
+import EvaluationCard from "./Evaluatiions/EvaluationCard.vue";
+import Vue from "vue";
+import Axios from "axios";
 export default {
   components: {
-    ManufacturingEvaluation
+    EvaluationCard
   },
   data: () => ({
-    searchKey: ""
+    searchKey: "",
+    category: Object,
+    categories: [],
+    evalutionLists: [],
+    evalution:Object
   }),
-  mounted:function () {
-      var apiKry = "";
-      var require = {};
-      var host = "";
-      Vue.$http.post('../../assets/jspns/test.json',{
-         apiKry, require
-      }).then(res=>{
-          
-      })
+  props:{
+    //evalution:Object
   },
+  mounted: function() {
+    let apiKry = "",
+      self = this,
+      require = {};
+
+    self.$http
+      .get("/static/jsons/datas.json", {
+        apiKry,
+        require
+      })
+      .then(res => {
+        //console.log(res.data.return);
+        //debugger;
+        //self.categories = res.data.return.categories;
+        res.data.return.categories.forEach(item => {
+          self.categories.push({
+            name: item
+          });
+        });
+        console.log(self.categories);
+
+        self.evalutionLists = res.data.return.evaluations;
+
+        console.log(self.evalutionLists);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 };
 </script>
 

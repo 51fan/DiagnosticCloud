@@ -1,0 +1,32 @@
+{
+  "errorCode": "0",
+  "return": {
+    "total": "10",
+    "categories": ["全部", "汽车行业", "3C行业"],
+    "evaluations": [{
+      "name": "智能制造成熟度测评",
+      "description": "针对智能制造标准的十个维度，全方位对企业现状进行评测",
+      "heat": "3",
+      "id": "1",
+      "categories":[]
+    }, {
+      "name": "供应链物流成熟度测评",
+      "description": "针对供应链物流标准的十个维度，全方位对企业现状进行评测",
+      "heat": "3",
+      "id": "2",
+      "categories":[]
+    }, {
+      "name": "可视化生产成熟度测评",
+      "description": "针对可视化生产标准的十个维度，全方位对企业现状进行评测",
+      "heat": "3",
+      "id": "3",
+      "categories":[]
+    }, {
+      "name": "精益生产成熟度测评",
+      "description": "针对精益生产标准的十个维度，全方位对企业现状进行评测",
+      "heat": "3",
+      "id": "4",
+      "categories":[]
+    }]
+  }
+}

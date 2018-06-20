@@ -30,7 +30,7 @@
 
       <md-app-drawer :md-active.sync="menuVisible">
         <md-toolbar class="md-transparent" md-elevation="0">
-          <span>Navigation</span>
+          <span>工具箱</span>
 
           <div class="md-toolbar-section-end">
             <md-button class="md-icon-button md-dense" @click="toggleMenu">
@@ -42,22 +42,22 @@
         <md-list>
           <md-list-item>
             <md-icon>move_to_inbox</md-icon>
-            <span class="md-list-item-text">Inbox</span>
+            <span class="md-list-item-text">收件箱</span>
           </md-list-item>
 
           <md-list-item>
             <md-icon>send</md-icon>
-            <span class="md-list-item-text">Sent Mail</span>
+            <span class="md-list-item-text">发邮件</span>
           </md-list-item>
 
           <md-list-item>
             <md-icon>delete</md-icon>
-            <span class="md-list-item-text">Trash</span>
+            <span class="md-list-item-text">回收站</span>
           </md-list-item>
 
           <md-list-item>
             <md-icon>error</md-icon>
-            <span class="md-list-item-text">Spam</span>
+            <span class="md-list-item-text">告警箱</span>
           </md-list-item>
         </md-list>
       </md-app-drawer>
