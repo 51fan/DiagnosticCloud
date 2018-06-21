@@ -47,7 +47,7 @@ export default new Router({
     },
     {
       path: '/evaluatingPage',
-      name: 'evaluatingPage',
+      name: 'evaluatingPageself:id',
       component: (resolve) => require(['../common/Evaluating/evaluatingPage.vue'], resolve)
       //component: evaluatingPage
     }
