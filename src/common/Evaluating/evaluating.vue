@@ -90,11 +90,11 @@ export default {
             name: item
           });
         });
-        console.log(self.categories);
+        //console.log(self.categories);
 
         self.evalutionLists = res.data.return.evaluations;
 
-        console.log(self.evalutionLists);
+        //console.log(self.evalutionLists);
       })
       .catch(error => {
         console.log(error);

@@ -49,7 +49,7 @@ export default {
     evalution: Object
   },
   mounted: function() {
-      console.log(this.evalution)
+      
   },
   data:() => ({
     score:Object

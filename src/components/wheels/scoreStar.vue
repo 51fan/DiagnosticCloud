@@ -3,15 +3,15 @@
         <div style="text-align: center;display: inline-flex">
             <span style="padding: 0 15px">热度:</span>
             <div id="starBg" class="star_bg">                    	
-                <a  class="star star_1" ></a>
+                <a  class="star star_1" :style="starWidth"></a>
                
-                <a  class="star star_2" ></a>
+                <a  class="star star_2" :style="starWidth"></a>
                
-                <a  class="star star_3"></a>
+                <a  class="star star_3" :style="starWidth"></a>
                
-                <a  class="star star_4" ></a>
+                <a  class="star star_4" :style="starWidth"></a>
                
-                <a  class="star star_5" ></a>
+                <a  class="star star_5" :style="starWidth"></a>
             </div>
             <span style="padding: 0 10px">{{score}}星</span>
         </div>
@@ -28,11 +28,12 @@
 }
 .star {
   height: 100%;
-  width: 72px;/*星星的长度*/
   line-height: 6em;
   position: absolute;
   z-index: 3;
 }
+/*星星的长度*/
+
 .star_1 {
   left: 0;
   background: url(../../assets/images/star.png) repeat-x 0 -20px !important;
@@ -42,7 +43,6 @@
 }
 .star_3 {
   left: 48px;
- 
 }
 .star_4 {
   left: 72px;
@@ -54,19 +54,20 @@
 
 <script>
 export default {
-  name:'scoreStar',
-  props:{
-    score:Number
-  },
-  mounted:function () {
-    
-  },
-  data:()=>{
-    star=>{
-      this.score=this.score*24;
-      console.log(this.score)
+  name: "scoreStar",
+  props: ["score"],
+  mounted: function() {},
+  data: () => ({
+    star: this.score,
+  }),
+  computed: {
+    starWidth: function() {
+      let starwidth = this.score*24 + "px";
+      return {
+        width: starwidth
+      };
     }
-  },
+  }
 };
 </script>
 
