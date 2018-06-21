@@ -12,7 +12,7 @@
                 </md-field>
             </div>
             <md-tabs>
-                <md-tab :md-label="category.name" v-for="category in categories" :category="category" :key="category.name" ></md-tab>
+                <md-tab :md-label="category.name" v-for="category in categories" :category="category" :key="category.name" @click="categorySelectFun(category.name)"></md-tab>
                 <!-- <md-tab id="tab-all" md-label="全部"></md-tab>
                 <md-tab id="tab-vehicle" md-label="汽车行业"></md-tab>
                 <md-tab id="tab-3C" md-label="3C行业"></md-tab>
@@ -66,9 +66,10 @@ export default {
     category: Object,
     categories: [],
     evalutionLists: [],
-    evalution:Object
+    evalutionAllLists: [],
+    evalution: Object
   }),
-  props:{
+  props: {
     //evalution:Object
   },
   mounted: function() {
@@ -82,23 +83,35 @@ export default {
         require
       })
       .then(res => {
-        //console.log(res.data.return);
-        //debugger;
-        //self.categories = res.data.return.categories;
         res.data.return.categories.forEach(item => {
           self.categories.push({
             name: item
           });
         });
-        //console.log(self.categories);
-
         self.evalutionLists = res.data.return.evaluations;
-
-        //console.log(self.evalutionLists);
+        self.evalutionAllLists = res.data.return.evaluations;
       })
       .catch(error => {
         console.log(error);
       });
+  },
+  methods: {
+    categorySelectFun: function(name) {
+      let self = this,
+        targetArrays = [];
+      if (name == "全部") {
+        self.evalutionLists = self.evalutionAllLists;
+      } else {
+        self.evalutionAllLists.forEach(function(item) {
+          item.categories.forEach(function(category) {
+            if (category == name) {
+              targetArrays.push(item);
+            }
+          });
+        });
+        self.evalutionLists = targetArrays;
+      }
+    }
   }
 };
 </script>

@@ -13,10 +13,15 @@ Vue.use(Router)
 export default new Router({
   linkActiveClass: 'selected',
   routes: [{
-        path: '/',
-        component: (resolve) => require(['../common/Home/overview.vue'], resolve)
-        // component: overview
-      }, {
+        path: "/",
+        redirect: "/overview"
+      }, //重定向  
+      // {
+      //   path: '/',
+      //   component: (resolve) => require(['../common/Home/overview.vue'], resolve)
+      //   // component: overview
+      // }, 
+      {
       path: '/overview',
       name: 'overview',
       component: (resolve) => require(['../common/Home/overview.vue'], resolve)
