@@ -25,7 +25,7 @@ export default {};
   position: absolute;
   z-index: 4;
   background-color: #eee;
-  bottom: 0px;
+  /* bottom: 0px; */
   width: 100%;
 }
 .footer-container {

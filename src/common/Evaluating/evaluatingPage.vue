@@ -9,7 +9,11 @@
                 <label>当前进度：</label>
                     <md-progress-bar md-mode="determinate" :md-value="fillValue" class="progressBarFill"></md-progress-bar>
                 <label>{{questionIndex}}/{{questionCounts}}</label>
-            </div>   
+            </div>
+            <!-- <md-button v-if="questionIndex==questionCounts" class="md-primary" @click="submit()">提交</md-button> -->
+   
+            <md-button v-if="questionIndex==questionCounts" class="md-primary md-raised" @click="submit()">提交</md-button>
+            
         </div>
 
         <!--答题区  -->
@@ -23,11 +27,11 @@
                 </div>
             
                 <!--试题正文  -->
-                <answerPage v-for="question in questionsList" :key="question.id" :question="question"></answerPage>
+                <answerPage v-for="question in questionsList" :key="question.id" :question="question"  @selectedAnswer="pushAnswer"></answerPage>
                 <!--下一题  -->
                 <div class="panelContentbodyRight" @click="nextItem()">
                     <md-icon class="md-size-5x"  >keyboard_arrow_right</md-icon>
-                </div> 
+                </div>
             </div>
         </div>
     </div>
@@ -104,8 +108,10 @@ export default {
   components: {
     answerPage
   },
+  props: [],
   data: () => ({
-    id: "",
+    second: false,
+    evaluationId: "",
     name: "",
     questionCounts: "",
     questionIndex: 1,
@@ -113,7 +119,12 @@ export default {
     fillValue: 10,
     questionsAllList: [],
     questionsList: [],
-    question: Object
+    question: Object,
+    userAnswer: "",
+    userAnswerlist: [],
+    questionsListsId: [],
+    savedata: Object
+    //selectedItem:9
   }),
   created: function() {},
   mounted: function() {
@@ -121,9 +132,9 @@ export default {
       self = this,
       require = {};
 
-    self.id = this.$route.query.id;
+    self.evaluationId = this.$route.query.id;
     self.name = this.$route.query.name;
-    require.id = self.id;
+    require.id = self.evaluationId;
     self.$http
       .get("/static/jsons/evaluation.json", {
         apiKry,
@@ -135,7 +146,7 @@ export default {
         self.questionsAllList = res.data.return;
         self.questionCounts = res.data.count;
         self.questionsList.push(self.questionsAllList[self.questionIndex - 1]);
-        console.log(self.questionsList);
+        //console.log(self.questionsList);
       });
   },
   methods: {
@@ -146,22 +157,45 @@ export default {
 
       //更新进度条
       this.fillValue = this.currentIndex / this.questionCounts * 100;
-      console.log(this.fillValue);
 
       this.questionsList = [];
       this.questionsList.push(this.questionsAllList[this.questionIndex - 1]);
+
+      //console.log(this.savedata)
+      //this.selectedItem = this.userAnswerlist[this.currentIndex-1];
     },
     nextItem: function() {
       if (this.currentIndex == this.questionCounts) return;
       this.questionIndex++;
       this.currentIndex++;
-      
+
       //更新进度条
       this.fillValue = this.currentIndex / this.questionCounts * 100;
-      console.log(this.fillValue);
 
       this.questionsList = [];
+      //this.questionsAllList[this.questionIndex - 2].answered? this.questionsAllList[this.questionIndex - 2].answered= this.savedata.answer:this.questionsAllList[this.questionIndex - 2].answered= this.savedata.answer;
       this.questionsList.push(this.questionsAllList[this.questionIndex - 1]);
+
+      this.userAnswerlist.push(this.savedata.answer);
+
+      //保存答题选项
+      //this.$http.post().then();
+    },
+    submit: function() {
+      //debugger;
+      this.$router.push({path:'./evaluationEnd'});
+    },
+    pushAnswer: function(answer) {
+      this.userAnswer = answer[0].answer;
+      this.questionsAllList[this.questionIndex - 1].answered = this.userAnswer;
+      this.savedata = {
+        questionId: answer[0].questionId,
+        answer: this.userAnswer,
+        evaluationId: this.evaluationId,
+        status: this.currentIndex == this.questionCounts ? 1 : 0,
+        idx: answer[0].idx
+      };
+      //console.log(this.savedata)
     }
   }
 };

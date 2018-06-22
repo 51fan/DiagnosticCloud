@@ -13,15 +13,15 @@ Vue.use(Router)
 export default new Router({
   linkActiveClass: 'selected',
   routes: [{
-        path: "/",
-        redirect: "/overview"
-      }, //重定向  
-      // {
-      //   path: '/',
-      //   component: (resolve) => require(['../common/Home/overview.vue'], resolve)
-      //   // component: overview
-      // }, 
-      {
+      path: "/",
+      redirect: "/overview"
+    }, //重定向  
+    // {
+    //   path: '/',
+    //   component: (resolve) => require(['../common/Home/overview.vue'], resolve)
+    //   // component: overview
+    // }, 
+    {
       path: '/overview',
       name: 'overview',
       component: (resolve) => require(['../common/Home/overview.vue'], resolve)
@@ -50,7 +50,12 @@ export default new Router({
       name: 'evaluatingPageself:id',
       component: (resolve) => require(['../common/Evaluating/evaluatingPage.vue'], resolve)
       //component: evaluatingPage
+    },
+    {
+      path: '/evaluationEnd',
+      name: 'evaluationEnd',
+      component: (resolve) => require(['../common/Evaluating/evaluationEnd.vue'], resolve)
     }
   ],
-  mode:"history"
+  mode: "history"
 })

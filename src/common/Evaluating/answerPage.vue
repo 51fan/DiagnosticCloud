@@ -7,7 +7,9 @@
             <label>测评项：</label><label style="font-size: x-large;padding: 10px;">{{question.question}}</label>
         </div>
         <div class="panelContentAnswer">
-            <div class="answerItem" :class="{selectAnswer:index==currentIndex}" v-for="(item, index) in  question.answerLists" :key="item" @click="selectAnswer(index)">{{index+1}}:{{item}}</div>
+            <div class="answerItem" :class="{selectAnswer:index==currentItem}" v-for="(item, index) in  question.answerLists" :key="item" @click="selectAnswer(index)">
+                 <md-checkbox class="md-primary" v-model="obj" :value="index"></md-checkbox>{{index+1}}、{{item}}
+            </div>
         </div>
     </div>
 </template>
@@ -36,20 +38,33 @@
 
 <script>
 export default {
-  props: ["question"],
+  props: ["question","selectedItem"],
   data: () => ({
+      obj:"",
       isSelected:false,
-      currentIndex:9,
+      currentItem:9,
       answer:[],
   }),
-  mounted: function() {},
+  mounted: function() {
+      if(this.question.answered){
+          this.currentItem = this.question.answered-1;
+      }
+      //if()
+      this.obj =  this.currentItem;
+  },
   methods: {
     selectAnswer: function(index) {
-        // debugger
-        this.currentIndex = index;
+        //debugger
+        this.currentItem = index;
         this.answer.push({
-            answer:this.currentIndex
+            questionId:this.question.id,
+            answer:this.currentItem+1,
+            evaluationId:"",
+            idx:this.question.idx
         })
+        this.obj = index;
+        //给父组件传值
+        this.$emit('selectedAnswer', this.answer);
     }
   }
 };

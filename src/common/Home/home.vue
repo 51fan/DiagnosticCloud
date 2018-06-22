@@ -28,7 +28,7 @@
         </div>
       </md-app-toolbar>
 
-      <md-app-drawer :md-active.sync="menuVisible">
+      <md-app-drawer :md-active.sync="menuVisible" md-persistent="full">
         <md-toolbar class="md-transparent" md-elevation="0">
           <span>工具箱</span>
 
