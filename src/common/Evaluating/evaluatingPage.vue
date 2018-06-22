@@ -183,7 +183,7 @@ export default {
     },
     submit: function() {
       //debugger;
-      this.$router.push({path:'./evaluationEnd'});
+      this.$router.push({name:'evaluationEnd'});
     },
     pushAnswer: function(answer) {
       this.userAnswer = answer[0].answer;

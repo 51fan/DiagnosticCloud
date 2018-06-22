@@ -24,7 +24,7 @@
   margin-bottom: 20px;
 }
 .answerItem {
-  padding: 20px 10px;
+  padding: 5px 10px;
   cursor: pointer;
 }
 .panelContentAnswer {
