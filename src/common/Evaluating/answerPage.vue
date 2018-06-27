@@ -8,7 +8,7 @@
         </div>
         <div class="panelContentAnswer">
             <div class="answerItem" :class="{selectAnswer:index==currentItem}" v-for="(item, index) in  question.answerLists" :key="item" @click="selectAnswer(index)">
-                 <md-checkbox class="md-primary" v-model="obj" :value="index"></md-checkbox>{{index+1}}、{{item}}
+                 <md-radio class="md-primary" v-model="obj" :value="index"></md-radio>{{index+1}}、{{item}}
             </div>
         </div>
     </div>
@@ -38,7 +38,7 @@
 
 <script>
 export default {
-  props: ["question","selectedItem"],
+  props: ["question"],
   data: () => ({
       obj:"",
       isSelected:false,

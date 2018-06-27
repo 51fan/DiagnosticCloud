@@ -1,7 +1,7 @@
 <template>
     <div class="mypanel">
         <!--标题头部  -->
-        <div  class="panelHeader">
+        <div v-if="evaluationStart" class="panelHeader">
             <div class="panelHeaderTitle">
                 <h3>{{name}}</h3>
             </div>
@@ -17,7 +17,7 @@
         </div>
 
         <!--答题区  -->
-        <div v-if="!evaluationfinished" class="panelContent">
+        <div v-if="evaluationStart" class="panelContent">
             <!--试题标题  -->
             
             <div class="panelContentbody">
@@ -36,7 +36,10 @@
         </div>
 
         <!--答题完成界面 -->
-        <evaluationEnd v-if="evaluationfinished"></evaluationEnd>
+        <evaluationEnd v-if="evaluationfinished" @viewfinishedReport="isViewReport"></evaluationEnd>
+
+        <!-- 答题报告-->
+        <evaluationsReport v-if="isShowReport" :evaluationName="name"></evaluationsReport>
     </div>
 </template>
 
@@ -106,12 +109,14 @@
 <script>
 import answerPage from "./answerPage.vue";
 import evaluationEnd from "./evaluationEnd.vue";
+import evaluationsReport from "./evaluationsReports/evaluationsReport.vue";
 
 export default {
   name: "evaluatingPage",
   components: {
     answerPage,
-    evaluationEnd
+    evaluationEnd,
+    evaluationsReport
   },
   props: [],
   data: () => ({
@@ -129,7 +134,9 @@ export default {
     userAnswerlist: [],
     questionsListsId: [],
     savedata: Object,
-    evaluationfinished:false
+    evaluationStart:true,
+    evaluationfinished:false,
+    isShowReport:false
     //selectedItem:9
   }),
   created: function() {},
@@ -140,6 +147,7 @@ export default {
 
     self.evaluationId = this.$route.query.id;
     self.name = this.$route.query.name;
+    //self.evaluationName = self.name
     require.id = self.evaluationId;
     self.$http
       .get("/static/jsons/evaluation.json", {
@@ -190,6 +198,7 @@ export default {
     submit: function() {
       //debugger;
       // this.$router.push({path:'/evaluationEnd'});
+      this.evaluationStart = false;
       this.evaluationfinished = true;
     },
     pushAnswer: function(answer) {
@@ -203,7 +212,13 @@ export default {
         idx: answer[0].idx
       };
       //console.log(this.savedata)
+    },
+    isViewReport:function (bool) {
+      // debugger
+      this.evaluationfinished = false;
+      this.isShowReport = bool;
     }
+    
   }
 };
 </script>

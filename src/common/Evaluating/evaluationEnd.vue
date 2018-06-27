@@ -5,7 +5,7 @@
             评测完成
        </div>
        <div style="padding: 20px 0 35px 0;">您已经完成该项目的测评，请点击下方查看报告查看测评结果。</div>
-       <md-button class="md-primary md-raised">查看测评报告</md-button>
+       <md-button class="md-primary md-raised" @click="viewReport()">查看测评报告</md-button>
     </div>
 </template>
 
@@ -20,7 +20,18 @@
 
 <script>
 export default {
-  name: "evaluationEnd"
+  name: "evaluationEnd",
+  data: () => ({
+    
+  }),
+  methods: {
+    viewReport: function() {
+    //   debugger;
+
+    //接口给后台传 试卷ID和评价主表ID，请求报告数据
+      this.$emit('viewfinishedReport', true);
+    }
+  }
 };
 </script>
 

@@ -54,7 +54,7 @@
 }
 </style>
 <script>
-import EvaluationCard from "./Evaluatiions/EvaluationCard.vue";
+import EvaluationCard from "./evaluationsCards/evaluationCard.vue";
 import Vue from "vue";
 import Axios from "axios";
 export default {
