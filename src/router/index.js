@@ -16,11 +16,6 @@ export default new Router({
       path: "/",
       redirect: "/overview"
     }, //重定向  
-    // {
-    //   path: '/',
-    //   component: (resolve) => require(['../common/Home/overview.vue'], resolve)
-    //   // component: overview
-    // }, 
     {
       path: '/overview',
       name: 'overview',
@@ -46,15 +41,13 @@ export default new Router({
       //component: expertTeam
     },
     {
-      path: '/evaluatingPage',
-      name: 'evaluatingPage:id',
+      path: '/evaluatingPage/',
+      name: 'evaluatingPage',
+      params:{
+        id:""
+      },
       component: (resolve) => require(['../common/Evaluating/evaluatingPage.vue'], resolve)
       //component: evaluatingPage
-    },
-    {
-      path: '/evaluationEnd',
-      name: 'evaluationEnd',
-      component: (resolve) => require(['../common/Evaluating/evaluationEnd.vue'], resolve)
     }
   ],
   mode: "history"

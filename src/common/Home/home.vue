@@ -22,8 +22,8 @@
           <md-tabs class="md-transparent" md-alignment="fixed" md-sync-route>
             <md-tab id="tab-home" md-label="主页" to="/Overview"></md-tab>
             <md-tab id="tab-posts" md-label="测评体验" to="/evaluating"></md-tab>
-            <md-tab id="tab-favorites" md-label="案例" to="/example"></md-tab>
-            <md-tab id="tab-pages" md-label="专家团队" to="/expertTeam"></md-tab>
+            <md-tab id="tab-favorites" md-label="开发中" to="/example"></md-tab>
+            <md-tab id="tab-pages" md-label="开发中" to="/expertTeam"></md-tab>
           </md-tabs>
         </div>
       </md-app-toolbar>

@@ -17,7 +17,7 @@
         </div>
 
         <!--答题区  -->
-        <div class="panelContent">
+        <div v-if="!evaluationfinished" class="panelContent">
             <!--试题标题  -->
             
             <div class="panelContentbody">
@@ -34,6 +34,9 @@
                 </div>
             </div>
         </div>
+
+        <!--答题完成界面 -->
+        <evaluationEnd v-if="evaluationfinished"></evaluationEnd>
     </div>
 </template>
 
@@ -102,11 +105,13 @@
 
 <script>
 import answerPage from "./answerPage.vue";
+import evaluationEnd from "./evaluationEnd.vue";
 
 export default {
   name: "evaluatingPage",
   components: {
-    answerPage
+    answerPage,
+    evaluationEnd
   },
   props: [],
   data: () => ({
@@ -123,7 +128,8 @@ export default {
     userAnswer: "",
     userAnswerlist: [],
     questionsListsId: [],
-    savedata: Object
+    savedata: Object,
+    evaluationfinished:false
     //selectedItem:9
   }),
   created: function() {},
@@ -183,7 +189,8 @@ export default {
     },
     submit: function() {
       //debugger;
-      this.$router.push({name:'evaluationEnd'});
+      // this.$router.push({path:'/evaluationEnd'});
+      this.evaluationfinished = true;
     },
     pushAnswer: function(answer) {
       this.userAnswer = answer[0].answer;

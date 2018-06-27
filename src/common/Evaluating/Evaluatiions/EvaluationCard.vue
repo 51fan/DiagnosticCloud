@@ -16,7 +16,7 @@
           <scoreStar :score="evalution.heat"></scoreStar>
           <md-card-actions style="justify-content:center!important;background-color: #eee">
               <!-- <md-button :to="{path:'./evaluatingPage', query: {id:evalution.id}}">立即测评</md-button> -->
-              <md-button :to="{path:'./evaluatingPage', query: {id:evalution.id, name:evalution.name}}">立即测评</md-button>
+              <md-button :to="{path:'/evaluatingPage', query: {id:evalution.id, name:evalution.name}}">立即测评</md-button>
           </md-card-actions>
         </md-ripple>
         </md-card>

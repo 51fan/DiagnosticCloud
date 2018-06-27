@@ -16,7 +16,7 @@
 
 <style scoped>
 .panelContentbodyCenter {
-  font-size: larger;
+  font-size: 1em;
 }
 .panelContentTitle {
   border: 1px solid burlywood;
