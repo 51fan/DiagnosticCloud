@@ -1,0 +1,9 @@
+{
+  "errorCode": 0,
+  "errorMsg": "获取ok",
+  "return": {
+    "my_score": 5,
+    "total_score": 40,
+    "testTime": "2018-06-22 10:57:11"
+  }
+}

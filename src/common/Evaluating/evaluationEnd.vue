@@ -21,15 +21,26 @@
 <script>
 export default {
   name: "evaluationEnd",
-  data: () => ({
-    
-  }),
+  data: () => ({}),
   methods: {
     viewReport: function() {
-    //   debugger;
+      //   debugger;
+    //   let apiKry = "",
+    //     self = this,
+    //     require = {
+    //         evaluationId:"",
 
-    //接口给后台传 试卷ID和评价主表ID，请求报告数据
-      this.$emit('viewfinishedReport', true);
+    //     };
+      //接口给后台传 试卷ID和评价主表ID，请求报告数据
+    //   this.$http
+    //     .get("/static/jsons/sorce.json", {
+    //       apiKry,
+    //       require
+    //     })
+    //     .then(res => {
+          
+    //     });
+    this.$emit("viewfinishedReport", true);
     }
   }
 };

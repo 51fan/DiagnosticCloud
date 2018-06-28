@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div @click="beginEvaluation()">
         <md-card md-with-hover>
           <md-ripple>
           <md-card-header>
@@ -14,11 +14,10 @@
 
           </md-card-header>
           <scoreStar :score="evalution.heat"></scoreStar>
-          <md-card-actions style="justify-content:center!important;background-color: #eee">
-              <!-- <md-button :to="{path:'./evaluatingPage', query: {id:evalution.id}}">立即测评</md-button> -->
+          <!-- <md-card-actions style="justify-content:center!important;background-color: #eee">
               <md-button :to="{path:'/evaluatingPage', query: {id:evalution.id, name:evalution.name}}">立即测评</md-button>
-          </md-card-actions>
-        </md-ripple>
+          </md-card-actions> -->
+          </md-ripple>
         </md-card>
     </div>
 </template>
@@ -51,10 +50,21 @@ export default {
   props: {
     evalution: Object
   },
-  mounted: function() {},
+  mounted: function() {
+    //console.log(this.evalution);
+    this.id = this.evalution.id;
+    this.name = this.evalution.name;
+  },
   data: () => ({
-    score: Object
-  })
+    score: Object,
+    id:String, 
+    name:String
+  }),
+  methods:{
+    beginEvaluation:function () {
+      this.$router.push({path:'/evaluatingPage', query: {id:this.id, name:this.name}});
+    }
+  }
 };
 </script>
 

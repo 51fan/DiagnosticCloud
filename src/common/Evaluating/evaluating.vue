@@ -21,6 +21,9 @@
         </div>
 
         <div class="md-layout md-gutter  mypanel">
+          <!-- <div  @click="beginEvaluation()" style="display:inline">
+            <EvaluationCard  class="md-layout-item md-size-25  md-medium-size-33 md-small-size-50 md-xsmall-size-100" v-for="evalution in evalutionLists" :evalution="evalution" :key="evalution.id"></EvaluationCard>
+          </div> -->
             <EvaluationCard  class="md-layout-item md-size-25  md-medium-size-33 md-small-size-50 md-xsmall-size-100" v-for="evalution in evalutionLists" :evalution="evalution" :key="evalution.id"></EvaluationCard>
             <!-- <EvaluationCard class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"></EvaluationCard>
             <EvaluationCard class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"></EvaluationCard>
@@ -111,6 +114,9 @@ export default {
         });
         self.evalutionLists = targetArrays;
       }
+    },
+    beginEvaluation:function (params) {
+      debugger
     }
   }
 };

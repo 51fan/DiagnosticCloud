@@ -5,7 +5,8 @@ import App from './App'
 import router from './router'
 import VueMaterial from 'vue-material'
 import Axios from "axios";
-//import Echarts from 'echarts'
+import VCharts from 'v-charts'
+import Echarts from 'echarts'
 
 import 'vue-material/dist/vue-material.css'
 import "vue-material/dist/theme/default.css"
@@ -17,8 +18,9 @@ import 'vue-material/dist/theme/black-green-light.css'
 import './assets/libs/icon.css'
 Vue.config.productionTip = false
 Vue.prototype.$http = Axios;
-//Vue.prototype.$echarts = Echarts;
+Vue.prototype.$echarts = Echarts;
 Vue.use(VueMaterial)
+Vue.use(VCharts)
 
 new Vue({
   el: '#app',

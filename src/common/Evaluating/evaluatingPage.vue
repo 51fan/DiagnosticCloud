@@ -39,7 +39,7 @@
         <evaluationEnd v-if="evaluationfinished" @viewfinishedReport="isViewReport"></evaluationEnd>
 
         <!-- 答题报告-->
-        <evaluationsReport v-if="isShowReport" :evaluationName="name"></evaluationsReport>
+        <evaluationsReport v-if="isShowReport" :reportParm="reportParm" ></evaluationsReport>
     </div>
 </template>
 
@@ -134,9 +134,16 @@ export default {
     userAnswerlist: [],
     questionsListsId: [],
     savedata: Object,
-    evaluationStart:true,
-    evaluationfinished:false,
-    isShowReport:false
+    evaluationStart: true,
+    evaluationfinished: false,
+    isShowReport: false,
+    idx: "",
+    reportParm: {
+      name: "",
+      evaluationId: this.evaluationId,
+      idx: this.idx,
+      datas: Object
+    }
     //selectedItem:9
   }),
   created: function() {},
@@ -147,6 +154,7 @@ export default {
 
     self.evaluationId = this.$route.query.id;
     self.name = this.$route.query.name;
+    self.reportParm.name = this.$route.query.name;
     //self.evaluationName = self.name
     require.id = self.evaluationId;
     self.$http
@@ -190,16 +198,35 @@ export default {
       //this.questionsAllList[this.questionIndex - 2].answered? this.questionsAllList[this.questionIndex - 2].answered= this.savedata.answer:this.questionsAllList[this.questionIndex - 2].answered= this.savedata.answer;
       this.questionsList.push(this.questionsAllList[this.questionIndex - 1]);
 
+      //保存答案
       this.userAnswerlist.push(this.savedata.answer);
 
       //保存答题选项
-      //this.$http.post().then();
+      //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
+      this.idx = this.questionsList[0].idx;
+      let apiKry = "",
+        self = this,
+        require = {
+          evaluationId: this.evaluationId,
+          idx: this.idx
+        };
+      //this.$http.post("",{apiKry,require}).then();
     },
     submit: function() {
       //debugger;
       // this.$router.push({path:'/evaluationEnd'});
       this.evaluationStart = false;
       this.evaluationfinished = true;
+      //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
+      let apiKry = "",
+        self = this,
+        require = {
+          evaluationId: this.evaluationId,
+          idx: this.idx
+        };
+      // this.$http.post("",{apiKry,require}).then(res=>{
+
+      // });
     },
     pushAnswer: function(answer) {
       this.userAnswer = answer[0].answer;
@@ -213,12 +240,26 @@ export default {
       };
       //console.log(this.savedata)
     },
-    isViewReport:function (bool) {
+    isViewReport: function(bool) {
       // debugger
-      this.evaluationfinished = false;
-      this.isShowReport = bool;
+      let apiKry = "",
+        self = this,
+        require = {
+          evaluationId: self.evaluationId,
+          idx: self.idx
+        };
+      self.evaluationfinished = false;
+      self.isShowReport = bool;
+      //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
+
+      self.$http
+        .get("/static/jsons/sorce.json", { apiKry, require })
+        .then(res => {
+          //console.log(res)
+          //debugger
+          self.reportParm.datas = res.data.return;
+        });
     }
-    
   }
 };
 </script>
