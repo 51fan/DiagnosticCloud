@@ -155,6 +155,7 @@ export default {
     self.evaluationId = this.$route.query.id;
     self.name = this.$route.query.name;
     self.reportParm.name = this.$route.query.name;
+    self.reportParm.evaluationId = this.$route.query.id;
     //self.evaluationName = self.name
     require.id = self.evaluationId;
     self.$http
@@ -204,6 +205,7 @@ export default {
       //保存答题选项
       //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
       this.idx = this.questionsList[0].idx;
+      this.reportParm.idx = this.questionsList[0].idx;
       let apiKry = "",
         self = this,
         require = {
@@ -241,13 +243,13 @@ export default {
       //console.log(this.savedata)
     },
     isViewReport: function(bool) {
-      // debugger
-      let apiKry = "",
-        self = this,
-        require = {
-          evaluationId: self.evaluationId,
-          idx: self.idx
-        };
+      //debugger;
+      let self = this;
+      let apiKry = "";
+      let require = {
+        evaluationId: self.evaluationId,
+        idx: self.idx
+      };
       self.evaluationfinished = false;
       self.isShowReport = bool;
       //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
@@ -257,6 +259,8 @@ export default {
         .then(res => {
           //console.log(res)
           //debugger
+          // self.reportParm.evaluationId = self.evaluationId;
+          // self.reportParm.idx = self.idx;
           self.reportParm.datas = res.data.return;
         });
     }

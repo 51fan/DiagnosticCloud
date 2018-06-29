@@ -24,7 +24,7 @@ export default {
   data: () => ({}),
   methods: {
     viewReport: function() {
-      //   debugger;
+    
     //   let apiKry = "",
     //     self = this,
     //     require = {

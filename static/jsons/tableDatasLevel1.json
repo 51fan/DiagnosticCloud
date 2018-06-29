@@ -1,0 +1,21 @@
+{
+  "errorCode": 0,
+  "errorMsg": "获取ok",
+  "return": [{
+    "lev": "制造维度",
+    "score": 6,
+    "name": "制造维度",
+    "total": 10,
+    "lose": 4,
+    "scorePercent": 0.6,
+    "losePercent": 1
+  }, {
+    "lev": "智能维度",
+    "score": 5,
+    "name": "智能维度",
+    "total": 10,
+    "lose": 5,
+    "scorePercent": 0.5,
+    "losePercent": 0.5
+  }]
+}

@@ -19,23 +19,44 @@
                 <div class="evaluationModel">
                     <div style="width: 100%;">
                         <md-tabs md-sync-route md-alignment="fixed" >
-                        <md-tab id="tab-home" md-label="一级指标" to="">
-                           <ve-radar :data="chartData1" width="600px" :legend-visible="false" ></ve-radar>
+                        <md-tab id="tab-home" md-label="一级指标" to="" @click="switchTable(1)">
+                           <ve-radar :data="chartData1" width="600px" v-if="showRadar"></ve-radar>
+                           <ve-bar :data="chartDatabar" width="600px" v-if="showBar"></ve-bar>
                         </md-tab>
 
-                        <md-tab id="tab-pages" md-label="二级指标" to="">
-                            <ve-radar :data="chartData2" width="600px"  :settings="chartSettings2" :legend-visible="false" ></ve-radar>
+                        <md-tab id="tab-pages" md-label="二级指标" to="" @click="switchTable(2)">
+                            <ve-radar :data="chartData2" width="600px"  ></ve-radar>
                         </md-tab>
 
-                        <md-tab id="tab-posts" md-label="三级指标" to="">
-                            <ve-radar :data="chartData3" width="600px" :settings="chartSettings3" :legend-visible="false"></ve-radar>
+                        <md-tab id="tab-posts" md-label="三级指标" to="" @click="switchTable(3)">
+                            <ve-radar :data="chartData3" width="600px" ></ve-radar>
                         </md-tab>
 
                     </md-tabs>
                     </div>
                 </div>
                 <div class="Modeltable">
-                    <md-table md-card>
+                    <md-table md-card v-if="showLevel1Table">
+                        <md-table-toolbar>
+                            <h1 class="md-title">一级指标</h1>
+                        </md-table-toolbar>
+                        <md-table-row>
+                            <md-table-head>指标名称</md-table-head>
+                            <md-table-head>总分</md-table-head>
+                            <md-table-head>得分</md-table-head>
+                            <md-table-head>失分</md-table-head>
+                            <md-table-head>得分比</md-table-head>
+                        </md-table-row>
+
+                        <md-table-row v-for=" lev in reportParm.level1" :key="lev.lev">
+                            <md-table-cell>{{lev.name}}</md-table-cell>
+                            <md-table-cell>{{lev.total}}</md-table-cell>
+                            <md-table-cell>{{lev.score}}</md-table-cell>
+                            <md-table-cell>{{lev.lose}}</md-table-cell>
+                            <md-table-cell>{{lev.scorePercent*100}}</md-table-cell>
+                        </md-table-row>
+                    </md-table>
+                    <md-table md-card v-if="showLevel2Table">
                         <md-table-toolbar>
                             <h1 class="md-title">二级指标</h1>
                         </md-table-toolbar>
@@ -47,6 +68,35 @@
                             <md-table-head>得分比</md-table-head>
                         </md-table-row>
 
+                        <md-table-row v-for=" lev in reportParm.level2" :key="lev.lev">
+                            <md-table-cell>{{lev.name}}</md-table-cell>
+                            <md-table-cell>{{lev.total}}</md-table-cell>
+                            <md-table-cell>{{lev.score}}</md-table-cell>
+                            <md-table-cell>{{lev.lose}}</md-table-cell>
+                            <md-table-cell>{{lev.scorePercent*100}}</md-table-cell>
+                        </md-table-row>
+                    </md-table>
+                    <md-table md-card v-if="showLevel3Table">
+                        <md-table-toolbar>
+                            <h1 class="md-title">三级指标</h1>
+                        </md-table-toolbar>
+                        <md-table-row>
+                            <md-table-head>指标名称</md-table-head>
+                            <md-table-head>总分</md-table-head>
+                            <md-table-head>得分</md-table-head>
+                            <md-table-head>失分</md-table-head>
+                            <md-table-head>得分比</md-table-head>
+                        </md-table-row>
+
+                        <md-table-row v-for=" lev in reportParm.level3" :key="lev.lev">
+                            <md-table-cell>{{lev.name}}</md-table-cell>
+                            <md-table-cell>{{lev.total}}</md-table-cell>
+                            <md-table-cell>{{lev.score}}</md-table-cell>
+                            <md-table-cell>{{lev.lose}}</md-table-cell>
+                            <md-table-cell>{{lev.scorePercent*100}}</md-table-cell>
+                        </md-table-row>
+                    </md-table>
+                    <!-- <md-table md-card>
                         <md-table-row>
                             <md-table-cell>产品设计</md-table-cell>
                             <md-table-cell>100</md-table-cell>
@@ -85,7 +135,7 @@
                             <md-table-cell>60</md-table-cell>
                             <md-table-cell>60%</md-table-cell>
                         </md-table-row>
-                    </md-table>
+                    </md-table> -->
                 </div>
             </div>
             <div style="padding: 20px 0;font-size: 1.5em;">
@@ -137,100 +187,26 @@ export default {
   props: ["reportParm"],
   data: () => ({
     date: String,
-    chartData1: {
-      columns: [
-        "日期",
-        "产品设计",
-        "计划与调度",
-        "生产作业",
-        "工艺设计",
-        "采购"
-      ],
-      rows: [
-        {
-          日期: "1/1",
-          产品设计: 1393,
-          计划与调度: 1093,
-          工艺设计: 0.32,
-          生产作业: 1,
-          采购: 1
-        },
-        {
-          日期: "1/2",
-          产品设计: 3530,
-          计划与调度: 3230,
-          工艺设计: 0.26,
-          生产作业: 2,
-          采购: 2
-        },
-        {
-          日期: "1/3",
-          产品设计: 2923,
-          计划与调度: 2623,
-          工艺设计: 0.76,
-          生产作业: 3,
-          采购: 3
-        },
-        {
-          日期: "1/4",
-          产品设计: 1723,
-          计划与调度: 1423,
-          工艺设计: 0.49,
-          生产作业: 4,
-          采购: 4
-        },
-        {
-          日期: "1/5",
-          产品设计: 3792,
-          计划与调度: 3492,
-          工艺设计: 0.323,
-          生产作业: 5,
-          采购: 5
-        },
-        {
-          日期: "1/6",
-          产品设计: 4593,
-          计划与调度: 4293,
-          工艺设计: 0.78,
-          生产作业: 6,
-          采购: 6
-        }
-      ]
+    showLevel1Table: true,
+    showLevel2Table: false,
+    showLevel3Table: false,
+    showRadar: false,
+    showBar: false,
+    chartDatabar: {
+      columns: ["标题", "当前", "期望"],
+      rows: []
     },
-    chartSettings2: {
-      dimension: ["日期"],
-      metrics: ["产品设计", "计划与调度", "工艺设计"],
-      dataType: { 工艺设计: "percent" }
+    chartData1: {
+      columns: ["标题", "当前", "期望"],
+      rows: []
     },
     chartData2: {
-      columns: ["日期", "产品设计", "计划与调度", "工艺设计"],
-      rows: [
-        { 日期: "1/1", 产品设计: 1393, 计划与调度: 1093, 工艺设计: 0.32 },
-        { 日期: "1/2", 产品设计: 3530, 计划与调度: 3230, 工艺设计: 0.26 },
-        { 日期: "1/3", 产品设计: 2923, 计划与调度: 2623, 工艺设计: 0.76 },
-        { 日期: "1/4", 产品设计: 1723, 计划与调度: 1423, 工艺设计: 0.49 },
-        { 日期: "1/5", 产品设计: 3792, 计划与调度: 3492, 工艺设计: 0.323 },
-        { 日期: "1/6", 产品设计: 4593, 计划与调度: 4293, 工艺设计: 0.78 }
-      ]
-    },
-    chartSettings3: {
-      labelMap: {
-        日期: "date",
-        产品设计: "PV",
-        计划与调度: "Order",
-        工艺设计: "orderRate"
-      }
+      columns: ["标题"],
+      rows: []
     },
     chartData3: {
-      columns: ["日期", "产品设计", "计划与调度", "工艺设计"],
-      rows: [
-        { 日期: "1/1", 产品设计: 1393, 计划与调度: 1093, 工艺设计: 0.32 },
-        { 日期: "1/2", 产品设计: 3530, 计划与调度: 3230, 工艺设计: 0.26 },
-        { 日期: "1/3", 产品设计: 2923, 计划与调度: 2623, 工艺设计: 0.76 },
-        { 日期: "1/4", 产品设计: 1723, 计划与调度: 1423, 工艺设计: 0.49 },
-        { 日期: "1/5", 产品设计: 3792, 计划与调度: 3492, 工艺设计: 0.323 },
-        { 日期: "1/6", 产品设计: 4593, 计划与调度: 4293, 工艺设计: 0.78 }
-      ]
+      columns: ["标题"],
+      rows: []
     },
     chartData4: {
       columns: ["日期", "访问用户"],
@@ -256,27 +232,182 @@ export default {
     }
   }),
   mounted: function() {
-    let self = this,
-      apiKry = "",
-      require = {
-        evaluationId: this.evaluationId,
-        idx: this.idx,
-        level: 1
-      };
-    // setTimeout(function() {});
-
-    self.$http
-      .get("/static/jsons/tableDatasLevel1.json", { apiKry, require })
-      .then(res => {
-        console.log(res);
-        debugger;
-        let time = self.reportParm.datas.testTime;
-        time = time.slice(0, 10);
-        self.date = time;
-        //self.reportParm.datas = res.data.return;
-      });
+    let self = this;
+    setTimeout(function() {
+      let time = self.reportParm.datas.testTime,
+        apiKry = "",
+        require = {
+          evaluationId: self.reportParm.evaluationId,
+          idx: self.reportParm.idx,
+          level: 1
+        };
+      time = time.slice(0, 10);
+      self.date = time;
+      self.getLevel1Datas();
+      self.getLevel2Datas();
+      self.getLevel3Datas();
+      //console.log(self.reportParm);
+    });
   },
-  methods: {}
+  methods: {
+    getLevel1Datas: function() {
+      let self = this,
+        apiKry = "",
+        require = {
+          evaluationId: self.reportParm.evaluationId,
+          idx: self.reportParm.idx,
+          level: 1
+        };
+
+      self.$http
+        .get("/static/jsons/tableDatasLevel1.json", { apiKry, require })
+        .then(res => {
+          //debugger;
+          self.reportParm.level1 = res.data.return;
+          //console.log(self.reportParm);
+          console.log(self.reportParm.level1);
+          //如果第一维度小于2个，就用条形图显示，大于2就用雷达图显示
+          if (self.reportParm.level1.length > 2) {
+            self.showRadar = true;
+            self.showBar = false;
+            self.reportParm.level1.forEach(item => {
+              self.chartData1.columns.push(item.name);
+            });
+            let currentData = { 标题: "当前" },
+              expertData = { 标题: "期望" };
+            self.chartData1.columns.forEach(colum => {
+              self.reportParm.level1.forEach(lev => {
+                if (lev.name == colum) {
+                  currentData[colum] = lev.scorePercent * 100;
+                  expertData[colum] = 100;
+                }
+              });
+            });
+
+            self.chartData1.rows.push(currentData);
+            self.chartData1.rows.push(expertData);
+          } else {
+            self.showRadar = false;
+            self.showBar = true;
+
+            // let chartData= {
+            //     columns: ['标题', '当前', '期望'],
+            //     rows: [
+            //         { '标题': '智能维度', '当前': 1393, '期望': 1093,  },
+            //         { '标题': '制造维度', '当前': 3530, '期望': 3230,  },
+            //     ]
+            // }
+
+            let showData = [];
+            self.reportParm.level1.forEach(lev => {
+              let arry = {};
+              self.chartDatabar.columns.forEach(colum => {
+                //debugger;
+
+                if (colum == "标题") {
+                  arry[colum] = lev.name;
+                } else if (colum == "当前") {
+                  arry[colum] = lev.scorePercent * 100;
+                } else if (colum == "期望") {
+                  arry[colum] = 100;
+                }
+              });
+              showData.push(arry);
+            });
+
+            self.chartDatabar.rows = showData;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getLevel2Datas: function() {
+      let self = this,
+        apiKry = "",
+        require = {
+          evaluationId: self.reportParm.evaluationId,
+          idx: self.reportParm.idx,
+          level: 2
+        };
+
+      self.$http
+        .get("/static/jsons/tableDatasLevel2.json", { apiKry, require })
+        .then(res => {
+          self.reportParm.level2 = res.data.return;
+          //console.log(self.reportParm);
+          self.reportParm.level2.forEach(item => {
+            self.chartData2.columns.push(item.name);
+          });
+          let currentData = { 标题: "当前" },
+            expertData = { 标题: "期望" };
+          self.chartData2.columns.forEach(colum => {
+            self.reportParm.level2.forEach(lev => {
+              if (lev.name == colum) {
+                currentData[colum] = lev.scorePercent * 100;
+                expertData[colum] = 100;
+              }
+            });
+          });
+
+          self.chartData2.rows.push(currentData);
+          self.chartData2.rows.push(expertData);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getLevel3Datas: function() {
+      let self = this,
+        apiKry = "",
+        require = {
+          evaluationId: self.reportParm.evaluationId,
+          idx: self.reportParm.idx,
+          level: 3
+        };
+
+      self.$http
+        .get("/static/jsons/tableDatasLevel3.json", { apiKry, require })
+        .then(res => {
+          self.reportParm.level3 = res.data.return;
+          //console.log(self.reportParm);
+          self.reportParm.level3.forEach(item => {
+            self.chartData3.columns.push(item.name);
+          });
+          let currentData = { 标题: "当前" },
+            expertData = { 标题: "期望" };
+          self.chartData3.columns.forEach(colum => {
+            self.reportParm.level3.forEach(lev => {
+              if (lev.name == colum) {
+                currentData[colum] = lev.scorePercent * 100;
+                expertData[colum] = 100;
+              }
+            });
+          });
+
+          self.chartData3.rows.push(currentData);
+          self.chartData3.rows.push(expertData);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    switchTable: function(index) {
+      if (index == 1) {
+        this.showLevel1Table = true;
+        this.showLevel2Table = false;
+        this.showLevel3Table = false;
+      } else if (index == 2) {
+        this.showLevel1Table = false;
+        this.showLevel2Table = true;
+        this.showLevel3Table = false;
+      } else if (index == 3) {
+        this.showLevel1Table = false;
+        this.showLevel2Table = false;
+        this.showLevel3Table = true;
+      }
+    }
+  }
 };
 </script>
 

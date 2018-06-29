@@ -1,0 +1,37 @@
+{
+  "errorCode": 0,
+  "errorMsg": "获取ok",
+  "return": [{
+    "lev": "生产",
+    "score": 20,
+    "name": "生产",
+    "total": 25,
+    "lose": 5,
+    "scorePercent": 0.8,
+    "losePercent": 0.2
+  }, {
+    "lev": "系统集成",
+    "score": 10,
+    "name": "系统集成",
+    "total": 25,
+    "lose": 15,
+    "scorePercent": 0.4,
+    "losePercent": 0.6
+  }, {
+    "lev": "采购",
+    "score": 5,
+    "name": "采购",
+    "total": 25,
+    "lose": 20,
+    "scorePercent": 0.2,
+    "losePercent": 0.8
+  }, {
+    "lev": "新兴业态",
+    "score": 0,
+    "name": "新兴业态",
+    "total": 25,
+    "lose": 25,
+    "scorePercent": 0,
+    "losePercent": 1
+  }]
+}
