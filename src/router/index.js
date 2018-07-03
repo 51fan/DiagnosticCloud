@@ -48,7 +48,25 @@ export default new Router({
       },
       component: (resolve) => require(['../common/Evaluating/evaluatingPage.vue'], resolve)
       //component: evaluatingPage
-    }
+    }, 
+    {
+      path: '/loginPage/',
+      name: 'loginPage',
+      params: {
+        id: ""
+      },
+      component: (resolve) => require(['../common/LoginPage/loginPage.vue'], resolve)
+      //component: evaluatingPage
+    },
+    {
+      path: '/register/',
+      name: 'register',
+      params: {
+        id: ""
+      },
+      component: (resolve) => require(['../common/RegisterPage/registerPage.vue'], resolve)
+      //component: evaluatingPage
+    },
   ],
   mode: "history"
 })

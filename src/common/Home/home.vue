@@ -1,26 +1,26 @@
 <template>
 <div class="page-container">
-    <md-app md-waterfall md-mode="fixed-last" >
-      <md-app-toolbar class="md-large md-dense md-transparent" style="background-color: #eee;">
+    <md-app md-waterfall  @loginfinished="loginFinished()">
+      <md-app-toolbar class="md-large md-dense md-transparent" style="background-color: #eee;" >
         <div class="md-toolbar-row">
           <div class="md-toolbar-section-start">
-            <md-button class="md-icon-button" @click="toggleMenu" v-if="!menuVisible">
-              <md-icon>menu</md-icon>
+            <md-button class="md-icon-button" @click="toggleMenu" v-if="showUserCenterButton" >
+              <md-icon >menu</md-icon>
             </md-button>
 
             <span class="md-title">扁鹊云</span>
           </div>
 
-          <div class="md-toolbar-section-end">
-            <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
+          <div class="md-toolbar-section-end" v-if="showLogin">
+            <md-button class="md-icon-button" @click="loginFun()">
               <md-icon>account_circle</md-icon>
             </md-button>
           </div>
         </div>
 
-        <div class="md-toolbar-row">
+        <div class="md-toolbar-row" v-if="showTabs">
           <md-tabs class="md-transparent" md-alignment="fixed" md-sync-route>
-            <md-tab id="tab-home" md-label="主页" to="/Overview"></md-tab>
+            <md-tab id="tab-home" md-label="主页" to="/overview"></md-tab>
             <md-tab id="tab-posts" md-label="测评体验" to="/evaluating"></md-tab>
             <md-tab id="tab-favorites" md-label="开发中" to="/example"></md-tab>
             <md-tab id="tab-pages" md-label="开发中" to="/expertTeam"></md-tab>
@@ -28,7 +28,7 @@
         </div>
       </md-app-toolbar>
 
-      <md-app-drawer :md-active.sync="menuVisible" md-persistent="full">
+      <md-app-drawer :md-active.sync="showUserCenter" md-persistent="full" >
         <md-toolbar class="md-transparent" md-elevation="0">
           <span>用户中心</span>
 
@@ -85,19 +85,55 @@
 
 <script>
 import evaluating from "../Evaluating/evaluating.vue";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "LastRowFixed",
-  components:{
+  components: {
     evaluating
   },
   data: () => ({
-    menuVisible: false
+    // menuVisible: Boolean,
+    // loginPage:Boolean,
   }),
-  methods:{
-    toggleMenu () {
-        this.menuVisible = !this.menuVisible
-      }
+  computed: {
+    menuVisible() {
+      // debugger
+      return this.$store.state.home.menuVisible;
+    },
+    loginPage() {
+      return this.$store.state.home.loginPage;
+    },
+    showTabs() {
+      return this.$store.state.home.showTabs;
+    },
+    showUserCenterButton() {
+      return this.$store.state.home.showUserCenterButton;
+    },
+    showUserCenter() {
+      return this.$store.state.home.showUserCenter;
+    },
+    showLogin(){
+      return this.$store.state.home.showLogin;
+    }
+  },
+  methods: {
+    toggleMenu() {
+      this.$store.commit("home/showUserCenter");
+      this.$store.commit("home/showUserCenterButton");
+    },
+    loginFun() {
+      //this.menuVisible = !this.menuVisible;
+      // debugger
+      //this.showTabs = false;
+      this.$store.commit("home/showTabsFun");
+      this.$router.push("/loginPage/");
+    },
+    loginFinished() {
+      // debugger;
+      this.loginPage = true;
+      this.menuVisible = true;
+    }
   }
 };
 </script>
