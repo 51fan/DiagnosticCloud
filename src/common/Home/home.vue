@@ -8,7 +8,7 @@
               <md-icon >menu</md-icon>
             </md-button>
 
-            <span class="md-title">扁鹊云</span>
+            <span class="md-title" @click="gohome()" style="cursor: pointer;">扁鹊云</span>
           </div>
 
           <div class="md-toolbar-section-end" v-if="showLogin">
@@ -113,7 +113,7 @@ export default {
     showUserCenter() {
       return this.$store.state.home.showUserCenter;
     },
-    showLogin(){
+    showLogin() {
       return this.$store.state.home.showLogin;
     }
   },
@@ -133,6 +133,10 @@ export default {
       // debugger;
       this.loginPage = true;
       this.menuVisible = true;
+    },
+    gohome() {
+      //this.$store.commit("home/showTabsFun");
+      this.$router.push("/overview");
     }
   }
 };

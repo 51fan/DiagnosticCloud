@@ -40,7 +40,7 @@
 .mypanel {
   padding-left: 10%;
   padding-right: 10%;
-  padding-top: 10%;
+  padding-top: 7%;
   text-align: center;
   text-align: -webkit-center;
 }

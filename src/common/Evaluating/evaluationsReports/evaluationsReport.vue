@@ -234,13 +234,13 @@ export default {
   mounted: function() {
     let self = this;
     setTimeout(function() {
-      let time = self.reportParm.datas.testTime,
-        apiKry = "",
-        require = {
-          evaluationId: self.reportParm.evaluationId,
-          idx: self.reportParm.idx,
-          level: 1
-        };
+      let time = self.reportParm.datas.testTime;
+        // apiKry = "",
+        // require = {
+        //   evaluationId: self.reportParm.evaluationId,
+        //   idx: self.reportParm.idx,
+        //   level: 1
+        // };
       time = time.slice(0, 10);
       self.date = time;
       self.getLevel1Datas();
