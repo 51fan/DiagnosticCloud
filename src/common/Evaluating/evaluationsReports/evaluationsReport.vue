@@ -20,16 +20,16 @@
                     <div style="width: 100%;">
                         <md-tabs md-sync-route md-alignment="fixed" >
                         <md-tab id="tab-home" md-label="一级指标" to="" @click="switchTable(1)">
-                           <ve-radar :data="chartData1" width="600px" v-if="showRadar"></ve-radar>
-                           <ve-bar :data="chartDatabar" width="100%" v-if="showBar"></ve-bar>
+                           <ve-radar :data="chartData1" width="100%" v-if="showRadar" ref="tab1radar1"></ve-radar>
+                           <ve-bar :data="chartDatabar" width="100%" v-if="showBar" ref="tab1bar1"></ve-bar>
                         </md-tab>
 
                         <md-tab id="tab-pages" md-label="二级指标" to="" @click="switchTable(2)">
-                            <ve-radar :data="chartData2" width="600px"  ></ve-radar>
+                            <ve-radar :data="chartData2" width="100%" ref="tab2radar1" ></ve-radar>
                         </md-tab>
 
                         <md-tab id="tab-posts" md-label="三级指标" to="" @click="switchTable(3)">
-                            <ve-radar :data="chartData3" width="600px" ></ve-radar>
+                            <ve-radar :data="chartData3" width="100%"  ref="tab3radar1"></ve-radar>
                         </md-tab>
 
                     </md-tabs>
@@ -234,13 +234,13 @@ export default {
   mounted: function() {
     let self = this;
     setTimeout(function() {
-      let time = self.reportParm.datas.testTime;
-        // apiKry = "",
-        // require = {
-        //   evaluationId: self.reportParm.evaluationId,
-        //   idx: self.reportParm.idx,
-        //   level: 1
-        // };
+      let time = self.reportParm.datas.testTime,
+        apiKry = "",
+        require = {
+          evaluationId: self.reportParm.evaluationId,
+          idx: self.reportParm.idx,
+          level: 1
+        };
       time = time.slice(0, 10);
       self.date = time;
       self.getLevel1Datas();
@@ -283,7 +283,7 @@ export default {
                 }
               });
             });
-            
+
             self.chartData1.rows.push(currentData);
             self.chartData1.rows.push(expertData);
           } else {
@@ -349,7 +349,7 @@ export default {
               }
             });
           });
-          
+
           self.chartData2.rows.push(currentData);
           self.chartData2.rows.push(expertData);
         })
@@ -384,7 +384,7 @@ export default {
               }
             });
           });
-          
+
           self.chartData3.rows.push(currentData);
           self.chartData3.rows.push(expertData);
         })
@@ -397,14 +397,19 @@ export default {
         this.showLevel1Table = true;
         this.showLevel2Table = false;
         this.showLevel3Table = false;
+        this.$refs.tab1radar1.echarts.resize();
+        this.$refs.tab1bar1.echarts.resize();
+        
       } else if (index == 2) {
         this.showLevel1Table = false;
         this.showLevel2Table = true;
         this.showLevel3Table = false;
+        this.$refs.tab2radar1.echarts.resize();
       } else if (index == 3) {
         this.showLevel1Table = false;
         this.showLevel2Table = false;
         this.showLevel3Table = true;
+        this.$refs.tab3radar1.echarts.resize();
       }
     }
   }

@@ -8,7 +8,7 @@
             <div class="progressBar">
                 <label>当前进度：</label>
                     <md-progress-bar md-mode="determinate" :md-value="fillValue" class="progressBarFill"></md-progress-bar>
-                <label>{{questionIndex}}/{{questionCounts}}</label>
+                <label >{{questionIndex}}/{{questionCounts}}</label>
             </div>
             <!-- <md-button v-if="questionIndex==questionCounts" class="md-primary" @click="submit()">提交</md-button> -->
    
@@ -22,7 +22,7 @@
             
             <div class="panelContentbody">
                 <!--上一题  -->
-                <div  class="panelContentbodyleft" @click="preItem()">
+                <div class="panelContentbodyleft" @click="preItem()">
                     <md-icon class="md-size-5x"  >keyboard_arrow_left</md-icon>
                 </div>
             
@@ -39,7 +39,7 @@
         <evaluationEnd v-if="evaluationfinished" @viewfinishedReport="isViewReport"></evaluationEnd>
 
         <!-- 答题报告-->
-        <evaluationsReport v-if="isShowReport" :reportParm="reportParm" ></evaluationsReport>
+        <evaluationsReport v-if="isShowReport && reportParm.datas.testTime" :reportParm="reportParm" ></evaluationsReport>
     </div>
 </template>
 
@@ -68,10 +68,10 @@
 }
 .progressBar {
   display: inline;
-  padding: 0 10%;
+  padding: 0 5%;
 }
 .progressBarFill {
-  width: 600px;
+  width: 50%;
   display: inline-flex;
   height: 12px;
   border-radius: 12px;
