@@ -21,17 +21,17 @@ const getters = {
 const actions = {}
 
 const mutations = {
-    showLogin(state) {
-        state.showLogin = !state.showLogin;
+    showLogin(state, value) {
+        state.showLogin = value;
     },
-    showTabsFun(state){
-        state.showTabs = !state.showTabs;
+    showTabsFun(state, value){
+        state.showTabs = value;
     },
-    showUserCenter(state){
-        state.showUserCenter = !state.showUserCenter;
+    showUserCenter(state, value) {
+        state.showUserCenter = value;
     },
-    showUserCenterButton(state) {
-        state.showUserCenterButton = !state.showUserCenterButton;
+    showUserCenterButton(state, value) {
+        state.showUserCenterButton = value;
     }
 }
 

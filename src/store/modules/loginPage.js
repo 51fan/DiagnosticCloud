@@ -1,7 +1,6 @@
 // initial state
 const state = {
-  menuVisible: false,
-  loginPage: false,
+  loginSuccess: false
 }
 
 // getters
@@ -9,7 +8,11 @@ const getters = {}
 
 const actions = {}
 
-const mutations = {}
+const mutations = {
+  changeLoginState(state, value) {
+    state.loginSuccess = value;
+  },
+}
 
 export default {
   namespaced: true,

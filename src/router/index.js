@@ -43,12 +43,12 @@ export default new Router({
     {
       path: '/evaluatingPage/',
       name: 'evaluatingPage',
-      params:{
-        id:""
+      params: {
+        id: ""
       },
       component: (resolve) => require(['../common/Evaluating/evaluatingPage.vue'], resolve)
       //component: evaluatingPage
-    }, 
+    },
     {
       path: '/loginPage/',
       name: 'loginPage',
@@ -65,6 +65,24 @@ export default new Router({
         id: ""
       },
       component: (resolve) => require(['../common/RegisterPage/registerPage.vue'], resolve)
+      //component: evaluatingPage
+    },
+    {
+      path: '/enterpriseInfo/',
+      name: 'enterpriseInfo',
+      params: {
+        id: ""
+      },
+      component: (resolve) => require(['../common/UserCenter/enterpriseInfo.vue'], resolve)
+      //component: evaluatingPage
+    },
+    {
+      path: '/personalInfo/',
+      name: 'personalInfo',
+      params: {
+        id: ""
+      },
+      component: (resolve) => require(['../common/UserCenter/personalInfo.vue'], resolve)
       //component: evaluatingPage
     },
   ],

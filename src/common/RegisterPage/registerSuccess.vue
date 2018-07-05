@@ -14,7 +14,8 @@ export default {
   name: "registerSuccess",
   methods: {
     goHome() {
-      this.$store.commit("home/showTabsFun");
+      this.$store.commit("home/showTabsFun", true);
+      this.$store.commit("home/showLogin" ,true);
       this.$router.push("/overview");
     }
   }

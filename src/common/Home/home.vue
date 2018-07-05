@@ -1,6 +1,6 @@
 <template>
 <div class="page-container">
-    <md-app md-waterfall  @loginfinished="loginFinished()">
+    <md-app md-waterfall>
       <md-app-toolbar class="md-large md-dense md-transparent" style="background-color: #eee;" >
         <div class="md-toolbar-row">
           <div class="md-toolbar-section-start">
@@ -42,22 +42,22 @@
         <md-list>
           <md-list-item>
             <md-icon>move_to_inbox</md-icon>
-            <span class="md-list-item-text">收件箱</span>
+            <span class="md-list-item-text usercenterspan"  @click="goRouter(1)">个人信息</span>
           </md-list-item>
 
           <md-list-item>
             <md-icon>send</md-icon>
-            <span class="md-list-item-text">发邮件</span>
+            <span class="md-list-item-text usercenterspan" @click="goRouter(2)">企业信息</span>
           </md-list-item>
 
           <md-list-item>
             <md-icon>delete</md-icon>
-            <span class="md-list-item-text">回收站</span>
+            <span class="md-list-item-text usercenterspan">回收站</span>
           </md-list-item>
 
           <md-list-item>
             <md-icon>error</md-icon>
-            <span class="md-list-item-text">告警箱</span>
+            <span class="md-list-item-text usercenterspan" @click="goRouter(4)">退出登录</span>
           </md-list-item>
         </md-list>
       </md-app-drawer>
@@ -80,6 +80,9 @@
 .md-drawer {
   width: 230px;
   max-width: calc(100vw - 125px);
+}
+.usercenterspan {
+  cursor: pointer;
 }
 </style>
 
@@ -115,27 +118,71 @@ export default {
     },
     showLogin() {
       return this.$store.state.home.showLogin;
+    },
+    getLoginState() {
+      return this.$store.state.loginPage.loginSuccess;
     }
   },
   methods: {
     toggleMenu() {
-      this.$store.commit("home/showUserCenter");
-      this.$store.commit("home/showUserCenterButton");
+      this.$store.commit("home/showUserCenter", !this.showUserCenter);
+      this.$store.commit(
+        "home/showUserCenterButton",
+        !this.showUserCenterButton
+      );
     },
     loginFun() {
-      //this.menuVisible = !this.menuVisible;
-      // debugger
-      //this.showTabs = false;
-      this.$store.commit("home/showTabsFun");
+      this.$store.commit("home/showTabsFun", false);
       this.$router.push("/loginPage/");
     },
-    loginFinished() {
-      // debugger;
-      this.loginPage = true;
-      this.menuVisible = true;
+    goRouter(index) {
+      switch (index) {
+        case 1:
+          this.$store.commit("home/showTabsFun", false);
+          this.$router.push("/personalInfo");
+          break;
+        case 2:
+          this.$store.commit("home/showTabsFun", false);
+          this.$router.push("/enterpriseInfo");
+          break;
+        case 4:
+          //修改登录状态
+          this.$store.commit("loginPage/changeLoginState", false);
+          //隐藏登录按钮
+          this.$store.commit("home/showLogin", true);
+          //隐藏用户中心按钮
+          this.$store.commit("home/showUserCenterButton", false);
+          //隐藏用户中心
+          this.$store.commit("home/showUserCenter", false);
+          //显示导航菜单
+          this.$store.commit("home/showTabsFun", true);
+          this.$router.push("/overview");
+          break;
+        default:
+          break;
+      }
     },
     gohome() {
-      //this.$store.commit("home/showTabsFun");
+      debugger;
+      //登录了，隐藏登录按钮
+      if (this.getLoginState) {
+        //隐藏登录按钮
+        this.$store.commit("home/showLogin", false);
+        //显示用户中心按钮
+        this.$store.commit("home/showUserCenterButton", true);
+        //隐藏用户中心
+        this.$store.commit("home/showUserCenter", false);
+      } else {
+        //隐藏登录按钮
+        this.$store.commit("home/showLogin", true);
+        //隐藏用户中心按钮
+        this.$store.commit("home/showUserCenterButton", false);
+        //隐藏用户中心
+        this.$store.commit("home/showUserCenter", false);
+      }
+
+      //显示导航菜单
+      this.$store.commit("home/showTabsFun", true);
       this.$router.push("/overview");
     }
   }

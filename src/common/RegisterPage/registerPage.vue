@@ -36,7 +36,7 @@
                 <div style="width:400px;text-align: left;">
                     <md-button  class="md-dense md-raised md-primary" style="width:150px;display: inline-flex;margin:18px 0 0 0;" @click="registerFun()">注册</md-button>
                     <div style=" margin-top: 30px;cursor: pointer;float: right;" @click="OldAccountsLogin()">
-                        <span>使用已有账户登录</span>
+                        <span @click="goLoginPge()" style="cursor: pointer;">使用已有账户登录</span>
                     </div>
             </div>
         </div>
@@ -261,6 +261,7 @@ export default {
       }
     },
     getVerificationCode() {
+      //获取验证码
       let self = this,
         apiKry = "",
         require = {
@@ -279,6 +280,9 @@ export default {
         };
       // self.$http.post().then(res=>{})
       this.showRegisterPage = false;
+    },
+    goLoginPge(){
+        this.$router.push("/loginPage/");
     }
   },
   computed: {

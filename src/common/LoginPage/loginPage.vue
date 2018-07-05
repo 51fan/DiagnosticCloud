@@ -66,21 +66,27 @@ export default {
   },
   methods: {
     loginFun() {
-      let logindata = {};
-      debugger;
+      let self = this,
+        apiKry = "",
+        require = {};
+
+      //   self.$http.post("",{apiKry, require}).then(res =>{}).catch(error =>{});
+
+      //修改登录状态
+      this.$store.commit("loginPage/changeLoginState", true);
       //隐藏登录按钮
-      this.$store.commit("home/showLogin");
+      this.$store.commit("home/showLogin", false);
       //显示导航菜单
-      this.$store.commit("home/showTabsFun");
+      this.$store.commit("home/showTabsFun", true);
       //显示用户中心
-      this.$store.commit("home/showUserCenter");
+      this.$store.commit("home/showUserCenter", true);
 
       this.$router.push("/overview");
     },
     registerFun() {
       //隐藏登录按钮
-      this.$store.commit("home/showLogin");
-      
+      this.$store.commit("home/showLogin", false);
+
       //this.$store.commit("home/showTabsFun");
       this.$router.push("/register");
     }
