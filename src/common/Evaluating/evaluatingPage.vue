@@ -148,20 +148,20 @@ export default {
   }),
   created: function() {},
   mounted: function() {
-    let apiKry = "",
+    let apikey = "",
       self = this,
-      require = {};
+      request = {};
 
     self.evaluationId = this.$route.query.id;
     self.name = this.$route.query.name;
     self.reportParm.name = this.$route.query.name;
     self.reportParm.evaluationId = this.$route.query.id;
     //self.evaluationName = self.name
-    require.id = self.evaluationId;
+    request.id = self.evaluationId;
     self.$http
       .get("/static/jsons/evaluation.json", {
-        apiKry,
-        require
+        apikey,
+        request
       })
       .then(res => {
         //console.log(res.data.return)
@@ -206,13 +206,13 @@ export default {
       //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
       this.idx = this.questionsList[0].idx;
       this.reportParm.idx = this.questionsList[0].idx;
-      let apiKry = "",
+      let apikey = "",
         self = this,
-        require = {
+        request = {
           evaluationId: this.evaluationId,
           idx: this.idx
         };
-      //this.$http.post("",{apiKry,require}).then();
+      //this.$http.post("",{apikey,request}).then();
     },
     submit: function() {
       //debugger;
@@ -220,13 +220,13 @@ export default {
       this.evaluationStart = false;
       this.evaluationfinished = true;
       //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
-      let apiKry = "",
+      let apikey = "",
         self = this,
-        require = {
+        request = {
           evaluationId: this.evaluationId,
           idx: this.idx
         };
-      // this.$http.post("",{apiKry,require}).then(res=>{
+      // this.$http.post("",{apikey,request}).then(res=>{
 
       // });
     },
@@ -245,8 +245,8 @@ export default {
     isViewReport: function(bool) {
       //debugger;
       let self = this;
-      let apiKry = "";
-      let require = {
+      let apikey = "";
+      let request = {
         evaluationId: self.evaluationId,
         idx: self.idx
       };
@@ -255,7 +255,7 @@ export default {
       //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
 
       self.$http
-        .get("/static/jsons/sorce.json", { apiKry, require })
+        .get("/static/jsons/sorce.json", { apikey, request })
         .then(res => {
           //console.log(res)
           //debugger

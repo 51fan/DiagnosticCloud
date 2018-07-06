@@ -85,6 +85,15 @@ export default new Router({
       component: (resolve) => require(['../common/UserCenter/personalInfo.vue'], resolve)
       //component: evaluatingPage
     },
+    {
+      path: '/modifyPassword/',
+      name: 'modifyPassword',
+      params: {
+        id: ""
+      },
+      component: (resolve) => require(['../common/UserCenter/modifyPassword.vue'], resolve)
+      //component: evaluatingPage
+    },
   ],
   mode: "history"
 })

@@ -235,8 +235,8 @@ export default {
     let self = this;
     setTimeout(function() {
       let time = self.reportParm.datas.testTime,
-        apiKry = "",
-        require = {
+        apikey = "",
+        request = {
           evaluationId: self.reportParm.evaluationId,
           idx: self.reportParm.idx,
           level: 1
@@ -252,15 +252,15 @@ export default {
   methods: {
     getLevel1Datas: function() {
       let self = this,
-        apiKry = "",
-        require = {
+        apikey = "",
+        request = {
           evaluationId: self.reportParm.evaluationId,
           idx: self.reportParm.idx,
           level: 1
         };
 
       self.$http
-        .get("/static/jsons/tableDatasLevel1.json", { apiKry, require })
+        .get("/static/jsons/tableDatasLevel1.json", { apikey, request })
         .then(res => {
           //debugger;
           self.reportParm.level1 = res.data.return;
@@ -324,15 +324,15 @@ export default {
     },
     getLevel2Datas: function() {
       let self = this,
-        apiKry = "",
-        require = {
+        apikey = "",
+        request = {
           evaluationId: self.reportParm.evaluationId,
           idx: self.reportParm.idx,
           level: 2
         };
 
       self.$http
-        .get("/static/jsons/tableDatasLevel2.json", { apiKry, require })
+        .get("/static/jsons/tableDatasLevel2.json", { apikey, request })
         .then(res => {
           self.reportParm.level2 = res.data.return;
           //console.log(self.reportParm);
@@ -359,15 +359,15 @@ export default {
     },
     getLevel3Datas: function() {
       let self = this,
-        apiKry = "",
-        require = {
+        apikey = "",
+        request = {
           evaluationId: self.reportParm.evaluationId,
           idx: self.reportParm.idx,
           level: 3
         };
 
       self.$http
-        .get("/static/jsons/tableDatasLevel3.json", { apiKry, require })
+        .get("/static/jsons/tableDatasLevel3.json", { apikey, request })
         .then(res => {
           self.reportParm.level3 = res.data.return;
           //console.log(self.reportParm);

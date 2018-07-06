@@ -67,10 +67,10 @@ export default {
   methods: {
     loginFun() {
       let self = this,
-        apiKry = "",
-        require = {};
+        apikey = "",
+        request = {};
 
-      //   self.$http.post("",{apiKry, require}).then(res =>{}).catch(error =>{});
+      //   self.$http.post("",{apikey, request}).then(res =>{}).catch(error =>{});
 
       //修改登录状态
       this.$store.commit("loginPage/changeLoginState", true);

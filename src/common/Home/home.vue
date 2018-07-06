@@ -52,7 +52,7 @@
 
           <md-list-item>
             <md-icon>delete</md-icon>
-            <span class="md-list-item-text usercenterspan">回收站</span>
+            <span class="md-list-item-text usercenterspan" @click="goRouter(3)">修改密码</span>
           </md-list-item>
 
           <md-list-item>
@@ -144,6 +144,10 @@ export default {
         case 2:
           this.$store.commit("home/showTabsFun", false);
           this.$router.push("/enterpriseInfo");
+          break;
+        case 3:
+          this.$store.commit("home/showTabsFun", false);
+          this.$router.push("/modifyPassword");
           break;
         case 4:
           //修改登录状态

@@ -25,17 +25,17 @@ export default {
   methods: {
     viewReport: function() {
     
-    //   let apiKry = "",
+    //   let apikey = "",
     //     self = this,
-    //     require = {
+    //     request = {
     //         evaluationId:"",
 
     //     };
       //接口给后台传 试卷ID和评价主表ID，请求报告数据
     //   this.$http
     //     .get("/static/jsons/sorce.json", {
-    //       apiKry,
-    //       require
+    //       apikey,
+    //       request
     //     })
     //     .then(res => {
           

@@ -23,7 +23,7 @@
                  <div style="  width: 70%;display: inline-block;">
                     <span style="width:10%">手机：</span>
                     <md-field >
-                        <md-input v-model="mobil"></md-input>
+                        <md-input v-model="mobile"></md-input>
                     </md-field>
                 </div>
                  <div style="  width: 70%;display: inline-block;">
@@ -116,7 +116,7 @@ export default {
     position: "",
     name: "",
     email: "",
-    mobil: "",
+    mobile: "",
     company: "",
     sex: "female"
   }),

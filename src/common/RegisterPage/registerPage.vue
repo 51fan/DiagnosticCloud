@@ -263,16 +263,16 @@ export default {
     getVerificationCode() {
       //获取验证码
       let self = this,
-        apiKry = "",
-        require = {
+        apikey = "",
+        request = {
           mobile: this.phoneNum
         };
       // self.$http.post().then(res=>{})
     },
     registerFun() {
       let self = this,
-        apiKry = "",
-        require = {
+        apikey = "",
+        request = {
           email: this.email,
           password: this.password,
           mobile: this.phoneNum,

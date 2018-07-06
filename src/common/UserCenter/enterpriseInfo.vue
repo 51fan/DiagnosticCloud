@@ -1,6 +1,7 @@
 <template>
     <div class="mypanel">
-        <div>
+       <div style="background-color: rgba(211, 211, 211, 0.28);padding-bottom: 2%;">
+            <div>
             <div class="infoItem">
                 <span class="spantitle">企业名称：</span>
                 <md-field>
@@ -137,7 +138,8 @@
                 </div>
             </div>
         </div>
-        <md-button class="md-dense md-raised md-primary" style="width:10%" @click="modify()">修改</md-button>
+       </div>
+        <md-button class="md-dense md-raised md-primary" style="width:10%;margin-top: 1%;" @click="modify()">修改</md-button>
     </div>
 </template>
 
@@ -145,8 +147,7 @@
 .mypanel {
   text-align: center;
   text-align: -webkit-center;
-  background-color: rgba(211, 211, 211, 0.28);
-  padding: 3% 10% 5% 10%;
+  padding: 1% 10% 5% 10%;
 }
 .spantitle {
   width: 160px;
@@ -197,8 +198,8 @@ export default {
     },
     modify() {
       let self = this,
-        apiKry = "",
-        require = {
+        apikey = "",
+        request = {
           country: self.country,
           city: self.city,
           area: self.area,
@@ -209,7 +210,7 @@ export default {
           upadteSrc: self.upadteSrc
         };
 
-      // self.$http.post("",{apiKry, require}).then(res=>{});
+      // self.$http.post("",{apikey, request}).then(res=>{});
 
       //显示导航菜单
       this.$store.commit("home/showTabsFun", true);
