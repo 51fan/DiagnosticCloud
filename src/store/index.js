@@ -4,6 +4,7 @@ import evlaluating from './modules/evlaluating'
 import home from './modules/home'
 import loginPage from './modules/loginPage'
 import registerPage from './modules/registerPage'
+import UserCenter from './modules/UserCenter'
 
 Vue.use(Vuex);
 
@@ -12,7 +13,8 @@ const store = new Vuex.Store({
     evlaluating,
     home,
     loginPage,
-    registerPage
+    registerPage,
+    UserCenter
   }
 })
 export default store;

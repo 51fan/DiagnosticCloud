@@ -1,6 +1,6 @@
 <template>
     <div class="mypanel">
-        <div>
+        <div v-if="showLoginPage">
             <md-field style="width:400px">
                 <!-- <label>手机/邮箱</label> -->
                 <md-input v-model="phoneOrEmail" placeholder="请输入手机/邮箱"></md-input>
@@ -20,7 +20,7 @@
                     <!-- <md-checkbox style="float:left" v-model="autoLogin">自动登录</md-checkbox>
                     <span style="float:right;width: auto;margin: 17px 16px 16px 0;display: inline-flex;position: relative;">忘记密码</span> -->
                     <md-checkbox style="width:80%" v-model="autoLogin">自动登录</md-checkbox>
-                    <span>忘记密码</span>
+                    <span @click="forgetPassword()">忘记密码</span>
                 </div>     
             </div>
                 <md-button class="md-dense md-raised md-primary" style="width:400px;margin-top:2%"  @click="loginFun()">登录</md-button>
@@ -33,6 +33,7 @@
                 </div>     
             </div>
         </div>
+        <forgetPassword v-if="!showLoginPage"></forgetPassword>
     </div>
 </template>
 
@@ -47,8 +48,12 @@
 </style>
 <script>
 import { mapGetters, mapState } from "vuex";
+import forgetPassword from "./forgetPassword.vue";
 export default {
   name: "loginPage",
+  components: {
+    forgetPassword
+  },
   data: () => ({
     phoneOrEmail: null,
     passWord: null,
@@ -62,6 +67,9 @@ export default {
     },
     loginPage() {
       return this.$store.state.home.loginPage;
+    },
+    showLoginPage() {
+      return this.$store.state.loginPage.showLoginPage;
     }
   },
   methods: {
@@ -89,6 +97,10 @@ export default {
 
       //this.$store.commit("home/showTabsFun");
       this.$router.push("/register");
+    },
+    forgetPassword() {
+      //隐藏登录界面
+      this.$store.commit("loginPage/changeLoginShowState", false);
     }
   }
 };

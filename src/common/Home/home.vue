@@ -147,6 +147,26 @@ export default {
           break;
         case 3:
           this.$store.commit("home/showTabsFun", false);
+
+          this.$store.commit("UserCenter/changePasswordmobile", "");
+          this.$store.commit("UserCenter/changePasswordemail", "");
+          this.$store.commit("UserCenter/changePasswordcheckWay", "email");
+          this.$store.commit("UserCenter/changePasswordVerificationCode", "");
+          this.$store.commit("UserCenter/changePasswordshowVCEmpty", false);
+          this.$store.commit("UserCenter/changePasswordshowVCError", false);
+          this.$store.commit("UserCenter/changePasswordVCHasMessages", false);
+          this.$store.commit("UserCenter/changePasswordpasswordFHasMessages",true);
+          this.$store.commit("UserCenter/changePasswordpasswordSHasMessages",false);
+          this.$store.commit("UserCenter/changePasswordcurrentStep1", true);
+          this.$store.commit("UserCenter/changePasswordcurrentStep2", false);
+          this.$store.commit("UserCenter/changePasswordcurrentStep3", false);
+          this.$store.commit("UserCenter/changePasswordpasswordFirst", "");
+          this.$store.commit("UserCenter/changePasswordpasswordSecond", "");
+          this.$store.commit("UserCenter/changePasswordshowPasswordfEmpty",false);
+          this.$store.commit("UserCenter/changePasswordshowPasswordfError", true);
+          this.$store.commit("UserCenter/changePasswordshowPasswordsEmpty", false);
+          this.$store.commit("UserCenter/changePasswordshowPasswordsError", false);
+
           this.$router.push("/modifyPassword");
           break;
         case 4:

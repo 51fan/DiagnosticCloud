@@ -95,5 +95,5 @@ export default new Router({
       //component: evaluatingPage
     },
   ],
-  mode: "history"
+  // mode: "history"
 })

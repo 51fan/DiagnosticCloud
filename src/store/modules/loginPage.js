@@ -1,6 +1,7 @@
 // initial state
 const state = {
-  loginSuccess: false
+  loginSuccess: false,
+  showLoginPage:true
 }
 
 // getters
@@ -11,6 +12,9 @@ const actions = {}
 const mutations = {
   changeLoginState(state, value) {
     state.loginSuccess = value;
+  },
+  changeLoginShowState(state, value) {
+    state.showLoginPage = value;
   },
 }
 
