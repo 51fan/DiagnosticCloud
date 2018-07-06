@@ -19,7 +19,7 @@
             </div>
 
             <div class="modifyBody">
-                <div v-if="currentStep1" style="background-color: rgba(211, 211, 211, 0.28);">
+                <div v-if="currentStep1" class="cardstyle">
                     <div style="padding: 3% 6% 3% 6%;">找回密码前我们需要验证您的身份</div>
                     <div>
                         <div style="padding: 0 6% 3% 6%;display: inline-block;">验证方式：</div>
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="currentStep2" style="background-color: rgba(211, 211, 211, 0.28);">
+                <div v-if="currentStep2" class="cardstyle">
                     <div style="padding: 3% 6% 3% 6%;">重新设置账号ji***@ehz.cnde 密码</div>
                     <div style="padding: 0 6% 3% 6%">
                         <md-field style="width:400px" :class="passwordFMessageClass" >
@@ -115,6 +115,21 @@
 }
 .stepBC {
   background-color: cornflowerblue;
+}
+
+.cardstyle {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  position: relative;
+  z-index: 1;
+  border-radius: 6px;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: color, background-color;
+  will-change: color, background-color;
+  width: 100%;
+  padding: 5%;
+  border: 1px solid lightgray;
+  background-color: rgba(211, 211, 211, 0.28);
 }
 </style>
 

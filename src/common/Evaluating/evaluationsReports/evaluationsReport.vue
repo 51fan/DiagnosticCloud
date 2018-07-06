@@ -399,7 +399,6 @@ export default {
         this.showLevel3Table = false;
         this.$refs.tab1radar1.echarts.resize();
         this.$refs.tab1bar1.echarts.resize();
-        
       } else if (index == 2) {
         this.showLevel1Table = false;
         this.showLevel2Table = true;
@@ -422,6 +421,17 @@ export default {
   width: 80%;
   margin: 0px 10%;
   padding: 2% 5%;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  position: relative;
+  z-index: 1;
+  border-radius: 6px;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: color, background-color;
+  will-change: color, background-color;
+  width: 80%;
+  padding: 5%;
+  border: 1px solid lightgray;
 }
 .title {
   display: inline-block;

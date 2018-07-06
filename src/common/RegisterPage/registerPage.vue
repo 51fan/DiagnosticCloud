@@ -1,7 +1,7 @@
 <template>
     <div class="mypanel">
-        <div v-if="showRegisterPage">
-            <div style="width:400px;text-align: left;padding-bottom: 30px;font-size: x-large;">企业用户注册</div>
+        <div v-if="showRegisterPage" class="cardstyle">
+            <div style="width: 100%;text-align: center;padding-bottom: 30px;font-size: x-large;">企业用户注册</div>
                 <md-field md-clearable style="width:400px" :class="emailMessageClass" >
                     <md-input v-model="email" placeholder="邮箱" v-on:input ="inputFunc(1)" @click="showTips(1)" required></md-input>
                     <span class="md-error" v-if="showEmailEmpty">邮箱不能为空</span>
@@ -17,7 +17,7 @@
                     <span class="md-error" v-if="showPasswordsEmpty">密码不能为空</span>
                     <span class="md-error" v-if="showPasswordsError">两次输入密码不一致</span>
                 </md-field>
-                <div style="width:400px;text-align: left;">
+                <div style="width: 100%;text-align: center;">
                     <md-button class="md-dense md-raised md-primary" disabled style="display: inline-flex;margin: 18px 0 0 0;">+86</md-button>
                     <md-field style="width: 308px;display: inline-flex;" :class="phoneNumMessageClass">
                         <md-input v-model="phoneNum"  placeholder="11位手机号" v-on:input ="inputFunc(4)" @click="showTips(4)"></md-input>
@@ -25,7 +25,7 @@
                         <span class="md-error" v-if="showPhoneNumError">手机号填写不正确</span>
                     </md-field>
                 </div>
-                <div style="width:400px;text-align: left;">
+                <div style="width: 100%;text-align: center;">
                     <md-field style="width: 308px;display: inline-flex;" :class="VCMessageClass">
                         <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(5)" @click="showTips(5)"></md-input>
                         <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
@@ -281,8 +281,8 @@ export default {
       // self.$http.post().then(res=>{})
       this.showRegisterPage = false;
     },
-    goLoginPge(){
-        this.$router.push("/loginPage/");
+    goLoginPge() {
+      this.$router.push("/loginPage/");
     }
   },
   computed: {
@@ -322,6 +322,19 @@ export default {
   padding-top: 5%;
   text-align: center;
   text-align: -webkit-center;
+}
+.cardstyle {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  position: relative;
+  z-index: 1;
+  border-radius: 6px;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: color, background-color;
+  will-change: color, background-color;
+  width: 50%;
+  padding: 5%;
+  border: 1px solid lightgray;
 }
 </style>
 

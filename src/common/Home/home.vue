@@ -187,7 +187,6 @@ export default {
       }
     },
     gohome() {
-      debugger;
       //登录了，隐藏登录按钮
       if (this.getLoginState) {
         //隐藏登录按钮

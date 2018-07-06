@@ -1,7 +1,7 @@
 <template>
     <div class="mypanel">
         <div v-if="!disable">
-            <div style="background-color: rgba(211, 211, 211, 0.28);padding-bottom: 2%;">
+            <div class="cardstyle">
                     <div>
                         <div class="infoItem">
                                 <span class="spantitle">企业名称：</span>
@@ -143,7 +143,7 @@
             <md-button class="md-dense md-raised md-primary" style="width:10%;margin-top: 1%;" @click="modify()">修改</md-button>
         </div>
         <div v-if="disable">
-             <div style="background-color: rgba(211, 211, 211, 0.28);padding-bottom: 2%;">
+             <div class="cardstyle">
                     <div>
                         <div class="infoItem">
                                 <span class="spantitle">企业名称：</span>
@@ -308,6 +308,21 @@
   max-width: 80px;
   max-height: 60px;
 }
+.cardstyle {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  position: relative;
+  z-index: 1;
+  border-radius: 6px;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: color, background-color;
+  will-change: color, background-color;
+  width: 100%;
+  padding: 5%;
+  border: 1px solid lightgray;
+  background-color: rgba(211, 211, 211, 0.28);
+  padding-bottom: 2%;
+}
 </style>
 
 
@@ -342,7 +357,7 @@ export default {
         _this.imageSrc = "";
       }
     },
-    cancel(){},
+    cancel() {},
     save() {
       let self = this,
         apikey = "",

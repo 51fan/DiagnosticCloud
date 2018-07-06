@@ -22,6 +22,17 @@
   border: 1px solid burlywood;
   padding: 15px;
   margin-bottom: 20px;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  position: relative;
+  z-index: 1;
+  border-radius: 6px;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: color, background-color;
+  will-change: color, background-color;
+  width: 100%;
+  padding: 5%;
+  border: 1px solid lightgray;
 }
 .answerItem {
   padding: 5px 10px;
@@ -30,9 +41,20 @@
 .panelContentAnswer {
   padding: 15px;
   border: 1px solid burlywood;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  position: relative;
+  z-index: 1;
+  border-radius: 6px;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: color, background-color;
+  will-change: color, background-color;
+  width: 100%;
+  padding: 5%;
+  border: 1px solid lightgray;
 }
-.selectAnswer{
-    background-color: rgba(10, 185, 222, 0.32)
+.selectAnswer {
+  background-color: rgba(10, 185, 222, 0.32);
 }
 </style>
 
@@ -40,31 +62,31 @@
 export default {
   props: ["question"],
   data: () => ({
-      obj:"",
-      isSelected:false,
-      currentItem:9,
-      answer:[],
+    obj: "",
+    isSelected: false,
+    currentItem: 9,
+    answer: []
   }),
   mounted: function() {
-      if(this.question.answered){
-          this.currentItem = this.question.answered-1;
-      }
-      //if()
-      this.obj =  this.currentItem;
+    if (this.question.answered) {
+      this.currentItem = this.question.answered - 1;
+    }
+    //if()
+    this.obj = this.currentItem;
   },
   methods: {
     selectAnswer: function(index) {
-        //debugger
-        this.currentItem = index;
-        this.answer.push({
-            questionId:this.question.id,
-            answer:this.currentItem+1,
-            evaluationId:"",
-            idx:this.question.idx
-        })
-        this.obj = index;
-        //给父组件传值
-        this.$emit('selectedAnswer', this.answer);
+      //debugger
+      this.currentItem = index;
+      this.answer.push({
+        questionId: this.question.id,
+        answer: this.currentItem + 1,
+        evaluationId: "",
+        idx: this.question.idx
+      });
+      this.obj = index;
+      //给父组件传值
+      this.$emit("selectedAnswer", this.answer);
     }
   }
 };

@@ -1,6 +1,7 @@
 <template>
     <div class="mypanel">
-        <div v-if="showLoginPage">
+        <div v-if="showLoginPage" class="cardstyle">
+            <div class="loginHeadTitle">账号密码登陆</div>
             <md-field style="width:400px">
                 <!-- <label>手机/邮箱</label> -->
                 <md-input v-model="phoneOrEmail" placeholder="请输入手机/邮箱"></md-input>
@@ -41,9 +42,31 @@
 .mypanel {
   padding-left: 10%;
   padding-right: 10%;
-  padding-top: 7%;
+  padding-top: 5%;
   text-align: center;
   text-align: -webkit-center;
+}
+.cardstyle {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  position: relative;
+  z-index: 1;
+  border-radius: 6px;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: color, background-color;
+  will-change: color, background-color;
+  width: 40%;
+  padding: 5%;
+  border: 1px solid lightgray;
+}
+.loginHeadTitle {
+  min-height: 48px;
+  margin: 4px 0 24px;
+  padding-top: 16px;
+  display: flex;
+  position: relative;
+  font-family: inherit;
+  width: 400px;
 }
 </style>
 <script>
