@@ -76,15 +76,21 @@ export default {
     //evalution:Object
   },
   mounted: function() {
-    let apiKry = "",
+    let apikey = "",
       self = this,
-      require = {};
-
+      request = {};
+    let param = {
+      apikey,
+      request
+    };
     self.$http
       .get("/static/jsons/datas.json", {
-        apiKry,
-        require
+        apikey,
+        request
       })
+      // .post("/IBUS/DAIG_SYS/getTestInfo", {
+      //   apikey,request
+      // })
       .then(res => {
         res.data.return.categories.forEach(item => {
           self.categories.push({
@@ -114,9 +120,6 @@ export default {
         });
         self.evalutionLists = targetArrays;
       }
-    },
-    beginEvaluation:function (params) {
-      debugger
     }
   }
 };

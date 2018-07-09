@@ -1,5 +1,6 @@
 <template>
 <div class="page-container">
+    <!-- <md-app md-waterfall style="background-image:url('./static/imgs/bgblue.jpg');background-size:cover;"> -->
     <md-app md-waterfall>
       <md-app-toolbar class="md-large md-dense md-transparent" style="background-color: #eee;" >
         <div class="md-toolbar-row">
@@ -155,17 +156,35 @@ export default {
           this.$store.commit("UserCenter/changePasswordshowVCEmpty", false);
           this.$store.commit("UserCenter/changePasswordshowVCError", false);
           this.$store.commit("UserCenter/changePasswordVCHasMessages", false);
-          this.$store.commit("UserCenter/changePasswordpasswordFHasMessages",true);
-          this.$store.commit("UserCenter/changePasswordpasswordSHasMessages",false);
+          this.$store.commit(
+            "UserCenter/changePasswordpasswordFHasMessages",
+            true
+          );
+          this.$store.commit(
+            "UserCenter/changePasswordpasswordSHasMessages",
+            false
+          );
           this.$store.commit("UserCenter/changePasswordcurrentStep1", true);
           this.$store.commit("UserCenter/changePasswordcurrentStep2", false);
           this.$store.commit("UserCenter/changePasswordcurrentStep3", false);
           this.$store.commit("UserCenter/changePasswordpasswordFirst", "");
           this.$store.commit("UserCenter/changePasswordpasswordSecond", "");
-          this.$store.commit("UserCenter/changePasswordshowPasswordfEmpty",false);
-          this.$store.commit("UserCenter/changePasswordshowPasswordfError", true);
-          this.$store.commit("UserCenter/changePasswordshowPasswordsEmpty", false);
-          this.$store.commit("UserCenter/changePasswordshowPasswordsError", false);
+          this.$store.commit(
+            "UserCenter/changePasswordshowPasswordfEmpty",
+            false
+          );
+          this.$store.commit(
+            "UserCenter/changePasswordshowPasswordfError",
+            true
+          );
+          this.$store.commit(
+            "UserCenter/changePasswordshowPasswordsEmpty",
+            false
+          );
+          this.$store.commit(
+            "UserCenter/changePasswordshowPasswordsError",
+            false
+          );
 
           this.$router.push("/modifyPassword");
           break;

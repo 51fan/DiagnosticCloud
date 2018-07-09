@@ -7,8 +7,12 @@
             <label>测评项：</label><label style="font-size: x-large;padding: 10px;">{{question.question}}</label>
         </div>
         <div class="panelContentAnswer">
-            <div class="answerItem" :class="{selectAnswer:index==currentItem}" v-for="(item, index) in  question.answerLists" :key="item" @click="selectAnswer(index)">
-                 <md-radio class="md-primary" v-model="obj" :value="index"></md-radio>{{index+1}}、{{item}}
+            <!-- <div class="answerItem" :class="{selectAnswer:index==currentChooseObj}" v-for="(item, index) in  question.answerLists" :key="item" @click="selectAnswer(index)"> -->
+            <span class="expertText">预期</span><span class="currentText">实际</span>
+            <div class="answerItem" v-for="(item, index) in  question.answerLists" :key="item" style="width100%">
+                 <md-radio  v-model="expertObj" :value="index" style="width:5%"></md-radio>
+                 <md-radio class="md-primary" v-model="chooseObj" :value="index" style="width:5%"></md-radio>
+                 <span>{{index+1}}、{{item}}</span>
             </div>
         </div>
     </div>
@@ -56,35 +60,79 @@
 .selectAnswer {
   background-color: rgba(10, 185, 222, 0.32);
 }
+.expertText {
+  margin-left: 1%;
+  padding-right: 4%;
+  font-size: larger;
+}
+.currentText {
+  font-size: larger;
+}
 </style>
 
 <script>
 export default {
   props: ["question"],
   data: () => ({
-    obj: "",
+    chooseObj: "",
+    expertObj: "",
     isSelected: false,
-    currentItem: 9,
-    answer: []
+    currentChooseObj: 9,
+    currentexpertObj: 9,
+    answer: {
+      questionId: "",
+      expected: "",
+      answer: "",
+      evaluationId: "",
+      idx: ""
+    }
   }),
   mounted: function() {
     if (this.question.answered) {
-      this.currentItem = this.question.answered - 1;
+      this.currentChooseObj = this.question.answered - 1;
     }
     //if()
-    this.obj = this.currentItem;
+    this.chooseObj = this.currentChooseObj;
   },
   methods: {
-    selectAnswer: function(index) {
-      //debugger
-      this.currentItem = index;
-      this.answer.push({
-        questionId: this.question.id,
-        answer: this.currentItem + 1,
-        evaluationId: "",
-        idx: this.question.idx
-      });
-      this.obj = index;
+    // selectAnswer: function(index) {
+    //   // debugger;
+    //   this.currentChooseObj = index;
+    //   this.answer.push({
+    //     questionId: this.question.id,
+    //     expected: this.expertObj,
+    //     //answer: this.currentChooseObj + 1,
+    //     answer: this.chooseObj,
+    //     evaluationId: "",
+    //     idx: this.question.idx
+    //   });
+    //   this.chooseObj = index;
+    //   //给父组件传值
+    //   this.$emit("selectedAnswer", this.answer);
+    // }
+  },
+  watch: {
+    chooseObj: function(newvalue, oldvalue) {
+      debugger;
+      //当前实际选中的选项
+      this.currentChooseObj = newvalue + 1;
+      this.answer.questionId = this.question.id;
+      this.answer.expected = this.expertObj;
+      this.answer.answer = this.chooseObj;
+      this.answer.idx = this.question.idx;
+
+      //给父组件传值
+      this.$emit("selectedAnswer", this.answer);
+    },
+    expertObj: function(newvalue, oldvalue) {
+      debugger;
+      //当前期望选中的选项
+      this.currentexpertObj = newvalue + 1;
+      this.answer.questionId = this.question.id;
+      this.answer.expected = this.expertObj;
+      this.answer.answer = this.chooseObj;
+      this.answer.idx = this.question.idx;
+
       //给父组件传值
       this.$emit("selectedAnswer", this.answer);
     }

@@ -20,7 +20,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */
@@ -33,7 +33,14 @@ module.exports = {
     // https://vue-loader.vuejs.org/en/options.html#cachebusting
     cacheBusting: true,
 
-    cssSourceMap: true
+    cssSourceMap: true,
+
+    // proxyTable: {
+    //   '/IBUS/': {
+    //     target: '//139.159.141.232:8080/IBUS/', // 真实请求的地址
+    //     changeOrigin: true, // 是否跨域
+    //   }
+    // }
   },
 
   build: {

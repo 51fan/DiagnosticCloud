@@ -188,6 +188,7 @@ export default {
       //this.selectedItem = this.userAnswerlist[this.currentIndex-1];
     },
     nextItem: function() {
+      debugger
       if (this.currentIndex == this.questionCounts) return;
       this.questionIndex++;
       this.currentIndex++;
@@ -231,14 +232,16 @@ export default {
       // });
     },
     pushAnswer: function(answer) {
-      this.userAnswer = answer[0].answer;
+      debugger
+      this.userAnswer = answer.answer;
       this.questionsAllList[this.questionIndex - 1].answered = this.userAnswer;
       this.savedata = {
-        questionId: answer[0].questionId,
+        questionId: answer.questionId,
         answer: this.userAnswer,
+        expectData:answer.expected,
         evaluationId: this.evaluationId,
         status: this.currentIndex == this.questionCounts ? 1 : 0,
-        idx: answer[0].idx
+        idx: answer.idx
       };
       //console.log(this.savedata)
     },

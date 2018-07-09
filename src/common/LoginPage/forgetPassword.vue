@@ -129,7 +129,7 @@
   width: 100%;
   padding: 5%;
   border: 1px solid lightgray;
-  background-color: rgba(211, 211, 211, 0.28);
+  /* background-color: rgba(211, 211, 211, 0.28); */
 }
 </style>
 

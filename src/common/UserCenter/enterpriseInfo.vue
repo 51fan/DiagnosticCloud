@@ -341,6 +341,22 @@ export default {
     upadteSrc: "",
     disable: false
   }),
+  mounted:function (){
+      let _this = this,
+        apikey = "",
+        request = {
+          
+        };
+      _this.$http.post("/IBUS/DAIG_SYS/getTestInfo",{
+          apikey,
+          request
+      }).then(res=>{
+          debugger;
+          console.log(res)
+      }).catch(err=>{
+          console.log(err)
+      });
+  },
   methods: {
     updateLogo(e) {
       let _this = this;

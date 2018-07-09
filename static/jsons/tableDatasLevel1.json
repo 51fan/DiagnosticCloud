@@ -3,6 +3,7 @@
   "errorMsg": "获取ok",
   "return": [{
     "lev": "制造维度",
+    "expectScore":"9",
     "score": 6,
     "name": "制造维度",
     "total": 10,
@@ -12,6 +13,7 @@
   }, {
     "lev": "智能维度",
     "score": 5,
+    "expectScore": "9",
     "name": "智能维度",
     "total": 10,
     "lose": 5,

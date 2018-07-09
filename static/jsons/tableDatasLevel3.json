@@ -3,6 +3,7 @@
   "errorMsg": "获取ok",
   "return": [{
     "lev": "采购",
+    "expectScore": "4",
     "score": 0,
     "name": "采购",
     "total": 5,
@@ -11,6 +12,7 @@
     "losePercent": 1
   }, {
     "lev": "应用集成",
+    "expectScore": "4",
     "score": 5,
     "name": "应用集成",
     "total": 10,
@@ -19,6 +21,7 @@
     "losePercent": 0.5
   }, {
     "lev": "计划与调度",
+    "expectScore": "19",
     "score": 0,
     "name": "计划与调度",
     "total": 20,
@@ -27,6 +30,7 @@
     "losePercent": 1
   }, {
     "lev": "生产作业",
+    "expectScore": "19",
     "score": 0,
     "name": "生产作业",
     "total": 20,
@@ -35,6 +39,7 @@
     "losePercent": 1
   }, {
     "lev": "仓库与配送",
+    "expectScore": "19",
     "score": 0,
     "name": "仓库与配送",
     "total": 20,
@@ -43,6 +48,7 @@
     "losePercent": 1
   }, {
     "lev": "个性化定制",
+    "expectScore": "19",
     "score": 0,
     "name": "个性化定制",
     "total": 20,
