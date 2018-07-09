@@ -90,9 +90,13 @@ export default {
   mounted: function() {
     if (this.question.answered) {
       this.currentChooseObj = this.question.answered - 1;
-    }
+    };
+    if (this.question.answered) {
+      this.currentexpertObj = this.question.expected - 1;
+    };
     //if()
     this.chooseObj = this.currentChooseObj;
+    this.expertObj = this.currentexpertObj;
   },
   methods: {
     // selectAnswer: function(index) {
@@ -117,8 +121,8 @@ export default {
       //当前实际选中的选项
       this.currentChooseObj = newvalue + 1;
       this.answer.questionId = this.question.id;
-      this.answer.expected = this.expertObj;
-      this.answer.answer = this.chooseObj;
+      this.answer.expected = this.expertObj+1;
+      this.answer.answer = this.chooseObj+1;
       this.answer.idx = this.question.idx;
 
       //给父组件传值
@@ -129,8 +133,8 @@ export default {
       //当前期望选中的选项
       this.currentexpertObj = newvalue + 1;
       this.answer.questionId = this.question.id;
-      this.answer.expected = this.expertObj;
-      this.answer.answer = this.chooseObj;
+      this.answer.expected = this.expertObj+1;
+      this.answer.answer = this.chooseObj+1;
       this.answer.idx = this.question.idx;
 
       //给父组件传值

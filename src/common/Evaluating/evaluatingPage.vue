@@ -188,7 +188,7 @@ export default {
       //this.selectedItem = this.userAnswerlist[this.currentIndex-1];
     },
     nextItem: function() {
-      debugger
+      debugger;
       if (this.currentIndex == this.questionCounts) return;
       this.questionIndex++;
       this.currentIndex++;
@@ -201,7 +201,7 @@ export default {
       this.questionsList.push(this.questionsAllList[this.questionIndex - 1]);
 
       //保存答案
-      this.userAnswerlist.push(this.savedata.answer);
+      this.userAnswerlist.push({answered:this.savedata.answer,expected:this.savedata.expectData});
 
       //保存答题选项
       //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
@@ -232,13 +232,14 @@ export default {
       // });
     },
     pushAnswer: function(answer) {
-      debugger
+      debugger;
       this.userAnswer = answer.answer;
       this.questionsAllList[this.questionIndex - 1].answered = this.userAnswer;
+      this.questionsAllList[this.questionIndex - 1].expected = answer.expected;
       this.savedata = {
         questionId: answer.questionId,
         answer: this.userAnswer,
-        expectData:answer.expected,
+        expectData: answer.expected,
         evaluationId: this.evaluationId,
         status: this.currentIndex == this.questionCounts ? 1 : 0,
         idx: answer.idx
