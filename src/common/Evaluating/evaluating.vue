@@ -1,34 +1,28 @@
 <template>
     <div style="overflow: hidden;">
-        <div  class="panelHeader">
-            <div class="panelHeaderTitle">
-                <h3>请选择你要测评的产品</h3>
-            </div>
-            <!-- 搜索栏 -->
-            <div style="width: 30%;margin-left: 35%;">
-                <md-field>
-                    <md-input v-model="searchKey" placeholder="关键字搜索"></md-input>
-                    <i class="material-icons">search</i>
-                </md-field>
-            </div>
-            <md-tabs>
-                <md-tab :md-label="category.name" v-for="category in categories" :category="category" :key="category.name" @click="categorySelectFun(category.name)"></md-tab>
-                <!-- <md-tab id="tab-all" md-label="全部"></md-tab>
-                <md-tab id="tab-vehicle" md-label="汽车行业"></md-tab>
-                <md-tab id="tab-3C" md-label="3C行业"></md-tab>
-                <md-tab id="tab-gov" md-label="政府机构"></md-tab>    -->
-            </md-tabs>
+        <div v-if="!showevaluatingPage">
+            <div  class="panelHeader">
+              <div class="panelHeaderTitle">
+                  <h3>请选择你要测评的产品</h3>
+              </div>
+              <!-- 搜索栏 -->
+              <div style="width: 30%;margin-left: 35%;">
+                  <md-field>
+                      <md-input v-model="searchKey" placeholder="关键字搜索"></md-input>
+                      <i class="material-icons">search</i>
+                  </md-field>
+              </div>
+              <md-tabs>
+                  <md-tab :md-label="category.name" v-for="category in categories" :category="category" :key="category.name" @click="categorySelectFun(category.name)"></md-tab>
+              </md-tabs>
+          </div>
+        
+          <div class="md-layout md-gutter  mypanel">
+              <EvaluationCard  class="md-layout-item md-size-25  md-medium-size-33 md-small-size-50 md-xsmall-size-100" v-for="evalution in evalutionLists" :evalution="evalution" :key="evalution.id"></EvaluationCard>
+          </div>
         </div>
-
-        <div class="md-layout md-gutter  mypanel">
-          <!-- <div  @click="beginEvaluation()" style="display:inline">
-            <EvaluationCard  class="md-layout-item md-size-25  md-medium-size-33 md-small-size-50 md-xsmall-size-100" v-for="evalution in evalutionLists" :evalution="evalution" :key="evalution.id"></EvaluationCard>
-          </div> -->
-            <EvaluationCard  class="md-layout-item md-size-25  md-medium-size-33 md-small-size-50 md-xsmall-size-100" v-for="evalution in evalutionLists" :evalution="evalution" :key="evalution.id"></EvaluationCard>
-            <!-- <EvaluationCard class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"></EvaluationCard>
-            <EvaluationCard class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"></EvaluationCard>
-            <EvaluationCard class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"></EvaluationCard>
-            <EvaluationCard class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100"></EvaluationCard> -->
+        <div v-if="showevaluatingPage">
+          <EvaluatingPage></EvaluatingPage>
         </div>
     </div>
 </template>
@@ -44,7 +38,7 @@
 
 .panelHeader {
   text-align: center;
-  padding: 10px 0px 0px;
+  padding: 0px;
   width: 80%;
   margin: 30px 10%;
   background-color: rgba(126, 207, 210, 0.7);
@@ -52,17 +46,19 @@
 
 .panelHeaderTitle {
   text-align: left;
-  padding: 0 3%;
+  padding: 1px 3%;
   font-size: x-large;
 }
 </style>
 <script>
 import EvaluationCard from "./evaluationsCards/evaluationCard.vue";
+import EvaluatingPage from "./evaluatingPage.vue";
 import Vue from "vue";
 import Axios from "axios";
 export default {
   components: {
-    EvaluationCard
+    EvaluationCard,
+    EvaluatingPage
   },
   data: () => ({
     searchKey: "",
@@ -77,35 +73,19 @@ export default {
   },
   mounted: function() {
     let apikey = "",
-      self = this,
-      request = {};
+      request = {},
+      type = "GET",
+      url = "/static/jsons/datas.json";
+    // type = "POST",
+    // url = "/IBUS/DAIG_SYS/getTestInfo";
     let param = {
       apikey,
       request
     };
-    self.$http
-      .get("/static/jsons/datas.json", {
-        apikey,
-        request
-      })
-      // .post("/IBUS/DAIG_SYS/getTestInfo", {
-      //   apikey,request
-      // })
-      .then(res => {
-        res.data.return.categories.forEach(item => {
-          self.categories.push({
-            name: item
-          });
-        });
-        self.evalutionLists = res.data.return.evaluations;
-        self.evalutionAllLists = res.data.return.evaluations;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.getCategory(type, url, param);
   },
   methods: {
-    categorySelectFun: function(name) {
+    categorySelectFun(name) {
       let self = this,
         targetArrays = [];
       if (name == "全部") {
@@ -120,6 +100,33 @@ export default {
         });
         self.evalutionLists = targetArrays;
       }
+    },
+    getCategory(type, url, param) {
+      let _this = this;
+      _this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          res.data.return.categories.forEach(item => {
+            _this.categories.push({
+              name: item
+            });
+          });
+          _this.evalutionLists = res.data.return.evaluations;
+          _this.evalutionAllLists = res.data.return.evaluations;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  },
+  computed: {
+    showevaluatingPage() {
+      // debugger
+      return this.$store.state.evlaluating.showevaluatingPage;
     }
   }
 };

@@ -1,12 +1,22 @@
 // initial state
-const state = {}
+const state = {
+  showevaluatingPage: false
+}
 
 // getters
-const getters = {}
+const getters = {
+  showevaluatingPage: state => {
+    return state.showevaluatingPage
+  },
+}
 
 const actions = {}
 
-const mutations = {}
+const mutations = {
+  changeShowevaluatingPage(state, value) {
+    state.showevaluatingPage = value
+  },
+}
 
 export default {
   namespaced: true,

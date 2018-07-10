@@ -430,7 +430,7 @@ export default {
   transition-property: color, background-color;
   will-change: color, background-color;
   width: 80%;
-  padding: 5%;
+  padding: 5% 5% 2%;
   border: 1px solid lightgray;
 }
 .title {

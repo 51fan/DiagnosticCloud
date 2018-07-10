@@ -1,6 +1,6 @@
 <template>
 <div class="page-container">
-    <!-- <md-app md-waterfall style="background-image:url('./static/imgs/bgblue.jpg');background-size:cover;"> -->
+    <!-- <md-app md-waterfall style="background-image:url('./static/imgs/bluecloud.jpg');background-size:cover;"> -->
     <md-app md-waterfall>
       <md-app-toolbar class="md-large md-dense md-transparent" style="background-color: #eee;" >
         <div class="md-toolbar-row">

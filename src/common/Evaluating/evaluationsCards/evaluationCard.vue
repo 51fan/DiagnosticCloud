@@ -42,6 +42,7 @@
 
 <script>
 import scoreStar from "../../../components/wheels/scoreStar.vue";
+
 export default {
   name: "EvaluationCard",
   components: {
@@ -62,7 +63,8 @@ export default {
   }),
   methods:{
     beginEvaluation:function () {
-      this.$router.push({path:'/evaluatingPage', query: {id:this.id, name:this.name}});
+      // this.$router.push({path:'/evaluatingPage', query: {id:this.id, name:this.name}});
+      this.$store.commit("evlaluating/changeShowevaluatingPage", true);
     }
   }
 };

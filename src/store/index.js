@@ -6,6 +6,8 @@ import loginPage from './modules/loginPage'
 import registerPage from './modules/registerPage'
 import UserCenter from './modules/UserCenter'
 
+//import actions from './actions'
+
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -15,6 +17,7 @@ const store = new Vuex.Store({
     loginPage,
     registerPage,
     UserCenter
-  }
+  },
+  //actions: {actions}
 })
 export default store;

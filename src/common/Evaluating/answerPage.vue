@@ -41,6 +41,7 @@
 .answerItem {
   padding: 5px 10px;
   cursor: pointer;
+  font-size: smaller;
 }
 .panelContentAnswer {
   padding: 15px;
@@ -54,7 +55,7 @@
   transition-property: color, background-color;
   will-change: color, background-color;
   width: 100%;
-  padding: 5%;
+  padding: 5% 5% 2%;
   border: 1px solid lightgray;
 }
 .selectAnswer {
@@ -90,10 +91,10 @@ export default {
   mounted: function() {
     if (this.question.answered) {
       this.currentChooseObj = this.question.answered - 1;
-    };
+    }
     if (this.question.answered) {
       this.currentexpertObj = this.question.expected - 1;
-    };
+    }
     //if()
     this.chooseObj = this.currentChooseObj;
     this.expertObj = this.currentexpertObj;
@@ -121,8 +122,8 @@ export default {
       //当前实际选中的选项
       this.currentChooseObj = newvalue + 1;
       this.answer.questionId = this.question.id;
-      this.answer.expected = this.expertObj+1;
-      this.answer.answer = this.chooseObj+1;
+      this.answer.expected = this.expertObj + 1;
+      this.answer.answer = this.chooseObj + 1;
       this.answer.idx = this.question.idx;
 
       //给父组件传值
@@ -133,8 +134,8 @@ export default {
       //当前期望选中的选项
       this.currentexpertObj = newvalue + 1;
       this.answer.questionId = this.question.id;
-      this.answer.expected = this.expertObj+1;
-      this.answer.answer = this.chooseObj+1;
+      this.answer.expected = this.expertObj + 1;
+      this.answer.answer = this.chooseObj + 1;
       this.answer.idx = this.question.idx;
 
       //给父组件传值

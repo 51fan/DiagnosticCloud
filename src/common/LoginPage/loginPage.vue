@@ -85,7 +85,6 @@ export default {
   }),
   computed: {
     menuVisible() {
-      // debugger
       return this.$store.state.home.menuVisible;
     },
     loginPage() {

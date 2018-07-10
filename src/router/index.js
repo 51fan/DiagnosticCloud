@@ -20,34 +20,21 @@ export default new Router({
       path: '/overview',
       name: 'overview',
       component: (resolve) => require(['../common/Home/overview.vue'], resolve)
-      // component: overview
     },
     {
       path: '/evaluating',
       name: 'evaluating',
       component: (resolve) => require(['../common/Evaluating/evaluating.vue'], resolve)
-      //component: evaluating
     },
     {
       path: '/example',
       name: 'example',
       component: (resolve) => require(['../common/Example/example.vue'], resolve)
-      //component: example
     },
     {
       path: '/expertTeam',
       name: 'expertTeam',
       component: (resolve) => require(['../common/ExpertTeam/expertTeam.vue'], resolve)
-      //component: expertTeam
-    },
-    {
-      path: '/evaluatingPage/',
-      name: 'evaluatingPage',
-      params: {
-        id: ""
-      },
-      component: (resolve) => require(['../common/Evaluating/evaluatingPage.vue'], resolve)
-      //component: evaluatingPage
     },
     {
       path: '/loginPage/',
@@ -56,7 +43,6 @@ export default new Router({
         id: ""
       },
       component: (resolve) => require(['../common/LoginPage/loginPage.vue'], resolve)
-      //component: evaluatingPage
     },
     {
       path: '/register/',
@@ -65,7 +51,6 @@ export default new Router({
         id: ""
       },
       component: (resolve) => require(['../common/RegisterPage/registerPage.vue'], resolve)
-      //component: evaluatingPage
     },
     {
       path: '/enterpriseInfo/',
@@ -74,7 +59,6 @@ export default new Router({
         id: ""
       },
       component: (resolve) => require(['../common/UserCenter/enterpriseInfo.vue'], resolve)
-      //component: evaluatingPage
     },
     {
       path: '/personalInfo/',
@@ -83,7 +67,6 @@ export default new Router({
         id: ""
       },
       component: (resolve) => require(['../common/UserCenter/personalInfo.vue'], resolve)
-      //component: evaluatingPage
     },
     {
       path: '/modifyPassword/',
@@ -92,7 +75,6 @@ export default new Router({
         id: ""
       },
       component: (resolve) => require(['../common/UserCenter/modifyPassword.vue'], resolve)
-      //component: evaluatingPage
     },
   ],
   // mode: "history"
