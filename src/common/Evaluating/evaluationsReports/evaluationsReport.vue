@@ -96,46 +96,6 @@
                             <md-table-cell>{{lev.scorePercent*100}}</md-table-cell>
                         </md-table-row>
                     </md-table>
-                    <!-- <md-table md-card>
-                        <md-table-row>
-                            <md-table-cell>产品设计</md-table-cell>
-                            <md-table-cell>100</md-table-cell>
-                            <md-table-cell>40</md-table-cell>
-                            <md-table-cell>60</md-table-cell>
-                            <md-table-cell>60%</md-table-cell>
-                        </md-table-row>
-
-                        <md-table-row>
-                            <md-table-cell>工艺设计</md-table-cell>
-                            <md-table-cell>100</md-table-cell>
-                            <md-table-cell>40</md-table-cell>
-                            <md-table-cell>60</md-table-cell>
-                            <md-table-cell>60%</md-table-cell>
-                        </md-table-row>
-
-                        <md-table-row>
-                            <md-table-cell>采购</md-table-cell>
-                            <md-table-cell>100</md-table-cell>
-                            <md-table-cell>40</md-table-cell>
-                            <md-table-cell>60</md-table-cell>
-                            <md-table-cell>60%</md-table-cell>
-                        </md-table-row>
-
-                        <md-table-row>
-                            <md-table-cell>计划与调度</md-table-cell>
-                            <md-table-cell>100</md-table-cell>
-                            <md-table-cell>40</md-table-cell>
-                            <md-table-cell>60</md-table-cell>
-                            <md-table-cell>60%</md-table-cell>
-                        </md-table-row>
-                        <md-table-row>
-                            <md-table-cell>生产作业</md-table-cell>
-                            <md-table-cell>100</md-table-cell>
-                            <md-table-cell>40</md-table-cell>
-                            <md-table-cell>60</md-table-cell>
-                            <md-table-cell>60%</md-table-cell>
-                        </md-table-row>
-                    </md-table> -->
                 </div>
             </div>
             <div style="padding: 20px 0;font-size: 1.5em;">
@@ -232,21 +192,21 @@ export default {
     }
   }),
   mounted: function() {
-    let self = this;
+    let _this = this;
     setTimeout(function() {
-      let time = self.reportParm.datas.testTime,
+      let time = _this.reportParm.datas.testTime,
         apikey = "",
         request = {
-          evaluationId: self.reportParm.evaluationId,
+          evaluationId: _this.reportParm.evaluationId,
           idx: self.reportParm.idx,
           level: 1
         };
       time = time.slice(0, 10);
-      self.date = time;
-      self.getLevel1Datas();
-      self.getLevel2Datas();
-      self.getLevel3Datas();
-      //console.log(self.reportParm);
+      _this.date = time;
+      _this.getLevel1Datas();
+      _this.getLevel2Datas();
+      _this.getLevel3Datas();
+      //console.log(_this.reportParm);
     });
   },
   methods: {
@@ -289,14 +249,6 @@ export default {
           } else {
             self.showRadar = false;
             self.showBar = true;
-
-            // let chartData= {
-            //     columns: ['标题', '当前', '期望'],
-            //     rows: [
-            //         { '标题': '智能维度', '当前': 1393, '期望': 1093,  },
-            //         { '标题': '制造维度', '当前': 3530, '期望': 3230,  },
-            //     ]
-            // }
 
             let showData = [];
             self.reportParm.level1.forEach(lev => {

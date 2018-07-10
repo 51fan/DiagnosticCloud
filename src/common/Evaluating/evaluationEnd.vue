@@ -1,6 +1,6 @@
 <template>
     <div class="concent">
-        <i class="material-icons md-size-5x" style="color: limegreen">check_circle</i>
+       <i class="material-icons md-size-5x" style="color: limegreen">check_circle</i>
        <div style="padding: 10px;font-size: x-large;">
             评测完成
        </div>
@@ -24,23 +24,22 @@ export default {
   data: () => ({}),
   methods: {
     viewReport: function() {
-    
-    //   let apikey = "",
-    //     self = this,
-    //     request = {
-    //         evaluationId:"",
+      //   let apikey = "",
+      //     self = this,
+      //     request = {
+      //         evaluationId:"",
 
-    //     };
+      //     };
       //接口给后台传 试卷ID和评价主表ID，请求报告数据
-    //   this.$http
-    //     .get("/static/jsons/sorce.json", {
-    //       apikey,
-    //       request
-    //     })
-    //     .then(res => {
-          
-    //     });
-    this.$emit("viewfinishedReport", true);
+      //   this.$http
+      //     .get("/static/jsons/sorce.json", {
+      //       apikey,
+      //       request
+      //     })
+      //     .then(res => {
+
+      //     });
+      this.$emit("viewfinishedReport", true);
     }
   }
 };

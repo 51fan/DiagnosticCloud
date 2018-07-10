@@ -65,6 +65,8 @@ export default {
     beginEvaluation:function () {
       // this.$router.push({path:'/evaluatingPage', query: {id:this.id, name:this.name}});
       this.$store.commit("evlaluating/changeShowevaluatingPage", true);
+      this.$store.commit("evlaluating/getCurrentEvaluationName", this.name);
+      this.$store.commit("evlaluating/getCurrentEvaluationId", this.id);
     }
   }
 };

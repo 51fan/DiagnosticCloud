@@ -39,41 +39,26 @@ export default new Router({
     {
       path: '/loginPage/',
       name: 'loginPage',
-      params: {
-        id: ""
-      },
       component: (resolve) => require(['../common/LoginPage/loginPage.vue'], resolve)
     },
     {
       path: '/register/',
       name: 'register',
-      params: {
-        id: ""
-      },
       component: (resolve) => require(['../common/RegisterPage/registerPage.vue'], resolve)
     },
     {
       path: '/enterpriseInfo/',
       name: 'enterpriseInfo',
-      params: {
-        id: ""
-      },
       component: (resolve) => require(['../common/UserCenter/enterpriseInfo.vue'], resolve)
     },
     {
       path: '/personalInfo/',
       name: 'personalInfo',
-      params: {
-        id: ""
-      },
       component: (resolve) => require(['../common/UserCenter/personalInfo.vue'], resolve)
     },
     {
       path: '/modifyPassword/',
       name: 'modifyPassword',
-      params: {
-        id: ""
-      },
       component: (resolve) => require(['../common/UserCenter/modifyPassword.vue'], resolve)
     },
   ],

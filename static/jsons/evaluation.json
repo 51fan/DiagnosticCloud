@@ -10,7 +10,6 @@
     "level1": "制造维度",
     "level2": "生产",
     "level3": "采购",
-    "answered": 1,
     "idx": 1
   }, {
     "id": 110,
@@ -29,7 +28,6 @@
     "level1": "制造维度",
     "level2": "生产",
     "level3": "计划与调度",
-    "answered": 5,
     "idx": 1
   }, {
     "id": 73,
@@ -57,7 +55,6 @@
     "level1": "制造维度",
     "level2": "生产",
     "level3": "采购",
-    "answered": 1,
     "idx": 1
   }, {
     "id": 87,

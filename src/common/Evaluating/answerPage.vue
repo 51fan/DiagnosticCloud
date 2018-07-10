@@ -12,7 +12,7 @@
             <div class="answerItem" v-for="(item, index) in  question.answerLists" :key="item" style="width100%">
                  <md-radio  v-model="expertObj" :value="index" style="width:5%"></md-radio>
                  <md-radio class="md-primary" v-model="chooseObj" :value="index" style="width:5%"></md-radio>
-                 <span>{{index+1}}、{{item}}</span>
+                 <div style="display: inline-flex;width: 80%;">{{index+1}}、{{item}}</div>
             </div>
         </div>
     </div>
@@ -75,18 +75,19 @@
 export default {
   props: ["question"],
   data: () => ({
-    chooseObj: "",
-    expertObj: "",
+    // chooseObj: "",
+    // expertObj: "",
     isSelected: false,
-    currentChooseObj: 9,
-    currentexpertObj: 9,
+    // currentChooseObj: "",
+    // currentexpertObj: "",
     answer: {
       questionId: "",
       expected: "",
       answer: "",
       evaluationId: "",
       idx: ""
-    }
+    },
+    tips: ["完成当前题目后才能进入下一题！"]
   }),
   mounted: function() {
     if (this.question.answered) {
@@ -99,30 +100,15 @@ export default {
     this.chooseObj = this.currentChooseObj;
     this.expertObj = this.currentexpertObj;
   },
-  methods: {
-    // selectAnswer: function(index) {
-    //   // debugger;
-    //   this.currentChooseObj = index;
-    //   this.answer.push({
-    //     questionId: this.question.id,
-    //     expected: this.expertObj,
-    //     //answer: this.currentChooseObj + 1,
-    //     answer: this.chooseObj,
-    //     evaluationId: "",
-    //     idx: this.question.idx
-    //   });
-    //   this.chooseObj = index;
-    //   //给父组件传值
-    //   this.$emit("selectedAnswer", this.answer);
-    // }
-  },
+  methods: {},
   watch: {
     chooseObj: function(newvalue, oldvalue) {
-      debugger;
+      // debugger;
       //当前实际选中的选项
-      this.currentChooseObj = newvalue + 1;
+      if (newvalue == NaN) return;
+      //this.currentChooseObj = newvalue + 1;
       this.answer.questionId = this.question.id;
-      this.answer.expected = this.expertObj + 1;
+      //this.answer.expected = this.expertObj + 1;
       this.answer.answer = this.chooseObj + 1;
       this.answer.idx = this.question.idx;
 
@@ -130,16 +116,35 @@ export default {
       this.$emit("selectedAnswer", this.answer);
     },
     expertObj: function(newvalue, oldvalue) {
-      debugger;
+      // debugger;
       //当前期望选中的选项
-      this.currentexpertObj = newvalue + 1;
+      if (newvalue == NaN) return;
+      //this.currentexpertObj = newvalue + 1;
       this.answer.questionId = this.question.id;
       this.answer.expected = this.expertObj + 1;
-      this.answer.answer = this.chooseObj + 1;
+      //this.answer.answer = this.chooseObj + 1;
       this.answer.idx = this.question.idx;
 
       //给父组件传值
       this.$emit("selectedAnswer", this.answer);
+    }
+  },
+  computed: {
+    chooseObj: {
+      get: function() {
+        return this.$store.state.evlaluating.answerPage.chooseObj;
+      },
+      set: function(newValue) {
+        this.$store.state.evlaluating.answerPage.chooseObj = newValue;
+      }
+    },
+    expertObj: {
+      get: function() {
+        return this.$store.state.evlaluating.answerPage.expertObj;
+      },
+      set: function(newValue) {
+        this.$store.state.evlaluating.answerPage.expertObj = newValue;
+      }
     }
   }
 };

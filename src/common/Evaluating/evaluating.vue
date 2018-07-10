@@ -72,12 +72,13 @@ export default {
     //evalution:Object
   },
   mounted: function() {
+    this.$store.commit("evlaluating/changeShowevaluatingPage", false);
     let apikey = "",
       request = {},
       type = "GET",
       url = "/static/jsons/datas.json";
-    // type = "POST",
-    // url = "/IBUS/DAIG_SYS/getTestInfo";
+      // type = "POST",
+      // url = "/IBUS/DAIG_SYS/getTestInfo";
     let param = {
       apikey,
       request
@@ -125,8 +126,7 @@ export default {
   },
   computed: {
     showevaluatingPage() {
-      // debugger
-      return this.$store.state.evlaluating.showevaluatingPage;
+      return this.$store.state.evlaluating.evlaluating.showevaluatingPage;
     }
   }
 };

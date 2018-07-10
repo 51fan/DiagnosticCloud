@@ -32,6 +32,12 @@
                 <div class="panelContentbodyRight" @click="nextItem()">
                     <md-icon class="md-size-5x"  >keyboard_arrow_right</md-icon>
                 </div>
+                <md-dialog-alert
+                class="md-primary md-raised"
+                  :md-active.sync="showAlert"
+                  md-title="注意!"
+                  md-content="请完成当前答题后再进入下一题"
+                  md-confirm-text="明白!" />
             </div>
         </div>
 
@@ -120,6 +126,7 @@ export default {
   },
   props: [],
   data: () => ({
+    showAlert: false,
     second: false,
     evaluationId: "",
     name: "",
@@ -149,31 +156,27 @@ export default {
   created: function() {},
   mounted: function() {
     let apikey = "",
-      self = this,
-      request = {};
-
-    self.evaluationId = this.$route.query.id;
-    self.name = this.$route.query.name;
-    self.reportParm.name = this.$route.query.name;
-    self.reportParm.evaluationId = this.$route.query.id;
-    //self.evaluationName = self.name
-    request.id = self.evaluationId;
-    self.$http
-      .get("/static/jsons/evaluation.json", {
+      request = {
+        id: this.currentEvaluationId
+      },
+      url = "/static/jsons/evaluation.json",
+      type = "GET",
+      // url = "/IBUS/DAIG_SYS/getQuestion",
+      // type = "POST",
+      param = {
         apikey,
         request
-      })
-      .then(res => {
-        //console.log(res.data.return)
-        //debugger;
-        self.questionsAllList = res.data.return;
-        self.questionCounts = res.data.count;
-        self.questionsList.push(self.questionsAllList[self.questionIndex - 1]);
-        //console.log(self.questionsList);
-      });
+      };
+
+    this.evaluationId = this.currentEvaluationId;
+    this.name = this.currentEvaluationName;
+    this.reportParm.name = this.currentEvaluationName;
+    this.reportParm.evaluationId = this.currentEvaluationId;
+
+    this.getQuestionData(type, url, param);
   },
   methods: {
-    preItem: function() {
+    preItem() {
       if (this.currentIndex == 1) return;
       this.questionIndex--;
       this.currentIndex--;
@@ -187,52 +190,71 @@ export default {
       //console.log(this.savedata)
       //this.selectedItem = this.userAnswerlist[this.currentIndex-1];
     },
-    nextItem: function() {
-      debugger;
-      if (this.currentIndex == this.questionCounts) return;
-      this.questionIndex++;
-      this.currentIndex++;
-
-      //更新进度条
-      this.fillValue = this.currentIndex / this.questionCounts * 100;
-
-      this.questionsList = [];
-      //this.questionsAllList[this.questionIndex - 2].answered? this.questionsAllList[this.questionIndex - 2].answered= this.savedata.answer:this.questionsAllList[this.questionIndex - 2].answered= this.savedata.answer;
-      this.questionsList.push(this.questionsAllList[this.questionIndex - 1]);
-
-      //保存答案
-      this.userAnswerlist.push({answered:this.savedata.answer,expected:this.savedata.expectData});
-
-      //保存答题选项
-      //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
-      this.idx = this.questionsList[0].idx;
-      this.reportParm.idx = this.questionsList[0].idx;
+    nextItem() {
       let apikey = "",
-        self = this,
-        request = {
-          evaluationId: this.evaluationId,
-          idx: this.idx
-        };
-      //this.$http.post("",{apikey,request}).then();
+        _this = this;
+      if (_this.currentIndex == _this.questionCounts) return;
+      if (_this.savedata.answer && _this.savedata.expectData) {
+        _this.questionIndex++;
+        _this.currentIndex++;
+
+        //更新进度条
+        _this.fillValue = _this.currentIndex / _this.questionCounts * 100;
+
+        _this.questionsList = [];
+        _this.questionsList.push(
+          _this.questionsAllList[_this.questionIndex - 1]
+        );
+
+        //保存答案
+        _this.userAnswerlist.push({
+          answered: _this.savedata.answer,
+          expected: _this.savedata.expectData
+        });
+
+        //保存答题选项
+        //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
+        _this.idx = _this.questionsList[0].idx;
+        _this.reportParm.idx = _this.questionsList[0].idx;
+
+        // let request = {
+        //     evaluationId: _this.evaluationId,
+        //     idx: _this.idx
+        //   },
+        let request = _this.savedata,
+          type = "POST",
+          url = "/IBUS/DAIG_SYS/addAnswer",
+          param = {
+            apikey,
+            request
+          };
+        _this.addAnswerFun(type, url, param);
+        // _this.savedata.answer = "";
+        // _this.savedata.expectData = "";
+        // this.$store.commit("evlaluating/getCurrentChooseObj", "");
+        // this.$store.commit("evlaluating/getCurrentexpertObj", "");
+      } else {
+        _this.showAlert = true;
+      }
     },
-    submit: function() {
-      //debugger;
-      // this.$router.push({path:'/evaluationEnd'});
+    submit() {
+      let apikey = "",
+        _this = this;
       this.evaluationStart = false;
       this.evaluationfinished = true;
       //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
-      let apikey = "",
-        self = this,
-        request = {
-          evaluationId: this.evaluationId,
-          idx: this.idx
-        };
-      // this.$http.post("",{apikey,request}).then(res=>{
 
-      // });
+      let request = _this.savedata,
+        type = "POST",
+        url = "/IBUS/DAIG_SYS/addAnswer",
+        param = {
+          apikey,
+          request
+        };
+      _this.addAnswerFun(type, url, param);
     },
-    pushAnswer: function(answer) {
-      debugger;
+    pushAnswer(answer) {
+      // debugger;
       this.userAnswer = answer.answer;
       this.questionsAllList[this.questionIndex - 1].answered = this.userAnswer;
       this.questionsAllList[this.questionIndex - 1].expected = answer.expected;
@@ -246,27 +268,97 @@ export default {
       };
       //console.log(this.savedata)
     },
-    isViewReport: function(bool) {
+    isViewReport(bool) {
       //debugger;
-      let self = this;
       let apikey = "";
       let request = {
-        evaluationId: self.evaluationId,
-        idx: self.idx
-      };
-      self.evaluationfinished = false;
-      self.isShowReport = bool;
+          evaluationId: this.evaluationId,
+          idx: this.idx
+        },
+        param = {
+          apikey,
+          request
+        },
+        // type = "GET",
+        // url = "/static/jsons/sorce.json";
+        type = "POST",
+        url = "/IBUS/DAIG_SYS/getTotalScoreInfo";
+
+      this.evaluationfinished = false;
+      this.isShowReport = bool;
       //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
 
-      self.$http
-        .get("/static/jsons/sorce.json", { apikey, request })
+      this.getTotalScoreInfo(type, url, param);
+    },
+    getQuestionData(type, url, param) {
+      let _this = this;
+      _this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          //debugger;
+          if (res.data.errorCode !== 0) {
+            console.log(res.data.errorMsg);
+            return;
+          }
+          _this.questionsAllList = res.data.return;
+          _this.questionCounts = res.data.count;
+          _this.questionsList.push(
+            _this.questionsAllList[_this.questionIndex - 1]
+          );
+          //console.log(self.questionsList);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    addAnswerFun(type, url, param) {
+      let _this = this;
+      _this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          //debugger;
+          // _this.savedata.answer = "";
+          // _this.savedata.expectData = "";
+          // this.$store.commit("evlaluating/getCurrentChooseObj", "");
+          // this.$store.commit("evlaluating/getCurrentexpertObj", "");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getTotalScoreInfo(type, url, param) {
+      let _this = this;
+      _this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
         .then(res => {
           //console.log(res)
           //debugger
           // self.reportParm.evaluationId = self.evaluationId;
           // self.reportParm.idx = self.idx;
-          self.reportParm.datas = res.data.return;
+          _this.reportParm.datas = res.data.return;
         });
+    }
+  },
+  computed: {
+    currentEvaluationName() {
+      // debugger
+      return this.$store.state.evlaluating.evlaluating.currentEvaluationName;
+    },
+    currentEvaluationId() {
+      // debugger
+      return this.$store.state.evlaluating.evlaluating.currentEvaluationId;
     }
   }
 };
