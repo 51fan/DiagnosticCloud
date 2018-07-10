@@ -145,6 +145,8 @@ export default {
     evaluationfinished: false,
     isShowReport: false,
     idx: "",
+    // currentAnswer:"",
+    // currentExpert:"",
     reportParm: {
       name: "",
       evaluationId: this.evaluationId,
@@ -186,7 +188,8 @@ export default {
 
       this.questionsList = [];
       this.questionsList.push(this.questionsAllList[this.questionIndex - 1]);
-
+      this.savedata.answer = this.questionsList[0].answered;
+      this.savedata.expectData = this.questionsList[0].expected;
       //console.log(this.savedata)
       //this.selectedItem = this.userAnswerlist[this.currentIndex-1];
     },
