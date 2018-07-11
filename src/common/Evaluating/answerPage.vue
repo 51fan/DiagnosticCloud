@@ -40,7 +40,7 @@
 }
 .answerItem {
   padding: 5px 10px;
-  cursor: pointer;
+  /* cursor: pointer; */
   font-size: smaller;
 }
 .panelContentAnswer {
@@ -75,8 +75,8 @@
 export default {
   props: ["question"],
   data: () => ({
-    // chooseObj: "",
-    // expertObj: "",
+    chooseObj: "",
+    expertObj: "",
     isSelected: false,
     // currentChooseObj: "",
     // currentexpertObj: "",
@@ -90,15 +90,21 @@ export default {
     tips: ["完成当前题目后才能进入下一题！"]
   }),
   mounted: function() {
-    if (this.question.answered) {
-      this.currentChooseObj = this.question.answered - 1;
+    // console.log(this.question);
+    this.chooseObj = "";
+    this.expertObj = "";
+    // console.log(this.question.answered);
+    // console.log(this.question.expected);
+    if (this.question.answered !== "") {
+      this.chooseObj = this.question.answered - 1;
     }
-    if (this.question.answered) {
-      this.currentexpertObj = this.question.expected - 1;
+    if (this.question.expected !== "") {
+      this.expertObj = this.question.expected - 1;
     }
-    //if()
-    this.chooseObj = this.currentChooseObj;
-    this.expertObj = this.currentexpertObj;
+    // console.log("answered:" + this.question.answered);
+    // console.log("expected:" + this.question.expected);
+    // this.chooseObj = this.currentChooseObj;
+    // this.expertObj = this.currentexpertObj;
   },
   methods: {},
   watch: {
@@ -129,24 +135,24 @@ export default {
       this.$emit("selectedAnswer", this.answer);
     }
   },
-  computed: {
-    chooseObj: {
-      get: function() {
-        return this.$store.state.evlaluating.answerPage.chooseObj;
-      },
-      set: function(newValue) {
-        this.$store.state.evlaluating.answerPage.chooseObj = newValue;
-      }
-    },
-    expertObj: {
-      get: function() {
-        return this.$store.state.evlaluating.answerPage.expertObj;
-      },
-      set: function(newValue) {
-        this.$store.state.evlaluating.answerPage.expertObj = newValue;
-      }
-    }
-  }
+  // computed: {
+  //   chooseObj: {
+  //     get: function() {
+  //       return this.$store.state.evlaluating.answerPage.chooseObj;
+  //     },
+  //     set: function(newValue) {
+  //       this.$store.state.evlaluating.answerPage.chooseObj = newValue;
+  //     }
+  //   },
+  //   expertObj: {
+  //     get: function() {
+  //       return this.$store.state.evlaluating.answerPage.expertObj;
+  //     },
+  //     set: function(newValue) {
+  //       this.$store.state.evlaluating.answerPage.expertObj = newValue;
+  //     }
+  //   }
+  // }
 };
 </script>
 

@@ -8,8 +8,15 @@ const state = {
   answerPage: {
     chooseObj: "",
     expertObj: "",
+  },
+  evaluatingPage:{
+    reportParm: {
+      name: "",
+      evaluationId: "",
+      idx: "",
+      datas: Object
+    }
   }
-
 }
 
 // getters
@@ -28,6 +35,9 @@ const getters = {
   },
   expertObj: state => {
     return state.answerPage.expertObj
+  },
+  reportParm: state => {
+    return state.evaluatingPage.reportParm
   },
 }
 
@@ -48,6 +58,9 @@ const mutations = {
   },
   getCurrentexpertObj(state, value) {
     state.answerPage.expertObj = value
+  },
+  getReportParm(state, value) {
+    state.evaluatingPage.reportParm[value.key] = value.value
   },
 }
 

@@ -24,6 +24,9 @@
         <div v-if="showevaluatingPage">
           <EvaluatingPage></EvaluatingPage>
         </div>
+        <div v-if="showmask">
+          <md-progress-spinner class="md-primary" md-mode="indeterminate"></md-progress-spinner>
+        </div>
     </div>
 </template>
 
@@ -66,7 +69,8 @@ export default {
     categories: [],
     evalutionLists: [],
     evalutionAllLists: [],
-    evalution: Object
+    evalution: Object,
+    showmask:false
   }),
   props: {
     //evalution:Object
@@ -75,10 +79,10 @@ export default {
     this.$store.commit("evlaluating/changeShowevaluatingPage", false);
     let apikey = "",
       request = {},
-      type = "GET",
-      url = "/static/jsons/datas.json";
-      // type = "POST",
-      // url = "/IBUS/DAIG_SYS/getTestInfo";
+      // type = "GET",
+      // url = "/static/jsons/datas.json";
+    type = "POST",
+    url = "/IBUS/DAIG_SYS/getTestInfo";
     let param = {
       apikey,
       request
@@ -104,6 +108,7 @@ export default {
     },
     getCategory(type, url, param) {
       let _this = this;
+      _this.showmask = true;
       _this
         .$http({
           method: type,
@@ -118,6 +123,7 @@ export default {
           });
           _this.evalutionLists = res.data.return.evaluations;
           _this.evalutionAllLists = res.data.return.evaluations;
+          _this.showmask = false;
         })
         .catch(error => {
           console.log(error);

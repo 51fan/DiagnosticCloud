@@ -35,9 +35,9 @@
                 <md-dialog-alert
                 class="md-primary md-raised"
                   :md-active.sync="showAlert"
-                  md-title="注意!"
+                  md-title="提示!"
                   md-content="请完成当前答题后再进入下一题"
-                  md-confirm-text="明白!" />
+                  md-confirm-text="知道了" />
             </div>
         </div>
 
@@ -144,15 +144,15 @@ export default {
     evaluationStart: true,
     evaluationfinished: false,
     isShowReport: false,
-    idx: "",
+    idx: ""
     // currentAnswer:"",
     // currentExpert:"",
-    reportParm: {
-      name: "",
-      evaluationId: this.evaluationId,
-      idx: this.idx,
-      datas: Object
-    }
+    // reportParm: {
+    //   name: "",
+    //   evaluationId: this.evaluationId,
+    //   idx: this.idx,
+    //   datas: Object
+    // }
     //selectedItem:9
   }),
   created: function() {},
@@ -161,10 +161,10 @@ export default {
       request = {
         id: this.currentEvaluationId
       },
-      url = "/static/jsons/evaluation.json",
-      type = "GET",
-      // url = "/IBUS/DAIG_SYS/getQuestion",
-      // type = "POST",
+      // url = "/static/jsons/evaluation.json",
+      // type = "GET",
+      url = "/IBUS/DAIG_SYS/getQuestion",
+      type = "POST",
       param = {
         apikey,
         request
@@ -172,8 +172,16 @@ export default {
 
     this.evaluationId = this.currentEvaluationId;
     this.name = this.currentEvaluationName;
-    this.reportParm.name = this.currentEvaluationName;
-    this.reportParm.evaluationId = this.currentEvaluationId;
+    this.$store.commit("evlaluating/getReportParm", {
+      key: "name",
+      value: this.currentEvaluationName
+    });
+    this.$store.commit("evlaluating/getReportParm", {
+      key: "evaluationId",
+      value: this.currentEvaluationId
+    });
+    // this.reportParm.name = this.currentEvaluationName;
+    // this.reportParm.evaluationId = this.currentEvaluationId;
 
     this.getQuestionData(type, url, param);
   },
@@ -194,67 +202,17 @@ export default {
       //this.selectedItem = this.userAnswerlist[this.currentIndex-1];
     },
     nextItem() {
-      let apikey = "",
-        _this = this;
-      if (_this.currentIndex == _this.questionCounts) return;
-      if (_this.savedata.answer && _this.savedata.expectData) {
-        _this.questionIndex++;
-        _this.currentIndex++;
-
-        //更新进度条
-        _this.fillValue = _this.currentIndex / _this.questionCounts * 100;
-
-        _this.questionsList = [];
-        _this.questionsList.push(
-          _this.questionsAllList[_this.questionIndex - 1]
-        );
-
-        //保存答案
-        _this.userAnswerlist.push({
-          answered: _this.savedata.answer,
-          expected: _this.savedata.expectData
-        });
-
-        //保存答题选项
-        //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
-        _this.idx = _this.questionsList[0].idx;
-        _this.reportParm.idx = _this.questionsList[0].idx;
-
-        // let request = {
-        //     evaluationId: _this.evaluationId,
-        //     idx: _this.idx
-        //   },
-        let request = _this.savedata,
-          type = "POST",
-          url = "/IBUS/DAIG_SYS/addAnswer",
-          param = {
-            apikey,
-            request
-          };
-        _this.addAnswerFun(type, url, param);
-        // _this.savedata.answer = "";
-        // _this.savedata.expectData = "";
-        // this.$store.commit("evlaluating/getCurrentChooseObj", "");
-        // this.$store.commit("evlaluating/getCurrentexpertObj", "");
-      } else {
-        _this.showAlert = true;
-      }
+      let apikey = "";
+      if (this.currentIndex == this.questionCounts) return;
+      this.addAnswerFun();
     },
     submit() {
-      let apikey = "",
-        _this = this;
+      let apikey = "";
       this.evaluationStart = false;
       this.evaluationfinished = true;
       //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
 
-      let request = _this.savedata,
-        type = "POST",
-        url = "/IBUS/DAIG_SYS/addAnswer",
-        param = {
-          apikey,
-          request
-        };
-      _this.addAnswerFun(type, url, param);
+      this.addAnswerFun();
     },
     pushAnswer(answer) {
       // debugger;
@@ -269,7 +227,8 @@ export default {
         status: this.currentIndex == this.questionCounts ? 1 : 0,
         idx: answer.idx
       };
-      //console.log(this.savedata)
+      // console.log("savedata");
+      // console.log(this.savedata);
     },
     isViewReport(bool) {
       //debugger;
@@ -312,15 +271,15 @@ export default {
           _this.questionsList.push(
             _this.questionsAllList[_this.questionIndex - 1]
           );
-          //console.log(self.questionsList);
+          // console.log(_this.questionsList);
         })
         .catch(err => {
           console.log(err);
         });
     },
-    addAnswerFun(type, url, param) {
-      let _this = this;
-      _this
+    addAnswerFunService(type, url, param) {
+      let self = this;
+      self
         .$http({
           method: type,
           url: url,
@@ -328,8 +287,8 @@ export default {
         })
         .then(res => {
           //debugger;
-          // _this.savedata.answer = "";
-          // _this.savedata.expectData = "";
+          // self.savedata.answer = "";
+          // self.savedata.expectData = "";
           // this.$store.commit("evlaluating/getCurrentChooseObj", "");
           // this.$store.commit("evlaluating/getCurrentexpertObj", "");
         })
@@ -337,31 +296,92 @@ export default {
           console.log(err);
         });
     },
-    getTotalScoreInfo(type, url, param) {
-      let _this = this;
-      _this
-        .$http({
-          method: type,
-          url: url,
-          data: param
-        })
-        .then(res => {
-          //console.log(res)
-          //debugger
-          // self.reportParm.evaluationId = self.evaluationId;
-          // self.reportParm.idx = self.idx;
-          _this.reportParm.datas = res.data.return;
+    addAnswerFun() {
+      if (
+        this.savedata.answer &&
+        this.savedata.answer !== "" &&
+        this.savedata.expectData &&
+        this.savedata.expectData !== ""
+      ) {
+        if (this.currentIndex < this.questionCounts) {
+          this.questionIndex++;
+          this.currentIndex++;
+        } else {
+          this.savedata.status = 1;
+        }
+
+        //更新进度条
+        this.fillValue = this.currentIndex / this.questionCounts * 100;
+
+        this.questionsList = [];
+        this.questionsList.push(this.questionsAllList[this.questionIndex - 1]);
+
+        // console.log(this.questionsList);
+        //保存答案
+        this.userAnswerlist.push({
+          answered: this.savedata.answer,
+          expected: this.savedata.expectData
         });
-    }
+
+        //保存答题选项
+        //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
+        this.idx = this.questionsList[0].idx;
+        this.$store.commit("evlaluating/getReportParm", {
+          key: "idx",
+          value: this.questionsList[0].idx
+        });
+        // this.reportParm.idx = this.questionsList[0].idx;
+
+        // let request = {
+        //     evaluationId: _this.evaluationId,
+        //     idx: _this.idx
+        //   },
+        let request = this.savedata,
+          apikey = "",
+          type = "POST",
+          url = "/IBUS/DAIG_SYS/addAnswer",
+          param = {
+            apikey,
+            request
+          };
+        this.addAnswerFunService(type, url, param);
+        // _this.savedata.answer = "";
+        // _this.savedata.expectData = "";
+        // this.$store.commit("evlaluating/getCurrentChooseObj", "");
+        // this.$store.commit("evlaluating/getCurrentexpertObj", "");
+      } else {
+        this.showAlert = true;
+      }
+    },
+    getTotalScoreInfo(type, url, param) {
+      let $this = this;
+      this.$http({
+        method: type,
+        url: url,
+        data: param
+      }).then(res => {
+        //console.log(res)
+        //debugger
+        // self.reportParm.evaluationId = self.evaluationId;
+        // self.reportParm.idx = self.idx;
+        // self.reportParm.datas = res.data.return;
+
+        $this.$store.commit("evlaluating/getReportParm", {
+          key: "datas",
+          value: res.data.return
+        });
+      });
+    },
   },
   computed: {
     currentEvaluationName() {
-      // debugger
       return this.$store.state.evlaluating.evlaluating.currentEvaluationName;
     },
     currentEvaluationId() {
-      // debugger
       return this.$store.state.evlaluating.evlaluating.currentEvaluationId;
+    },
+    reportParm() {
+      return this.$store.state.evlaluating.evaluatingPage.reportParm;
     }
   }
 };

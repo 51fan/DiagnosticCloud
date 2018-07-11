@@ -144,7 +144,7 @@ export default {
     VCharts
   },
   name: "evaluationsReport",
-  props: ["reportParm"],
+  // props: ["reportParm"],
   data: () => ({
     date: String,
     showLevel1Table: true,
@@ -192,51 +192,53 @@ export default {
     }
   }),
   mounted: function() {
-    let _this = this;
-    setTimeout(function() {
-      let time = _this.reportParm.datas.testTime,
-        apikey = "",
-        request = {
-          evaluationId: _this.reportParm.evaluationId,
-          idx: self.reportParm.idx,
-          level: 1
-        };
+    var time = this.reportParm.datas.testTime,
       time = time.slice(0, 10);
-      _this.date = time;
-      _this.getLevel1Datas();
-      _this.getLevel2Datas();
-      _this.getLevel3Datas();
-      //console.log(_this.reportParm);
-    });
+    this.date = time;
+    var request = {
+      evaluationId: this.reportParm.evaluationId,
+      idx: this.reportParm.idx,
+      level: 1
+    };
+    var apikey = "";
+    var param = {
+      apikey,
+      request
+    };
+    //var type = "GET";
+    //var url = "/static/jsons/tableDatasLevel1.json";
+    var type = "post";
+    var url = "/IBUS/DAIG_SYS/getLevelInfo";
+    this.getLevel1Datas(type, url, param);
   },
   methods: {
-    getLevel1Datas: function() {
-      let self = this,
-        apikey = "",
-        request = {
-          evaluationId: self.reportParm.evaluationId,
-          idx: self.reportParm.idx,
-          level: 1
-        };
-
-      self.$http
-        .get("/static/jsons/tableDatasLevel1.json", { apikey, request })
-        .then(res => {
-          //debugger;
-          self.reportParm.level1 = res.data.return;
-          //console.log(self.reportParm);
-          console.log(self.reportParm.level1);
+    getLevel1Datas: function(type, url, param) {
+      var $this = this;
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(result => {
+          // $this.reportParm.level1 = res.data.return;
+          $this.$store.commit("evlaluating/getReportParm", {
+            key: "level1",
+            value: result.data.level
+          });
+          console.log(result.data.level);
+          console.log($this.reportParm.level1.length);
           //如果第一维度小于2个，就用条形图显示，大于2就用雷达图显示
-          if (self.reportParm.level1.length > 2) {
-            self.showRadar = true;
-            self.showBar = false;
-            self.reportParm.level1.forEach(item => {
-              self.chartData1.columns.push(item.name);
+          if ($this.reportParm.level1.length > 2) {
+            $this.showRadar = true;
+            $this.showBar = false;
+            $this.reportParm.level1.forEach(item => {
+              $this.chartData1.columns.push(item.name);
             });
-            let currentData = { 标题: "当前" },
+            var currentData = { 标题: "当前" },
               expertData = { 标题: "期望" };
-            self.chartData1.columns.forEach(colum => {
-              self.reportParm.level1.forEach(lev => {
+            $this.chartData1.columns.forEach(colum => {
+              $this.reportParm.level1.forEach(lev => {
                 if (lev.name == colum) {
                   currentData[colum] = lev.scorePercent * 100;
                   expertData[colum] = 100;
@@ -244,16 +246,16 @@ export default {
               });
             });
 
-            self.chartData1.rows.push(currentData);
-            self.chartData1.rows.push(expertData);
+            $this.chartData1.rows.push(currentData);
+            $this.chartData1.rows.push(expertData);
           } else {
-            self.showRadar = false;
-            self.showBar = true;
+            $this.showRadar = false;
+            $this.showBar = true;
 
-            let showData = [];
-            self.reportParm.level1.forEach(lev => {
-              let arry = {};
-              self.chartDatabar.columns.forEach(colum => {
+            var showData = [];
+            $this.reportParm.level1.forEach(lev => {
+              var arry = {};
+              $this.chartDatabar.columns.forEach(colum => {
                 //debugger;
 
                 if (colum == "标题") {
@@ -267,31 +269,45 @@ export default {
               showData.push(arry);
             });
 
-            self.chartDatabar.rows = showData;
+            $this.chartDatabar.rows = showData;
+            $this.getLevel2Datas();
           }
-        })
-        .catch(error => {
-          console.log(error);
         });
     },
     getLevel2Datas: function() {
-      let self = this,
-        apikey = "",
-        request = {
+      var self = this;
+      var request = {
           evaluationId: self.reportParm.evaluationId,
           idx: self.reportParm.idx,
           level: 2
-        };
+        },
+        apikey = "",
+        param = {
+          apikey,
+          request
+        },
+        // type = "GET",
+        // url = "/static/jsons/tableDatasLevel2.json";
+        type = "POST",
+        url = "/IBUS/DAIG_SYS/getLevelInfo";
 
-      self.$http
-        .get("/static/jsons/tableDatasLevel2.json", { apikey, request })
-        .then(res => {
-          self.reportParm.level2 = res.data.return;
-          //console.log(self.reportParm);
+      self
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(result => {
+          // self.reportParm.level2 = res.data.level;
+          self.$store.commit("evlaluating/getReportParm", {
+            key: "level2",
+            value: result.data.level
+          });
+          // console.log(self.reportParm.level2);
           self.reportParm.level2.forEach(item => {
             self.chartData2.columns.push(item.name);
           });
-          let currentData = { 标题: "当前" },
+          var currentData = { 标题: "当前" },
             expertData = { 标题: "期望" };
           self.chartData2.columns.forEach(colum => {
             self.reportParm.level2.forEach(lev => {
@@ -304,29 +320,47 @@ export default {
 
           self.chartData2.rows.push(currentData);
           self.chartData2.rows.push(expertData);
+          self.getLevel3Datas();
         })
         .catch(error => {
           console.log(error);
         });
     },
     getLevel3Datas: function() {
-      let self = this,
-        apikey = "",
-        request = {
+      var self = this;
+      var request = {
           evaluationId: self.reportParm.evaluationId,
           idx: self.reportParm.idx,
           level: 3
-        };
+        },
+        apikey = "",
+        param = {
+          apikey,
+          request
+        },
+        // type = "GET",
+        // url = "/static/jsons/tableDatasLevel3.json";
+        type = "POST",
+        url = "/IBUS/DAIG_SYS/getLevelInfo";
 
-      self.$http
-        .get("/static/jsons/tableDatasLevel3.json", { apikey, request })
-        .then(res => {
-          self.reportParm.level3 = res.data.return;
-          //console.log(self.reportParm);
+      self
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(result => {
+          // self.reportParm.level3 = res.data;
+          self.$store.commit("evlaluating/getReportParm", {
+            key: "level3",
+            value: result.data.level
+          });
+
+          console.log(self.reportParm.level3);
           self.reportParm.level3.forEach(item => {
             self.chartData3.columns.push(item.name);
           });
-          let currentData = { 标题: "当前" },
+          var currentData = { 标题: "当前" },
             expertData = { 标题: "期望" };
           self.chartData3.columns.forEach(colum => {
             self.reportParm.level3.forEach(lev => {
@@ -362,6 +396,11 @@ export default {
         this.showLevel3Table = true;
         this.$refs.tab3radar1.echarts.resize();
       }
+    }
+  },
+  computed: {
+    reportParm() {
+      return this.$store.state.evlaluating.evaluatingPage.reportParm;
     }
   }
 };
