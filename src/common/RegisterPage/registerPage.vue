@@ -26,13 +26,29 @@
                     </md-field>
                 </div>
                 <div style="width: 100%;text-align: center;">
-                    <md-field style="width: 308px;display: inline-flex;" :class="VCMessageClass">
-                        <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(5)" @click="showTips(5)"></md-input>
-                        <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
-                        <span class="md-error" v-if="showVCError">短信验证码错误</span>
-                    </md-field>
-                    <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode()">获取验证码</md-button>
+                    <div v-if="!showCount">
+                        <md-field style="width: 51%;display: inline-flex;" :class="VCMessageClass">
+                            <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(5)" @click="showTips(5)"></md-input>
+                            <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
+                            <span class="md-error" v-if="showVCError">短信验证码错误</span>
+                        </md-field>
+                        <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode()">{{verftext}}</md-button>
+                    </div>
+                    <div v-if="showCount">
+                        <md-field style="width: 30%;display: inline-flex;" :class="VCMessageClass">
+                            <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(5)" @click="showTips(5)"></md-input>
+                            <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
+                            <span class="md-error" v-if="showVCError">短信验证码错误</span>
+                        </md-field>
+                        <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode()">{{verftext}}</md-button>
+                        <span v-if="showText" style="color:red">{{time}}</span><span v-if="showText">秒后重新获取</span>
+                    </div>
                 </div>
+                 <md-dialog-alert
+                  class="md-primary md-raised"
+                  :md-active.sync="showAlert"
+                  :md-content="AlertMessage"
+                  md-confirm-text="知道了" />
                 <div style="width:400px;text-align: left;">
                     <md-button  class="md-dense md-raised md-primary" style="width:150px;display: inline-flex;margin:18px 0 0 0;" @click="registerFun()">注册</md-button>
                     <div style=" margin-top: 30px;cursor: pointer;float: right;" @click="OldAccountsLogin()">
@@ -46,6 +62,7 @@
 
 <script>
 import registerSuccess from "./registerSuccess.vue";
+import base64 from "js-base64";
 
 export default {
   name: "registerPage",
@@ -53,6 +70,8 @@ export default {
     registerSuccess
   },
   data: () => ({
+    verftext: "获取验证码",
+    time: 0,
     showRegisterPage: true,
     email: "",
     passwordFirst: "",
@@ -73,7 +92,12 @@ export default {
     showPhoneNumEmpty: false,
     showPhoneNumError: false,
     showVCEmpty: false,
-    showVCError: false
+    showVCError: false,
+    showAlert: false,
+    AlertMessage: "",
+    showCount: false,
+    showText: false,
+    counter:""
   }),
   methods: {
     OldAccountsLogin() {},
@@ -261,28 +285,90 @@ export default {
       }
     },
     getVerificationCode() {
+      if (this.time !== 0) return;
       //获取验证码
-      let self = this,
+      let $this = this,
         apikey = "",
+        type = "post",
+        url = "/IBUS/DAIG_SYS/sendSms",
         request = {
-          mobile: this.phoneNum
+          mobile: this.phoneNum,
+          type: 0
+        },
+        param = {
+          apikey,
+          request
         };
-      // self.$http.post().then(res=>{})
+
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          console.log(res);
+          if (res.data.errorCode !== 0) {
+            $this.showVerificationCode = true;
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            $this.showCount = true;
+            $this.showText = true;
+            $this.goLogin(60);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     registerFun() {
-      let self = this,
+      let $this = this,
         apikey = "",
+        type = "post",
+        url = "/IBUS/DAIG_SYS/registerUser",
         request = {
           email: this.email,
-          password: this.password,
+          password: Base64.encode(this.passwordFirst),
           mobile: this.phoneNum,
           verifyCode: this.VerificationCode
+        },
+        param = {
+          apikey,
+          request
         };
-      // self.$http.post().then(res=>{})
-      this.showRegisterPage = false;
+
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          if (res.data.errorCode !== 0) {
+            $this.showVerificationCode = true;
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            $this.showRegisterPage = false;
+            $this.$store.commit("registerPage/changeUseremail", $this.email)
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     goLoginPge() {
       this.$router.push("/loginPage/");
+    },
+    countDown() {
+      let _this = this;
+      _this.time--;
+    },
+    goLogin(num) {
+      let _this = this;
+      _this.time = num;
+      _this.counter = setInterval(_this.countDown, 1000);
     }
   },
   computed: {
@@ -310,6 +396,16 @@ export default {
       return {
         "md-invalid": this.VCHasMessages
       };
+    }
+  },
+  watch: {
+    time: function(newVal, oldVal) {
+      if (newVal == 0) {
+        clearInterval(this.counter);
+        this.verftext = "重新获取验证码";
+        this.showText = false;
+        this.showCount = false;
+      }
     }
   }
 };

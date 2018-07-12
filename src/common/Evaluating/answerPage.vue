@@ -21,6 +21,7 @@
 <style scoped>
 .panelContentbodyCenter {
   font-size: 1em;
+  width: 100%;
 }
 .panelContentTitle {
   border: 1px solid burlywood;
@@ -55,7 +56,7 @@
   transition-property: color, background-color;
   will-change: color, background-color;
   width: 100%;
-  padding: 5% 5% 2%;
+  /* padding: 5% 5% 2%; */
   border: 1px solid lightgray;
 }
 .selectAnswer {
@@ -134,7 +135,7 @@ export default {
       //给父组件传值
       this.$emit("selectedAnswer", this.answer);
     }
-  },
+  }
   // computed: {
   //   chooseObj: {
   //     get: function() {

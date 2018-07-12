@@ -37,6 +37,7 @@
                                 <span class="md-error" v-if="showVCError">短信验证码错误</span>
                             </md-field>
                             <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode()">获取验证码</md-button>
+                            <span  style="color:red">{{time}}</span><span>秒后重新获取</span>
                         </div>
                     </div>
                     <div v-if="!changeCheckWay">
@@ -50,6 +51,7 @@
                                 <span class="md-error" v-if="showVCError">验证码错误</span>
                             </md-field>
                             <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode()">获取验证码</md-button>
+                            <span  style="color:red">{{time}}</span><span>秒后重新获取</span>
                         </div>
                     </div>
                 </div>
@@ -125,7 +127,8 @@ import { mapGetters, mapState } from "vuex";
 export default {
   name: "modifyPassword",
   data: () => ({
-    time: 0
+    time: 0,
+    counter:""
   }),
   methods: {
     inputFunc(index) {
@@ -269,7 +272,7 @@ export default {
     goLogin() {
       let _this = this;
       _this.time = 5;
-      setInterval(_this.countDown, 1000);
+      _this.counter = setInterval(_this.countDown, 1000);
     },
     goLoginR() {
       //隐藏导航菜单
@@ -285,6 +288,7 @@ export default {
     time: function(newVal, oldVal) {
       //   debugger;
       if (newVal == 0) {
+        clearInterval(this.counter);
         //隐藏导航菜单
         this.$store.commit("home/showTabsFun", false);
         //隐藏登录按钮

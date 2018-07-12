@@ -10,7 +10,7 @@
                 <!-- <label>密码</label> -->
                 <md-input v-model="passWord" placeholder="请输入密码"></md-input>
             </md-field>
-            <div>
+            <div v-if="showVerificationCode">
                 <md-field style="width:280px;display: inline-flex;">
                 <!-- <label>图片验证码</label> -->
                 <md-input v-model="checkPicture" placeholder="请输入右侧图片中的内容"></md-input>
@@ -33,6 +33,11 @@
                     <span>注册用户</span>
                 </div>     
             </div>
+            <md-dialog-alert
+                  class="md-primary md-raised"
+                  :md-active.sync="showAlert"
+                  :md-content="AlertMessage"
+                  md-confirm-text="知道了" />
         </div>
         <forgetPassword v-if="!showLoginPage"></forgetPassword>
     </div>
@@ -81,7 +86,10 @@ export default {
     phoneOrEmail: null,
     passWord: null,
     checkPicture: null,
-    autoLogin: false
+    autoLogin: false,
+    showVerificationCode: false,
+    showAlert: false,
+    AlertMessage: "",
   }),
   computed: {
     menuVisible() {
@@ -92,26 +100,58 @@ export default {
     },
     showLoginPage() {
       return this.$store.state.loginPage.showLoginPage;
+    },
+    firstLogin(){
+      return this.$store.state.loginPage.firstLogin;
     }
   },
   methods: {
     loginFun() {
-      let self = this,
+      let $this = this,
         apikey = "",
-        request = {};
+        type = "post",
+        url = "/IBUS/DAIG_SYS/login",
+        request = {
+          id: this.email,
+          password: this.password,
+          captchCode: this.VerificationCode
+        },
+        param = {
+          apikey,
+          request
+        };
 
-      //   self.$http.post("",{apikey, request}).then(res =>{}).catch(error =>{});
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          console.log(res);
+          if (res.data.errorCode !== 0) {
+            $this.showVerificationCode = true;
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            // $this.session_id = res.data.session_id;
+            this.$store.commit("loginPage/getSession_id", res.data.session_id);
+            this.$store.commit("loginPage/changefirstLogin", res.data.firstLogin);
+            //修改登录状态
+            $this.$store.commit("loginPage/changeLoginState", true);
+            //隐藏登录按钮
+            $this.$store.commit("home/showLogin", false);
+            //显示导航菜单
+            $this.$store.commit("home/showTabsFun", true);
+            //显示用户中心
+            $this.$store.commit("home/showUserCenter", true);
 
-      //修改登录状态
-      this.$store.commit("loginPage/changeLoginState", true);
-      //隐藏登录按钮
-      this.$store.commit("home/showLogin", false);
-      //显示导航菜单
-      this.$store.commit("home/showTabsFun", true);
-      //显示用户中心
-      this.$store.commit("home/showUserCenter", true);
-
-      this.$router.push("/overview");
+            $this.$router.push("/overview");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     registerFun() {
       //隐藏登录按钮

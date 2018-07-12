@@ -1,7 +1,7 @@
 <template>
 <div class="page-container">
     <!-- <md-app md-waterfall style="background-image:url('./static/imgs/bluecloud.jpg');background-size:cover;"> -->
-    <md-app md-waterfall>
+    <md-app>
       <md-app-toolbar class="md-large md-dense md-transparent" style="background-color: #eee;" >
         <div class="md-toolbar-row">
           <div class="md-toolbar-section-start">
@@ -66,6 +66,7 @@
       <md-app-content style="background-color: rgba(216, 209, 202, 0.13);">
        <router-view></router-view>
       </md-app-content>
+        
     </md-app>
 </div>
 </template>
@@ -73,13 +74,13 @@
 <style lang="scss" scoped>
 .md-app {
   //max-height: 800px;
-  height: 1000px;
+  min-height: 1000px;
   border: 1px solid rgba(#000, 0.12);
 }
 
 // Demo purposes only
 .md-drawer {
-  width: 230px;
+  width: 200px;
   max-width: calc(100vw - 125px);
 }
 .usercenterspan {
@@ -122,7 +123,7 @@ export default {
     },
     getLoginState() {
       return this.$store.state.loginPage.loginSuccess;
-    }
+    },
   },
   methods: {
     toggleMenu() {
@@ -133,7 +134,7 @@ export default {
       );
     },
     loginFun() {
-      this.$store.commit("home/showTabsFun", false);
+      // this.$store.commit("home/showTabsFun", false);
       this.$router.push("/loginPage/");
     },
     goRouter(index) {

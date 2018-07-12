@@ -36,13 +36,22 @@
                                     <span class="md-error" v-if="showPhoneNumError">手机号填写不正确</span>
                                 </md-field>
                             </div>
-                            <div>
+                            <div v-if="!showCount">
                                 <md-field style="width: 308px;display: inline-flex;" :class="VCMessageClass">
                                     <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc()" @click="showTips()"></md-input>
                                     <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
                                     <span class="md-error" v-if="showVCError">短信验证码错误</span>
                                 </md-field>
-                                <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode()">获取验证码</md-button>
+                                <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(1)">{{verftext}}</md-button>
+                            </div>
+                            <div v-if="showCount">
+                                <md-field style="width:40%;display: inline-flex;" :class="VCMessageClass">
+                                    <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc()" @click="showTips()"></md-input>
+                                    <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
+                                    <span class="md-error" v-if="showVCError">短信验证码错误</span>
+                                </md-field>
+                                <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(1)">{{verftext}}</md-button>
+                                <span v-if="showText" style="color:red">{{time}}</span><span v-if="showText">秒后重新获取</span>
                             </div>
                         </div>
                     </div>
@@ -55,13 +64,22 @@
                                     <span class="md-error" v-if="showEmailError">邮箱格式不正确</span>
                                 </md-field>
                             </div>
-                            <div>
+                            <div v-if="!showCount">
                                 <md-field style="width: 308px;display: inline-flex;" :class="VCMessageClass">
                                     <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc()" @click="showTips()"></md-input>
                                     <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
                                     <span class="md-error" v-if="showVCError">短信验证码错误</span>
                                 </md-field>
-                                <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode()">获取验证码</md-button>
+                                <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(2)">{{verftext}}</md-button>
+                            </div>
+                            <div v-if="showCount">
+                                <md-field style="width: 40%;display: inline-flex;" :class="VCMessageClass">
+                                    <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc()" @click="showTips()"></md-input>
+                                    <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
+                                    <span class="md-error" v-if="showVCError">短信验证码错误</span>
+                                </md-field>
+                                <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(2)">{{verftext}}</md-button>
+                                <span v-if="showText" style="color:red">{{time}}</span><span v-if="showText">秒后重新获取</span>
                             </div>
                         </div>
                     </div>
@@ -137,6 +155,7 @@
 export default {
   name: "modifyPassword",
   data: () => ({
+    verftext: "获取验证码",
     time: 0,
     mobile: "",
     email: "",
@@ -158,7 +177,9 @@ export default {
     showPasswordsEmpty: false,
     showPasswordsError: false,
     showEmailEmpty: false,
-    showEmailError: false
+    showEmailError: false,
+    showCount: false,
+    showText:false
   }),
   methods: {
     inputFunc(index) {
@@ -230,18 +251,52 @@ export default {
           break;
       }
     },
-    getVerificationCode() {
+    getVerificationCode(index) {
+      if(this.time !== 0)return;
       //获取验证码
-      let self = this,
+      let $this = this,
         apikey = "",
-        request = {
-          mobile: this.mobile
+        type = "post",
+        url =
+          index == 1
+            ? "/IBUS/DAIG_SYS/checkVerifyCodeByMobile"
+            : "/IBUS/DAIG_SYS/resetPasswordByEmail",
+        request =
+          index == 1
+            ? {
+                mobile: this.mobile,
+                type: 1
+              }
+            : {
+                email: this.email,
+                session_id: this.session_id
+              },
+        param = {
+          apikey,
+          request
         };
-      //请求接口
-      //   self.$http
-      //     .post("", { apikey, request })
-      //     .then(res => {})
-      //     .catch(err => {});
+
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          console.log(res);
+          if (res.data.errorCode !== 0) {
+            $this.showVerificationCode = true;
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            $this.showCount = true;
+            $this.showText = true;
+            $this.goLogin(60);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     nextStep() {
       let self = this,
@@ -260,7 +315,7 @@ export default {
         this.currentStep1 = false;
         this.currentStep2 = false;
         this.currentStep3 = true;
-        self.goLogin();
+        self.goLogin(5);
       }
     },
     isPassword(pass) {
@@ -283,9 +338,9 @@ export default {
       let _this = this;
       _this.time--;
     },
-    goLogin() {
+    goLogin(num) {
       let _this = this;
-      _this.time = 5;
+      _this.time = num;
       setInterval(_this.countDown, 1000);
     },
     goLoginR() {
@@ -302,14 +357,20 @@ export default {
   watch: {
     time: function(newVal, oldVal) {
       if (newVal == 0) {
-        //隐藏导航菜单
-        this.$store.commit("home/showTabsFun", false);
-        //隐藏登录按钮
-        this.$store.commit("home/showLogin", true);
-        //显示用户中心
-        this.$store.commit("home/showUserCenter", false);
-        //显示登录界面
-        this.$store.commit("loginPage/changeLoginShowState", true);
+        if (this.currentStep3) {
+          //隐藏导航菜单
+          this.$store.commit("home/showTabsFun", false);
+          //隐藏登录按钮
+          this.$store.commit("home/showLogin", true);
+          //显示用户中心
+          this.$store.commit("home/showUserCenter", false);
+          //显示登录界面
+          this.$store.commit("loginPage/changeLoginShowState", true);
+        }
+        if(this.showCount){
+          $this.verftext = "重新获取验证码";
+          $this.showText = false;
+        }
       }
     }
   },

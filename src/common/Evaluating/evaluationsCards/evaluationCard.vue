@@ -3,17 +3,25 @@
         <md-card md-with-hover>
           <md-ripple>
           <md-card-header>
-              <md-card-media md-medium style="margin-left: 0px!important;">
+                            <md-avatar>
               <img src="../../../assets/images/ico.png">
-              </md-card-media>
+              </md-avatar>
 
-              <md-card-header-text style="padding: 10px 10px 0 10px;">
-              <div class="md-title">{{evalution.name}}</div>
-              <div class="md-subhead">{{evalution.description}}</div>
-              </md-card-header-text>
+              <!-- <md-card-header-text style="padding: 10px 10px 0 10px;"> -->
+              <div class="md-title" style="font-size: 18px; padding-top: 8px;">{{evalution.name}}</div>
+              <!-- <div class="md-subhead"></div> -->
+              <!-- </md-card-header-text> -->
 
           </md-card-header>
-          <scoreStar :score="evalution.heat"></scoreStar>
+          <md-card-area >
+            <md-card-content style="height: 120px; overflow: hidden; float: left; margin-bottom: 8px;">
+              {{evalution.description}}
+            </md-card-content>
+          </md-card-area>
+          <div style="clear:both">
+            <scoreStar :score="evalution.heat"></scoreStar>
+          </div>
+
           <!-- <md-card-actions style="justify-content:center!important;background-color: #eee">
               <md-button :to="{path:'/evaluatingPage', query: {id:evalution.id, name:evalution.name}}">立即测评</md-button>
           </md-card-actions> -->
@@ -26,7 +34,7 @@
 .md-card {
   /* min-width: 300px;
   max-width: 300px; */
-
+  height: 230px;
   margin: 4px;
   display: inline-block;
   vertical-align: top;
@@ -58,15 +66,22 @@ export default {
   },
   data: () => ({
     score: Object,
-    id:String, 
-    name:String
+    id: String,
+    name: String
   }),
-  methods:{
-    beginEvaluation:function () {
+  methods: {
+    beginEvaluation: function() {
       // this.$router.push({path:'/evaluatingPage', query: {id:this.id, name:this.name}});
-      this.$store.commit("evlaluating/changeShowevaluatingPage", true);
-      this.$store.commit("evlaluating/getCurrentEvaluationName", this.name);
-      this.$store.commit("evlaluating/getCurrentEvaluationId", this.id);
+      if (this.session_id) {
+        this.$store.commit("evlaluating/changeShowevaluatingPage", true);
+        this.$store.commit("evlaluating/getCurrentEvaluationName", this.name);
+        this.$store.commit("evlaluating/getCurrentEvaluationId", this.id);
+      }
+    }
+  },
+  computed: {
+    session_id() {
+      return this.$store.state.loginPage.session_id;
     }
   }
 };

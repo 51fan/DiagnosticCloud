@@ -1,7 +1,9 @@
 // initial state
 const state = {
   loginSuccess: false,
-  showLoginPage:true
+  showLoginPage: true,
+  firstLogin: false,
+  session_id:""
 }
 
 // getters
@@ -16,6 +18,12 @@ const mutations = {
   changeLoginShowState(state, value) {
     state.showLoginPage = value;
   },
+  changefirstLogin(state, value) {
+    state.firstLogin = value;
+  },
+  getSession_id(state, value) {
+    state.session_id = value;
+  }
 }
 
 export default {

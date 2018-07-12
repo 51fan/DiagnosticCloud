@@ -13,7 +13,7 @@
                
                 <a  class="star star_5" :style="starWidth"></a>
             </div>
-            <span style="padding: 0 10px">{{score}}星</span>
+            <!-- <span style="padding: 0 10px">{{score}}星</span> -->
         </div>
     </div>
 </template>

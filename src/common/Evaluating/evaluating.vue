@@ -24,9 +24,9 @@
         <div v-if="showevaluatingPage">
           <EvaluatingPage></EvaluatingPage>
         </div>
-        <div v-if="showmask">
+        <!-- <div v-if="showmask">
           <md-progress-spinner class="md-primary" md-mode="indeterminate"></md-progress-spinner>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -41,17 +41,23 @@
 
 .panelHeader {
   text-align: center;
-  padding: 0px;
+  padding: 10px 0px 0px;
   width: 80%;
   margin: 30px 10%;
-  background-color: rgba(126, 207, 210, 0.7);
+  color:white;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .panelHeaderTitle {
   text-align: left;
-  padding: 1px 3%;
+  padding: 0 3%;
   font-size: x-large;
+  line-height: initial;
 }
+.mygutter{
+  margin-bottom: 12px;
+}
+
 </style>
 <script>
 import EvaluationCard from "./evaluationsCards/evaluationCard.vue";

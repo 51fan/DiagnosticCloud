@@ -20,20 +20,28 @@
         <div v-if="evaluationStart" class="panelContent">
             <!--试题标题  -->
             
-            <div class="panelContentbody">
+                        <!-- <div class="panelContentbody"> -->
+              <div class="md-layout">
+              
                 <!--上一题  -->
-                <div class="panelContentbodyleft" @click="preItem()">
-                    <md-icon class="md-size-5x"  >keyboard_arrow_left</md-icon>
+                <!-- <div class="panelContentbodyleft" @click="preItem()"> -->
+                <div class="md-layout-item md-size-10 textCenter highlight" style="padding-top: 25%;" @click="preItem()">
+                    <md-icon class="iconSize"  >keyboard_arrow_left</md-icon>
                 </div>
             
                 <!--试题正文  -->
-                <answerPage v-for="question in questionsList" :key="question.id" :question="question"  @selectedAnswer="pushAnswer"></answerPage>
-                <!--下一题  -->
-                <div class="panelContentbodyRight" @click="nextItem()">
-                    <md-icon class="md-size-5x"  >keyboard_arrow_right</md-icon>
+                <div class="md-layout-item textCenter">
+                  <answerPage v-for="question in questionsList" :key="question.id" :question="question"  @selectedAnswer="pushAnswer"></answerPage>
                 </div>
+
+                <!--下一题  -->
+                <!-- <div class="panelContentbodyRight" @click="nextItem()"> -->
+                <div class="md-layout-item md-size-10 textCenter highlight" style="padding-top: 25%;" @click="nextItem()">
+                    <md-icon class="iconSize"  >keyboard_arrow_right</md-icon>
+                </div>
+
                 <md-dialog-alert
-                class="md-primary md-raised"
+                  class="md-primary md-raised"
                   :md-active.sync="showAlert"
                   md-title="提示!"
                   md-content="请完成当前答题后再进入下一题"
@@ -52,16 +60,17 @@
 <style lang="scss" scoped>
 .panelContent {
   background-color: rgba(255, 250, 240, 0.2);
-  margin: 0 10%;
+  margin: 0 2%;
 }
 
 .panelHeader {
   text-align: center;
-  padding: 10px 0px 0px;
-  width: 80%;
-  margin: 30px 10%;
-  background-color: rgba(126, 207, 210, 0.7);
+  // padding: 10px 0px 0px;
+  // width: 90%;
+  margin: 20px 10%;
+  // background-color: rgba(126, 207, 210, 0.7);
 }
+
 .md-progress-bar {
   margin: 24px;
 }
@@ -110,6 +119,29 @@
   height: 280px;
   cursor: pointer;
 }
+
+.textCenter{
+  text-align: center;
+}
+.iconSize{
+  height: 120px;
+  font-size: 120px!important;
+}
+.highlight:hover{
+  cursor: pointer;
+  background-color:rgba(83, 83, 83, 0.3);
+}
+  .md-layout-item {
+    // height: 40px;
+
+    &:after {
+      width: 100%;
+      display: block;
+      background: md-get-palette-color(green, 200);
+      content: " ";
+    }
+  }
+
 </style>
 
 <script>
@@ -159,7 +191,8 @@ export default {
   mounted: function() {
     let apikey = "",
       request = {
-        id: this.currentEvaluationId
+        id: this.currentEvaluationId,
+        session_id: this.session_id
       },
       // url = "/static/jsons/evaluation.json",
       // type = "GET",
@@ -371,7 +404,7 @@ export default {
           value: res.data.return
         });
       });
-    },
+    }
   },
   computed: {
     currentEvaluationName() {
@@ -382,6 +415,9 @@ export default {
     },
     reportParm() {
       return this.$store.state.evlaluating.evaluatingPage.reportParm;
+    },
+    session_id() {
+      return this.$store.state.loginPage.session_id;
     }
   }
 };

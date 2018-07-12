@@ -61,6 +61,11 @@ export default new Router({
       name: 'modifyPassword',
       component: (resolve) => require(['../common/UserCenter/modifyPassword.vue'], resolve)
     },
+    {
+      path: '/registerActive/',
+      name: 'registerActive',
+      component: (resolve) => require(['../common/RegisterPage/registerActive.vue'], resolve)
+    },
   ],
   // mode: "history"
 })
