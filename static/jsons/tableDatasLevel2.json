@@ -1,7 +1,7 @@
 {
   "errorCode": 0,
   "errorMsg": "获取ok",
-  "return": [{
+  "level": [{
     "lev": "生产",
     "expectScore": "24",
     "score": 20,

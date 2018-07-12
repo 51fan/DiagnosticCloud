@@ -25,11 +25,11 @@
                         </md-tab>
 
                         <md-tab id="tab-pages" md-label="二级指标" to="" @click="switchTable(2)">
-                            <ve-radar :data="chartData2" width="100%" ref="tab2radar1" ></ve-radar>
+                            <ve-radar :data="chartData2" width="100%" ref="tab2radar1"  :settings="chart2Settings"></ve-radar>
                         </md-tab>
 
                         <md-tab id="tab-posts" md-label="三级指标" to="" @click="switchTable(3)">
-                            <ve-radar :data="chartData3" width="100%"  ref="tab3radar1"></ve-radar>
+                            <ve-radar :data="chartData3" width="100%"  ref="tab3radar1"  :settings="chart3Settings"></ve-radar>
                         </md-tab>
 
                     </md-tabs>
@@ -45,7 +45,7 @@
                             <md-table-head>总分</md-table-head>
                             <md-table-head>得分</md-table-head>
                             <md-table-head>失分</md-table-head>
-                            <md-table-head>得分比</md-table-head>
+                            <md-table-head>得分比(%)</md-table-head>
                         </md-table-row>
 
                         <md-table-row v-for=" lev in reportParm.level1" :key="lev.lev">
@@ -53,7 +53,7 @@
                             <md-table-cell>{{lev.total}}</md-table-cell>
                             <md-table-cell>{{lev.score}}</md-table-cell>
                             <md-table-cell>{{lev.lose}}</md-table-cell>
-                            <md-table-cell>{{lev.scorePercent*100}}</md-table-cell>
+                            <md-table-cell>{{lev.scorePercent}}</md-table-cell>
                         </md-table-row>
                     </md-table>
                     <md-table md-card v-if="showLevel2Table">
@@ -73,7 +73,7 @@
                             <md-table-cell>{{lev.total}}</md-table-cell>
                             <md-table-cell>{{lev.score}}</md-table-cell>
                             <md-table-cell>{{lev.lose}}</md-table-cell>
-                            <md-table-cell>{{lev.scorePercent*100}}</md-table-cell>
+                            <md-table-cell>{{lev.scorePercent}}</md-table-cell>
                         </md-table-row>
                     </md-table>
                     <md-table md-card v-if="showLevel3Table">
@@ -93,7 +93,7 @@
                             <md-table-cell>{{lev.total}}</md-table-cell>
                             <md-table-cell>{{lev.score}}</md-table-cell>
                             <md-table-cell>{{lev.lose}}</md-table-cell>
-                            <md-table-cell>{{lev.scorePercent*100}}</md-table-cell>
+                            <md-table-cell>{{lev.scorePercent}}</md-table-cell>
                         </md-table-row>
                     </md-table>
                 </div>
@@ -152,12 +152,22 @@ export default {
     showLevel3Table: false,
     showRadar: false,
     showBar: false,
+    chart2Settings: {
+      // dimension: ["实际"],
+      // metrics: [ "实际", "预期"],
+      // dataType: {}
+    },
+    chart3Settings: {
+      // dimension: ["实际"],
+      // metrics: [ "实际", "预期"],
+      // dataType: {}
+    },
     chartDatabar: {
-      columns: ["标题", "当前", "期望"],
+      columns: ["标题", , "实际", "预期"],
       rows: []
     },
     chartData1: {
-      columns: ["标题", "当前", "期望"],
+      columns: ["标题", , "实际", "预期"],
       rows: []
     },
     chartData2: {
@@ -221,7 +231,6 @@ export default {
           data: param
         })
         .then(result => {
-          // $this.reportParm.level1 = res.data.return;
           $this.$store.commit("evlaluating/getReportParm", {
             key: "level1",
             value: result.data.level
@@ -235,19 +244,20 @@ export default {
             $this.reportParm.level1.forEach(item => {
               $this.chartData1.columns.push(item.name);
             });
-            var currentData = { 标题: "当前" },
-              expertData = { 标题: "期望" };
+            var currentData = { 标题: "实际" },
+              expertData = { 标题: "预期" };
             $this.chartData1.columns.forEach(colum => {
               $this.reportParm.level1.forEach(lev => {
                 if (lev.name == colum) {
-                  currentData[colum] = lev.scorePercent * 100;
-                  expertData[colum] = 100;
+                  currentData[colum] = lev.score;
+                  expertData[colum] = lev.expectScore;
                 }
               });
             });
 
-            $this.chartData1.rows.push(currentData);
             $this.chartData1.rows.push(expertData);
+            $this.chartData1.rows.push(currentData);
+            $this.getLevel2Datas();
           } else {
             $this.showRadar = false;
             $this.showBar = true;
@@ -260,10 +270,10 @@ export default {
 
                 if (colum == "标题") {
                   arry[colum] = lev.name;
-                } else if (colum == "当前") {
-                  arry[colum] = lev.scorePercent * 100;
-                } else if (colum == "期望") {
-                  arry[colum] = 100;
+                } else if (colum == "实际") {
+                  arry[colum] = lev.score;
+                } else if (colum == "预期") {
+                  arry[colum] = lev.expectScore;
                 }
               });
               showData.push(arry);
@@ -298,28 +308,27 @@ export default {
           data: param
         })
         .then(result => {
-          // self.reportParm.level2 = res.data.level;
           self.$store.commit("evlaluating/getReportParm", {
             key: "level2",
             value: result.data.level
           });
-          // console.log(self.reportParm.level2);
+
           self.reportParm.level2.forEach(item => {
             self.chartData2.columns.push(item.name);
           });
-          var currentData = { 标题: "当前" },
-            expertData = { 标题: "期望" };
+          var currentData = { 标题: "实际" },
+            expertData = { 标题: "预期" };
           self.chartData2.columns.forEach(colum => {
             self.reportParm.level2.forEach(lev => {
               if (lev.name == colum) {
-                currentData[colum] = lev.scorePercent * 100;
-                expertData[colum] = 100;
+                currentData[colum] = lev.score;
+                expertData[colum] = lev.expectScore;
               }
             });
           });
 
-          self.chartData2.rows.push(currentData);
           self.chartData2.rows.push(expertData);
+          self.chartData2.rows.push(currentData);
           self.getLevel3Datas();
         })
         .catch(error => {
@@ -350,7 +359,6 @@ export default {
           data: param
         })
         .then(result => {
-          // self.reportParm.level3 = res.data;
           self.$store.commit("evlaluating/getReportParm", {
             key: "level3",
             value: result.data.level
@@ -360,19 +368,19 @@ export default {
           self.reportParm.level3.forEach(item => {
             self.chartData3.columns.push(item.name);
           });
-          var currentData = { 标题: "当前" },
-            expertData = { 标题: "期望" };
+          var currentData = { 标题: "实际" },
+            expertData = { 标题: "预期" };
           self.chartData3.columns.forEach(colum => {
             self.reportParm.level3.forEach(lev => {
               if (lev.name == colum) {
-                currentData[colum] = lev.scorePercent * 100;
-                expertData[colum] = 100;
+                currentData[colum] = lev.score;
+                expertData[colum] = lev.expectScore;
               }
             });
           });
-
-          self.chartData3.rows.push(currentData);
           self.chartData3.rows.push(expertData);
+          self.chartData3.rows.push(currentData);
+          self.switchTable(1);
         })
         .catch(error => {
           console.log(error);
@@ -383,8 +391,12 @@ export default {
         this.showLevel1Table = true;
         this.showLevel2Table = false;
         this.showLevel3Table = false;
-        this.$refs.tab1radar1.echarts.resize();
-        this.$refs.tab1bar1.echarts.resize();
+        if (this.showRadar) {
+          this.$refs.tab1radar1.echarts.resize();
+        }
+        if (this.showBar) {
+          this.$refs.tab1bar1.echarts.resize();
+        }
       } else if (index == 2) {
         this.showLevel1Table = false;
         this.showLevel2Table = true;
