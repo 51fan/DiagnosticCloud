@@ -43,11 +43,12 @@ export default {
     this.$store.commit("home/showTabsFun", false);
     let RegParam = window.location.href;
     let RegParams = RegParam.split("?");
-    //console.log(RegParams[1]);
+    console.log(RegParams[1]);
     if (RegParams[1]) {
-      let regpararms = RegParams[1].split("&");
-      this.email = regpararms[0].split("=")[1];
-      this.paramtime = regpararms[1].split("=")[1];
+      // let regpararms = RegParams[1].split("&");
+      // this.email = regpararms[0].split("=")[1];
+      // this.paramtime = regpararms[1].split("=")[1];
+       this.email = RegParams[1];
     }
 
     let $this = this,
@@ -56,7 +57,7 @@ export default {
       url = "/IBUS/DAIG_SYS/activeAccount",
       request = {
         email: this.email,
-        time: this.paramtime
+        // time: this.paramtime
       },
       param = {
         apikey,

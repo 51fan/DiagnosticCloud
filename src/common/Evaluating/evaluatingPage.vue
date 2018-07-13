@@ -120,28 +120,27 @@
   cursor: pointer;
 }
 
-.textCenter{
+.textCenter {
   text-align: center;
 }
-.iconSize{
+.iconSize {
   height: 120px;
-  font-size: 120px!important;
+  font-size: 120px !important;
 }
-.highlight:hover{
+.highlight:hover {
   cursor: pointer;
-  background-color:rgba(83, 83, 83, 0.3);
+  background-color: rgba(83, 83, 83, 0.3);
 }
-  .md-layout-item {
-    // height: 40px;
+.md-layout-item {
+  // height: 40px;
 
-    &:after {
-      width: 100%;
-      display: block;
-      background: md-get-palette-color(green, 200);
-      content: " ";
-    }
+  &:after {
+    width: 100%;
+    display: block;
+    background: md-get-palette-color(green, 200);
+    content: " ";
   }
-
+}
 </style>
 
 <script>
@@ -258,7 +257,8 @@ export default {
         expectData: answer.expected,
         evaluationId: this.evaluationId,
         status: this.currentIndex == this.questionCounts ? 1 : 0,
-        idx: answer.idx
+        idx: answer.idx,
+        session_id: this.session_id
       };
       // console.log("savedata");
       // console.log(this.savedata);
@@ -268,7 +268,8 @@ export default {
       let apikey = "";
       let request = {
           evaluationId: this.evaluationId,
-          idx: this.idx
+          idx: this.idx,
+          session_id: this.session_id
         },
         param = {
           apikey,

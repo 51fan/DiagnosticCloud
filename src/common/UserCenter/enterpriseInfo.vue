@@ -16,7 +16,7 @@
                             <span class="spantitle">企业简称：</span>
                             <md-field>
                                 <label></label>
-                                <md-input v-model="enterpriseName" placeholder="" disabled></md-input>
+                                <md-input v-model="enterpriseSName" placeholder="" disabled></md-input>
                             </md-field>
                         </div>
                     </div>
@@ -36,18 +36,18 @@
                             <span class="spantitle">组织机构代码：</span>
                             <md-field>
                                 <label></label>
-                                <md-input v-model="enterpriseName" placeholder="" disabled></md-input>
+                                <md-input v-model="OrganizationCode" placeholder="" disabled></md-input>
                             </md-field>
                         </div>
                     </div>
                     <div>
-                        <div class="infoItem">
+                        <!-- <div class="infoItem">
                             <span class="spantitle" style="width:20%">所在地区：</span>
                                 <div style="display: inline-flex;width: 80%;">
                                     <div style="width:25%">
                                         <md-field>
-                                            <label for="country">省</label>
-                                            <md-select v-model="country" name="country" id="country" md-dense disabled>
+                                            <label for="province">省</label>
+                                            <md-select v-model="province" name="province" id="province" md-dense disabled>
                                                 <md-option value="guangdong">广东</md-option>
                                                 <md-option value="guangxi">广西</md-option>
                                                 <md-option value="jiangsu">江苏</md-option>
@@ -57,7 +57,7 @@
                                     </div>
                                     <div style="width:30%">
                                         <md-field>
-                                            <label for="country">市</label>
+                                            <label for="city">市</label>
                                             <md-select v-model="city" name="city" id="city" md-dense disabled>
                                                 <md-option value="guangzhou">广州</md-option>
                                                 <md-option value="shenzhen">深圳</md-option>
@@ -68,7 +68,7 @@
                                     </div>
                                     <div style="width:45%">
                                         <md-field>
-                                            <label for="country">县/区</label>
+                                            <label for="area">县/区</label>
                                             <md-select v-model="area" name="area" id="area" md-dense disabled>
                                                 <md-option value="futian">福田</md-option>
                                                 <md-option value="nanshan">南山</md-option>
@@ -78,32 +78,33 @@
                                         </md-field>
                                     </div>
                             </div>
-                        </div>
+                        </div> -->
+                        <cityPicker></cityPicker>
                     </div>
                     <div>
                         <div class="infoItem">
                             <span class="spantitle" style="width:20%">所属行业：</span>
                             <div class="md-layout-item" style="width:80%">
                                 <md-field>
-                                    <md-select v-model="Industry" name="Industry" id="Industry" md-dense disabled>
-                                        <md-option value="australia">化学制品</md-option>
-                                        <md-option value="brazil">容器与包装</md-option>
-                                        <md-option value="japan">金属与采矿</md-option>
-                                        <md-option value="united-states">纸品与林业产品</md-option>
-                                        <md-option value="australia">电器设备</md-option>
+                                    <md-select v-model="Industry1" name="Industry1" id="Industry1" md-dense disabled>
+                                        <md-option value="australia1">化学制品</md-option>
+                                        <md-option value="brazil1">容器与包装</md-option>
+                                        <md-option value="japan1">金属与采矿</md-option>
+                                        <md-option value="united-states1">纸品与林业产品</md-option>
+                                        <md-option value="australia2">电器设备</md-option>
                                         <md-option value="brazil">机械制造</md-option>
                                         <md-option value="japan">汽车零配件</md-option>
-                                        <md-option value="united-states">汽车</md-option>
-                                        <md-option value="australia">家庭耐用消费品</md-option>
-                                        <md-option value="brazil">休闲设备与日用品</md-option>
-                                        <md-option value="japan">纺织品、服装与奢侈品</md-option>
-                                        <md-option value="united-states">饮料</md-option>
-                                        <md-option value="australia">食品</md-option>
-                                        <md-option value="brazil">烟草</md-option>
-                                        <md-option value="japan">居家用品</md-option>
-                                        <md-option value="united-states">制药</md-option>
-                                        <md-option value="united-states">通讯设备、电子设备、仪器和元器件</md-option>
-                                        <md-option value="united-states">半导体产品和设备</md-option>
+                                        <md-option value="united-states6">汽车</md-option>
+                                        <md-option value="australia3">家庭耐用消费品</md-option>
+                                        <md-option value="brazil3">休闲设备与日用品</md-option>
+                                        <md-option value="japan2">纺织品、服装与奢侈品</md-option>
+                                        <md-option value="united-states5">饮料</md-option>
+                                        <md-option value="australia4">食品</md-option>
+                                        <md-option value="brazil2">烟草</md-option>
+                                        <md-option value="japan7">居家用品</md-option>
+                                        <md-option value="united-states7">制药</md-option>
+                                        <md-option value="united-states8">通讯设备、电子设备、仪器和元器件</md-option>
+                                        <md-option value="united-states9">半导体产品和设备</md-option>
                                     </md-select>
                                 </md-field>
                             </div>
@@ -158,14 +159,14 @@
                             <span class="spantitle">企业简称：</span>
                             <md-field>
                                 <label></label>
-                                <md-input v-model="enterpriseName" placeholder=""></md-input>
+                                <md-input v-model="enterpriseSName" placeholder=""></md-input>
                             </md-field>
                         </div>
                     </div>
                     <div>
                         <div class="infoItem">
                             <span style="margin: 28px 20px;width:15%">企业图标：</span>
-                            <md-field style=" width:55%;margin-right: 5%;"  ref="file">
+                            <md-field style=" width:55%;"  ref="file">
                                 <label style="cursor: pointer;">上传logo</label>
                                 <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
                             </md-field>
@@ -178,18 +179,18 @@
                             <span class="spantitle">组织机构代码：</span>
                             <md-field>
                                 <label></label>
-                                <md-input v-model="enterpriseName" placeholder=""></md-input>
+                                <md-input v-model="OrganizationCode" placeholder=""></md-input>
                             </md-field>
                         </div>
                     </div>
                     <div>
-                        <div class="infoItem">
+                        <!-- <div class="infoItem">
                             <span class="spantitle" style="width:20%">所在地区：</span>
                                 <div style="display: inline-flex;width: 80%;">
                                     <div style="width:25%">
                                         <md-field>
-                                            <label for="country">省</label>
-                                            <md-select v-model="country" name="country" id="country" md-dense>
+                                            <label for="province">省</label>
+                                            <md-select v-model="province" name="province" id="province" md-dense>
                                                 <md-option value="guangdong">广东</md-option>
                                                 <md-option value="guangxi">广西</md-option>
                                                 <md-option value="jiangsu">江苏</md-option>
@@ -199,7 +200,7 @@
                                     </div>
                                     <div style="width:30%">
                                         <md-field>
-                                            <label for="country">市</label>
+                                            <label for="city">市</label>
                                             <md-select v-model="city" name="city" id="city" md-dense>
                                                 <md-option value="guangzhou">广州</md-option>
                                                 <md-option value="shenzhen">深圳</md-option>
@@ -210,7 +211,7 @@
                                     </div>
                                     <div style="width:45%">
                                         <md-field>
-                                            <label for="country">县/区</label>
+                                            <label for="area">县/区</label>
                                             <md-select v-model="area" name="area" id="area" md-dense>
                                                 <md-option value="futian">福田</md-option>
                                                 <md-option value="nanshan">南山</md-option>
@@ -220,32 +221,33 @@
                                         </md-field>
                                     </div>
                             </div>
-                        </div>
+                        </div> -->
+                        <cityPicker class="infoItem"></cityPicker>
                     </div>
                     <div>
                         <div class="infoItem">
                             <span class="spantitle" style="width:20%">所属行业：</span>
                             <div class="md-layout-item" style="width:80%">
                                 <md-field>
-                                    <md-select v-model="Industry" name="Industry" id="Industry" md-dense>
-                                        <md-option value="australia">化学制品</md-option>
-                                        <md-option value="brazil">容器与包装</md-option>
-                                        <md-option value="japan">金属与采矿</md-option>
-                                        <md-option value="united-states">纸品与林业产品</md-option>
-                                        <md-option value="australia">电器设备</md-option>
+                                    <md-select v-model="Industry1" name="Industry1" id="Industry1" md-dense>
+                                        <md-option value="australia1">化学制品</md-option>
+                                        <md-option value="brazil1">容器与包装</md-option>
+                                        <md-option value="japan1">金属与采矿</md-option>
+                                        <md-option value="united-states1">纸品与林业产品</md-option>
+                                        <md-option value="australia2">电器设备</md-option>
                                         <md-option value="brazil">机械制造</md-option>
                                         <md-option value="japan">汽车零配件</md-option>
-                                        <md-option value="united-states">汽车</md-option>
-                                        <md-option value="australia">家庭耐用消费品</md-option>
-                                        <md-option value="brazil">休闲设备与日用品</md-option>
-                                        <md-option value="japan">纺织品、服装与奢侈品</md-option>
-                                        <md-option value="united-states">饮料</md-option>
-                                        <md-option value="australia">食品</md-option>
-                                        <md-option value="brazil">烟草</md-option>
-                                        <md-option value="japan">居家用品</md-option>
-                                        <md-option value="united-states">制药</md-option>
-                                        <md-option value="united-states">通讯设备、电子设备、仪器和元器件</md-option>
-                                        <md-option value="united-states">半导体产品和设备</md-option>
+                                        <md-option value="united-states6">汽车</md-option>
+                                        <md-option value="australia3">家庭耐用消费品</md-option>
+                                        <md-option value="brazil3">休闲设备与日用品</md-option>
+                                        <md-option value="japan2">纺织品、服装与奢侈品</md-option>
+                                        <md-option value="united-states5">饮料</md-option>
+                                        <md-option value="australia4">食品</md-option>
+                                        <md-option value="brazil2">烟草</md-option>
+                                        <md-option value="japan7">居家用品</md-option>
+                                        <md-option value="united-states7">制药</md-option>
+                                        <md-option value="united-states8">通讯设备、电子设备、仪器和元器件</md-option>
+                                        <md-option value="united-states9">半导体产品和设备</md-option>
                                     </md-select>
                                 </md-field>
                             </div>
@@ -285,6 +287,11 @@
             <md-button class="md-dense md-raised md-primary" style="width:10%;margin-top: 1%;" @click="cancel()">取消</md-button>
             <md-button class="md-dense md-raised md-primary" style="width:10%;margin-top: 1%;" @click="save()">保存</md-button>
         </div>
+        <md-dialog-alert style="z-index: 111"
+                  class="md-primary md-raised"
+                  :md-active.sync="showAlert"
+                  :md-content="AlertMessage"
+                  md-confirm-text="知道了" />
     </div>
 </template>
 
@@ -327,34 +334,56 @@
 
 
 <script>
+import cityPicker from "../../components/wheels/cityPicker/cityPicker.vue";
 export default {
   name: "enterpriseInfo",
+  components:{
+      cityPicker
+  },
   data: () => ({
-    country: "",
+    province: "",
     city: "",
     area: "",
-    Industry: "",
+    Industry1: "",
     companySize: "",
+    OrganizationCode: "",
     companyInput: "",
     enterpriseName: "",
+    enterpriseSName: "",
     imageSrc: "/static/imgs/noImage.png",
     upadteSrc: "",
-    disable: false
+    disable: false,
+    showAlert: false,
+    AlertMessage: ""
   }),
-  mounted:function (){
-      let _this = this,
-        apikey = "",
-        request = {
-          
-        };
-      _this.$http.post("/IBUS/DAIG_SYS/getTestInfo",{
-          apikey,
-          request
-      }).then(res=>{
-          debugger;
-          console.log(res)
-      }).catch(err=>{
-          console.log(err)
+  mounted: function() {
+    let $this = this,
+      apikey = "",
+      request = {
+        email: this.useremail,
+        session_id: this.session_id
+      };
+    $this.$http
+      .post("/IBUS/DAIG_SYS/getEnterpriseInfo", {
+        apikey,
+        request
+      })
+      .then(res => {
+        //console.log(res.data.return);
+        let model = res.data.return;
+        $this.enterpriseName = res.data.return.enterpriseName;
+        $this.enterpriseSName = res.data.return.shortName;
+        $this.imageSrc = res.data.return.logo;
+        $this.province = res.data.return.province;
+        $this.city = res.data.return.city;
+        $this.area = res.data.return.area;
+        $this.Industry1 = res.data.return.industryL1;
+        $this.companySize = res.data.return.scale;
+        $this.companyInput = res.data.return.income;
+        $this.OrganizationCode = res.data.return.enterpriseCode;
+      })
+      .catch(err => {
+        console.log(err);
       });
   },
   methods: {
@@ -375,36 +404,65 @@ export default {
     },
     cancel() {},
     save() {
-      let self = this,
+      let $this = this,
         apikey = "",
+        type = "post",
+        url = "/IBUS/DAIG_SYS/registerEnterpriseInfo",
         request = {
-          country: self.country,
-          city: self.city,
-          area: self.area,
-          Industry: self.Industry,
-          companySize: self.companySize,
-          companyInput: self.companyInput,
-          enterpriseName: self.enterpriseName,
-          upadteSrc: self.upadteSrc
+          email: this.useremail,
+          enterpriseName: this.enterpriseName,
+          shortName: this.enterpriseSName,
+          logo: this.imageSrc,
+          enterpriseCode: this.OrganizationCode,
+          province: this.province,
+          city: this.city,
+          area: this.area,
+          industryL1: this.Industry1,
+          industryL2: "",
+          industryL3: "",
+          scale: this.companySize,
+          income: this.companyInput,
+          session_id: this.session_id
+        },
+        param = {
+          apikey,
+          request
         };
 
-      // self.$http.post("",{apikey, request}).then(res=>{});
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          if (res.data.errorCode !== 0) {
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            //显示导航菜单
+            this.$store.commit("home/showTabsFun", true);
 
-      //显示导航菜单
-      this.$store.commit("home/showTabsFun", true);
-
-      this.$router.push("/overview");
+            this.$router.push("/overview");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     modify() {
       this.disable = true;
+      this.$store.commit("UserCenter/changedisableCityPicker", true);
+    }
+  },
+  computed: {
+    useremail() {
+      return this.$store.state.loginPage.useremail;
+    },
+    session_id() {
+      return this.$store.state.loginPage.session_id;
     }
   }
-  //   computed:{
-  //       changeSrc:function () {
-
-  //           return
-  //       }
-  //   }
 };
 </script>
 

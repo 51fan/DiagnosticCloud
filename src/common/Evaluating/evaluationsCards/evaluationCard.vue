@@ -27,6 +27,11 @@
           </md-card-actions> -->
           </md-ripple>
         </md-card>
+        <md-dialog-alert
+                  class="md-primary md-raised"
+                  :md-active.sync="showAlert"
+                  :md-content="AlertMessage"
+                  md-confirm-text="知道了" />
     </div>
 </template>
 
@@ -67,7 +72,9 @@ export default {
   data: () => ({
     score: Object,
     id: String,
-    name: String
+    name: String,
+    showAlert:false,
+    AlertMessage:false
   }),
   methods: {
     beginEvaluation: function() {
@@ -76,6 +83,9 @@ export default {
         this.$store.commit("evlaluating/changeShowevaluatingPage", true);
         this.$store.commit("evlaluating/getCurrentEvaluationName", this.name);
         this.$store.commit("evlaluating/getCurrentEvaluationId", this.id);
+      }else{
+        this.showAlert = true;
+        this.AlertMessage = "请登录后再开始评测";
       }
     }
   },

@@ -3,7 +3,9 @@ const state = {
   loginSuccess: false,
   showLoginPage: true,
   firstLogin: false,
-  session_id:""
+  session_id: "",
+  useremail: "",
+  usermobile: ""
 }
 
 // getters
@@ -23,6 +25,12 @@ const mutations = {
   },
   getSession_id(state, value) {
     state.session_id = value;
+  },
+  getUseremail(state, value) {
+    state.useremail = value;
+  },
+  getUsermobile(state, value) {
+    state.usermobile = value;
   }
 }
 

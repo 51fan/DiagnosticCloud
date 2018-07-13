@@ -5,7 +5,7 @@
                 <div style="width:30%;text-align: center;margin-top: 5%;">
                     <div><img src="/static/imgs/noImage.png"></div>
                     <!-- <span style="cursor: pointer;">更换头像</span> -->
-                    <md-button class="md-dense md-raised md-primary" @click="changeImage()" disabled>更换头像</md-button>
+                    <md-button class="md-dense md-raised md-primary" @click="changeImage(e)" disabled>更换头像</md-button>
                 </div>
                 <div style="border-right: 3px solid lightgray;"></div>
                 <div class="personalinfoHeadright">
@@ -15,23 +15,23 @@
                             <md-input v-model="name" disabled></md-input>
                         </md-field>
                     </div>
-                    <div style="  width: 70%;display: inline-flex;">
-                        <span style="width:10%">邮箱：</span>
-                        <md-field style="margin-top: -3%;">
+                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
+                        <span style="width:100%">邮箱：{{useremail}}</span>
+                        <!-- <md-field style="margin-top: -3%;">
                             <md-input v-model="email" disabled></md-input>
-                        </md-field>
+                        </md-field> -->
                     </div>
-                    <div style="  width: 70%;display: inline-flex;">
-                        <span style="width:10%">手机：</span>
-                        <md-field style="margin-top: -3%;">
+                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
+                        <span style="width:100%">手机：{{usermobile}}</span>
+                        <!-- <md-field style="margin-top: -3%;">
                             <md-input v-model="mobile" disabled></md-input>
-                        </md-field>
+                        </md-field> -->
                     </div>
-                    <div style="  width: 70%;display: inline-flex;">
-                        <span style="width:18%">当前企业：</span>
-                        <md-field style="margin-top: -3%;">
+                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
+                        <span style="width:100%">当前企业：{{company}}</span>
+                        <!-- <md-field style="margin-top: -3%;">
                             <md-input v-model="company" disabled></md-input>
-                        </md-field>
+                        </md-field> -->
                     </div>
                 </div>
             </div>
@@ -72,9 +72,17 @@
         <div v-if="disable">
             <div class="personalinfoHead">
                 <div style="width:30%;text-align: center;margin-top: 5%;">
-                    <div><img src="/static/imgs/noImage.png"></div>
-                    <!-- <span style="cursor: pointer;">更换头像</span> -->
-                    <md-button class="md-dense md-raised md-primary" @click="changeImage()">更换头像</md-button>
+                    <!-- <img class="logoImage" v-bind:src="imageSrc">
+                    <md-field style=" width:55%;margin-right: 5%;"  ref="file">
+                        <label style="cursor: pointer;">上传logo</label>
+                        <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="changeImage"/>
+                    </md-field> -->
+                    <md-field style=" width:55%;"  ref="file">
+                                <label style="cursor: pointer;">上传logo</label>
+                                <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="changeImage"/>
+                            </md-field>
+                            <!-- <input type="file" @change="updateLogo" ref="file" id="file"> -->
+                            <img class="logoImage" v-bind:src="imageSrc"/>
                 </div>
                 <div style="border-right: 3px solid lightgray;"></div>
                 <div class="personalinfoHeadright">
@@ -84,23 +92,23 @@
                             <md-input v-model="name" disabled></md-input>
                         </md-field>
                     </div>
-                    <div style="  width: 70%;display: inline-flex;">
-                        <span style="width:10%">邮箱：</span>
-                        <md-field style="margin-top: -3%;">
+                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
+                        <span style="width:100%">邮箱：{{useremail}}</span>
+                        <!-- <md-field style="margin-top: -3%;">
                             <md-input v-model="email" disabled></md-input>
-                        </md-field>
+                        </md-field> -->
                     </div>
-                    <div style="  width: 70%;display: inline-flex;">
-                        <span style="width:10%">手机：</span>
-                        <md-field style="margin-top: -3%;">
+                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
+                        <span style="width:100%">手机：{{usermobile}}</span>
+                        <!-- <md-field style="margin-top: -3%;">
                             <md-input v-model="mobile" disabled></md-input>
-                        </md-field>
+                        </md-field> -->
                     </div>
-                    <div style="  width: 70%;display: inline-flex;">
-                        <span style="width:18%">当前企业：</span>
-                        <md-field style="margin-top: -3%;">
+                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
+                        <span style="width:100%">当前企业：{{company}}</span>
+                        <!-- <md-field style="margin-top: -3%;">
                             <md-input v-model="company" disabled></md-input>
-                        </md-field>
+                        </md-field> -->
                     </div>
                 </div>
             </div>
@@ -138,7 +146,12 @@
                 <md-button class="md-dense md-raised md-primary" style="width:10%" @click="cancel()">取消</md-button>
                 <md-button class="md-dense md-raised md-primary" style="width:10%" @click="save()">保存</md-button>
             </div>
-        </div>       
+        </div>
+        <md-dialog-alert 
+                  class="md-primary md-raised"
+                  :md-active.sync="showAlert"
+                  :md-content="AlertMessage"
+                  md-confirm-text="知道了" />       
     </div>
     
 </template>
@@ -210,18 +223,92 @@ export default {
     name: "",
     email: "",
     mobile: "",
-    company: "",
     sex: "female",
-    disable: false
+    company: "",
+    disable: false,
+    showAlert: false,
+    AlertMessage: "",
+    imageSrc: "/static/imgs/noImage.png",
+    upadteSrc: ""
   }),
+  mounted: function() {
+    let $this = this,
+      apikey = "",
+      request = {
+        email: this.useremail,
+        session_id: this.session_id
+      };
+    $this.$http
+      .post("/IBUS/DAIG_SYS/getUserInformation", {
+        apikey,
+        request
+      })
+      .then(res => {
+        let model = res.data.result;
+        $this.name = res.data.result.name;
+        $this.imageSrc = res.data.result.image
+          ? res.data.result.image
+          : "/static/imgs/noImage.png";
+        $this.email = res.data.result.email;
+        $this.mobile = res.data.result.mobile;
+        $this.department = res.data.result.department;
+        $this.position = res.data.result.position;
+        $this.date = res.data.result.birthday;
+        $this.gender = res.data.result.gender;
+        $this.company = res.data.result.shortName;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
   methods: {
     cancel() {},
     save() {
-      let self = this,
+      let $this = this,
         apikey = "",
-        request = {};
+        type = "post",
+        url = " /IBUS/DAIG_SYS/modifyUserInfo",
+        request = {
+          email: this.useremail,
+          position: this.position,
+          department: this.department,
+          birthday: this.date,
+          gender: this.sex,
+          session_id: this.session_id
+        },
+        param = {
+          apikey,
+          request
+        };
 
-      // self.$http.post("",{apikey, request}).then(res=>{});
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          console.log(res);
+          if (res.data.errorCode !== 0) {
+            $this.showVerificationCode = true;
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            //修改登录状态
+            $this.$store.commit("loginPage/changeLoginState", true);
+            //隐藏登录按钮
+            $this.$store.commit("home/showLogin", false);
+            //显示导航菜单
+            $this.$store.commit("home/showTabsFun", true);
+            //显示用户中心
+            $this.$store.commit("home/showUserCenter", true);
+
+            $this.$router.push("/overview");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
 
       //显示导航菜单
       this.$store.commit("home/showTabsFun", true);
@@ -231,7 +318,67 @@ export default {
     modify() {
       this.disable = true;
     },
-    changeImage() {}
+    changeImage(e) {
+      let files = e.target.files[0];
+
+      if (files) {
+        let reader = new FileReader();
+        reader.readAsDataURL(files);
+        reader.onloadend = function() {
+          this.imageSrc = this.result;
+          console.log(this.imageSrc);
+          console.log(this.upadteSrc);
+        };
+        reader.onloadend();
+        //this.imageSrc =  _this.src;
+      } else {
+        this.imageSrc = "";
+      }
+
+      let $this = this,
+        apikey = "",
+        type = "post",
+        url = " /IBUS/DAIG_SYS/uploadImage",
+        request = {
+          email: this.useremail,
+          type: 0,
+          path: this.imageSrc,
+          session_id: this.session_id
+        },
+        param = {
+          apikey,
+          request
+        };
+
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          if (res.data.errorCode !== 0) {
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            //显示导航菜单
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  },
+  computed: {
+    useremail() {
+      return this.$store.state.loginPage.useremail;
+    },
+    usermobile() {
+      return this.$store.state.loginPage.usermobile;
+    },
+    session_id() {
+      return this.$store.state.loginPage.session_id;
+    }
   }
 };
 </script>

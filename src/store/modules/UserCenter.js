@@ -21,7 +21,9 @@ const state = {
     showPasswordsEmpty: false,
     showPasswordsError: false
   },
-  enterpriseInfo: {},
+  enterpriseInfo: {
+    disableCityPicker:false
+  },
   personalInfo: {}
 }
 
@@ -84,9 +86,12 @@ const mutations = {
   },
   changePasswordshowPasswordsEmpty(state, value) {
     state.modifyPassword.showPasswordsEmpty = value;
-  },
+  }, 
   changePasswordshowPasswordsError(state, value) {
     state.modifyPassword.showPasswordsError = value;
+  },
+  changedisableCityPicker(state, value) {
+    state.enterpriseInfo.disableCityPicker = value;
   },
 }
 

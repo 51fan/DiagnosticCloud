@@ -208,7 +208,8 @@ export default {
     var request = {
       evaluationId: this.reportParm.evaluationId,
       idx: this.reportParm.idx,
-      level: 1
+      level: 1,
+      session_id: this.session_id
     };
     var apikey = "";
     var param = {
@@ -289,7 +290,8 @@ export default {
       var request = {
           evaluationId: self.reportParm.evaluationId,
           idx: self.reportParm.idx,
-          level: 2
+          level: 2,
+          session_id: this.session_id
         },
         apikey = "",
         param = {
@@ -340,7 +342,8 @@ export default {
       var request = {
           evaluationId: self.reportParm.evaluationId,
           idx: self.reportParm.idx,
-          level: 3
+          level: 3,
+          session_id: this.session_id
         },
         apikey = "",
         param = {
@@ -413,6 +416,9 @@ export default {
   computed: {
     reportParm() {
       return this.$store.state.evlaluating.evaluatingPage.reportParm;
+    },
+    session_id() {
+      return this.$store.state.loginPage.session_id;
     }
   }
 };

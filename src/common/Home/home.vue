@@ -124,6 +124,9 @@ export default {
     getLoginState() {
       return this.$store.state.loginPage.loginSuccess;
     },
+    useremail() {
+      return this.$store.state.loginPage.useremail;
+    }
   },
   methods: {
     toggleMenu() {
@@ -140,11 +143,11 @@ export default {
     goRouter(index) {
       switch (index) {
         case 1:
-          this.$store.commit("home/showTabsFun", false);
+          this.$store.commit("home/showTabsFun", true);
           this.$router.push("/personalInfo");
           break;
         case 2:
-          this.$store.commit("home/showTabsFun", false);
+          this.$store.commit("home/showTabsFun", true);
           this.$router.push("/enterpriseInfo");
           break;
         case 3:
@@ -190,17 +193,37 @@ export default {
           this.$router.push("/modifyPassword");
           break;
         case 4:
-          //修改登录状态
-          this.$store.commit("loginPage/changeLoginState", false);
-          //隐藏登录按钮
-          this.$store.commit("home/showLogin", true);
-          //隐藏用户中心按钮
-          this.$store.commit("home/showUserCenterButton", false);
-          //隐藏用户中心
-          this.$store.commit("home/showUserCenter", false);
-          //显示导航菜单
-          this.$store.commit("home/showTabsFun", true);
-          this.$router.push("/overview");
+          let $this = this,
+            apikey = "",
+            request = {
+              email: this.useremail
+            };
+          $this.$http
+            .post("/IBUS/DAIG_SYS/logout", {
+              apikey,
+              request
+            })
+            .then(res => {
+              if (res.data.errorCode !== 0) {
+                $this.showAlert = true;
+                $this.AlertMessage = res.data.errorMsg;
+              } else {
+                //修改登录状态
+                this.$store.commit("loginPage/changeLoginState", false);
+                //隐藏登录按钮
+                this.$store.commit("home/showLogin", true);
+                //隐藏用户中心按钮
+                this.$store.commit("home/showUserCenterButton", false);
+                //隐藏用户中心
+                this.$store.commit("home/showUserCenter", false);
+                //显示导航菜单
+                this.$store.commit("home/showTabsFun", true);
+                this.$router.push("/overview");
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
           break;
         default:
           break;

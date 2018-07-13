@@ -152,6 +152,7 @@ export default {
             this.showPasswordsEmpty = false;
             this.showPhoneNumEmpty = false;
             this.showVCEmpty = false;
+            this.showPasswordfError = false;
           } else {
             this.showEmailEmpty = false;
             this.showPasswordfEmpty = false;
@@ -169,6 +170,7 @@ export default {
             this.showPasswordsEmpty = true;
             this.showPhoneNumEmpty = false;
             this.showVCEmpty = false;
+            this.showPasswordfError = false;
           } else {
             this.showEmailEmpty = false;
             this.showPasswordfEmpty = false;
