@@ -3,16 +3,28 @@
         <div v-if="!disable">
             <div class="personalinfoHead">
                 <div style="width:30%;text-align: center;margin-top: 5%;">
-                    <div><img src="/static/imgs/noImage.png"></div>
-                    <!-- <span style="cursor: pointer;">更换头像</span> -->
-                    <md-button class="md-dense md-raised md-primary" @click="changeImage(e)" disabled>更换头像</md-button>
+                    <!-- <el-upload
+                    class='ensure ensureButt'
+                    :action="importFileUrl"
+                    :data="upLoadData"
+                    name="importfile"
+                    :onError="uploadError"
+                    :onSuccess="uploadSuccess"
+                    :beforeUpload="beforeAvatarUpload"
+                    >
+                    <el-button size="small" type="primary">确定</el-button>
+                    </el-upload> -->
                 </div>
                 <div style="border-right: 3px solid lightgray;"></div>
                 <div class="personalinfoHeadright">
                     <div style="  width: 70%;display: inline-flex;">
                         <span style="width:10%">姓名：</span>
-                        <md-field style="margin-top: -3%;">
+                        <md-field style="margin-top: -3%;" v-if="!canEditName">
                             <md-input v-model="name" disabled></md-input>
+                            <i class="material-icons" @click="editName()" style="cursor: pointer;">edit</i>
+                        </md-field>
+                        <md-field style="margin-top: -3%;" v-if="canEditName">
+                            <md-input v-model="name" v-on:blur="saveName()" id="eidtName"></md-input>
                         </md-field>
                     </div>
                     <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
@@ -47,9 +59,12 @@
                 </div>
                 <div style="margin-left: 36%;">
                     <span  style="width:10%">出生日期：</span>
-                    <md-field style="width: 70%">
-                        <md-input v-model="date" disabled></md-input>
-                    </md-field>
+                    <el-date-picker
+                        v-model="date"
+                        type="date"
+                        disabled
+                        placeholder="选择日期">
+                    </el-date-picker>
                 </div>
                 <div style="margin-left: 36%;">
                     <span  style="width:10%">部门：</span>
@@ -88,8 +103,12 @@
                 <div class="personalinfoHeadright">
                     <div style="  width: 70%;display: inline-flex;">
                         <span style="width:10%">姓名：</span>
-                        <md-field style="margin-top: -3%;">
+                        <md-field style="margin-top: -3%;" v-if="!canEditName">
                             <md-input v-model="name" disabled></md-input>
+                            <i class="material-icons" @click="editName()" style="cursor: pointer;">edit</i>
+                        </md-field>
+                        <md-field style="margin-top: -3%;" v-if="canEditName">
+                            <md-input v-model="name" @change="saveName" id="eidtName"></md-input>
                         </md-field>
                     </div>
                     <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
@@ -124,9 +143,11 @@
                 </div>
                 <div style="margin-left: 36%;">
                     <span  style="width:10%">出生日期：</span>
-                    <md-field style="width: 70%">
-                        <md-input v-model="date"></md-input>
-                    </md-field>
+                    <el-date-picker
+                        v-model="date"
+                        type="date"
+                        placeholder="选择日期">
+                    </el-date-picker>
                 </div>
                 <div style="margin-left: 36%;">
                     <span  style="width:10%">部门：</span>
@@ -210,6 +231,29 @@
 .personalinfobody span {
   width: 30%;
 } */
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
 </style>
 
 
@@ -229,7 +273,9 @@ export default {
     showAlert: false,
     AlertMessage: "",
     imageSrc: "/static/imgs/noImage.png",
-    upadteSrc: ""
+    upadteSrc: "",
+    imageUrl: "",
+    canEditName: false
   }),
   mounted: function() {
     let $this = this,
@@ -273,7 +319,7 @@ export default {
           position: this.position,
           department: this.department,
           birthday: this.date,
-          gender: this.sex,
+          gender: this.sex == "female"?0:1,
           session_id: this.session_id
         },
         param = {
@@ -310,13 +356,55 @@ export default {
           console.log(error);
         });
 
-      //显示导航菜单
-      this.$store.commit("home/showTabsFun", true);
+      //   //显示导航菜单
+      //   this.$store.commit("home/showTabsFun", true);
 
-      this.$router.push("/overview");
+      //   this.$router.push("/overview");
     },
     modify() {
       this.disable = true;
+    },
+    editName() {
+      this.canEditName = true;
+      setTimeout(() => {
+        let dom = document.getElementById("eidtName");
+        dom.focus();
+      });
+    },
+    saveName() {
+      let $this = this,
+        apikey = "",
+        type = "post",
+        url = "/IBUS/DAIG_SYS/modifyUserName ",
+        request = {
+          email: this.useremail,
+          name: this.name,
+          session_id: this.session_id
+        },
+        param = {
+          apikey,
+          request
+        };
+      
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          console.log(res);
+          if (res.data.errorCode !== 0) {
+            $this.showVerificationCode = true;
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            this.canEditName = false;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     changeImage(e) {
       let files = e.target.files[0];

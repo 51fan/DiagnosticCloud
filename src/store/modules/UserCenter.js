@@ -1,9 +1,10 @@
+
 // initial state
 const state = {
   modifyPassword: {
     // time: 0,
-    mobile: "",
-    email: "",
+    // mobile: "",
+    // email: "",
     checkWay: "email",
     VerificationCode: "",
     showVCEmpty: false,
@@ -22,7 +23,10 @@ const state = {
     showPasswordsError: false
   },
   enterpriseInfo: {
-    showCityPicker:false
+    showCityPicker: false,
+    selectProvince: "",
+    selectCity: "",
+    selectCounty: ""
   },
   personalInfo: {}
 }
@@ -30,18 +34,52 @@ const state = {
 // getters
 const getters = {}
 
-const actions = {}
+const actions = {
+  getEnterpriseInfo(store,dispatch) {
+    let $this = this,
+      apikey = "",
+      request = {
+        email: store.rootState.loginPage.useremail,
+        session_id: store.rootState.loginPage.session_id
+      };
+    Axios.$http
+      .post("/IBUS/DAIG_SYS/getEnterpriseInfo", {
+        apikey,
+        request
+      })
+      .then(res => {
+        console.log(res.data.return);
+        // let model = res.data.return;
+        // $this.enterpriseName = res.data.return.enterpriseName;
+        // $this.enterpriseSName = res.data.return.shortName;
+        // $this.imageSrc = res.data.return.logo;
+        // $this.province = res.data.return.province;
+        // $this.city = res.data.return.city;
+        // $this.area = res.data.return.area;
+        // $this.Industry1 = res.data.return.industryL1;
+        // $this.companySize = res.data.return.scale;
+        // $this.companyInput = res.data.return.income;
+        // $this.OrganizationCode = res.data.return.enterpriseCode;
+        // $this.$store.commit(
+        //   "UserCenter/changeSelectProvince",
+        //   res.data.return.province
+        // );
+        // $this.$store.commit(
+        //   "UserCenter/changeSelectCity",
+        //   res.data.return.city
+        // );
+        // $this.$store.commit(
+        //   "UserCenter/changeSelectCounty",
+        //   res.data.return.area
+        // );
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+}
 
 const mutations = {
-//   changePasswordTime(state, value) {
-//     state.modifyPassword.time = value;
-//   },
-  changePasswordmobile(state, value) {
-    state.modifyPassword.mobile = value;
-  },
-  changePasswordemail(state, value) {
-    state.modifyPassword.email = value;
-  },
   changePasswordcheckWay(state, value) {
     state.modifyPassword.checkWay = value;
   },
@@ -86,13 +124,22 @@ const mutations = {
   },
   changePasswordshowPasswordsEmpty(state, value) {
     state.modifyPassword.showPasswordsEmpty = value;
-  }, 
+  },
   changePasswordshowPasswordsError(state, value) {
     state.modifyPassword.showPasswordsError = value;
   },
   changeShowCityPicker(state, value) {
     state.enterpriseInfo.showCityPicker = value;
   },
+  changeSelectProvince(state, value) {
+    state.enterpriseInfo.selectProvince = value;
+  },
+  changeSelectCity(state, value) {
+    state.enterpriseInfo.selectCity = value;
+  },
+  changeSelectCounty(state, value) {
+    state.enterpriseInfo.selectCounty = value;
+  }
 }
 
 export default {

@@ -153,16 +153,16 @@ export default {
               res.data.firstLogin
             );
             if(res.data.firstLogin){
-               this.$store.commit("UserCenter/changeShowCityPicker", true);
+               $this.$store.commit("UserCenter/changeShowCityPicker", true);
             }
             //修改登录状态
             $this.$store.commit("loginPage/changeLoginState", true);
             //隐藏登录按钮
-            $this.$store.commit("home/showLogin", false);
+            // $this.$store.commit("home/showLogin", false);
             //显示导航菜单
             $this.$store.commit("home/showTabsFun", true);
             //显示用户中心
-            $this.$store.commit("home/showUserCenter", true);
+            // $this.$store.commit("home/showUserCenter", true);
 
             $this.$router.push("/overview");
           }

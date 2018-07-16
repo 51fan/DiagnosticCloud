@@ -5,9 +5,9 @@
       <md-app-toolbar class="md-large md-dense md-transparent" style="background-color: #eee;" >
         <div class="md-toolbar-row">
           <div class="md-toolbar-section-start">
-            <md-button class="md-icon-button" @click="toggleMenu" v-if="showUserCenterButton" >
+            <!-- <md-button class="md-icon-button" @click="toggleMenu" v-if="showUserCenterButton" >
               <md-icon >menu</md-icon>
-            </md-button>
+            </md-button> -->
 
             <span class="md-title" @click="gohome()" style="cursor: pointer;">扁鹊云</span>
           </div>
@@ -21,10 +21,10 @@
 
         <div class="md-toolbar-row" v-if="showTabs">
           <md-tabs class="md-transparent" md-alignment="fixed" md-sync-route>
-            <md-tab id="tab-home" md-label="主页" to="/overview"></md-tab>
-            <md-tab id="tab-posts" md-label="测评体验" to="/evaluating"></md-tab>
-            <md-tab id="tab-favorites" md-label="开发中" to="/example"></md-tab>
-            <md-tab id="tab-pages" md-label="开发中" to="/expertTeam"></md-tab>
+            <md-tab id="tab-home" md-label="工作台" to="/overview"></md-tab>
+            <md-tab id="tab-posts" md-label="测评产品" to="/evaluating"></md-tab>
+            <md-tab id="tab-favorites" md-label="测评中心" to="/example"></md-tab>
+            <md-tab id="tab-pages" md-label="企业设置" to="/enterpriseInfo"></md-tab>
           </md-tabs>
         </div>
       </md-app-toolbar>

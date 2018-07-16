@@ -28,42 +28,67 @@
                     </div>
                     <div v-if="changeCheckWay">
                         <div style="padding: 0 6% 3% 6%">
-                            我们将会向您的手机 +86 186*****678 发送验证短信，请将收到的验证码填入下方完成验证
+                            我们将会向您的手机 {{usermobile}} 发送验证短信，请将收到的验证码填入下方完成验证
                         </div>
-                        <div style="padding: 0 6% 3% 6%">
+                        <!-- <div style="padding: 0 6% 3% 6%">
                             <md-field style="width: 308px;display: inline-flex;" :class="VCMessageClass">
                                 <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc()" @click="showTips()"></md-input>
                                 <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
                                 <span class="md-error" v-if="showVCError">短信验证码错误</span>
                             </md-field>
-                            <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode()">获取验证码</md-button>
+                            <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(1)">获取验证码</md-button>
                             <span  style="color:red">{{time}}</span><span>秒后重新获取</span>
+                        </div> -->
+                        <div v-if="!showCount" style="padding: 0 6% 3% 6%">
+                            <md-field style="width: 20%;display: inline-flex;" :class="VCMessageClass">
+                                <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc()" @click="showTips()"></md-input>
+                                <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
+                                <span class="md-error" v-if="showVCError">短信验证码错误</span>
+                            </md-field>
+                            <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(1)">{{verftext}}</md-button>
+                        </div>
+                        <div v-if="showCount" style="padding: 0 6% 3% 6%">
+                            <md-field style="width: 40%;display: inline-flex;" :class="VCMessageClass">
+                                <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc()" @click="showTips()"></md-input>
+                                <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
+                                <span class="md-error" v-if="showVCError">短信验证码错误</span>
+                            </md-field>
+                            <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(1)">{{verftext}}</md-button>
+                            <span v-if="showText" style="color:red">{{time}}</span><span v-if="showText">秒后重新获取</span>
                         </div>
                     </div>
                     <div v-if="!changeCheckWay">
                         <div style="padding: 0 6% 3% 6%">
-                            我们将会向您的邮箱 ji***@ehz.cn 发送验证邮件，请将收到的验证码填入下方完成验证
+                            我们将会向您的邮箱 {{useremail}} 发送验证邮件，请将收到的验证码填入下方完成验证
                         </div>
-                        <div style="padding: 0 6% 3% 6%">
-                            <md-field style="width: 308px;display: inline-flex;" :class="VCMessageClass">
+                        <div v-if="showCount" style="padding: 0 6% 3% 6%">
+                            <md-field style="width: 20%;display: inline-flex;" :class="VCMessageClass">
                                 <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
                                 <span class="md-error" v-if="showVCEmpty">验证码不能为空</span>
                                 <span class="md-error" v-if="showVCError">验证码错误</span>
                             </md-field>
-                            <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode()">获取验证码</md-button>
-                            <span  style="color:red">{{time}}</span><span>秒后重新获取</span>
+                            <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(2)">{{verftext}}</md-button>
+                        </div>
+                        <div v-if="!showCount" style="padding: 0 6% 3% 6%">
+                            <md-field style="width: 20%;display: inline-flex;" :class="VCMessageClass">
+                                <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
+                                <span class="md-error" v-if="showVCEmpty">验证码不能为空</span>
+                                <span class="md-error" v-if="showVCError">验证码错误</span>
+                            </md-field>
+                            <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(2)">{{verftext}}</md-button>
+                            <span v-if="showText" style="color:red">{{time}}</span><span v-if="showText">秒后重新获取</span>
                         </div>
                     </div>
                 </div>
                 <div v-if="currentStep2" class="cardstyle">
-                    <div style="padding: 3% 6% 3% 6%;">重新设置账号ji***@ehz.cnde 密码</div>
+                    <div style="padding: 3% 6% 3% 6%;">重新设置账号{{useremail}} 密码</div>
                     <div style="padding: 0 6% 3% 6%">
-                        <md-field style="width:400px" :class="passwordFMessageClass" >
+                        <md-field style="width:40%" :class="passwordFMessageClass" >
                             <md-input v-model="passwordFirst" type="password" placeholder="6 - 16位密码，数字和字母组合，区分大小写" v-on:input ="inputFunc(2)" @click="showTips(2)"></md-input>
                             <span class="md-error" v-if="showPasswordfEmpty">密码不能为空</span>
                             <span class="md-error" v-if="showPasswordfError">密码格式不正确,密码最少需要6位/密码不能超过16位</span>
                         </md-field>
-                        <md-field style="width:400px" :class="passwordSMessageClass">
+                        <md-field style="width:40%" :class="passwordSMessageClass">
                             <md-input v-model="passwordSecond" type="password" placeholder="确认密码" v-on:input ="inputFunc(3)" @click="showTips(3)"></md-input>
                             <span class="md-error" v-if="showPasswordsEmpty">密码不能为空</span>
                             <span class="md-error" v-if="showPasswordsError">两次输入密码不一致</span>
@@ -128,7 +153,12 @@ export default {
   name: "modifyPassword",
   data: () => ({
     time: 0,
-    counter:""
+    counter: "",
+    showAlert: false,
+    AlertMessage: "",
+    showCount: false,
+    showText: false,
+    verftext: "获取验证码",
   }),
   methods: {
     inputFunc(index) {
@@ -215,39 +245,128 @@ export default {
           break;
       }
     },
-    getVerificationCode() {
-      //获取验证码
-      let self = this,
+    getVerificationCode(index) {
+      let $this = this,
         apikey = "",
+        type = "post",
+        url = "",
         request = {
-          mobile: this.mobile
+          session_id: this.session_id
+        },
+        param = {
+          apikey,
+          request
         };
+      //获取验证码
+      switch (index) {
+        case 1:
+          url = "/IBUS/DAIG_SYS/sendSms";
+          request.mobile = this.usermobile;
+          request.type = 1;
+          break;
+        case 2:
+          url = "/IBUS/DAIG_SYS/resetPasswordByEmail";
+          request.email = this.useremail;
+          break;
+        default:
+          break;
+      }
+
       //请求接口
-      //   self.$http
-      //     .post("", { apikey, request })
-      //     .then(res => {})
-      //     .catch(err => {});
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          if (res.data.errorCode !== 0) {
+            $this.showVerificationCode = true;
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            $this.showCount = true;
+            $this.showText = true;
+            $this.goLogin(60);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     nextStep() {
-      let self = this,
+      let $this = this,
         apikey = "",
-        request = {};
-      debugger;
-      //请求接口
-      //   self.$http
-      //     .post("", { apikey, request })
-      //     .then(res => {})
-      //     .catch(err => {});
-      if (self.currentStep1) {
-        self.$store.commit("UserCenter/changePasswordcurrentStep1", false);
-        self.$store.commit("UserCenter/changePasswordcurrentStep2", true);
-        self.$store.commit("UserCenter/changePasswordcurrentStep3", false);
-      } else if (self.currentStep2) {
-        self.$store.commit("UserCenter/changePasswordcurrentStep1", false);
-        self.$store.commit("UserCenter/changePasswordcurrentStep2", false);
-        self.$store.commit("UserCenter/changePasswordcurrentStep3", true);
-        self.goLogin();
+        type = "post",
+        url = "",
+        request = {
+          session_id: this.session_id
+        },
+        param = {
+          apikey,
+          request
+        };
+      if ($this.currentStep1) {
+        if ($this.changeCheckWay) {
+          url = "/IBUS/DAIG_SYS/checkVerifyCodeByMobile ";
+          request.mobile = $this.usermobile;
+          request.verifyCode = $this.VerificationCode;
+        } else {
+          url = "/IBUS/DAIG_SYS/checkVerifyCodeByEmail ";
+          request.verifyCode = $this.VerificationCode;
+        }
+      } else if ($this.currentStep2) {
+        url = " /IBUS/DAIG_SYS/resetPassword";
+        request.id = $this.changeCheckWay?$this.usermobile:$this.useremail;
+        request.password = $this.passwordFirst;
       }
+
+      //请求接口
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          if (res.data.errorCode !== 0) {
+            $this.showVerificationCode = true;
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            if ($this.currentStep1) {
+              $this.$store.commit(
+                "UserCenter/changePasswordcurrentStep1",
+                false
+              );
+              $this.$store.commit(
+                "UserCenter/changePasswordcurrentStep2",
+                true
+              );
+              $this.$store.commit(
+                "UserCenter/changePasswordcurrentStep3",
+                false
+              );
+            } else if ($this.currentStep2) {
+              $this.$store.commit(
+                "UserCenter/changePasswordcurrentStep1",
+                false
+              );
+              $this.$store.commit(
+                "UserCenter/changePasswordcurrentStep2",
+                false
+              );
+              $this.$store.commit(
+                "UserCenter/changePasswordcurrentStep3",
+                true
+              );
+              $this.goLogin(5);
+            }
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     isPassword(pass) {
       var str = pass;
@@ -269,9 +388,9 @@ export default {
       let _this = this;
       _this.time--;
     },
-    goLogin() {
+    goLogin(num) {
       let _this = this;
-      _this.time = 5;
+      _this.time = num;
       _this.counter = setInterval(_this.countDown, 1000);
     },
     goLoginR() {
@@ -289,13 +408,20 @@ export default {
       //   debugger;
       if (newVal == 0) {
         clearInterval(this.counter);
-        //隐藏导航菜单
-        this.$store.commit("home/showTabsFun", false);
-        //隐藏登录按钮
-        this.$store.commit("home/showLogin", true);
-        //显示用户中心
-        this.$store.commit("home/showUserCenter", false);
-        this.$router.push("/loginPage");
+        if (this.currentStep3) {
+          //隐藏导航菜单
+          this.$store.commit("home/showTabsFun", false);
+          //隐藏登录按钮
+          this.$store.commit("home/showLogin", true);
+          //显示用户中心
+          this.$store.commit("home/showUserCenter", false);
+          //显示登录界面
+          this.$store.commit("loginPage/changeLoginShowState", true);
+        }
+        if (this.showCount) {
+          this.verftext = "重新获取验证码";
+          this.showText = false;
+        }
       }
     }
   },
@@ -337,21 +463,24 @@ export default {
     // time() {
     //   return this.$store.state.UserCenter.modifyPassword.time;
     // },
-    mobile: {
+    usermobile: {
       get: function() {
-        return this.$store.state.UserCenter.modifyPassword.mobile;
+        return this.$store.state.loginPage.usermobile;
       },
       set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.mobile = newValue;
+        this.$store.state.loginPage.usermobile = newValue;
       }
     },
-    email: {
+    useremail: {
       get: function() {
-        return this.$store.state.UserCenter.modifyPassword.email;
+        return this.$store.state.loginPage.useremail;
       },
       set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.email = newValue;
+        this.$store.state.loginPage.useremail = newValue;
       }
+    },
+    session_id() {
+      return this.$store.state.loginPage.session_id;
     },
     checkWay: {
       get: function() {

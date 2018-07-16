@@ -1,8 +1,37 @@
 <template>
     <div class="mypanel" style="font-size: xx-large;">
-        <h6>欢迎光临</h6>
+        <!-- <h6>欢迎光临</h6>
         <div style="text-align: center;">
             <img src="../../assets/images/industry.jpg" alt="">
+        </div> -->
+          <div class="md-layout" style="flex-wrap: nowrap;">
+            <div class="md-layout-item md-size-15">
+                <img :src="conmpanyLogo"/>
+                <div style="font-size: medium;">{{companyName}}</div>
+                <div  style="color:rgba(42, 199, 249, 0.8);font-size: medium;cursor: pointer;padding: 5%;" @click="viewEnterpriseInfo()">查看企业信息</div>
+            </div>
+            <div class="md-layout-item md-size-85" style="text-align: left;padding-top: 2%;font-size: medium;">
+                <div style="display: inline-flex;width: 80%;border-bottom: 1px solid lightgray;padding-bottom: 2%;">
+                    <md-avatar><img :src="imageSrc" /></md-avatar>
+                    <div style="width: 80%;">
+                        <div style="margin: 1%;">xx欢迎您</div>
+                        <div>
+                            <span style="margin: 1%;">生产工程师</span>
+                            <span style="border-right: 2px solid #a7acb7;"></span>
+                            <span style="margin: 1%;">生产部门</span>
+                            <span style="margin: 3%;color:rgba(42, 199, 249, 0.8);cursor: pointer;" @click="viewPersonalInfo()">进入个人中心</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 80%;border-bottom: 1px solid lightgray;padding-bottom: 2%;">
+                     <div style="padding: 2%">您目前进行中的测评</div>
+                     <div style="padding: 2%">您当前无进行中的测评</div>
+                </div>
+                <div style="width: 80%;border-bottom: 1px solid lightgray;padding-bottom: 2%;">
+                     <div style="padding: 2%">已完成测评</div>
+                     <div style="padding: 2%">您当前无完成的测评</div>
+                </div>
+            </div>
         </div>
         <md-dialog :md-active.sync="firstLogin" style="width: 60%;overflow: overlay;">
           <md-dialog-title style="margin-left: 27%;">完善企业信息</md-dialog-title>
@@ -167,7 +196,7 @@
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .mypanel {
   text-align: center;
   text-align: -webkit-center;
@@ -196,6 +225,17 @@
   left: 20%;
   transform: translate(0, 0);
 }
+.md-layout-item {
+//   height: 40px;
+
+  &:nth-child(1) {
+    background: rgba(33, 33, 33, 0.28);
+  }
+
+  &:nth-child(2) {
+    // background: rgb(236, 29, 29);
+  }
+}
 </style>
 
 <script>
@@ -203,7 +243,7 @@ import cityPicker from "../../components/wheels/cityPicker/cityPicker.vue";
 export default {
   name: "overView",
   components: {
-      cityPicker
+    cityPicker
   },
   data: () => ({
     showAlert: false,
@@ -216,12 +256,15 @@ export default {
     enterpriseName: "",
     enterpriseSName: "",
     OrganizationCode: "",
-    imageSrc: "/static/imgs/noImage.png",
+    conmpanyLogo:"/static/imgs/company.png",
+    imageSrc: "/static/imgs/avatar.png",
     upadteSrc: "",
     enterpriseNameHasMessages: false,
     showenterpriseNameEmpty: false,
     enterpriseSNameHasMessages: false,
-    showenterpriseSNameEmpty: false
+    showenterpriseSNameEmpty: false,
+    AlertMessage: "",
+    companyName:"华制智能制造技术有限公司",
   }),
   computed: {
     firstLogin() {
@@ -322,6 +365,13 @@ export default {
         default:
           break;
       }
+    },
+    updateLogo() {},
+    viewEnterpriseInfo(){
+        this.$router.push("/enterpriseInfo")
+    },
+    viewPersonalInfo(){
+        this.$router.push("/personalInfo")
     }
   }
 };

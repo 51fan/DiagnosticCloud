@@ -207,7 +207,7 @@
                             </div>
                         </div> -->
                         <span class="spantitle" style="width:20%;margin: 6% 0 0 0;">所在地区：</span>
-                        <cityPicker  style="width:74%;margin: 5% 0 0 0;" ></cityPicker>
+                        <cityPicker  style="width:74%;margin: 5% 0 0 0;" :selectIndy="selectData"></cityPicker>
                     </div>
                     </div>
                     <div>
@@ -361,7 +361,8 @@ export default {
     upadteSrc: "",
     disable: false,
     showAlert: false,
-    AlertMessage: ""
+    AlertMessage: "",
+    selectData: ""
   }),
   mounted: function() {
     let $this = this,
@@ -388,6 +389,24 @@ export default {
         $this.companySize = res.data.return.scale;
         $this.companyInput = res.data.return.income;
         $this.OrganizationCode = res.data.return.enterpriseCode;
+        $this.$store.commit(
+          "UserCenter/changeSelectProvince",
+          res.data.return.province
+        );
+        $this.$store.commit(
+          "UserCenter/changeSelectCity",
+          res.data.return.city
+        );
+        $this.$store.commit(
+          "UserCenter/changeSelectCounty",
+          res.data.return.area
+        );
+        $this.selectData = {
+          province: res.data.return.province,
+          city: res.data.return.city,
+          county: res.data.return.area
+        };
+        eventBus.$emit("eventBusName", $this.selectData);
       })
       .catch(err => {
         console.log(err);
@@ -414,19 +433,21 @@ export default {
       let $this = this,
         apikey = "",
         type = "post",
-        url = "/IBUS/DAIG_SYS/registerEnterpriseInfo",
+        url = " /IBUS/DAIG_SYS/modifyEnterpriseInfo ",
         request = {
           email: this.useremail,
           enterpriseName: this.enterpriseName,
           shortName: this.enterpriseSName,
           logo: this.imageSrc,
           enterpriseCode: this.OrganizationCode,
-          province: this.province,
-          city: this.city,
-          area: this.area,
+          province: this.selectProvince,
+          city: this.selectCity,
+          area: this.selectCounty,
           industryL1: this.Industry1,
           industryL2: "",
           industryL3: "",
+          industryL4: "",
+          industryL5: "",
           scale: this.companySize,
           income: this.companyInput,
           session_id: this.session_id
@@ -435,7 +456,6 @@ export default {
           apikey,
           request
         };
-
       $this
         .$http({
           method: type,
@@ -447,10 +467,12 @@ export default {
             $this.showAlert = true;
             $this.AlertMessage = res.data.errorMsg;
           } else {
+            $this.disable = false;
+            $this.$store.commit("UserCenter/changeShowCityPicker", false);
             //显示导航菜单
-            this.$store.commit("home/showTabsFun", true);
+            $this.$store.commit("home/showTabsFun", true);
 
-            this.$router.push("/overview");
+            $this.$router.push("/overview");
           }
         })
         .catch(error => {
@@ -468,6 +490,15 @@ export default {
     },
     session_id() {
       return this.$store.state.loginPage.session_id;
+    },
+    selectProvince() {
+      return this.$store.state.UserCenter.enterpriseInfo.selectProvince;
+    },
+    selectCity() {
+      return this.$store.state.UserCenter.enterpriseInfo.selectCity;
+    },
+    selectCounty() {
+      return this.$store.state.UserCenter.enterpriseInfo.selectCounty;
     }
   }
 };

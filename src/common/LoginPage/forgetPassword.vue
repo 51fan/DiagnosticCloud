@@ -28,16 +28,17 @@
                     </div>
                     <div v-if="changeCheckWay">
                         <div style="padding: 0 6% 3% 6%;display: inline-flex;width: 100%;">
-                            <div style="width: 50%;margin-right: 2%;">
-                                <md-button class="md-dense md-raised md-primary" disabled style="display: inline-flex;margin: 18px 0 0 0;">+86</md-button>
-                                <md-field style="width: 308px;display: inline-flex;" :class="phoneNumMessageClass">
-                                    <md-input v-model="phoneNum"  placeholder="输入注册使用的手机号码" v-on:input ="inputFunc(4)" @click="showTips(4)"></md-input>
+                            <div style="width: 50%;margin-right: 2%;display: inline-flex;">
+                                <!-- <md-button class="md-dense md-raised md-primary" disabled style="display: inline-flex;margin: 8% 0 0;">+86</md-button> -->
+                                <span class="md-prefix" style="margin: 4% 1% 0 0;font-size: medium;">+86</span>
+                                <md-field style="width: 80%;display: inline-flex;" :class="phoneNumMessageClass">
+                                    <md-input v-model="mobile"  placeholder="输入注册使用的手机号码" v-on:input ="inputFunc(4)" @click="showTips(4)"></md-input>
                                     <span class="md-error" v-if="showPhoneNumEmpty">手机号码不能为空</span>
                                     <span class="md-error" v-if="showPhoneNumError">手机号填写不正确</span>
                                 </md-field>
                             </div>
                             <div v-if="!showCount">
-                                <md-field style="width: 308px;display: inline-flex;" :class="VCMessageClass">
+                                <md-field style="width: 50%;display: inline-flex;" :class="VCMessageClass">
                                     <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc()" @click="showTips()"></md-input>
                                     <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
                                     <span class="md-error" v-if="showVCError">短信验证码错误</span>
@@ -58,22 +59,22 @@
                     <div v-if="!changeCheckWay">
                         <div style="padding: 0 6% 3% 6%;display: inline-flex;width: 100%;">
                             <div style="width: 50%;margin-right: 2%;">
-                                <md-field md-clearable style="width:400px" :class="emailMessageClass" >
+                                <md-field md-clearable style="width:80%" :class="emailMessageClass" >
                                     <md-input v-model="email" placeholder="输入注册使用的邮箱" v-on:input ="inputFunc(1)" @click="showTips(1)" required></md-input>
                                     <span class="md-error" v-if="showEmailEmpty">邮箱不能为空</span>
                                     <span class="md-error" v-if="showEmailError">邮箱格式不正确</span>
                                 </md-field>
                             </div>
-                            <div v-if="!showCount">
-                                <md-field style="width: 308px;display: inline-flex;" :class="VCMessageClass">
+                            <div v-if="!showCount" style="width: 50%;">
+                                <md-field style="width: 60%;display: inline-flex;" :class="VCMessageClass">
                                     <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc()" @click="showTips()"></md-input>
                                     <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
                                     <span class="md-error" v-if="showVCError">短信验证码错误</span>
                                 </md-field>
                                 <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(2)">{{verftext}}</md-button>
                             </div>
-                            <div v-if="showCount">
-                                <md-field style="width: 40%;display: inline-flex;" :class="VCMessageClass">
+                            <div v-if="showCount" style="width: 50%;">
+                                <md-field style="width: 60%;display: inline-flex;" :class="VCMessageClass">
                                     <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc()" @click="showTips()"></md-input>
                                     <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
                                     <span class="md-error" v-if="showVCError">短信验证码错误</span>
@@ -87,12 +88,12 @@
                 <div v-if="currentStep2" class="cardstyle">
                     <div style="padding: 3% 6% 3% 6%;">重新设置账号ji***@ehz.cnde 密码</div>
                     <div style="padding: 0 6% 3% 6%">
-                        <md-field style="width:400px" :class="passwordFMessageClass" >
+                        <md-field style="width:40%" :class="passwordFMessageClass" >
                             <md-input v-model="passwordFirst" type="password" placeholder="6 - 16位密码，数字和字母组合，区分大小写" v-on:input ="inputFunc(2)" @click="showTips(2)"></md-input>
                             <span class="md-error" v-if="showPasswordfEmpty">密码不能为空</span>
                             <span class="md-error" v-if="showPasswordfError">密码格式不正确,密码最少需要6位/密码不能超过16位</span>
                         </md-field>
-                        <md-field style="width:400px" :class="passwordSMessageClass">
+                        <md-field style="width:40%" :class="passwordSMessageClass">
                             <md-input v-model="passwordSecond" type="password" placeholder="确认密码" v-on:input ="inputFunc(3)" @click="showTips(3)"></md-input>
                             <span class="md-error" v-if="showPasswordsEmpty">密码不能为空</span>
                             <span class="md-error" v-if="showPasswordsError">两次输入密码不一致</span>
@@ -179,7 +180,8 @@ export default {
     showEmailEmpty: false,
     showEmailError: false,
     showCount: false,
-    showText:false
+    showText: false,
+    counter: ""
   }),
   methods: {
     inputFunc(index) {
@@ -252,7 +254,7 @@ export default {
       }
     },
     getVerificationCode(index) {
-      if(this.time !== 0)return;
+      if (this.time !== 0) return;
       //获取验证码
       let $this = this,
         apikey = "",
@@ -265,7 +267,8 @@ export default {
           index == 1
             ? {
                 mobile: this.mobile,
-                type: 1
+                type: 1,
+                session_id: this.session_id
               }
             : {
                 email: this.email,
@@ -341,7 +344,7 @@ export default {
     goLogin(num) {
       let _this = this;
       _this.time = num;
-      setInterval(_this.countDown, 1000);
+      this.counter = setInterval(_this.countDown, 1000);
     },
     goLoginR() {
       //隐藏导航菜单
@@ -357,6 +360,7 @@ export default {
   watch: {
     time: function(newVal, oldVal) {
       if (newVal == 0) {
+        clearInterval(this.counter);
         if (this.currentStep3) {
           //隐藏导航菜单
           this.$store.commit("home/showTabsFun", false);
@@ -367,9 +371,9 @@ export default {
           //显示登录界面
           this.$store.commit("loginPage/changeLoginShowState", true);
         }
-        if(this.showCount){
-          $this.verftext = "重新获取验证码";
-          $this.showText = false;
+        if (this.showCount) {
+          this.verftext = "重新获取验证码";
+          this.showText = false;
         }
       }
     }
@@ -413,6 +417,9 @@ export default {
       return {
         stepBC: this.currentStep3
       };
+    },
+    session_id() {
+      return this.$store.state.loginPage.session_id;
     }
   }
 };
