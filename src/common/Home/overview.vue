@@ -53,41 +53,42 @@
                             <div class="infoItem">
                                 <span style="color:red;margin: 6% 0;">*</span>
                                 <span class="spantitle" style="width:24%">所在地区：</span>
-                                    <div style="display: inline-flex;width: 75%;">
-                                        <div style="width:25%">
-                                            <md-field>
-                                                <label for="province">省</label>
-                                                <md-select v-model="province" name="province" id="province" md-dense>
-                                                    <md-option value="guangdong">广东</md-option>
-                                                    <md-option value="guangxi">广西</md-option>
-                                                    <md-option value="jiangsu">江苏</md-option>
-                                                    <md-option value="anhui">安徽</md-option>
-                                                </md-select>
-                                            </md-field>
-                                        </div>
-                                        <div style="width:30%">
-                                            <md-field>
-                                                <label for="city">市</label>
-                                                <md-select v-model="city" name="city" id="city" md-dense>
-                                                    <md-option value="guangzhou">广州</md-option>
-                                                    <md-option value="shenzhen">深圳</md-option>
-                                                    <md-option value="dongguan">东莞</md-option>
-                                                    <md-option value="foshan">佛山</md-option>
-                                                </md-select>
-                                            </md-field>
-                                        </div>
-                                        <div style="width:45%">
-                                            <md-field>
-                                                <label for="area">县/区</label>
-                                                <md-select v-model="area" name="area" id="area" md-dense>
-                                                    <md-option value="futian">福田</md-option>
-                                                    <md-option value="nanshan">南山</md-option>
-                                                    <md-option value="longgang">龙岗</md-option>
-                                                    <md-option value="luohu">罗湖</md-option>
-                                                </md-select>
-                                            </md-field>
-                                        </div>
-                                </div>
+                                    <!-- <div style="display: inline-flex;width: 75%;">
+                                            <div style="width:25%">
+                                                <md-field>
+                                                    <label for="province">省</label>
+                                                    <md-select v-model="province" name="province" id="province" md-dense>
+                                                        <md-option value="guangdong">广东</md-option>
+                                                        <md-option value="guangxi">广西</md-option>
+                                                        <md-option value="jiangsu">江苏</md-option>
+                                                        <md-option value="anhui">安徽</md-option>
+                                                    </md-select>
+                                                </md-field>
+                                            </div>
+                                            <div style="width:30%">
+                                                <md-field>
+                                                    <label for="city">市</label>
+                                                    <md-select v-model="city" name="city" id="city" md-dense>
+                                                        <md-option value="guangzhou">广州</md-option>
+                                                        <md-option value="shenzhen">深圳</md-option>
+                                                        <md-option value="dongguan">东莞</md-option>
+                                                        <md-option value="foshan">佛山</md-option>
+                                                    </md-select>
+                                                </md-field>
+                                            </div>
+                                            <div style="width:45%">
+                                                <md-field>
+                                                    <label for="area">县/区</label>
+                                                    <md-select v-model="area" name="area" id="area" md-dense>
+                                                        <md-option value="futian">福田</md-option>
+                                                        <md-option value="nanshan">南山</md-option>
+                                                        <md-option value="longgang">龙岗</md-option>
+                                                        <md-option value="luohu">罗湖</md-option>
+                                                    </md-select>
+                                                </md-field>
+                                            </div>
+                                    </div> -->
+                                    <cityPicker style="width:74%;margin:6% 0 0 0"></cityPicker>
                             </div>
                         </div>
                         <div>
@@ -198,9 +199,12 @@
 </style>
 
 <script>
+import cityPicker from "../../components/wheels/cityPicker/cityPicker.vue";
 export default {
   name: "overView",
-  components: {},
+  components: {
+      cityPicker
+  },
   data: () => ({
     showAlert: false,
     province: "",

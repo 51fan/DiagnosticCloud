@@ -1,12 +1,12 @@
 <template>
     <div class="container">
-       <section class="city-picker" v-if="showProvice">
+       <section class="city-picker" v-if="showCityPicker">
             
             <am-select  @select="proviceHandle" :options="province" search placeholder="请选择省、直辖市"></am-select>
             <am-select v-if="city.length > 0" @select="cityHandle" search :options="city" placeholder="请选择市、区"></am-select>
             <am-select v-if="county.length > 0" @select="countyHandle" search :options="county" placeholder="请选择区、县"></am-select>
         </section>
-        <section class="city-picker" v-if="!showProvice">
+        <section class="city-picker" v-if="!showCityPicker">
             <select  disabled="disabled" style="background-color: lightgray;">
                 <option value="diable">请选择省、直辖市</option>
             </select>
@@ -21,7 +21,7 @@ import locationData from "./location";
 
 export default {
   name: "city-picker",
-  data:()=> {
+  data: () => {
     const province = [];
     for (let code in locationData) {
       let item = locationData[code];
@@ -38,12 +38,10 @@ export default {
       selectProvince: null,
       selectCity: null,
       selectCounty: null,
-      showProvice:false
     };
   },
   methods: {
     proviceHandle(value) {
-      if (!this.disableCityPicker) return;
       const city = [];
       for (let code in value.cities) {
         let item = value.cities[code];
@@ -77,22 +75,6 @@ export default {
       this.selectCounty = value.name;
     }
   },
-  watch: {
-    disableCityPicker: function(newValue, oldValue) {
-      var $this = this;
-      if (newValue) {
-        // for (let code in locationData) {
-        //   let item = locationData[code];
-        //   $this.province.push(
-        //     Object.assign(item, {
-        //       label: item.name
-        //     })
-        //   );
-        // }
-        $this.showProvice = true;
-      }
-    }
-  },
   computed: {
     address() {
       const { selectProvince, selectCity, selectCounty } = this;
@@ -102,8 +84,8 @@ export default {
         (selectCounty ? "，" + selectCounty : "")
       );
     },
-    disableCityPicker() {
-      return this.$store.state.UserCenter.enterpriseInfo.disableCityPicker;
+    showCityPicker() {
+      return this.$store.state.UserCenter.enterpriseInfo.showCityPicker;
     }
   }
 };
@@ -118,6 +100,6 @@ export default {
   margin-left: 3%;
 }
 .am-selected {
-  width: 32%;
+  width: 32% !important;
 }
 </style>

@@ -152,6 +152,9 @@ export default {
               "loginPage/changefirstLogin",
               res.data.firstLogin
             );
+            if(res.data.firstLogin){
+               this.$store.commit("UserCenter/changeShowCityPicker", true);
+            }
             //修改登录状态
             $this.$store.commit("loginPage/changeLoginState", true);
             //隐藏登录按钮

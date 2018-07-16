@@ -5,7 +5,7 @@
                     <div>
                         <div class="infoItem">
                                 <span class="spantitle">企业名称：</span>
-                                <md-field>
+                                <md-field style="width: 80%;margin: -1% 0;">
                                     <label></label>
                                     <md-input v-model="enterpriseName" placeholder="" disabled></md-input>
                                 </md-field>
@@ -14,29 +14,9 @@
                     <div>
                         <div class="infoItem">
                             <span class="spantitle">企业简称：</span>
-                            <md-field>
+                            <md-field style="width: 80%;margin: -1% 0;">
                                 <label></label>
                                 <md-input v-model="enterpriseSName" placeholder="" disabled></md-input>
-                            </md-field>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="infoItem">
-                            <span style="margin: 28px 20px;width:15%">企业图标：</span>
-                            <md-field style=" width:55%;margin-right: 5%;"  ref="file">
-                                <label style="cursor: pointer;">上传logo</label>
-                                <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo" disabled/>
-                            </md-field>
-                            <!-- <input type="file" @change="updateLogo" ref="file" id="file"> -->
-                            <img class="logoImage" v-bind:src="imageSrc"/>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="infoItem">
-                            <span class="spantitle">组织机构代码：</span>
-                            <md-field>
-                                <label></label>
-                                <md-input v-model="OrganizationCode" placeholder="" disabled></md-input>
                             </md-field>
                         </div>
                     </div>
@@ -79,12 +59,15 @@
                                     </div>
                             </div>
                         </div> -->
-                        <cityPicker></cityPicker>
+                        <div class="infoItem">
+                            <span class="spantitle" style="width:20%;margin: 6% 0 0 0;">所在地区：</span>
+                            <cityPicker style="width:74%;margin: 6% 0 0 0;" ></cityPicker>
+                        </div>
                     </div>
                     <div>
                         <div class="infoItem">
                             <span class="spantitle" style="width:20%">所属行业：</span>
-                            <div class="md-layout-item" style="width:80%">
+                            <div class="md-layout-item" style="width:80%;margin: -3% 0;">
                                 <md-field>
                                     <md-select v-model="Industry1" name="Industry1" id="Industry1" md-dense disabled>
                                         <md-option value="australia1">化学制品</md-option>
@@ -113,7 +96,7 @@
                     <div>
                         <div class="infoItem">
                             <span class="spantitle" style="width:20%">企业规模：</span>
-                            <div class="md-layout-item" style="width:80%">
+                            <div class="md-layout-item" style="width:80%;margin: -3% 0;">
                                 <md-field>
                                     <md-select v-model="companySize" name="companySize" id="companySize" md-dense disabled>
                                         <md-option value="australia">100人以内</md-option>
@@ -127,8 +110,8 @@
                     </div>
                     <div>
                         <div class="infoItem">
-                            <span class="spantitle" style="width:20%">年销售收入：</span>
-                            <div class="md-layout-item" style="width:80%">
+                            <span class="spantitle" style="width:24%">年销售收入：</span>
+                            <div class="md-layout-item" style="width:75%;margin: -3% 0;">
                                 <md-field>
                                     <md-select v-model="companyInput" name="companyInput" id="companyInput" md-dense disabled>
                                         <md-option value="australia">1000万以内</md-option>
@@ -140,32 +123,18 @@
                             </div>
                         </div>
                     </div>
-            </div>
-            <md-button class="md-dense md-raised md-primary" style="width:10%;margin-top: 1%;" @click="modify()">修改</md-button>
-        </div>
-        <div v-if="disable">
-             <div class="cardstyle">
                     <div>
                         <div class="infoItem">
-                                <span class="spantitle">企业名称：</span>
-                                <md-field>
-                                    <label></label>
-                                    <md-input v-model="enterpriseName" placeholder=""></md-input>
-                                </md-field>
-                            </div>
-                        </div>
-                    <div>
-                        <div class="infoItem">
-                            <span class="spantitle">企业简称：</span>
-                            <md-field>
+                            <span class="spantitle" style="width: 35%;">组织机构代码：</span>
+                            <md-field style="margin: -1% 0;">
                                 <label></label>
-                                <md-input v-model="enterpriseSName" placeholder=""></md-input>
+                                <md-input v-model="OrganizationCode" placeholder="" disabled></md-input>
                             </md-field>
                         </div>
                     </div>
                     <div>
                         <div class="infoItem">
-                            <span style="margin: 28px 20px;width:15%">企业图标：</span>
+                            <span style="    margin: 3% 2%;width: 20%;">企业图标：</span>
                             <md-field style=" width:55%;"  ref="file">
                                 <label style="cursor: pointer;">上传logo</label>
                                 <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
@@ -174,16 +143,31 @@
                             <img class="logoImage" v-bind:src="imageSrc"/>
                         </div>
                     </div>
+            </div>
+            <md-button class="md-dense md-raised md-primary" style="width:10%;margin-top: 1%;" @click="modify()">修改</md-button>
+        </div>
+        <div v-if="disable">
+             <div class="cardstyle">
                     <div>
                         <div class="infoItem">
-                            <span class="spantitle">组织机构代码：</span>
-                            <md-field>
+                                <span class="spantitle">企业名称：</span>
+                                <md-field style="width: 80%;margin: -1% 0;">
+                                    <label></label>
+                                    <md-input v-model="enterpriseName" placeholder=""></md-input>
+                                </md-field>
+                            </div>
+                        </div>
+                    <div>
+                        <div class="infoItem">
+                            <span class="spantitle">企业简称：</span>
+                            <md-field style="width: 80%;margin: -1% 0;">
                                 <label></label>
-                                <md-input v-model="OrganizationCode" placeholder=""></md-input>
+                                <md-input v-model="enterpriseSName" placeholder=""></md-input>
                             </md-field>
                         </div>
                     </div>
                     <div>
+                        <div class="infoItem">
                         <!-- <div class="infoItem">
                             <span class="spantitle" style="width:20%">所在地区：</span>
                                 <div style="display: inline-flex;width: 80%;">
@@ -222,12 +206,14 @@
                                     </div>
                             </div>
                         </div> -->
-                        <cityPicker class="infoItem"></cityPicker>
+                        <span class="spantitle" style="width:20%;margin: 6% 0 0 0;">所在地区：</span>
+                        <cityPicker  style="width:74%;margin: 5% 0 0 0;" ></cityPicker>
+                    </div>
                     </div>
                     <div>
                         <div class="infoItem">
                             <span class="spantitle" style="width:20%">所属行业：</span>
-                            <div class="md-layout-item" style="width:80%">
+                            <div class="md-layout-item" style="width:80%;margin: -3% 0;">
                                 <md-field>
                                     <md-select v-model="Industry1" name="Industry1" id="Industry1" md-dense>
                                         <md-option value="australia1">化学制品</md-option>
@@ -256,7 +242,7 @@
                     <div>
                         <div class="infoItem">
                             <span class="spantitle" style="width:20%">企业规模：</span>
-                            <div class="md-layout-item" style="width:80%">
+                            <div class="md-layout-item" style="width:80%;margin: -3% 0;">
                                 <md-field>
                                     <md-select v-model="companySize" name="companySize" id="companySize" md-dense>
                                         <md-option value="australia">100人以内</md-option>
@@ -270,8 +256,8 @@
                     </div>
                     <div>
                         <div class="infoItem">
-                            <span class="spantitle" style="width:20%">年销售收入：</span>
-                            <div class="md-layout-item" style="width:80%">
+                            <span class="spantitle" style="width:23%">年销售收入：</span>
+                            <div class="md-layout-item" style="width:75%;margin: -3% 0;">
                                 <md-field>
                                     <md-select v-model="companyInput" name="companyInput" id="companyInput" md-dense>
                                         <md-option value="australia">1000万以内</md-option>
@@ -283,6 +269,27 @@
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <div class="infoItem">
+                            <span class="spantitle" style="width: 35%;">组织机构代码：</span>
+                            <md-field style="margin: -1% 0;">
+                                <label></label>
+                                <md-input v-model="OrganizationCode" placeholder=""></md-input>
+                            </md-field>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="infoItem">
+                            <span style="    margin: 3% 2%;width: 20%;">企业图标：</span>
+                            <md-field style=" width:55%;"  ref="file">
+                                <label style="cursor: pointer;">上传logo</label>
+                                <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
+                            </md-field>
+                            <!-- <input type="file" @change="updateLogo" ref="file" id="file"> -->
+                            <img class="logoImage" v-bind:src="imageSrc"/>
+                        </div>
+                    </div>
+                    
             </div>
             <md-button class="md-dense md-raised md-primary" style="width:10%;margin-top: 1%;" @click="cancel()">取消</md-button>
             <md-button class="md-dense md-raised md-primary" style="width:10%;margin-top: 1%;" @click="save()">保存</md-button>
@@ -302,8 +309,8 @@
   padding: 1% 10% 5% 10%;
 }
 .spantitle {
-  width: 160px;
-  margin: 28px 0;
+  width: 20%;
+  margin: 3% 0;
 }
 .infoItem {
   width: 45%;
@@ -337,8 +344,8 @@
 import cityPicker from "../../components/wheels/cityPicker/cityPicker.vue";
 export default {
   name: "enterpriseInfo",
-  components:{
-      cityPicker
+  components: {
+    cityPicker
   },
   data: () => ({
     province: "",
@@ -452,7 +459,7 @@ export default {
     },
     modify() {
       this.disable = true;
-      this.$store.commit("UserCenter/changedisableCityPicker", true);
+      this.$store.commit("UserCenter/changeShowCityPicker", true);
     }
   },
   computed: {
