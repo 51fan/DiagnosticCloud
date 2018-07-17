@@ -1,134 +1,216 @@
 <template>
-    <div class="container">
-       <section class="city-picker" v-if="showCityPicker">
-            
-            <am-select  @select="proviceHandle" :options="province" search placeholder="请选择省、直辖市"></am-select>
-            <am-select v-if="city.length > 0" @select="cityHandle" search :options="city" placeholder="请选择市、区"></am-select>
-            <am-select v-if="county.length > 0" @select="countyHandle" search :options="county" placeholder="请选择区、县"></am-select>
-        </section>
-        <section class="city-picker" v-if="!showCityPicker">
-            <!-- <span>{{selectProvince}}-</span>
-            <span>{{selectCity}}-</span>
-            <span>{{selectCounty}}</span> -->
-            <select  disabled="disabled" style="background-color: lightgray;">
-                <option value="diable">{{selectProvince}}</option>
-            </select>
-             <select  disabled="disabled" style="background-color: lightgray;">
-                <option value="diable">{{selectCity}}</option>
-            </select>
-             <select  disabled="disabled" style="background-color: lightgray;">
-                <option value="diable">{{selectCounty}}</option>
-            </select>
-            <!-- <am-select  @select="proviceHandle" :options="province" search placeholder="请选择省、直辖市"></am-select>
-            <am-select v-if="city.length > 0" @select="cityHandle" search :options="city" placeholder="请选择市、区"></am-select>
-            <am-select v-if="county.length > 0" @select="countyHandle" search :options="county" placeholder="请选择区、县"></am-select> -->
-        </section>
+      <div class="linkage">
+        <el-select
+        style="width: 32%;"
+        v-model="selectProvince"
+        @change="choseProvince"
+        :disabled="!showCityPicker"
+        filterable
+        placeholder="省级地区">
+        <el-option
+            v-for="item in province"
+            :key="item.id"
+            :label="item.value"
+            :value="item.id">
+        </el-option>
+        </el-select>
+        <el-select
+        style="width: 31%;"
+        v-model="selectCity"
+        @change="choseCity"
+        :disabled="!showCityPicker"
+        filterable
+        placeholder="市级地区">
+        <el-option
+            v-for="item in shi1"
+            :key="item.id"
+            :label="item.value"
+            :value="item.id">
+        </el-option>
+        </el-select>
+        <el-select
+        style="width: 30%;"
+        v-model="selectCounty"
+        @change="choseBlock"
+        :disabled="!showCityPicker"
+        filterable
+        placeholder="区级地区">
+        <el-option
+            v-for="item in qu1"
+            :key="item.id"
+            :label="item.value"
+            :value="item.id">
+        </el-option>
+        </el-select>
     </div>
 </template>
 
 <script>
-import locationData from "./location";
-import Axios from "axios";
+import axios from "axios";
+import mapdata from "./mapdata.js";
 
 export default {
   name: "city-picker",
-  data: () => {
-    const province = [];
-    for (let code in locationData) {
-      let item = locationData[code];
-      province.push(
-        Object.assign(item, {
-          label: item.name
-        })
-      );
-    }
-    return {
-      province,
-      city: [],
-      county: [],
-        // selectProvince: null,
-        // selectCity: null,
-        // selectCounty: null,
-    };
-  },
-  props: {
-    selectIndy: Object
-  },
+  data: () => ({
+    mapJson: "/static/jsons/map.json",
+    province: "",
+    // sheng: "",
+    // shi: "",
+    shi1: "",
+    // qu: "",
+    qu1: "",
+    city: "",
+    block: ""
+  }),
   mounted: () => {
-    // console.log(this.selectIndy);
-    // this.province = [this.selectProvince];
-    // this.city = [this.selectCity];
-    // this.county = [this.selectCounty];
-    eventBus.$on("eventBusName", function(data) {
-      console.log(data);
-      this.selectProvince = data.province;
-      this.selectCity = data.city;
-      this.selectCounty = data.county;
-    });
-  },
-  watch: {
-    selectIndy(newvalue, oldvalue) {
-      console.log(newvalue);
-    }
-  },
-  updated: () => {
-    console.log(this.selectIndy);
+    console.log(this.selectProvince);
+    console.log(this.selectCity);
+    console.log(this.selectCounty);
   },
   methods: {
-    proviceHandle(value) {
-      const city = [];
-      for (let code in value.cities) {
-        let item = value.cities[code];
-        city.push(
-          Object.assign(item, {
-            label: item.name
-          })
-        );
-      }
-      this.city = city;
-      this.county = [];
-      this.$store.commit("UserCenter/changeSelectProvince", value.name);
-      //   this.selectProvince = value.name;
-      //   this.selectCity = null;
-      //   this.selectCounty = null;
-    },
-    cityHandle(value) {
-      const county = [];
-      for (let code in value.districts) {
-        let item = value.districts[code];
-        county.push({
-          code,
-          label: item,
-          name: item
+    getEnterprierData() {
+      let $this = this,
+        apikey = "",
+        request = {
+          email: this.useremail,
+          session_id: this.session_id
+        };
+      $this.$http
+        .post("/IBUS/DAIG_SYS/getEnterpriseInfo", {
+          apikey,
+          request
+        })
+        .then(res => {
+          
+          $this.selectProvince = res.data.return.province;
+          $this.selectCity = res.data.return.city;
+          $this.selectCounty = res.data.return.area;
+        
+          $this.getCityData();
+        })
+        .catch(err => {
+          console.log(err);
         });
-      }
-      this.county = county;
-      this.$store.commit("UserCenter/changeSelectCity", value.name);
-      //   this.selectCity = value.name;
-      //   this.selectCounty = null;
     },
-    countyHandle(value) {
-      //   this.selectCounty = value.name;
-      //   this.$store.commit("UserCenter/changeSelectProvince", this.selectProvince);
-      //   this.$store.commit("UserCenter/changeSelectCity", this.selectCity);
-      this.$store.commit("UserCenter/changeSelectCounty", value.name);
-      console.log(this.selectProvince);
-      console.log(this.selectCity);
-      console.log(this.selectCounty);
+    // 加载china地点数据，三级
+    getCityData() {
+      var data = mapdata;
+      this.province = [];
+      this.city = [];
+      this.block = [];
+      this.shi1 = [];
+      this.qu1 = [];
+      // 省市区数据分类
+      for (var item in data) {
+        if (item.match(/0000$/)) {
+          //省
+          this.province.push({
+            id: item,
+            value: data[item],
+            children: []
+          });
+        } else if (item.match(/00$/)) {
+          //市
+          this.city.push({ id: item, value: data[item], children: [] });
+        } else {
+          //区
+          this.block.push({ id: item, value: data[item] });
+        }
+      }
+
+      // 分类市级
+      for (var index in this.province) {
+        for (var index1 in this.city) {
+          if (
+            this.province[index].id.slice(0, 2) ===
+            this.city[index1].id.slice(0, 2)
+          ) {
+            this.province[index].children.push(this.city[index1]);
+          }
+        }
+      }
+
+      // 分类区级
+      for (var item1 in this.city) {
+        for (var item2 in this.block) {
+          if (
+            this.block[item2].id.slice(0, 4) === this.city[item1].id.slice(0, 4)
+          ) {
+            this.city[item1].children.push(this.block[item2]);
+          }
+        }
+      }
+      if (this.selectProvince) {
+        for (var i in this.province) {
+          if (this.province[i].id === this.selectProvince) {
+            this.shi1 = this.province[i].children;
+          }
+        }
+        for (var j in this.city) {
+          if (this.city[j].id === this.selectCity) {
+            this.qu1 = this.city[j].children;
+          }
+        }
+      }
+    },
+    // 选省
+    choseProvince(e) {
+      for (var index2 in this.province) {
+        if (e === this.province[index2].id) {
+          this.shi1 = this.province[index2].children;
+          this.selectCity = this.province[index2].children[0].value;
+          this.qu1 = this.province[index2].children[0].children;
+          this.selectCounty = this.province[
+            index2
+          ].children[0].children[0].value;
+          this.E = this.qu1[0].id;
+        }
+      }
+    },
+    // 选市
+    choseCity(e) {
+      for (var index3 in this.city) {
+        if (e === this.city[index3].id) {
+          this.qu1 = this.city[index3].children;
+          this.qu = this.city[index3].children[0].value;
+          this.E = this.qu1[0].id;
+          // console.log(this.E)
+        }
+      }
+    },
+    // 选区
+    choseBlock(e) {
+      this.E = e;
+      // console.log(this.E)
     }
   },
   computed: {
     showCityPicker() {
       return this.$store.state.UserCenter.enterpriseInfo.showCityPicker;
     },
-    selectProvince() {
-      return this.$store.state.UserCenter.enterpriseInfo.selectProvince;
+    selectProvince: {
+      get: function() {
+        return this.$store.state.UserCenter.enterpriseInfo.selectProvince;
+      },
+      set: function(newValue) {
+        this.$store.state.UserCenter.enterpriseInfo.selectProvince = newValue;
+      }
     },
-    selectCity() {
-      return this.$store.state.UserCenter.enterpriseInfo.selectCity;
+    selectCity: {
+      get: function() {
+        return this.$store.state.UserCenter.enterpriseInfo.selectCity;
+      },
+      set: function(newValue) {
+        this.$store.state.UserCenter.enterpriseInfo.selectCity = newValue;
+      }
     },
-    selectCounty() {
-      return this.$store.state.UserCenter.enterpriseInfo.selectCounty;
+    selectCounty: {
+      get: function() {
+        return this.$store.state.UserCenter.enterpriseInfo.selectCounty;
+      },
+      set: function(newValue) {
+        this.$store.state.UserCenter.enterpriseInfo.selectCounty = newValue;
+      }
     },
     useremail() {
       return this.$store.state.loginPage.useremail;
@@ -136,19 +218,12 @@ export default {
     session_id() {
       return this.$store.state.loginPage.session_id;
     }
+  },
+  created: function() {
+    this.getEnterprierData();
   }
 };
 </script>
 
 <style>
-.container {
-  width: 45%;
-  text-align: left;
-}
-.city-picker {
-  margin-left: 3%;
-}
-.am-selected {
-  width: 32% !important;
-}
 </style>

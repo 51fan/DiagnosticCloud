@@ -117,19 +117,19 @@ export default {
   },
   methods: {
     loginFun() {
-      let $this = this,
-        apikey = "",
-        type = "post",
-        url = "/IBUS/DAIG_SYS/login",
-        request = {
-          id: this.phoneOrEmail,
-          password: Base64.encode(this.passWord),
-          captchCode: this.VerificationCode
-        },
-        param = {
-          apikey,
-          request
-        };
+      let $this = this;
+      let apikey = "";
+      let type = "post";
+      let url = "/IBUS/DAIG_SYS/login";
+      let request = {
+        id: this.phoneOrEmail,
+        password: Base64.encode(this.passWord),
+        captchCode: this.VerificationCode
+      };
+      let param = {
+        apikey,
+        request
+      };
 
       $this
         .$http({
@@ -138,7 +138,7 @@ export default {
           data: param
         })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.data.errorCode !== 0) {
             $this.showVerificationCode = true;
             $this.showAlert = true;
@@ -152,8 +152,8 @@ export default {
               "loginPage/changefirstLogin",
               res.data.firstLogin
             );
-            if(res.data.firstLogin){
-               $this.$store.commit("UserCenter/changeShowCityPicker", true);
+            if (res.data.firstLogin) {
+              $this.$store.commit("UserCenter/changeShowCityPicker", true);
             }
             //修改登录状态
             $this.$store.commit("loginPage/changeLoginState", true);

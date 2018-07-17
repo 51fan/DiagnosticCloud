@@ -9,7 +9,7 @@ import Axios from "axios";
 import VCharts from 'v-charts';
 import Echarts from 'echarts';
 // import Vuex from 'vuex';
-import AmazeVue from 'amaze-vue';
+
 import ElementUI from 'element-ui';
 
 
@@ -19,19 +19,19 @@ import "vue-material/dist/theme/default.css";
 import 'vue-material/dist/theme/default-dark.css';
 import 'vue-material/dist/theme/black-green-dark.css';
 import 'vue-material/dist/theme/black-green-light.css';
-import 'amaze-vue/dist/amaze-vue.css';
+
 import 'element-ui/lib/theme-chalk/index.css';
 
 
 import './assets/libs/icon.css';
 
-window.eventBus = new Vue();
+// window.eventBus = new Vue();
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
 Vue.prototype.$echarts = Echarts;
 Vue.use(VueMaterial);
-Vue.use(AmazeVue);
+
 Vue.use(ElementUI);
 Vue.use(VCharts);
 // Vue.use(Vuex);

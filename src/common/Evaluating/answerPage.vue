@@ -94,18 +94,12 @@ export default {
     // console.log(this.question);
     this.chooseObj = "";
     this.expertObj = "";
-    // console.log(this.question.answered);
-    // console.log(this.question.expected);
     if (this.question.answered !== "") {
       this.chooseObj = this.question.answered - 1;
     }
     if (this.question.expected !== "") {
       this.expertObj = this.question.expected - 1;
     }
-    // console.log("answered:" + this.question.answered);
-    // console.log("expected:" + this.question.expected);
-    // this.chooseObj = this.currentChooseObj;
-    // this.expertObj = this.currentexpertObj;
   },
   methods: {},
   watch: {
@@ -136,24 +130,6 @@ export default {
       this.$emit("selectedAnswer", this.answer);
     }
   }
-  // computed: {
-  //   chooseObj: {
-  //     get: function() {
-  //       return this.$store.state.evlaluating.answerPage.chooseObj;
-  //     },
-  //     set: function(newValue) {
-  //       this.$store.state.evlaluating.answerPage.chooseObj = newValue;
-  //     }
-  //   },
-  //   expertObj: {
-  //     get: function() {
-  //       return this.$store.state.evlaluating.answerPage.expertObj;
-  //     },
-  //     set: function(newValue) {
-  //       this.$store.state.evlaluating.answerPage.expertObj = newValue;
-  //     }
-  //   }
-  // }
 };
 </script>
 

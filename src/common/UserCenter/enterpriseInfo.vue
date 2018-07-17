@@ -61,7 +61,7 @@
                         </div> -->
                         <div class="infoItem">
                             <span class="spantitle" style="width:20%;margin: 6% 0 0 0;">所在地区：</span>
-                            <cityPicker style="width:74%;margin: 6% 0 0 0;" ></cityPicker>
+                            <cityPicker style="width:74%;margin: 4% 0 0 0;text-align: left;" ></cityPicker>
                         </div>
                     </div>
                     <div>
@@ -110,8 +110,8 @@
                     </div>
                     <div>
                         <div class="infoItem">
-                            <span class="spantitle" style="width:24%">年销售收入：</span>
-                            <div class="md-layout-item" style="width:75%;margin: -3% 0;">
+                            <span class="spantitle" style="width:23%">年销售收入：</span>
+                            <div class="md-layout-item" style="width:75%;margin: -2% 0;">
                                 <md-field>
                                     <md-select v-model="companyInput" name="companyInput" id="companyInput" md-dense disabled>
                                         <md-option value="australia">1000万以内</md-option>
@@ -123,13 +123,14 @@
                             </div>
                         </div>
                     </div>
-                    <div>
+                   <div>
                         <div class="infoItem">
-                            <span class="spantitle" style="width: 35%;">组织机构代码：</span>
-                            <md-field style="margin: -1% 0;">
-                                <label></label>
-                                <md-input v-model="OrganizationCode" placeholder="" disabled></md-input>
-                            </md-field>
+                            <span class="spantitle" style="width: 25%;">组织机构代码：</span>
+                            <div class="md-layout-item" style="width:65%;margin: -1% 0;">
+                                <md-field style="margin: -1% 0;">
+                                    <md-input v-model="OrganizationCode" placeholder="" disabled></md-input>
+                                </md-field>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -207,7 +208,7 @@
                             </div>
                         </div> -->
                         <span class="spantitle" style="width:20%;margin: 6% 0 0 0;">所在地区：</span>
-                        <cityPicker  style="width:74%;margin: 5% 0 0 0;" :selectIndy="selectData"></cityPicker>
+                        <cityPicker  style="width:74%;margin: 4% 0 0 0;text-align: left;"></cityPicker>
                     </div>
                     </div>
                     <div>
@@ -257,7 +258,7 @@
                     <div>
                         <div class="infoItem">
                             <span class="spantitle" style="width:23%">年销售收入：</span>
-                            <div class="md-layout-item" style="width:75%;margin: -3% 0;">
+                            <div class="md-layout-item" style="width:75%;margin: -2% 0;">
                                 <md-field>
                                     <md-select v-model="companyInput" name="companyInput" id="companyInput" md-dense>
                                         <md-option value="australia">1000万以内</md-option>
@@ -271,16 +272,17 @@
                     </div>
                     <div>
                         <div class="infoItem">
-                            <span class="spantitle" style="width: 35%;">组织机构代码：</span>
-                            <md-field style="margin: -1% 0;">
-                                <label></label>
-                                <md-input v-model="OrganizationCode" placeholder=""></md-input>
-                            </md-field>
+                            <span class="spantitle" style="width: 25%;">组织机构代码：</span>
+                            <div class="md-layout-item" style="width:65%;margin: -1% 0;">
+                                <md-field style="margin: -1% 0;">
+                                    <md-input v-model="OrganizationCode" placeholder=""></md-input>
+                                </md-field>
+                            </div>
                         </div>
                     </div>
                     <div>
                         <div class="infoItem">
-                            <span style="    margin: 3% 2%;width: 20%;">企业图标：</span>
+                            <span style="margin: 3% 2%;width: 20%;">企业图标：</span>
                             <md-field style=" width:55%;"  ref="file">
                                 <label style="cursor: pointer;">上传logo</label>
                                 <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
@@ -316,8 +318,9 @@
   width: 45%;
   display: inline-flex;
 }
+
 .logoImage {
-  margin: 14px 0;
+  margin: 0 1%;
   width: 45%;
   max-width: 80px;
   max-height: 60px;
@@ -361,8 +364,7 @@ export default {
     upadteSrc: "",
     disable: false,
     showAlert: false,
-    AlertMessage: "",
-    selectData: ""
+    AlertMessage: ""
   }),
   mounted: function() {
     let $this = this,
@@ -377,8 +379,6 @@ export default {
         request
       })
       .then(res => {
-        //console.log(res.data.return);
-        let model = res.data.return;
         $this.enterpriseName = res.data.return.enterpriseName;
         $this.enterpriseSName = res.data.return.shortName;
         $this.imageSrc = res.data.return.logo;
@@ -389,24 +389,6 @@ export default {
         $this.companySize = res.data.return.scale;
         $this.companyInput = res.data.return.income;
         $this.OrganizationCode = res.data.return.enterpriseCode;
-        $this.$store.commit(
-          "UserCenter/changeSelectProvince",
-          res.data.return.province
-        );
-        $this.$store.commit(
-          "UserCenter/changeSelectCity",
-          res.data.return.city
-        );
-        $this.$store.commit(
-          "UserCenter/changeSelectCounty",
-          res.data.return.area
-        );
-        $this.selectData = {
-          province: res.data.return.province,
-          city: res.data.return.city,
-          county: res.data.return.area
-        };
-        eventBus.$emit("eventBusName", $this.selectData);
       })
       .catch(err => {
         console.log(err);
@@ -428,7 +410,10 @@ export default {
         _this.imageSrc = "";
       }
     },
-    cancel() {},
+    cancel() {
+      this.disable = false;
+      this.$store.commit("UserCenter/changeShowCityPicker", false);
+    },
     save() {
       let $this = this,
         apikey = "",
@@ -500,7 +485,8 @@ export default {
     selectCounty() {
       return this.$store.state.UserCenter.enterpriseInfo.selectCounty;
     }
-  }
+  },
+  created: () => {}
 };
 </script>
 

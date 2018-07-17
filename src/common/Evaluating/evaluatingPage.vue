@@ -212,9 +212,6 @@ export default {
       key: "evaluationId",
       value: this.currentEvaluationId
     });
-    // this.reportParm.name = this.currentEvaluationName;
-    // this.reportParm.evaluationId = this.currentEvaluationId;
-
     this.getQuestionData(type, url, param);
   },
   methods: {

@@ -66,7 +66,7 @@
                                     <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
                                 </md-field>
                                 <!-- <input type="file" @change="updateLogo" ref="file" id="file"> -->
-                                <img class="logoImage" v-bind:src="imageSrc"/>
+                                <md-avatar><img :src="imageSrc"/></md-avatar>
                             </div>
                         </div>
                         <div>
@@ -117,7 +117,7 @@
                                                 </md-field>
                                             </div>
                                     </div> -->
-                                    <cityPicker style="width:74%;margin:6% 0 0 0"></cityPicker>
+                                    <cityPicker style="width:74%;margin:4% 0 0 0"></cityPicker>
                             </div>
                         </div>
                         <div>
