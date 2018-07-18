@@ -14,7 +14,7 @@
                 <div style="display: inline-flex;width: 80%;border-bottom: 1px solid lightgray;padding-bottom: 2%;">
                     <md-avatar><img :src="imageSrc" /></md-avatar>
                     <div style="width: 80%;">
-                        <div style="margin: 1%;">xx欢迎您</div>
+                        <div style="margin: 1%;">季先生，欢迎您</div>
                         <div>
                             <span style="margin: 1%;">生产工程师</span>
                             <span style="border-right: 2px solid #a7acb7;"></span>

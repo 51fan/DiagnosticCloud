@@ -30,15 +30,6 @@
                         <div style="padding: 0 6% 3% 6%">
                             我们将会向您的手机 {{usermobile}} 发送验证短信，请将收到的验证码填入下方完成验证
                         </div>
-                        <!-- <div style="padding: 0 6% 3% 6%">
-                            <md-field style="width: 308px;display: inline-flex;" :class="VCMessageClass">
-                                <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc()" @click="showTips()"></md-input>
-                                <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
-                                <span class="md-error" v-if="showVCError">短信验证码错误</span>
-                            </md-field>
-                            <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(1)">获取验证码</md-button>
-                            <span  style="color:red">{{time}}</span><span>秒后重新获取</span>
-                        </div> -->
                         <div v-if="!showCount" style="padding: 0 6% 3% 6%">
                             <md-field style="width: 20%;display: inline-flex;" :class="VCMessageClass">
                                 <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc()" @click="showTips()"></md-input>
@@ -54,7 +45,7 @@
                                 <span class="md-error" v-if="showVCError">短信验证码错误</span>
                             </md-field>
                             <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(1)">{{verftext}}</md-button>
-                            <span v-if="showText" style="color:red">{{time}}</span><span v-if="showText">秒后重新获取</span>
+                            <span v-if="showPhoneText" style="color:red">{{phonetime}}</span><span v-if="showPhoneText">秒后重新获取</span>
                         </div>
                     </div>
                     <div v-if="!changeCheckWay">
@@ -76,7 +67,7 @@
                                 <span class="md-error" v-if="showVCError">验证码错误</span>
                             </md-field>
                             <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(2)">{{verftext}}</md-button>
-                            <span v-if="showText" style="color:red">{{time}}</span><span v-if="showText">秒后重新获取</span>
+                            <span v-if="showEmailText" style="color:red">{{emailtime}}</span><span v-if="showEmailText">秒后重新获取</span>
                         </div>
                     </div>
                 </div>
@@ -103,7 +94,7 @@
                 </div>
             </div> 
             <div style="padding-top: 1%;" v-if="!currentStep3">
-                <md-button class="md-dense md-raised md-primary" >取消</md-button>
+                <md-button class="md-dense md-raised md-primary" @click="cancel()">取消</md-button>
                 <md-button class="md-dense md-raised md-primary" style="margin: 6px 4%;" @click="nextStep()">下一步</md-button>
             </div>
         </div>
@@ -152,13 +143,16 @@ import { mapGetters, mapState } from "vuex";
 export default {
   name: "modifyPassword",
   data: () => ({
+    phonetime: 0,
+    emailtime: 0,
     time: 0,
     counter: "",
     showAlert: false,
     AlertMessage: "",
     showCount: false,
-    showText: false,
-    verftext: "获取验证码",
+    showEmailText: false,
+    showPhoneText: false,
+    verftext: "获取验证码"
   }),
   methods: {
     inputFunc(index) {
@@ -246,6 +240,11 @@ export default {
       }
     },
     getVerificationCode(index) {
+      if (this.changeCheckWay) {
+        if (this.phonetime !== 0) return;
+      } else {
+        if (this.emailtime !== 0) return;
+      }
       let $this = this,
         apikey = "",
         type = "post",
@@ -271,7 +270,7 @@ export default {
         default:
           break;
       }
-
+      this.verftext = "获取验证码";
       //请求接口
       $this
         .$http({
@@ -285,9 +284,15 @@ export default {
             $this.showAlert = true;
             $this.AlertMessage = res.data.errorMsg;
           } else {
-            $this.showCount = true;
-            $this.showText = true;
-            $this.goLogin(60);
+            if ($this.changeCheckWay) {
+              $this.showCount = true;
+              $this.showPhoneText = true;
+              $this.goLogin(60);
+            } else {
+              $this.showCount = true;
+              $this.showEmailText = true;
+              $this.goLogin(60);
+            }
           }
         })
         .catch(error => {
@@ -314,11 +319,12 @@ export default {
         } else {
           url = "/IBUS/DAIG_SYS/checkVerifyCodeByEmail ";
           request.verifyCode = $this.VerificationCode;
+          request.email = $this.useremail;
         }
       } else if ($this.currentStep2) {
         url = " /IBUS/DAIG_SYS/resetPassword";
-        request.id = $this.changeCheckWay?$this.usermobile:$this.useremail;
-        request.password = $this.passwordFirst;
+        request.id = $this.changeCheckWay ? $this.usermobile : $this.useremail;
+        request.password = Base64.encode($this.passwordFirst);
       }
 
       //请求接口
@@ -385,22 +391,46 @@ export default {
       }
     },
     countDown() {
-      let _this = this;
-      _this.time--;
+      // let _this = this;
+      if (this.currentStep1) {
+        if (this.changeCheckWay) {
+          this.phonetime--;
+        } else {
+          this.emailtime--;
+        }
+      }
+      if (this.currentStep3) {
+        this.time--;
+      }
     },
     goLogin(num) {
       let _this = this;
-      _this.time = num;
-      _this.counter = setInterval(_this.countDown, 1000);
+      if (this.currentStep1) {
+        if (this.changeCheckWay) {
+          this.phonetime = num;
+        } else {
+          this.emailtime = num;
+        }
+        this.counter = setInterval(_this.countDown, 1000);
+      }
+      if (this.currentStep3) {
+        this.time = num;
+        this.counter = setInterval(_this.countDown, 1000);
+      }
     },
     goLoginR() {
       //隐藏导航菜单
       this.$store.commit("home/showTabsFun", false);
-      //隐藏登录按钮
+      //显示登录按钮
       this.$store.commit("home/showLogin", true);
       //显示用户中心
       this.$store.commit("home/showUserCenter", false);
       this.$router.push("/loginPage");
+    },
+    cancel() {
+      this.$store.commit("home/showLogin", true);
+      this.$store.commit("home/showTabsFun", true);
+      this.$router.push("/overview");
     }
   },
   watch: {
@@ -417,10 +447,33 @@ export default {
           this.$store.commit("home/showUserCenter", false);
           //显示登录界面
           this.$store.commit("loginPage/changeLoginShowState", true);
+          this.$router.push("/loginPage");
         }
+      }
+    },
+    phonetime: function(newVal, oldVal) {
+      //   debugger;
+      if (newVal == 0) {
+        clearInterval(this.counter);
         if (this.showCount) {
           this.verftext = "重新获取验证码";
-          this.showText = false;
+          if ($this.changeCheckWay) {
+            $this.showCount = true;
+            $this.showPhoneText = true;
+          }
+        }
+      }
+    },
+    emailtime: function(newVal, oldVal) {
+      //   debugger;
+      if (newVal == 0) {
+        clearInterval(this.counter);
+        if (this.showCount) {
+          this.verftext = "重新获取验证码";
+          if (!$this.changeCheckWay) {
+            $this.showCount = true;
+            $this.showPhoneText = true;
+          }
         }
       }
     }
@@ -443,6 +496,7 @@ export default {
     },
     changeCheckWay() {
       let showType = this.checkWay == "mobile" ? true : false;
+      //this.showCount = false;
       return showType;
     },
     step1Color() {
@@ -460,9 +514,6 @@ export default {
         stepBC: this.currentStep3
       };
     },
-    // time() {
-    //   return this.$store.state.UserCenter.modifyPassword.time;
-    // },
     usermobile: {
       get: function() {
         return this.$store.state.loginPage.usermobile;

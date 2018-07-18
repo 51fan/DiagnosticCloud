@@ -1,11 +1,11 @@
 <template>
     <div class="mypanel">
         <div v-if="!disable">
-            <div class="cardstyle">
+            <div>
                     <div>
                         <div class="infoItem">
                                 <span class="spantitle">企业名称：</span>
-                                <md-field style="width: 80%;margin: -1% 0;">
+                                <md-field style="width: 80%;">
                                     <label></label>
                                     <md-input v-model="enterpriseName" placeholder="" disabled></md-input>
                                 </md-field>
@@ -14,7 +14,7 @@
                     <div>
                         <div class="infoItem">
                             <span class="spantitle">企业简称：</span>
-                            <md-field style="width: 80%;margin: -1% 0;">
+                            <md-field style="width: 80%;">
                                 <label></label>
                                 <md-input v-model="enterpriseSName" placeholder="" disabled></md-input>
                             </md-field>
@@ -67,7 +67,7 @@
                     <div>
                         <div class="infoItem">
                             <span class="spantitle" style="width:20%">所属行业：</span>
-                            <div class="md-layout-item" style="width:80%;margin: -3% 0;">
+                            <div class="md-layout-item" style="width:80%;">
                                 <md-field>
                                     <md-select v-model="Industry1" name="Industry1" id="Industry1" md-dense disabled>
                                         <md-option value="australia1">化学制品</md-option>
@@ -96,7 +96,7 @@
                     <div>
                         <div class="infoItem">
                             <span class="spantitle" style="width:20%">企业规模：</span>
-                            <div class="md-layout-item" style="width:80%;margin: -3% 0;">
+                            <div class="md-layout-item" style="width:80%;">
                                 <md-field>
                                     <md-select v-model="companySize" name="companySize" id="companySize" md-dense disabled>
                                         <md-option value="australia">100人以内</md-option>
@@ -111,7 +111,7 @@
                     <div>
                         <div class="infoItem">
                             <span class="spantitle" style="width:23%">年销售收入：</span>
-                            <div class="md-layout-item" style="width:75%;margin: -2% 0;">
+                            <div class="md-layout-item" style="width:75%;">
                                 <md-field>
                                     <md-select v-model="companyInput" name="companyInput" id="companyInput" md-dense disabled>
                                         <md-option value="australia">1000万以内</md-option>
@@ -127,7 +127,7 @@
                         <div class="infoItem">
                             <span class="spantitle" style="width: 25%;">组织机构代码：</span>
                             <div class="md-layout-item" style="width:65%;margin: -1% 0;">
-                                <md-field style="margin: -1% 0;">
+                                <md-field>
                                     <md-input v-model="OrganizationCode" placeholder="" disabled></md-input>
                                 </md-field>
                             </div>
@@ -148,11 +148,11 @@
             <md-button class="md-dense md-raised md-primary" style="width:10%;margin-top: 1%;" @click="modify()">修改</md-button>
         </div>
         <div v-if="disable">
-             <div class="cardstyle">
+             <div>
                     <div>
                         <div class="infoItem">
                                 <span class="spantitle">企业名称：</span>
-                                <md-field style="width: 80%;margin: -1% 0;">
+                                <md-field style="width: 80%;">
                                     <label></label>
                                     <md-input v-model="enterpriseName" placeholder=""></md-input>
                                 </md-field>
@@ -161,7 +161,7 @@
                     <div>
                         <div class="infoItem">
                             <span class="spantitle">企业简称：</span>
-                            <md-field style="width: 80%;margin: -1% 0;">
+                            <md-field style="width: 80%;">
                                 <label></label>
                                 <md-input v-model="enterpriseSName" placeholder=""></md-input>
                             </md-field>
@@ -214,7 +214,7 @@
                     <div>
                         <div class="infoItem">
                             <span class="spantitle" style="width:20%">所属行业：</span>
-                            <div class="md-layout-item" style="width:80%;margin: -3% 0;">
+                            <div class="md-layout-item" style="width:80%;">
                                 <md-field>
                                     <md-select v-model="Industry1" name="Industry1" id="Industry1" md-dense>
                                         <md-option value="australia1">化学制品</md-option>
@@ -243,7 +243,7 @@
                     <div>
                         <div class="infoItem">
                             <span class="spantitle" style="width:20%">企业规模：</span>
-                            <div class="md-layout-item" style="width:80%;margin: -3% 0;">
+                            <div class="md-layout-item" style="width:80%;">
                                 <md-field>
                                     <md-select v-model="companySize" name="companySize" id="companySize" md-dense>
                                         <md-option value="australia">100人以内</md-option>
@@ -258,7 +258,7 @@
                     <div>
                         <div class="infoItem">
                             <span class="spantitle" style="width:23%">年销售收入：</span>
-                            <div class="md-layout-item" style="width:75%;margin: -2% 0;">
+                            <div class="md-layout-item" style="width:75%;">
                                 <md-field>
                                     <md-select v-model="companyInput" name="companyInput" id="companyInput" md-dense>
                                         <md-option value="australia">1000万以内</md-option>
@@ -274,7 +274,7 @@
                         <div class="infoItem">
                             <span class="spantitle" style="width: 25%;">组织机构代码：</span>
                             <div class="md-layout-item" style="width:65%;margin: -1% 0;">
-                                <md-field style="margin: -1% 0;">
+                                <md-field>
                                     <md-input v-model="OrganizationCode" placeholder=""></md-input>
                                 </md-field>
                             </div>
@@ -403,6 +403,7 @@ export default {
         reader.readAsDataURL(files);
         reader.onloadend = function() {
           _this.imageSrc = this.result;
+          _this.uploadImageBase64();
         };
         reader.onloadend();
         //this.imageSrc =  _this.src;
@@ -467,6 +468,45 @@ export default {
     modify() {
       this.disable = true;
       this.$store.commit("UserCenter/changeShowCityPicker", true);
+    },
+    uploadImageBase64() {
+      let $this = this,
+        apikey = "",
+        type = "post",
+        url = " /IBUS/DAIG_SYS/uploadImageBase64 ",
+        request = {
+          email: this.useremail,
+          type: 1,
+          path: this.imageSrc,
+          session_id: this.session_id
+        },
+        param = {
+          apikey,
+          request
+        };
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          if (res.data.errorCode !== 0) {
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            // $this.disable = false;
+            // $this.$store.commit("UserCenter/changeShowCityPicker", false);
+            // //显示导航菜单
+            // $this.$store.commit("home/showTabsFun", true);
+
+            // $this.$router.push("/overview");
+            $this.imageSrc = res.data.image_url;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   computed: {

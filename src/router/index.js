@@ -27,14 +27,9 @@ export default new Router({
       component: (resolve) => require(['../common/Evaluating/evaluating.vue'], resolve)
     },
     {
-      path: '/example',
-      name: 'example',
-      component: (resolve) => require(['../common/Example/example.vue'], resolve)
-    },
-    {
-      path: '/expertTeam',
-      name: 'expertTeam',
-      component: (resolve) => require(['../common/ExpertTeam/expertTeam.vue'], resolve)
+      path: '/evaluatingCenter',
+      name: 'evaluatingCenter',
+      component: (resolve) => require(['../common/EvaluatingCenter/evaluatingCenter.vue'], resolve)
     },
     {
       path: '/loginPage/',
