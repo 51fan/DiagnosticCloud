@@ -222,7 +222,7 @@ export default {
     }
   },
   created: function() {
-    this.getEnterprierData();
+    this.getCityData();
   }
 };
 </script>

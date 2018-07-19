@@ -1,7 +1,7 @@
 <template>
     <div class="mypanel">
         <div v-if="showLoginPage" class="cardstyle">
-            <div class="loginHeadTitle">账号密码登陆</div>
+            <div class="loginHeadTitle">账号密码登录</div>
             <md-field style="width:90%">
                 <!-- <label>手机/邮箱</label> -->
                 <md-input v-model="phoneOrEmail" placeholder="请输入手机/邮箱"></md-input>

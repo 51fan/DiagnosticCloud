@@ -6,6 +6,7 @@ import home from './modules/home'
 import loginPage from './modules/loginPage'
 import registerPage from './modules/registerPage'
 import UserCenter from './modules/UserCenter'
+import evaluatingCenter from './modules/evaluatingCenter'
 
 //import actions from './actions'
 
@@ -18,10 +19,11 @@ const store = new Vuex.Store({
     home,
     loginPage,
     registerPage,
-    UserCenter
+    UserCenter,
+    evaluatingCenter
   },
   actions: {
-    postdata(url,data){
+    postdata(url, data) {
       axios({
         method: 'post',
         url: url,

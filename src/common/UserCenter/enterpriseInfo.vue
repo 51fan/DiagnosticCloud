@@ -136,11 +136,11 @@
                     <div>
                         <div class="infoItem">
                             <span style="    margin: 3% 2%;width: 20%;">企业图标：</span>
-                            <md-field style=" width:55%;"  ref="file">
+                            <!-- <md-field style=" width:55%;"  ref="file">
                                 <label style="cursor: pointer;">上传logo</label>
-                                <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
-                            </md-field>
-                            <!-- <input type="file" @change="updateLogo" ref="file" id="file"> -->
+                                <md-file style="cursor: pointer;"  accept="image/*" @change="updateLogo" disabled/>
+                            </md-field> -->
+                            <md-button class="md-raised" disabled>上传图片</md-button>
                             <img class="logoImage" v-bind:src="imageSrc"/>
                         </div>
                     </div>
@@ -362,11 +362,13 @@ export default {
     enterpriseSName: "",
     imageSrc: "/static/imgs/noImage.png",
     upadteSrc: "",
+    updateData:"",
     disable: false,
     showAlert: false,
     AlertMessage: ""
   }),
   mounted: function() {
+    
     let $this = this,
       apikey = "",
       request = {
@@ -381,7 +383,7 @@ export default {
       .then(res => {
         $this.enterpriseName = res.data.return.enterpriseName;
         $this.enterpriseSName = res.data.return.shortName;
-        $this.imageSrc = res.data.return.logo;
+        $this.imageSrc = "/IMAGE/"+res.data.return.logo;
         $this.province = res.data.return.province;
         $this.city = res.data.return.city;
         $this.area = res.data.return.area;
@@ -399,13 +401,18 @@ export default {
       let _this = this;
       let files = e.target.files[0];
       if (files) {
-        let reader = new FileReader();
-        reader.readAsDataURL(files);
-        reader.onloadend = function() {
-          _this.imageSrc = this.result;
-          _this.uploadImageBase64();
-        };
-        reader.onloadend();
+        if (this.beforeAvatarUpload(files)) {
+          let reader = new FileReader();
+          reader.readAsDataURL(files);
+          reader.onloadend = function() {
+            _this.updateData = this.result;
+            if (this.result) {
+              _this.imageSrc = this.result;
+              _this.uploadImageBase64();
+            }
+          };
+          reader.onloadend();
+        }
         //this.imageSrc =  _this.src;
       } else {
         _this.imageSrc = "";
@@ -424,7 +431,7 @@ export default {
           email: this.useremail,
           enterpriseName: this.enterpriseName,
           shortName: this.enterpriseSName,
-          logo: this.imageSrc,
+          logo: this.imgUrl,
           enterpriseCode: this.OrganizationCode,
           province: this.selectProvince,
           city: this.selectCity,
@@ -477,7 +484,7 @@ export default {
         request = {
           email: this.useremail,
           type: 1,
-          path: this.imageSrc,
+          path: this.updateData,
           session_id: this.session_id
         },
         param = {
@@ -501,12 +508,26 @@ export default {
             // $this.$store.commit("home/showTabsFun", true);
 
             // $this.$router.push("/overview");
-            $this.imageSrc = res.data.image_url;
+            $this.imgUrl = res.data.image_url;
+            // $this.imageSrc =
+            //   "/IMAGE/" + res.data.image_url;
           }
         })
         .catch(error => {
           console.log(error);
         });
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
     }
   },
   computed: {
@@ -526,7 +547,8 @@ export default {
       return this.$store.state.UserCenter.enterpriseInfo.selectCounty;
     }
   },
-  created: () => {}
+  created: () => {
+  }
 };
 </script>
 

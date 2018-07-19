@@ -1,0 +1,25 @@
+{
+  "errorCode": 0,
+  "errorMsg": "成功",
+  "return": {
+    "doing": [{
+      "idx": 6,
+      "id": 1,
+      "name": "智能制造成熟度测评",
+      "startTime": "2018-07-09 13:52:34",
+      "endTime": null,
+      "completeStatus": 0,
+      "remark": "针对智能制造标准的十个维度，全方位对企业现状进行评测",
+      "complete_degree": 1
+    }],
+    "done": [{
+      "idx": 1,
+      "id": 1,
+      "name": "智能制造成熟度测评",
+      "startTime": "2018-06-21 16:53:09",
+      "endTime": "2018-06-22 10:57:11",
+      "completeStatus": 1,
+      "remark": "针对智能制造标准的十个维度，全方位对企业现状进行评测"
+    }]
+  }
+}

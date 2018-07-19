@@ -162,8 +162,8 @@ export default {
     evaluationId: "",
     name: "",
     questionCounts: "",
-    questionIndex: 1,
-    currentIndex: 1,
+    // questionIndex: 1,
+    // currentIndex: 1,
     fillValue: 10,
     questionsAllList: [],
     questionsList: [],
@@ -172,7 +172,6 @@ export default {
     userAnswerlist: [],
     questionsListsId: [],
     savedata: Object,
-    evaluationStart: true,
     evaluationfinished: false,
     isShowReport: false,
     idx: ""
@@ -237,7 +236,7 @@ export default {
     },
     submit() {
       let apikey = "";
-      this.evaluationStart = false;
+      this.$store.commit("evlaluating/changeEvaluationStart", false);
       this.evaluationfinished = true;
       //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
 
@@ -416,6 +415,25 @@ export default {
     },
     session_id() {
       return this.$store.state.loginPage.session_id;
+    },
+    evaluationStart() {
+      return this.$store.state.evlaluating.evaluatingPage.evaluationStart;
+    },
+    currentIndex: {
+      get() {
+        return this.$store.state.evlaluating.evaluatingPage.currentIndex;
+      },
+      set(newValue) {
+        this.$store.state.evlaluating.evaluatingPage.currentIndex = newValue;
+      }
+    },
+    questionIndex:{
+       get() {
+        return this.$store.state.evlaluating.evaluatingPage.questionIndex;
+      },
+      set(newValue) {
+        this.$store.state.evlaluating.evaluatingPage.questionIndex = newValue;
+      }
     }
   }
 };

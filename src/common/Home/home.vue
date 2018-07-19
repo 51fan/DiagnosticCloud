@@ -48,7 +48,7 @@
           <md-tabs class="md-transparent" md-alignment="fixed" md-sync-route>
             <!-- <md-tab id="tab-home" md-label="工作台" to="/overview"></md-tab>
             <md-tab id="tab-posts" md-label="测评产品" to="/evaluating"></md-tab>
-            <md-tab id="tab-favorites" md-label="测评中心" to="/example"></md-tab>
+            <md-tab id="tab-favorites" md-label="测评中心" to="/evaluatingCenter"></md-tab>
             <md-tab id="tab-pages" md-label="企业设置" to="/enterpriseInfo"></md-tab> -->
             <md-tab id="tab-home" md-label="工作台" @click="goRouter(1)"></md-tab>
             <md-tab id="tab-posts" md-label="测评产品" @click="goRouter(2)"></md-tab>
@@ -59,7 +59,7 @@
       </md-app-toolbar>
 
       <md-app-drawer :md-active.sync="showUserCenter" md-persistent="full" >
-        <md-toolbar class="md-transparent" md-elevation="0">
+        <!-- <md-toolbar class="md-transparent" md-elevation="0">
           <span>用户中心</span>
 
           <div class="md-toolbar-section-end">
@@ -67,7 +67,7 @@
               <md-icon>keyboard_arrow_left</md-icon>
             </md-button>
           </div>
-        </md-toolbar>
+        </md-toolbar> -->
 
         <!-- <md-list>
           <md-list-item>

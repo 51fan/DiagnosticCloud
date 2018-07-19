@@ -3,17 +3,13 @@
         <div v-if="!disable">
             <div class="personalinfoHead">
                 <div style="width:30%;text-align: center;margin-top: 5%;">
-                    <!-- <el-upload
-                    class='ensure ensureButt'
-                    :action="importFileUrl"
-                    :data="upLoadData"
-                    name="importfile"
-                    :onError="uploadError"
-                    :onSuccess="uploadSuccess"
-                    :beforeUpload="beforeAvatarUpload"
-                    >
-                    <el-button size="small" type="primary">确定</el-button>
-                    </el-upload> -->
+                    <span style="    margin: 3% 2%;width: 20%;">企业图标：</span>
+                            <!-- <md-field style=" width:55%;"  ref="file">
+                                <label style="cursor: pointer;">上传logo</label>
+                                <md-file style="cursor: pointer;"  accept="image/*" @change="updateLogo" disabled/>
+                            </md-field> -->
+                            <md-button class="md-raised" disabled>上传图片</md-button>
+                            <img class="logoImage" v-bind:src="imageSrc"/>
                 </div>
                 <div style="border-right: 3px solid lightgray;"></div>
                 <div class="personalinfoHeadright">
@@ -94,7 +90,7 @@
                     </md-field> -->
                     <md-field style=" width:55%;"  ref="file">
                                 <label style="cursor: pointer;">上传logo</label>
-                                <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="changeImage"/>
+                                <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
                             </md-field>
                             <!-- <input type="file" @change="updateLogo" ref="file" id="file"> -->
                             <img class="logoImage" v-bind:src="imageSrc"/>
@@ -293,7 +289,7 @@ export default {
         let model = res.data.result;
         $this.name = res.data.result.name;
         $this.imageSrc = res.data.result.image
-          ? res.data.result.image
+          ? "/IMAGE/"+res.data.result.image
           : "/static/imgs/noImage.png";
         $this.email = res.data.result.email;
         $this.mobile = res.data.result.mobile;
@@ -319,7 +315,7 @@ export default {
           position: this.position,
           department: this.department,
           birthday: this.date,
-          gender: this.sex == "female"?0:1,
+          gender: this.sex == "female" ? 0 : 1,
           session_id: this.session_id
         },
         param = {
@@ -385,7 +381,7 @@ export default {
           apikey,
           request
         };
-      
+
       $this
         .$http({
           method: type,
@@ -406,38 +402,42 @@ export default {
           console.log(error);
         });
     },
-    changeImage(e) {
+    updateLogo(e) {
+      let _this = this;
       let files = e.target.files[0];
-
       if (files) {
-        let reader = new FileReader();
-        reader.readAsDataURL(files);
-        reader.onloadend = function() {
-          this.imageSrc = this.result;
-          console.log(this.imageSrc);
-          console.log(this.upadteSrc);
-        };
-        reader.onloadend();
+        if (this.beforeAvatarUpload(files)) {
+          let reader = new FileReader();
+          reader.readAsDataURL(files);
+          reader.onloadend = function() {
+            _this.updateData = this.result;
+            if (this.result) {
+              _this.imageSrc = this.result;
+              _this.uploadImageBase64();
+            }
+          };
+          reader.onloadend();
+        }
         //this.imageSrc =  _this.src;
       } else {
-        this.imageSrc = "";
+        _this.imageSrc = "";
       }
-
+    },
+    uploadImageBase64() {
       let $this = this,
         apikey = "",
         type = "post",
-        url = " /IBUS/DAIG_SYS/uploadImage",
+        url = " /IBUS/DAIG_SYS/uploadImageBase64 ",
         request = {
           email: this.useremail,
-          type: 0,
-          path: this.imageSrc,
+          type: 1,
+          path: this.updateData,
           session_id: this.session_id
         },
         param = {
           apikey,
           request
         };
-
       $this
         .$http({
           method: type,
@@ -449,12 +449,31 @@ export default {
             $this.showAlert = true;
             $this.AlertMessage = res.data.errorMsg;
           } else {
-            //显示导航菜单
+            // $this.disable = false;
+            // $this.$store.commit("UserCenter/changeShowCityPicker", false);
+            // //显示导航菜单
+            // $this.$store.commit("home/showTabsFun", true);
+
+            // $this.$router.push("/overview");
+            $this.imgUrl = res.data.image_url;
+            // $this.imageSrc = "/IMAGE/" + res.data.image_url;
           }
         })
         .catch(error => {
           console.log(error);
         });
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
     }
   },
   computed: {

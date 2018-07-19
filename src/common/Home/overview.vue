@@ -12,7 +12,7 @@
             </div>
             <div class="md-layout-item md-size-85" style="text-align: left;padding-top: 2%;font-size: medium;">
                 <div style="display: inline-flex;width: 80%;border-bottom: 1px solid lightgray;padding-bottom: 2%;">
-                    <md-avatar><img :src="imageSrc" /></md-avatar>
+                    <md-avatar><img :src="PersonalimageSrc" /></md-avatar>
                     <div style="width: 80%;">
                         <div style="margin: 1%;">季先生，欢迎您</div>
                         <div>
@@ -82,41 +82,6 @@
                             <div class="infoItem">
                                 <span style="color:red;margin: 6% 0;">*</span>
                                 <span class="spantitle" style="width:24%">所在地区：</span>
-                                    <!-- <div style="display: inline-flex;width: 75%;">
-                                            <div style="width:25%">
-                                                <md-field>
-                                                    <label for="province">省</label>
-                                                    <md-select v-model="province" name="province" id="province" md-dense>
-                                                        <md-option value="guangdong">广东</md-option>
-                                                        <md-option value="guangxi">广西</md-option>
-                                                        <md-option value="jiangsu">江苏</md-option>
-                                                        <md-option value="anhui">安徽</md-option>
-                                                    </md-select>
-                                                </md-field>
-                                            </div>
-                                            <div style="width:30%">
-                                                <md-field>
-                                                    <label for="city">市</label>
-                                                    <md-select v-model="city" name="city" id="city" md-dense>
-                                                        <md-option value="guangzhou">广州</md-option>
-                                                        <md-option value="shenzhen">深圳</md-option>
-                                                        <md-option value="dongguan">东莞</md-option>
-                                                        <md-option value="foshan">佛山</md-option>
-                                                    </md-select>
-                                                </md-field>
-                                            </div>
-                                            <div style="width:45%">
-                                                <md-field>
-                                                    <label for="area">县/区</label>
-                                                    <md-select v-model="area" name="area" id="area" md-dense>
-                                                        <md-option value="futian">福田</md-option>
-                                                        <md-option value="nanshan">南山</md-option>
-                                                        <md-option value="longgang">龙岗</md-option>
-                                                        <md-option value="luohu">罗湖</md-option>
-                                                    </md-select>
-                                                </md-field>
-                                            </div>
-                                    </div> -->
                                     <cityPicker style="width:74%;margin:4% 0 0 0"></cityPicker>
                             </div>
                         </div>
@@ -226,7 +191,7 @@
   transform: translate(0, 0);
 }
 .md-layout-item {
-//   height: 40px;
+  //   height: 40px;
 
   &:nth-child(1) {
     background: rgba(33, 33, 33, 0.28);
@@ -239,7 +204,7 @@
 </style>
 
 <script>
-import cityPicker from "../../components/wheels/cityPicker/cityPicker.vue";
+import cityPicker from "../../components/wheels/cityPicker/cityPicker2.vue";
 export default {
   name: "overView",
   components: {
@@ -256,16 +221,20 @@ export default {
     enterpriseName: "",
     enterpriseSName: "",
     OrganizationCode: "",
-    conmpanyLogo:"/static/imgs/company.png",
+    conmpanyLogo: "/static/imgs/company.png",
+    PersonalimageSrc:"/static/imgs/avatar.png",
     imageSrc: "/static/imgs/avatar.png",
     upadteSrc: "",
+    updateData: "",
+    imgUrl:"",
     enterpriseNameHasMessages: false,
     showenterpriseNameEmpty: false,
     enterpriseSNameHasMessages: false,
     showenterpriseSNameEmpty: false,
     AlertMessage: "",
-    companyName:"华制智能制造技术有限公司",
+    companyName: "华制智能制造技术有限公司"
   }),
+  mounted: () => {},
   computed: {
     firstLogin() {
       return this.$store.state.loginPage.firstLogin;
@@ -285,6 +254,30 @@ export default {
     },
     useremail() {
       return this.$store.state.loginPage.useremail;
+    },
+    selectProvince: {
+      get: function() {
+        return this.$store.state.UserCenter.enterpriseInfo.selectProvince;
+      },
+      set: function(newValue) {
+        this.$store.state.UserCenter.enterpriseInfo.selectProvince = newValue;
+      }
+    },
+    selectCity: {
+      get: function() {
+        return this.$store.state.UserCenter.enterpriseInfo.selectCity;
+      },
+      set: function(newValue) {
+        this.$store.state.UserCenter.enterpriseInfo.selectCity = newValue;
+      }
+    },
+    selectCounty: {
+      get: function() {
+        return this.$store.state.UserCenter.enterpriseInfo.selectCounty;
+      },
+      set: function(newValue) {
+        this.$store.state.UserCenter.enterpriseInfo.selectCounty = newValue;
+      }
     }
   },
   methods: {
@@ -297,14 +290,16 @@ export default {
           email: this.useremail,
           enterpriseName: this.enterpriseName,
           shortName: this.enterpriseSName,
-          logo: this.imageSrc,
+          logo: this.imgUrl,
           enterpriseCode: this.OrganizationCode,
-          province: this.province,
-          city: this.city,
-          area: this.area,
+          province: this.selectProvince,
+          city: this.selectCity,
+          area: this.selectCounty,
           industryL1: this.Industry,
           industryL2: "",
           industryL3: "",
+          industryL4: "",
+          industryL5: "",
           scale: this.companySize,
           income: this.companyInput,
           session_id: this.session_id
@@ -366,12 +361,85 @@ export default {
           break;
       }
     },
-    updateLogo() {},
-    viewEnterpriseInfo(){
-        this.$router.push("/enterpriseInfo")
+    viewEnterpriseInfo() {
+      this.$router.push("/enterpriseInfo");
     },
-    viewPersonalInfo(){
-        this.$router.push("/personalInfo")
+    viewPersonalInfo() {
+      this.$router.push("/personalInfo");
+    },
+    updateLogo(e) {
+      let _this = this;
+      let files = e.target.files[0];
+      if (files) {
+        _this.upadteSrc = files.name;
+        if (this.beforeAvatarUpload(files)) {
+          let reader = new FileReader();
+          reader.readAsDataURL(files);
+          reader.onloadend = function() {
+            _this.updateData = this.result;
+            if (this.result) {
+              _this.imageSrc = _this.updateData;
+              _this.uploadImageBase64();
+            }
+          };
+          reader.onloadend();
+        }
+        //this.imageSrc =  _this.src;
+      } else {
+        _this.imageSrc = "";
+      }
+    },
+    uploadImageBase64() {
+      let $this = this,
+        apikey = "",
+        type = "post",
+        url = " /IBUS/DAIG_SYS/uploadImageBase64 ",
+        request = {
+          email: this.useremail,
+          type: 1,
+          path: this.updateData,
+          session_id: this.session_id
+        },
+        param = {
+          apikey,
+          request
+        };
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          if (res.data.errorCode !== 0) {
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            // $this.disable = false;
+            // $this.$store.commit("UserCenter/changeShowCityPicker", false);
+            // //显示导航菜单
+            // $this.$store.commit("home/showTabsFun", true);
+
+            // $this.$router.push("/overview");
+            $this.imgUrl = res.data.image_url;
+            //$this.imageSrc = "/IMAGE/" + res.data.image_url;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
     }
   }
 };

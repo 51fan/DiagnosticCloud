@@ -8,7 +8,7 @@
               <!-- 搜索栏 -->
               <div style="width: 30%;margin-left: 35%;">
                   <md-field>
-                      <md-input v-model="searchKey" placeholder="关键字搜索"></md-input>
+                      <md-input v-model="searchKey" placeholder="关键字搜索" @change="searchfun"></md-input>
                       <i class="material-icons">search</i>
                   </md-field>
               </div>
@@ -44,7 +44,7 @@
   padding: 10px 0px 0px;
   width: 80%;
   margin: 30px 10%;
-  color:white;
+  color: white;
   background-color: rgba(0, 0, 0, 0.7);
 }
 
@@ -54,10 +54,9 @@
   font-size: x-large;
   line-height: initial;
 }
-.mygutter{
+.mygutter {
   margin-bottom: 12px;
 }
-
 </style>
 <script>
 import EvaluationCard from "./evaluationsCards/evaluationCard.vue";
@@ -69,26 +68,27 @@ export default {
     EvaluationCard,
     EvaluatingPage
   },
-  data: () => ({
-    searchKey: "",
-    category: Object,
-    categories: [],
-    evalutionLists: [],
-    evalutionAllLists: [],
-    evalution: Object,
-    showmask:false
-  }),
+  data: () => {
+    return {
+      searchKey: "",
+      category: Object,
+      categories: [],
+      evalutionLists: [],
+      evalutionAllLists: [],
+      evalution: Object,
+      showmask: false
+    };
+  },
   props: {
     //evalution:Object
   },
   mounted: function() {
-    this.$store.commit("evlaluating/changeShowevaluatingPage", false);
     let apikey = "",
       request = {},
       // type = "GET",
       // url = "/static/jsons/datas.json";
-    type = "POST",
-    url = "/IBUS/DAIG_SYS/getTestInfo";
+      type = "POST",
+      url = "/IBUS/DAIG_SYS/getTestInfo";
     let param = {
       apikey,
       request
@@ -134,13 +134,49 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    searchfun() {
+      let $this = this,
+        apikey = "",
+        type = "post",
+        url = "/IBUS/DAIG_SYS/getTestId ",
+        request = {
+          keywords: this.searchKey,
+        },
+        param = {
+          apikey,
+          request
+        };
+
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          if (res.data.errorCode !== 0) {
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   computed: {
-    showevaluatingPage() {
-      return this.$store.state.evlaluating.evlaluating.showevaluatingPage;
+    showevaluatingPage: {
+      get: function() {
+        return this.$store.state.evlaluating.evlaluating.showevaluatingPage;
+      },
+      set: function(newValue) {
+        this.$store.state.evlaluating.evlaluating.showevaluatingPage = newValue;
+      }
     }
-  }
+  },
+  created: () => {}
 };
 </script>
 

@@ -9,7 +9,10 @@ const state = {
     chooseObj: "",
     expertObj: "",
   },
-  evaluatingPage:{
+  evaluatingPage: {
+    evaluationStart: true,
+    currentIndex: 1,
+    questionIndex: 1,
     reportParm: {
       name: "",
       evaluationId: "",
@@ -61,6 +64,15 @@ const mutations = {
   },
   getReportParm(state, value) {
     state.evaluatingPage.reportParm[value.key] = value.value
+  },
+  changeEvaluationStart(state, value) {
+    state.evaluatingPage.evaluationStart = value
+  },
+  getCurrentIndex(state, value) {
+    state.evaluatingPage.currentIndex = value
+  },
+  getQuestionIndex(state, value) {
+    state.evaluatingPage.questionIndex = value
   },
 }
 
