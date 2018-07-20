@@ -50,7 +50,7 @@
                             </div>
                             <div class="md-layout-item md-size-15" style="text-align: center;" >
                                 <md-card-content style="margin: 24px 0;">
-                                    <span v-if="info.completeStatus == 1" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(1)">查看报告</span>
+                                    <span v-if="info.completeStatus == 1" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(info,1)">查看报告</span>
                                     <span v-if="info.completeStatus == 0" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(info,2)">继续</span>
                                 </md-card-content>
                             </div>
@@ -61,9 +61,22 @@
             <el-pagination
                 style="text-align: right;"
                 background
-                layout="prev, pager, next"
-                :total="10">
+                layout="prev, pager, next, jumper"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage"
+                :total="totalItems">
             </el-pagination>
+            <!-- <div class="block">
+                <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage4"
+                :page-sizes="[100, 200, 300, 400]"
+                :page-size="100"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="400">
+                </el-pagination>
+            </div> -->
         </div>
         <!-- <div v-if="showAnswerPage">
             <EvaluatingPage></EvaluatingPage>
@@ -121,7 +134,11 @@ export default {
     questionsAllList: [],
     questionCounts: [],
     questionsList: [],
-    showAnswerPage: false
+    showAnswerPage: false,
+    currentPage: 1,
+    totalItems: "",
+    pageDatas: [],
+    pages: ""
   }),
   mounted: () => {},
   methods: {
@@ -151,8 +168,19 @@ export default {
             $this.showAlert = true;
             $this.AlertMessage = res.data.errorMsg;
           } else {
-            $this.InfoArray = res.data.return.info;
+            // $this.InfoArray = res.data.return.info;
             $this.allTestInfo = res.data.return.info;
+            $this.pages = Math.ceil($this.allTestInfo.length / 5);
+            $this.totalItems = $this.pages * 10;
+            for (var j = 0; j < $this.pages; j++) {
+              $this.pageDatas[j] = [];
+              for (var i in $this.allTestInfo) {
+                if (Math.floor(i / 5) == j) {
+                  $this.pageDatas[j].push($this.allTestInfo[i]);
+                }
+              }
+            }
+            $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
           }
         })
         .catch(error => {
@@ -160,32 +188,45 @@ export default {
         });
     },
     gohead(e, index) {
-      console.log(e);
       let $this = this;
       switch (index) {
         case 1:
+          $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
+          $this.$store.commit("evlaluating/changeEvaluationfinished", false);
+          //隐藏试卷
+          $this.$store.commit("evlaluating/changeEvaluationStart", false);
+          //显示报告
+          $this.$store.commit("evlaluating/changeIsShowReport", true);
+          $this.$store.commit("evlaluating/getReportParm", {
+            key: "idx",
+            value: e.idx
+          });
+          $this.$store.commit("evlaluating/getReportParm", {
+            key: "name",
+            value: e.name
+          });
+          $this.$store.commit("evlaluating/getReportParm", {
+            key: "evaluationId",
+            value: e.id
+          });
+          $this.$store.commit("evlaluating/getReportParm", {
+            key: "name",
+            value: e.name
+          });
+          $this.$store.commit("evlaluating/getCurrentEvaluationId", e.id);
+          $this.$store.commit("evlaluating/getCurrentEvaluationIdx", e.idx);
+          $this.$router.push("/evaluating");
+          setTimeout(function() {
+            $this.$root.eventBus.$emit("viewReport", true);
+          });
           break;
         case 2:
-          //   let apikey = "",
-          //     request = {
-          //       id: e.id,
-          //       session_id: $this.session_id
-          //     },
-          //     // url = "/static/jsons/evaluation.json",
-          //     // type = "GET",
-          //     url = "/IBUS/DAIG_SYS/getQuestion",
-          //     type = "POST",
-          //     param = {
-          //       apikey,
-          //       request
-          //     };
-          //   $this.getQuestionData(type, url, param);
-          this.$store.commit("evlaluating/changeShowevaluatingPage", true);
-          this.$store.commit("evlaluating/getCurrentEvaluationId", e.id);
-          this.$store.commit("evlaluating/getCurrentEvaluationName", e.name);
-          this.$store.commit("evlaluating/getCurrentIndex", e.answered_count);
-          this.$store.commit("evlaluating/getQuestionIndex", e.answered_count);
-          this.$store.commit("evlaluating/changeEvaluationStart", true);
+          $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
+          $this.$store.commit("evlaluating/getCurrentEvaluationId", e.id);
+          $this.$store.commit("evlaluating/getCurrentEvaluationName", e.name);
+          $this.$store.commit("evlaluating/getCurrentIndex", e.answered_count);
+          $this.$store.commit("evlaluating/getQuestionIndex", e.answered_count);
+          $this.$store.commit("evlaluating/changeEvaluationStart", true);
           $this.$router.push("/evaluating");
           break;
         default:
@@ -202,7 +243,18 @@ export default {
               $this.completeTestInfo.push($this.allTestInfo[i]);
             }
           }
-          $this.InfoArray = $this.completeTestInfo;
+        //   $this.InfoArray = $this.completeTestInfo;
+          $this.pages = Math.ceil($this.completeTestInfo.length / 5);
+          $this.totalItems = $this.pages * 10;
+          for (var j = 0; j < $this.pages; j++) {
+            $this.pageDatas[j] = [];
+            for (var i in $this.completeTestInfo) {
+              if (Math.floor(i / 5) == j) {
+                $this.pageDatas[j].push($this.completeTestInfo[i]);
+              }
+            }
+          }
+          $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
           break;
         case 2:
           $this.discompleteTestInfo = [];
@@ -211,14 +263,43 @@ export default {
               $this.discompleteTestInfo.push($this.allTestInfo[i]);
             }
           }
-          $this.InfoArray = $this.discompleteTestInfo;
+        //   $this.InfoArray = $this.discompleteTestInfo;
+          $this.pages = Math.ceil($this.discompleteTestInfo.length / 5);
+          $this.totalItems = $this.pages * 10;
+          for (var j = 0; j < $this.pages; j++) {
+            $this.pageDatas[j] = [];
+            for (var i in $this.discompleteTestInfo) {
+              if (Math.floor(i / 5) == j) {
+                $this.pageDatas[j].push($this.discompleteTestInfo[i]);
+              }
+            }
+          }
+          $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
           break;
         case 3:
-          $this.InfoArray = $this.allTestInfo;
+        //   $this.InfoArray = $this.allTestInfo;
+          $this.pages = Math.ceil($this.allTestInfo.length / 5);
+          $this.totalItems = $this.pages * 10;
+          for (var j = 0; j < $this.pages; j++) {
+            $this.pageDatas[j] = [];
+            for (var i in $this.allTestInfo) {
+              if (Math.floor(i / 5) == j) {
+                $this.pageDatas[j].push($this.allTestInfo[i]);
+              }
+            }
+          }
+          $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
           break;
         default:
           break;
       }
+    },
+    getData(val) {
+      this.InfoArray = this.pageDatas[this.currentPage - 1];
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      this.getData(val);
     }
   },
   created: function() {

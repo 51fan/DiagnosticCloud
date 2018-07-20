@@ -4,6 +4,7 @@ const state = {
     showevaluatingPage: false,
     currentEvaluationName: "",
     currentEvaluationId: "",
+    currentEvaluationIdx: ""
   },
   answerPage: {
     chooseObj: "",
@@ -11,8 +12,10 @@ const state = {
   },
   evaluatingPage: {
     evaluationStart: true,
+    evaluationfinished: false,
     currentIndex: 1,
     questionIndex: 1,
+    isShowReport: false,
     reportParm: {
       name: "",
       evaluationId: "",
@@ -32,6 +35,9 @@ const getters = {
   },
   currentEvaluationId: state => {
     return state.evlaluating.currentEvaluationId
+  },
+  currentEvaluationIdx: state => {
+    return state.evlaluating.currentEvaluationIdx
   },
   chooseObj: state => {
     return state.answerPage.chooseObj
@@ -56,6 +62,9 @@ const mutations = {
   getCurrentEvaluationId(state, value) {
     state.evlaluating.currentEvaluationId = value
   },
+  getCurrentEvaluationIdx(state, value) {
+    state.evlaluating.currentEvaluationIdx = value
+  },
   getCurrentChooseObj(state, value) {
     state.answerPage.chooseObj = value
   },
@@ -74,6 +83,13 @@ const mutations = {
   getQuestionIndex(state, value) {
     state.evaluatingPage.questionIndex = value
   },
+  changeIsShowReport(state, value) {
+    state.evaluatingPage.isShowReport = value
+  },
+  changeEvaluationfinished(state, value) {
+    state.evaluatingPage.evaluationfinished = value
+  },
+
 }
 
 export default {

@@ -172,8 +172,8 @@ export default {
     userAnswerlist: [],
     questionsListsId: [],
     savedata: Object,
-    evaluationfinished: false,
-    isShowReport: false,
+    // evaluationfinished: false,
+    // isShowReport: false,
     idx: ""
     // currentAnswer:"",
     // currentExpert:"",
@@ -187,6 +187,7 @@ export default {
   }),
   created: function() {},
   mounted: function() {
+    let $this = this;
     let apikey = "",
       request = {
         id: this.currentEvaluationId,
@@ -202,6 +203,7 @@ export default {
       };
 
     this.evaluationId = this.currentEvaluationId;
+    this.idx = this.currentEvaluationIdx;
     this.name = this.currentEvaluationName;
     this.$store.commit("evlaluating/getReportParm", {
       key: "name",
@@ -212,6 +214,9 @@ export default {
       value: this.currentEvaluationId
     });
     this.getQuestionData(type, url, param);
+    this.$root.eventBus.$on("viewReport", function(bool) {
+      $this.isViewReport(bool);
+    });
   },
   methods: {
     preItem() {
@@ -237,7 +242,8 @@ export default {
     submit() {
       let apikey = "";
       this.$store.commit("evlaluating/changeEvaluationStart", false);
-      this.evaluationfinished = true;
+      this.$store.commit("evlaluating/changeEvaluationfinished", true);
+      // this.evaluationfinished = true;
       //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
 
       this.addAnswerFun();
@@ -275,9 +281,11 @@ export default {
         // url = "/static/jsons/sorce.json";
         type = "POST",
         url = "/IBUS/DAIG_SYS/getTotalScoreInfo";
+      this.$store.commit("evlaluating/changeEvaluationfinished", false);
+      // this.evaluationfinished = false;
+      // this.isShowReport = bool;
+      this.$store.commit("evlaluating/changeIsShowReport", bool);
 
-      this.evaluationfinished = false;
-      this.isShowReport = bool;
       //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
 
       this.getTotalScoreInfo(type, url, param);
@@ -355,7 +363,7 @@ export default {
 
         //保存答题选项
         //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
-        this.idx = this.questionsList[0].idx;
+        this.currentEvaluationIdx = this.questionsList[0].idx;
         this.$store.commit("evlaluating/getReportParm", {
           key: "idx",
           value: this.questionsList[0].idx
@@ -390,12 +398,6 @@ export default {
         url: url,
         data: param
       }).then(res => {
-        //console.log(res)
-        //debugger
-        // self.reportParm.evaluationId = self.evaluationId;
-        // self.reportParm.idx = self.idx;
-        // self.reportParm.datas = res.data.return;
-
         $this.$store.commit("evlaluating/getReportParm", {
           key: "datas",
           value: res.data.return
@@ -409,6 +411,14 @@ export default {
     },
     currentEvaluationId() {
       return this.$store.state.evlaluating.evlaluating.currentEvaluationId;
+    },
+    currentEvaluationIdx: {
+      get() {
+        return this.$store.state.evlaluating.evlaluating.currentEvaluationIdx;
+      },
+      set(newValue) {
+        this.$store.state.evlaluating.evlaluating.currentEvaluationIdx = newValue;
+      }
     },
     reportParm() {
       return this.$store.state.evlaluating.evaluatingPage.reportParm;
@@ -427,15 +437,22 @@ export default {
         this.$store.state.evlaluating.evaluatingPage.currentIndex = newValue;
       }
     },
-    questionIndex:{
-       get() {
+    questionIndex: {
+      get() {
         return this.$store.state.evlaluating.evaluatingPage.questionIndex;
       },
       set(newValue) {
         this.$store.state.evlaluating.evaluatingPage.questionIndex = newValue;
       }
+    },
+    isShowReport() {
+      return this.$store.state.evlaluating.evaluatingPage.isShowReport;
+    },
+    evaluationfinished() {
+      return this.$store.state.evlaluating.evaluatingPage.evaluationfinished;
     }
-  }
+  },
+  created: () => {}
 };
 </script>
 

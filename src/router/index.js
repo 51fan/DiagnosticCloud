@@ -14,7 +14,7 @@ export default new Router({
   linkActiveClass: 'selected',
   routes: [{
       path: "/",
-      redirect: "/overview"
+      redirect: "/loginPage"
     }, //重定向  
     {
       path: '/overview',

@@ -45,7 +45,7 @@
         </div>
 
         <div class="md-toolbar-row" v-if="showTabs">
-          <md-tabs class="md-transparent" md-alignment="fixed" md-sync-route>
+          <md-tabs class="md-transparent" md-alignment="fixed"  md-sync-route>
             <!-- <md-tab id="tab-home" md-label="工作台" to="/overview"></md-tab>
             <md-tab id="tab-posts" md-label="测评产品" to="/evaluating"></md-tab>
             <md-tab id="tab-favorites" md-label="测评中心" to="/evaluatingCenter"></md-tab>
@@ -166,7 +166,8 @@ export default {
       );
     },
     loginFun() {
-      // this.$store.commit("home/showTabsFun", false);
+      this.$store.commit("home/showTabsFun", false);
+      this.$store.commit("loginPage/changeLoginShowState", true);
       this.$router.push("/loginPage/");
     },
     goRouter(index) {
@@ -177,7 +178,17 @@ export default {
           this.$router.push("/overview");
           break;
         case 2:
+          //显示导航菜单
           this.$store.commit("home/showTabsFun", true);
+          //显示选择评测产品
+          this.$store.commit("evlaluating/changeShowevaluatingPage", false);
+          //显示答题区
+          this.$store.commit("evlaluating/changeEvaluationStart", true);
+          //隐藏答题完成界面
+          this.$store.commit("evlaluating/changeEvaluationfinished", false);
+          //隐藏报告
+          this.$store.commit("evlaluating/changeIsShowReport", false);
+          //路由跳转
           this.$router.push("/evaluating");
           break;
         case 3:
@@ -271,9 +282,9 @@ export default {
       //登录了，隐藏登录按钮
       if (this.getLoginState) {
         //隐藏登录按钮
-        this.$store.commit("home/showLogin", false);
+        this.$store.commit("home/showLogin", true);
         //显示用户中心按钮
-        this.$store.commit("home/showUserCenterButton", true);
+        this.$store.commit("home/showUserCenterButton", false);
         //隐藏用户中心
         this.$store.commit("home/showUserCenter", false);
       } else {

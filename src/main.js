@@ -25,7 +25,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 import './assets/libs/icon.css';
 
-// window.eventBus = new Vue();
+const eventBus = new Vue();
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
@@ -40,6 +40,9 @@ new Vue({
   el: '#app',
   router,
   store,
+  data:{
+    eventBus
+  },
   components: { App },
   template: '<App/>'
 })

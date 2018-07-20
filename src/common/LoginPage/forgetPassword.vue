@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div v-if="currentStep2" class="cardstyle">
-                    <div style="padding: 3% 6% 3% 6%;">重新设置账号ji***@ehz.cnde 密码</div>
+                    <div style="padding: 3% 6% 3% 6%;">重新设置账号{{email}} 密码</div>
                     <div style="padding: 0 6% 3% 6%">
                         <md-field style="width:40%" :class="passwordFMessageClass" >
                             <md-input v-model="passwordFirst" type="password" placeholder="6 - 16位密码，数字和字母组合，区分大小写" v-on:input ="inputFunc(2)" @click="showTips(2)"></md-input>
@@ -261,18 +261,18 @@ export default {
         type = "post",
         url =
           index == 1
-            ? "/IBUS/DAIG_SYS/checkVerifyCodeByMobile"
-            : "/IBUS/DAIG_SYS/resetPasswordByEmail",
+            ? " /IBUS/DAIG_SYS/sendSms"
+            : "/IBUS/DAIG_SYS/resetPasswordByEmail1",
         request =
           index == 1
             ? {
                 mobile: this.mobile,
-                type: 1,
-                session_id: this.session_id
+                type: 1
+                // session_id: this.session_id
               }
             : {
-                email: this.email,
-                session_id: this.session_id
+                email: this.email
+                // session_id: this.session_id
               },
         param = {
           apikey,
@@ -302,8 +302,10 @@ export default {
         });
     },
     nextStep() {
-      let self = this,
+      let $this = this,
+        url = "",
         apikey = "",
+        type = "post",
         request = {};
       //请求接口
       //   self.$http
@@ -314,12 +316,71 @@ export default {
         this.currentStep1 = false;
         this.currentStep2 = true;
         this.currentStep3 = false;
+        if ($this.changeCheckWay) {
+          url = "/IBUS/DAIG_SYS/checkVerifyCodeByMobile1";
+          request.mobile = $this.mobile;
+          request.verifyCode = $this.VerificationCode;
+        } else {
+          url = "/IBUS/DAIG_SYS/checkVerifyCodeByEmail1";
+          request.verifyCode = $this.VerificationCode;
+          request.email = $this.email;
+        }
       } else if (this.currentStep2) {
         this.currentStep1 = false;
         this.currentStep2 = false;
         this.currentStep3 = true;
-        self.goLogin(5);
+        url = " /IBUS/DAIG_SYS/resetPassword1";
+        request.id = $this.changeCheckWay ? $this.mobile : $this.email;
+        request.password = Base64.encode($this.passwordFirst);
       }
+      let param = {
+        apikey,request
+      };
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          if (res.data.errorCode !== 0) {
+            $this.showVerificationCode = true;
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            // if ($this.currentStep1) {
+            //   $this.$store.commit(
+            //     "UserCenter/changePasswordcurrentStep1",
+            //     false
+            //   );
+            //   $this.$store.commit(
+            //     "UserCenter/changePasswordcurrentStep2",
+            //     true
+            //   );
+            //   $this.$store.commit(
+            //     "UserCenter/changePasswordcurrentStep3",
+            //     false
+            //   );
+            // } else if ($this.currentStep2) {
+            //   $this.$store.commit(
+            //     "UserCenter/changePasswordcurrentStep1",
+            //     false
+            //   );
+            //   $this.$store.commit(
+            //     "UserCenter/changePasswordcurrentStep2",
+            //     false
+            //   );
+            //   $this.$store.commit(
+            //     "UserCenter/changePasswordcurrentStep3",
+            //     true
+            //   );
+              $this.goLogin(5);
+            // }
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     isPassword(pass) {
       var str = pass;
@@ -420,6 +481,9 @@ export default {
     },
     session_id() {
       return this.$store.state.loginPage.session_id;
+    },
+    useremail() {
+      return this.$store.state.loginPage.useremail;
     }
   }
 };
