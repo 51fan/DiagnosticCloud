@@ -10,7 +10,7 @@ const actions = {}
 
 const mutations = {
   changeUseremail(state, value) {
-    state.loginSuccess = value;
+    state.useremail = value;
   }
 }
 

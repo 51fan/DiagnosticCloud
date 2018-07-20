@@ -1,10 +1,6 @@
 <template>
     <div class="mypanel" style="font-size: xx-large;">
-        <!-- <h6>欢迎光临</h6>
-        <div style="text-align: center;">
-            <img src="../../assets/images/industry.jpg" alt="">
-        </div> -->
-          <div class="md-layout" style="flex-wrap: nowrap;">
+        <div class="md-layout" style="flex-wrap: nowrap;">
             <div class="md-layout-item md-size-15">
                 <img :src="conmpanyLogo"/>
                 <div style="font-size: medium;">{{companyName}}</div>
@@ -24,8 +20,45 @@
                     </div>
                 </div>
                 <div style="width: 80%;border-bottom: 1px solid lightgray;padding-bottom: 2%;">
-                     <div style="padding: 2%">您目前进行中的测评</div>
-                     <div style="padding: 2%">您当前无进行中的测评</div>
+                    <div style="padding: 2%">您目前进行中的测评</div>
+                    <div v-if="showNoMessage" style="padding: 2%">您当前无进行中的测评</div>
+                    <md-card v-if="!showNoMessage" v-for="info in testALLinfo" :key="info.idx" :info="info">
+                        <md-ripple>
+                            <div class="md-layout" style="width:100%">
+                                <div class="md-layout-item md-size-40" >
+                                    <md-card-content>
+                                        <div class="md-layout">
+                                            <div class="md-layout-item md-size-15" >
+                                                <img :src="imgSrc" >
+                                            </div>
+                                            <div class="md-layout-item md-size-85" >
+                                                <div style="padding: 10px 5px;">{{info.name}}</div>
+                                                <div style="padding: 0 5px;">{{info.remark}}</div>
+                                            </div>
+                                        </div>
+                                    </md-card-content>
+                                </div>
+                                <div class="md-layout-item md-size-15" >
+                                    <md-card-content style="margin: 24px 0;">
+                                        <div>测评时间：{{info.startTime.slice(0, 10)}}</div>
+                                        <div v-if="info.endTime">完成时间：{{info.endTime.slice(0, 10)}}</div> 
+                                    </md-card-content>
+                                </div>
+                                <div class="md-layout-item md-size-30" >
+                                    <md-card-content style="margin: 28px 0;">
+                                        <el-progress v-if="info.completeStatus == 1" :percentage="100" status="success"></el-progress>
+                                        <el-progress v-if="info.completeStatus == 0" :percentage="info.complete_degree" ></el-progress>
+                                    </md-card-content>
+                                </div>
+                                <div class="md-layout-item md-size-15" style="text-align: center;" >
+                                    <md-card-content style="margin: 24px 0;">
+                                        <span v-if="info.completeStatus == 1" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(info,1)">查看报告</span>
+                                        <span v-if="info.completeStatus == 0" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(info,2)">继续</span>
+                                    </md-card-content>
+                                </div>
+                            </div>
+                        </md-ripple>
+                    </md-card>
                 </div>
                 <div style="width: 80%;border-bottom: 1px solid lightgray;padding-bottom: 2%;">
                      <div style="padding: 2%">已完成测评</div>
@@ -154,9 +187,6 @@
                   :md-active.sync="showAlert"
                   :md-content="AlertMessage"
                   md-confirm-text="知道了" />
-          <!-- <md-dialog-actions>
-            <md-button class="md-primary" @click="save()">完成</md-button>
-          </md-dialog-actions> -->
         </md-dialog>
     </div>
 </template>
@@ -205,6 +235,9 @@
 
 <script>
 import cityPicker from "../../components/wheels/cityPicker/cityPicker2.vue";
+import axios from "axios";
+import { mapGetters, mapState } from "vuex";
+
 export default {
   name: "overView",
   components: {
@@ -222,19 +255,28 @@ export default {
     enterpriseSName: "",
     OrganizationCode: "",
     conmpanyLogo: "/static/imgs/company.png",
-    PersonalimageSrc:"/static/imgs/avatar.png",
+    PersonalimageSrc: "/static/imgs/avatar.png",
     imageSrc: "/static/imgs/avatar.png",
     upadteSrc: "",
     updateData: "",
-    imgUrl:"",
+    imgUrl: "",
     enterpriseNameHasMessages: false,
     showenterpriseNameEmpty: false,
     enterpriseSNameHasMessages: false,
     showenterpriseSNameEmpty: false,
     AlertMessage: "",
-    companyName: "华制智能制造技术有限公司"
+    companyName: "华制智能制造技术有限公司",
+    InfoArray: [],
+    showNoMessage:true
   }),
-  mounted: () => {},
+  mounted: () => {
+      console.log(this.testALLinfo);
+      this.InfoArray= this.testALLinfo;
+      let len = this.testALLinfo.length;
+      if(len>0){
+          this.showNoMessage = false;
+      }
+  },
   computed: {
     firstLogin() {
       return this.$store.state.loginPage.firstLogin;
@@ -249,8 +291,13 @@ export default {
         "md-invalid": this.enterpriseSNameHasMessages
       };
     },
-    session_id() {
-      return this.$store.state.loginPage.session_id;
+    session_id: {
+      get: function() {
+        return this.$store.state.loginPage.session_id;
+      },
+      set: function(newValue) {
+        this.$store.state.$store.state.loginPage.session_id = newValue;
+      }
     },
     useremail() {
       return this.$store.state.loginPage.useremail;
@@ -278,6 +325,9 @@ export default {
       set: function(newValue) {
         this.$store.state.UserCenter.enterpriseInfo.selectCounty = newValue;
       }
+    },
+    testALLinfo(){
+        return this.$store.state.home.testALLinfo;
     }
   },
   methods: {
@@ -440,8 +490,43 @@ export default {
         this.$message.error("上传头像图片大小不能超过 2MB!");
       }
       return isJPG && isLt2M;
+    },
+    getUserTestAllInfo() {
+      let $this = this,
+        apikey = "",
+        type = "post",
+        url = "/IBUS/DAIG_SYS/getUserTestAllInfo",
+        request = {
+          status: 3,
+          key: this.searchKey,
+          session_id: this.session_id
+        },
+        param = {
+          apikey,
+          request
+        };
+
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          if (res.data.errorCode !== 0) {
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            $this.InfoArray = res.data.return.info;
+            $this.$store.commit("home/getTestALLinfo", $this.InfoArray);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
-  }
+  },
+  created: () => {}
 };
 </script>
 

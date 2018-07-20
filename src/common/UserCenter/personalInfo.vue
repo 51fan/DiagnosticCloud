@@ -1,50 +1,99 @@
 <template>
     <div class="mypanel">
         <div v-if="!disable">
-            <div class="personalinfoHead">
-                <div style="width:30%;text-align: center;margin-top: 5%;">
-                    <span style="    margin: 3% 2%;width: 20%;">企业图标：</span>
-                            <!-- <md-field style=" width:55%;"  ref="file">
-                                <label style="cursor: pointer;">上传logo</label>
-                                <md-file style="cursor: pointer;"  accept="image/*" @change="updateLogo" disabled/>
-                            </md-field> -->
-                            <md-button class="md-raised" disabled>上传图片</md-button>
-                            <img class="logoImage" v-bind:src="imageSrc"/>
-                </div>
-                <div style="border-right: 3px solid lightgray;"></div>
-                <div class="personalinfoHeadright">
-                    <div style="  width: 70%;display: inline-flex;">
-                        <span style="width:10%">姓名：</span>
-                        <md-field style="margin-top: -3%;" v-if="!canEditName">
-                            <md-input v-model="name" disabled></md-input>
-                            <i class="material-icons" @click="editName()" style="cursor: pointer;">edit</i>
-                        </md-field>
-                        <md-field style="margin-top: -3%;" v-if="canEditName">
-                            <md-input v-model="name" v-on:blur="saveName()" id="eidtName"></md-input>
-                        </md-field>
+            <div>
+                <div class="md-layout">
+                    <div class="md-layout-item md-size-10"></div>
+                    <div class="md-layout-item md-size-80">
+                        <md-card>
+                            <md-card-header>
+                                <div class="md-layout">
+                                    <div class="md-layout-item md-size-40" style="display: inline-flex;">
+                                        <div class="md-layout-item md-size-20">
+                                            <span style="margin: 3% 2%;width: 21%;">企业图标：</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-20">
+                                            <md-button class="md-raised" disabled>上传图片</md-button>   
+                                        </div>
+                                        <div class="md-layout-item md-size-60">
+                                            <md-card-media>
+                                                <img class="logoImage" v-bind:src="imageSrc"/>
+                                            </md-card-media>
+                                        </div>
+                                    </div>
+                                    <div class="md-layout-item md-size-60">
+                                        <md-card-header-text>
+                                            <div style="  width: 70%;display: inline-flex;">
+                                                <span style="width:10%">姓名：</span>
+                                                <md-field style="margin-top: -3%;" v-if="!canEditName">
+                                                    <md-input v-model="name" disabled></md-input>
+                                                    <i class="material-icons" @click="editName()" style="cursor: pointer;">edit</i>
+                                                </md-field>
+                                                <md-field style="margin-top: -3%;" v-if="canEditName">
+                                                    <md-input v-model="name" v-on:blur="saveName()" id="eidtName"></md-input>
+                                                </md-field>
+                                            </div>
+                                            <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
+                                                <span style="width:100%">邮箱：{{useremail}}</span>
+                                            </div>
+                                            <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
+                                                <span style="width:100%">手机：{{usermobile}}</span>
+                                            </div>
+                                            <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
+                                                <span style="width:100%">当前企业：{{company}}</span>
+                                            </div>
+                                        </md-card-header-text>
+                                    </div>
+                                </div>
+                            </md-card-header>
+                        </md-card>
                     </div>
-                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                        <span style="width:100%">邮箱：{{useremail}}</span>
-                        <!-- <md-field style="margin-top: -3%;">
-                            <md-input v-model="email" disabled></md-input>
-                        </md-field> -->
-                    </div>
-                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                        <span style="width:100%">手机：{{usermobile}}</span>
-                        <!-- <md-field style="margin-top: -3%;">
-                            <md-input v-model="mobile" disabled></md-input>
-                        </md-field> -->
-                    </div>
-                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                        <span style="width:100%">当前企业：{{company}}</span>
-                        <!-- <md-field style="margin-top: -3%;">
-                            <md-input v-model="company" disabled></md-input>
-                        </md-field> -->
-                    </div>
+                    <div class="md-layout-item md-size-10"></div>
                 </div>
             </div>
 
-            <div class="personalinfobody">
+            <div class="md-layout">
+                <div class="md-layout-item md-size-10"></div>
+                <div class="md-layout-item md-size-80">
+                    <md-card>
+                        <md-card-content>
+                            <div style="margin-left: 36%;display: inline-flex;margin-top: 1%;"> 
+                                <span style="width:55%;margin: 9% 5% 0 0;">性别：</span>
+                                <div>
+                                    <md-radio v-model="sex" value="male" style="width:50%;" disabled>男</md-radio>
+                                    <md-radio v-model="sex" value="female" style="width:10%;" disabled>女</md-radio>
+                                </div>
+                            </div>
+                            <div style="margin-left: 36%;">
+                                <span  style="width:10%">出生日期：</span>
+                                <el-date-picker
+                                     v-model="date"
+                                     type="date"
+                                     disabled
+                                     placeholder="选择日期">
+                                </el-date-picker>
+                            </div>
+                            <div style="margin-left: 36%;">
+                                <span  style="width:10%">部门：</span>
+                                <md-field style="width: 70%;">
+                                    <md-input v-model="department" disabled></md-input>
+                                </md-field>
+                            </div>
+                            <div style="margin-left: 36%;">
+                                <span  style="width:10%">职位：</span>
+                                <md-field style="width: 70%">
+                                     <md-input v-model="position" disabled></md-input>
+                                </md-field>
+                            </div>
+                        </md-card-content>
+                        <div style="text-align: -webkit-center;">
+                            <md-button class="md-dense md-raised md-primary" style="width:10%" @click="modify()">修改</md-button>
+                        </div>
+                    </md-card>
+                </div>
+                <div class="md-layout-item md-size-10"></div>
+            </div>
+            <!-- <div class="personalinfobody">
                 
                 <div style="margin-left: 36%;display: inline-flex;margin-top: 1%;"> 
                     <span style="width:55%;margin: 9% 5% 0 0;">性别：</span>
@@ -75,60 +124,61 @@
                     </md-field>
                 </div>
                 <div style="border-right: 3px solid lightgray;padding-right: 30px"></div>
-            </div>
-            <div style="text-align: -webkit-center;">
-                <md-button class="md-dense md-raised md-primary" style="width:10%" @click="modify()">修改</md-button>
-            </div>
+            </div> -->
         </div>
         <div v-if="disable">
-            <div class="personalinfoHead">
-                <div style="width:30%;text-align: center;margin-top: 5%;">
-                    <!-- <img class="logoImage" v-bind:src="imageSrc">
-                    <md-field style=" width:55%;margin-right: 5%;"  ref="file">
-                        <label style="cursor: pointer;">上传logo</label>
-                        <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="changeImage"/>
-                    </md-field> -->
-                    <md-field style=" width:55%;"  ref="file">
-                                <label style="cursor: pointer;">上传logo</label>
-                                <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
-                            </md-field>
-                            <!-- <input type="file" @change="updateLogo" ref="file" id="file"> -->
-                            <img class="logoImage" v-bind:src="imageSrc"/>
-                </div>
-                <div style="border-right: 3px solid lightgray;"></div>
-                <div class="personalinfoHeadright">
-                    <div style="  width: 70%;display: inline-flex;">
-                        <span style="width:10%">姓名：</span>
-                        <md-field style="margin-top: -3%;" v-if="!canEditName">
-                            <md-input v-model="name" disabled></md-input>
-                            <i class="material-icons" @click="editName()" style="cursor: pointer;">edit</i>
-                        </md-field>
-                        <md-field style="margin-top: -3%;" v-if="canEditName">
-                            <md-input v-model="name" @change="saveName" id="eidtName"></md-input>
-                        </md-field>
+           <div>
+                <div class="md-layout">
+                    <div class="md-layout-item md-size-10"></div>
+                    <div class="md-layout-item md-size-80">
+                        <md-card>
+                            <md-card-header>
+                                 <div class="md-layout">
+                                    <div class="md-layout-item md-size-40" style="display: inline-flex;">
+                                        <div class="md-layout-item md-size-20">
+                                            <span style="margin: 3% 2%;width: 21%;">企业图标：</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-20">
+                                            <md-button class="md-raised" disabled>上传图片</md-button>   
+                                        </div>
+                                        <div class="md-layout-item md-size-60">
+                                            <md-card-media>
+                                                <img class="logoImage" v-bind:src="imageSrc"/>
+                                            </md-card-media>
+                                        </div>
+                                    </div>
+                                    <div class="md-layout-item md-size-60">
+                                        <md-card-header-text>
+                                            <div style="  width: 70%;display: inline-flex;">
+                                                <span style="width:10%">姓名：</span>
+                                                <md-field style="margin-top: -3%;" v-if="!canEditName">
+                                                    <md-input v-model="name" disabled></md-input>
+                                                    <i class="material-icons" @click="editName()" style="cursor: pointer;">edit</i>
+                                                </md-field>
+                                                <md-field style="margin-top: -3%;" v-if="canEditName">
+                                                    <md-input v-model="name" v-on:blur="saveName()" id="eidtName"></md-input>
+                                                </md-field>
+                                            </div>
+                                            <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
+                                                <span style="width:100%">邮箱：{{useremail}}</span>
+                                            </div>
+                                            <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
+                                                <span style="width:100%">手机：{{usermobile}}</span>
+                                            </div>
+                                            <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
+                                                <span style="width:100%">当前企业：{{company}}</span>
+                                            </div>
+                                        </md-card-header-text>
+                                    </div>
+                                </div>
+                            </md-card-header>
+                        </md-card>
                     </div>
-                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                        <span style="width:100%">邮箱：{{useremail}}</span>
-                        <!-- <md-field style="margin-top: -3%;">
-                            <md-input v-model="email" disabled></md-input>
-                        </md-field> -->
-                    </div>
-                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                        <span style="width:100%">手机：{{usermobile}}</span>
-                        <!-- <md-field style="margin-top: -3%;">
-                            <md-input v-model="mobile" disabled></md-input>
-                        </md-field> -->
-                    </div>
-                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                        <span style="width:100%">当前企业：{{company}}</span>
-                        <!-- <md-field style="margin-top: -3%;">
-                            <md-input v-model="company" disabled></md-input>
-                        </md-field> -->
-                    </div>
+                    <div class="md-layout-item md-size-10"></div>
                 </div>
             </div>
 
-            <div class="personalinfobody">
+            <!-- <div class="personalinfobody">
                 
                 <div style="margin-left: 36%;display: inline-flex;margin-top: 1%;"> 
                     <span style="width:55%;margin: 9% 5% 0 0;">性别：</span>
@@ -158,19 +208,55 @@
                     </md-field>
                 </div>
                 <div style="border-right: 3px solid lightgray;padding-right: 30px"></div>
+            </div> -->
+            <div class="md-layout">
+               <div class="md-layout-item md-size-10"></div>
+                <div class="md-layout-item md-size-80">
+                    <md-card>
+                        <md-card-content>
+                            <div style="margin-left: 36%;display: inline-flex;margin-top: 1%;"> 
+                                <span style="width:55%;margin: 9% 5% 0 0;">性别：</span>
+                                <div>
+                                    <md-radio v-model="sex" value="male" style="width:50%;" >男</md-radio>
+                                    <md-radio v-model="sex" value="female" style="width:10%;" >女</md-radio>
+                                </div>
+                            </div>
+                            <div style="margin-left: 36%;">
+                                <span  style="width:10%">出生日期：</span>
+                                <el-date-picker
+                                     v-model="date"
+                                     type="date"
+                                     placeholder="选择日期">
+                                </el-date-picker>
+                            </div>
+                            <div style="margin-left: 36%;">
+                                <span  style="width:10%">部门：</span>
+                                <md-field style="width: 70%;">
+                                    <md-input v-model="department" ></md-input>
+                                </md-field>
+                            </div>
+                            <div style="margin-left: 36%;">
+                                <span  style="width:10%">职位：</span>
+                                <md-field style="width: 70%">
+                                     <md-input v-model="position" ></md-input>
+                                </md-field>
+                            </div>
+                        </md-card-content>
+                        <div style="text-align: -webkit-center;">
+                            <md-button class="md-dense md-raised md-primary" style="width:10%" @click="cancel()">取消</md-button>
+                            <md-button class="md-dense md-raised md-primary" style="width:10%" @click="save()">保存</md-button>
+                        </div>
+                    </md-card>
+                </div>
+                <div class="md-layout-item md-size-10"></div>
             </div>
-            <div style="text-align: -webkit-center;">
-                <md-button class="md-dense md-raised md-primary" style="width:10%" @click="cancel()">取消</md-button>
-                <md-button class="md-dense md-raised md-primary" style="width:10%" @click="save()">保存</md-button>
-            </div>
-        </div>
-        <md-dialog-alert 
+            <md-dialog-alert 
                   class="md-primary md-raised"
                   :md-active.sync="showAlert"
                   :md-content="AlertMessage"
                   md-confirm-text="知道了" />       
-    </div>
-    
+        </div>
+    </div>   
 </template>
 
 <style scoped>
@@ -289,7 +375,7 @@ export default {
         let model = res.data.result;
         $this.name = res.data.result.name;
         $this.imageSrc = res.data.result.image
-          ? "/IMAGE/"+res.data.result.image
+          ? "/IMAGE/" + res.data.result.image
           : "/static/imgs/noImage.png";
         $this.email = res.data.result.email;
         $this.mobile = res.data.result.mobile;
@@ -304,7 +390,9 @@ export default {
       });
   },
   methods: {
-    cancel() {},
+    cancel() {
+      this.disable = false;
+    },
     save() {
       let $this = this,
         apikey = "",

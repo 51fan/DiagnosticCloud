@@ -23,13 +23,6 @@ const store = new Vuex.Store({
     evaluatingCenter
   },
   actions: {
-    postdata(url, data) {
-      axios({
-        method: 'post',
-        url: url,
-        data: data
-      })
-    }
   }
 })
 export default store;

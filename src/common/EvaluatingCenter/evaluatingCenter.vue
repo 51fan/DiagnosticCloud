@@ -223,9 +223,10 @@ export default {
         case 2:
           $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
           $this.$store.commit("evlaluating/getCurrentEvaluationId", e.id);
+          $this.$store.commit("evlaluating/getCurrentEvaluationIdx", e.idx);
           $this.$store.commit("evlaluating/getCurrentEvaluationName", e.name);
-          $this.$store.commit("evlaluating/getCurrentIndex", e.answered_count);
-          $this.$store.commit("evlaluating/getQuestionIndex", e.answered_count);
+          $this.$store.commit("evlaluating/getCurrentIndex", e.answered_count+1);
+          $this.$store.commit("evlaluating/getQuestionIndex", e.answered_count+1);
           $this.$store.commit("evlaluating/changeEvaluationStart", true);
           $this.$router.push("/evaluating");
           break;

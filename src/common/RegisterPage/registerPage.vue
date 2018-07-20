@@ -123,7 +123,7 @@ export default {
       }
     },
     isTelCode(str) {
-      var reg = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
+      var reg = /^((0\d{2,3}-\d{7,8})|(1[3456789]\d{9}))$/;
       return reg.test(str);
     },
     inputFunc(index) {

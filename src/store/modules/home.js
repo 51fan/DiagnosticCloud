@@ -5,7 +5,8 @@ const state = {
   showLogin:true,
   showTabs: true,
   showUserCenter:false,
-  showUserCenterButton:false
+  showUserCenterButton:false,
+  testALLinfo:Object
 }
 
 // getters
@@ -32,6 +33,9 @@ const mutations = {
     },
     showUserCenterButton(state, value) {
         state.showUserCenterButton = value;
+    },
+    getTestALLinfo(state, value) {
+      state.testALLinfo = value;
     }
 }
 

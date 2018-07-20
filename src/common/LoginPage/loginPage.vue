@@ -163,8 +163,7 @@ export default {
             $this.$store.commit("home/showTabsFun", true);
             //显示用户中心
             // $this.$store.commit("home/showUserCenter", true);
-
-            $this.$router.push("/overview");
+            $this.getUserTestAllInfo(res.data.session_id);
           }
         })
         .catch(error => {
@@ -197,6 +196,41 @@ export default {
       //   .catch(err => {
       //     console.log(err);
       //   });
+    },
+    getUserTestAllInfo(id) {
+      let $this = this,
+        apikey = "",
+        type = "post",
+        url = "/IBUS/DAIG_SYS/getUserTestAllInfo",
+        request = {
+          status: 3,
+          key: "",
+          session_id: id
+        },
+        param = {
+          apikey,
+          request
+        };
+
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          if (res.data.errorCode !== 0) {
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            $this.InfoArray = res.data.return.info;
+            $this.$store.commit("home/getTestALLinfo", $this.InfoArray);
+            $this.$router.push("/overview");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };
