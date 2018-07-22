@@ -1,0 +1,68 @@
+{
+    "errorCode": 0,
+    "errorMsg": "成功",
+    "return": {
+        "info": [
+            {
+                "idx": 124,
+                "id": 2,
+                "name": "供应链物流成熟度测评",
+                "startTime": "2018-07-20 20:23:28",
+                "endTime": null,
+                "completeStatus": 0,
+                "remark": "针对供应链物流标准的十个维度，全方位对企业现状进行评测",
+                "answered_count": 2,
+                "complete_degree": 20
+            },
+            {
+                "idx": 123,
+                "id": 1,
+                "name": "智能制造成熟度测评",
+                "startTime": "2018-07-20 20:20:01",
+                "endTime": "2018-07-20 20:20:22",
+                "completeStatus": 1,
+                "remark": "针对智能制造标准的十个维度，全方位对企业现状进行评测"
+            },
+            {
+                "idx": 125,
+                "id": 3,
+                "name": "供应链物流成熟度测评",
+                "startTime": "2018-07-20 20:23:28",
+                "endTime": null,
+                "completeStatus": 0,
+                "remark": "针对供应链物流标准的十个维度，全方位对企业现状进行评测",
+                "answered_count": 5,
+                "complete_degree": 67.5
+            },
+            {
+                "idx": 126,
+                "id": 4,
+                "name": "智能制造成熟度测评",
+                "startTime": "2018-07-20 20:20:01",
+                "endTime": "2018-07-20 20:20:22",
+                "completeStatus": 1,
+                "remark": "针对智能制造标准的十个维度，全方位对企业现状进行评测"
+            },
+            {
+                "idx": 128,
+                "id": 5,
+                "name": "供应链物流成熟度测评",
+                "startTime": "2018-07-20 20:23:28",
+                "endTime": null,
+                "completeStatus": 0,
+                "remark": "针对供应链物流标准的十个维度，全方位对企业现状进行评测",
+                "answered_count": 5,
+                "complete_degree": 67.5
+            },
+            {
+                "idx": 127,
+                "id": 6,
+                "name": "智能制造成熟度测评",
+                "startTime": "2018-07-20 20:20:01",
+                "endTime": "2018-07-20 20:20:22",
+                "completeStatus": 1,
+                "remark": "针对智能制造标准的十个维度，全方位对企业现状进行评测"
+            }
+        ]
+    }
+}

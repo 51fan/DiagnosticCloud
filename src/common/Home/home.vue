@@ -14,9 +14,6 @@
 
           <div class="md-toolbar-section-end" v-if="showLogin">
               <md-menu>
-                <!-- <md-button class="md-icon-button" md-menu-trigger>
-                  <md-icon>phone</md-icon>
-                </md-button> -->
                 <md-button class="md-icon-button"  md-menu-trigger>
                     <md-icon>account_circle</md-icon>
                 </md-button>
@@ -38,9 +35,6 @@
                   </md-menu-item>
                 </md-menu-content>
               </md-menu>
-              <!-- <md-button class="md-icon-button" @click="loginFun()">
-                <md-icon>account_circle</md-icon>
-              </md-button> -->
           </div>
         </div>
 
@@ -122,17 +116,14 @@ import evaluating from "../Evaluating/evaluating.vue";
 import { mapGetters, mapState } from "vuex";
 
 export default {
-  name: "LastRowFixed",
+  name: "home",
   components: {
     evaluating
   },
   data: () => ({
-    // menuVisible: Boolean,
-    // loginPage:Boolean,
   }),
   computed: {
     menuVisible() {
-      // debugger
       return this.$store.state.home.menuVisible;
     },
     loginPage() {

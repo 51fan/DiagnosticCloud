@@ -21,48 +21,71 @@
                 </div>
                 <div style="width: 80%;border-bottom: 1px solid lightgray;padding-bottom: 2%;">
                     <div style="padding: 2%">您目前进行中的测评</div>
-                    <div v-if="showNoMessage" style="padding: 2%">您当前无进行中的测评</div>
-                    <md-card v-if="!showNoMessage" v-for="info in testALLinfo" :key="info.idx" :info="info">
-                        <md-ripple>
-                            <div class="md-layout" style="width:100%">
-                                <div class="md-layout-item md-size-40" >
-                                    <md-card-content>
-                                        <div class="md-layout">
-                                            <div class="md-layout-item md-size-15" >
-                                                <img :src="imgSrc" >
-                                            </div>
-                                            <div class="md-layout-item md-size-85" >
-                                                <div style="padding: 10px 5px;">{{info.name}}</div>
-                                                <div style="padding: 0 5px;">{{info.remark}}</div>
-                                            </div>
-                                        </div>
-                                    </md-card-content>
-                                </div>
-                                <div class="md-layout-item md-size-15" >
-                                    <md-card-content style="margin: 24px 0;">
-                                        <div>测评时间：{{info.startTime.slice(0, 10)}}</div>
-                                        <div v-if="info.endTime">完成时间：{{info.endTime.slice(0, 10)}}</div> 
-                                    </md-card-content>
-                                </div>
-                                <div class="md-layout-item md-size-30" >
-                                    <md-card-content style="margin: 28px 0;">
-                                        <el-progress v-if="info.completeStatus == 1" :percentage="100" status="success"></el-progress>
-                                        <el-progress v-if="info.completeStatus == 0" :percentage="info.complete_degree" ></el-progress>
-                                    </md-card-content>
-                                </div>
-                                <div class="md-layout-item md-size-15" style="text-align: center;" >
-                                    <md-card-content style="margin: 24px 0;">
-                                        <span v-if="info.completeStatus == 1" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(info,1)">查看报告</span>
-                                        <span v-if="info.completeStatus == 0" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(info,2)">继续</span>
-                                    </md-card-content>
-                                </div>
-                            </div>
-                        </md-ripple>
-                    </md-card>
+                    <div v-if="showdiscompletedNoMessage" style="padding: 2%">您当前无进行中的测评</div>
+                    <div class="md-layout-item md-size-30" v-if="!showdiscompletedNoMessage" v-for="info in discompletedArray" :key="info.idx" :info="info" style="display: inline-flex;">
+                      <md-card>
+                        <md-card-header>
+                          <div class="md-title">{{info.name}}</div>
+                        </md-card-header>
+
+                        <md-card-content>
+                          {{info.remark}}
+                        </md-card-content>
+                        <div class="md-layout-item md-size-100">
+                          <div class="md-layout-item md-size-65" style="display: inline-block;">
+                            <md-card-content style="background-color: white;">
+                                <el-progress v-if="info.completeStatus == 1" :percentage="100" status="success"></el-progress>
+                                <el-progress v-if="info.completeStatus == 0" :percentage="info.complete_degree" ></el-progress>
+                            </md-card-content>
+                          </div>
+                          <div class="md-layout-item md-size-30" style="display: inline-flex;">
+                            <md-card-actions>
+                            <md-button>
+                              <span v-if="info.completeStatus == 1" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(info,1)">查看报告</span>
+                              <span v-if="info.completeStatus == 0" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(info,2)">继续</span>
+                            </md-button>
+                          </md-card-actions>
+                          </div>
+                        </div>
+                      </md-card>
+                    </div>
+                    <div v-if="showcompletedMoe" style="padding: 2% 12%;text-align: right;" >
+                      <span @click="more()" style="cursor: pointer;">查看更多</span>
+                    </div>
                 </div>
                 <div style="width: 80%;border-bottom: 1px solid lightgray;padding-bottom: 2%;">
                      <div style="padding: 2%">已完成测评</div>
-                     <div style="padding: 2%">您当前无完成的测评</div>
+                     <div v-if="showcompletedNoMessage" style="padding: 2%">您当前无完成的测评</div>
+                     <div v-if="!showcompletedNoMessage" class="md-layout-item md-size-30" v-for="info in completedArray" :key="info.idx" :info="info" style="display: inline-flex;">
+                      <md-card>
+                        <md-card-header>
+                          <div class="md-title">{{info.name}}</div>
+                        </md-card-header>
+
+                        <md-card-content>
+                          {{info.remark}}
+                        </md-card-content>
+                        <div class="md-layout-item md-size-100">
+                          <div class="md-layout-item md-size-60" style="display: inline-block;">
+                            <md-card-content style="background-color: white;">
+                                <el-progress v-if="info.completeStatus == 1" :percentage="100" status="success"></el-progress>
+                                <el-progress v-if="info.completeStatus == 0" :percentage="info.complete_degree" ></el-progress>
+                            </md-card-content>
+                          </div>
+                          <div class="md-layout-item md-size-35" style="display: inline-flex;">
+                            <md-card-actions>
+                            <md-button>
+                              <span v-if="info.completeStatus == 1" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(info,1)">查看报告</span>
+                              <span v-if="info.completeStatus == 0" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(info,2)">继续</span>
+                            </md-button>
+                          </md-card-actions>
+                          </div>
+                        </div>
+                      </md-card>
+                    </div>
+                    <div v-if="showcompletedMoe" style="padding: 2% 12%;text-align: right;" >
+                      <span @click="more()" style="cursor: pointer;">查看更多</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -267,15 +290,137 @@ export default {
     AlertMessage: "",
     companyName: "华制智能制造技术有限公司",
     InfoArray: [],
-    showNoMessage:true
-  }),
-  mounted: () => {
-      console.log(this.testALLinfo);
-      this.InfoArray= this.testALLinfo;
-      let len = this.testALLinfo.length;
-      if(len>0){
-          this.showNoMessage = false;
+    completedArray: [],
+    discompletedArray: [],
+    showdiscompletedNoMessage: true,
+    showcompletedNoMessage: true,
+    showdiscompletedMoe: false,
+    showcompletedMoe: false,
+    testALLinfo: [
+      {
+        idx: 124,
+        id: 2,
+        name: "供应链物流成熟度测评",
+        startTime: "2018-07-20 20:23:28",
+        endTime: null,
+        completeStatus: 0,
+        remark: "针对供应链物流标准的十个维度，全方位对企业现状进行评测",
+        answered_count: 2,
+        complete_degree: 20
+      },
+      {
+        idx: 123,
+        id: 1,
+        name: "智能制造成熟度测评",
+        startTime: "2018-07-20 20:20:01",
+        endTime: "2018-07-20 20:20:22",
+        completeStatus: 1,
+        remark: "针对智能制造标准的十个维度，全方位对企业现状进行评测"
+      },
+      {
+        idx: 125,
+        id: 3,
+        name: "供应链物流成熟度测评",
+        startTime: "2018-07-20 20:23:28",
+        endTime: null,
+        completeStatus: 0,
+        remark: "针对供应链物流标准的十个维度，全方位对企业现状进行评测",
+        answered_count: 5,
+        complete_degree: 67.5
+      },
+      {
+        idx: 126,
+        id: 4,
+        name: "智能制造成熟度测评",
+        startTime: "2018-07-20 20:20:01",
+        endTime: "2018-07-20 20:20:22",
+        completeStatus: 1,
+        remark: "针对智能制造标准的十个维度，全方位对企业现状进行评测"
+      },
+      {
+        idx: 128,
+        id: 5,
+        name: "供应链物流成熟度测评",
+        startTime: "2018-07-20 20:23:28",
+        endTime: null,
+        completeStatus: 0,
+        remark: "针对供应链物流标准的十个维度，全方位对企业现状进行评测",
+        answered_count: 5,
+        complete_degree: 67.5
+      },
+      {
+        idx: 127,
+        id: 6,
+        name: "智能制造成熟度测评",
+        startTime: "2018-07-20 20:20:01",
+        endTime: "2018-07-20 20:20:22",
+        completeStatus: 1,
+        remark: "针对智能制造标准的十个维度，全方位对企业现状进行评测"
+      },
+      {
+        idx: 138,
+        id: 15,
+        name: "供应链物流成熟度测评",
+        startTime: "2018-07-20 20:23:28",
+        endTime: null,
+        completeStatus: 0,
+        remark: "针对供应链物流标准的十个维度，全方位对企业现状进行评测",
+        answered_count: 5,
+        complete_degree: 67.5
+      },
+      {
+        idx: 137,
+        id: 16,
+        name: "智能制造成熟度测评",
+        startTime: "2018-07-20 20:20:01",
+        endTime: "2018-07-20 20:20:22",
+        completeStatus: 1,
+        remark: "针对智能制造标准的十个维度，全方位对企业现状进行评测"
+      },
+      {
+        idx: 138,
+        id: 15,
+        name: "供应链物流成熟度测评",
+        startTime: "2018-07-20 20:23:28",
+        endTime: null,
+        completeStatus: 0,
+        remark: "针对供应链物流标准的十个维度，全方位对企业现状进行评测",
+        answered_count: 5,
+        complete_degree: 67.5
       }
+    ]
+  }),
+  mounted: function() {
+    let len = this.testALLinfo.length;
+    // let $t his = this;
+    // this.InfoArray= this.testALLinfo;
+    // let len = this.testALLinfo.length;
+    // if(len>0){
+    //     this.showNoMessage = false;
+    // }
+
+    for (var i = 0; i < this.len; i++) {
+      if (this.testALLinfo[i].completeStatus == 0) {
+        this.discompletedArray.push(this.testALLinfo[i]);
+      }
+      if (this.testALLinfo[i].completeStatus == 1) {
+        this.completedArray.push(this.testALLinfo[i]);
+      }
+    }
+    if (this.discompletedArray.length && this.discompletedArray.length > 0) {
+      this.showdiscompletedNoMessage = false;
+      if (this.discompletedArray.length > 3) {
+        this.discompletedArray = this.discompletedArray.slice(0, 3);
+        this.showdiscompletedMoe = true;
+      }
+    }
+    if (this.completedArray.length && this.completedArray.length > 0) {
+      this.showcompletedNoMessage = false;
+      if (this.completedArray.length > 3) {
+        this.completedArray = this.completedArray.slice(0, 3);
+        this.showcompletedMoe = true;
+      }
+    }
   },
   computed: {
     firstLogin() {
@@ -326,9 +471,12 @@ export default {
         this.$store.state.UserCenter.enterpriseInfo.selectCounty = newValue;
       }
     },
-    testALLinfo(){
-        return this.$store.state.home.testALLinfo;
+    len() {
+      return this.testALLinfo.length;
     }
+    // testALLinfo() {
+    //   return this.$store.state.home.testALLinfo;
+    // }
   },
   methods: {
     save() {
@@ -524,6 +672,9 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    more() {
+      this.$router.push("/evaluatingCenter");
     }
   },
   created: () => {}
