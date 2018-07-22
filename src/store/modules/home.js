@@ -6,7 +6,8 @@ const state = {
   showTabs: true,
   showUserCenter:false,
   showUserCenterButton:false,
-  testALLinfo:Object
+  testALLinfo:Object,
+  tabsActiveIndex:"1"
 }
 
 // getters
@@ -36,7 +37,10 @@ const mutations = {
     },
     getTestALLinfo(state, value) {
       state.testALLinfo = value;
-    }
+    },
+    getTabsactiveIndex(state, value) {
+      state.tabsActiveIndex = value;
+    },
 }
 
 export default {

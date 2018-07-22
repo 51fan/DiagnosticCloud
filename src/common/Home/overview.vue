@@ -560,6 +560,7 @@ export default {
       }
     },
     viewEnterpriseInfo() {
+      this.$store.commit("home/getTabsactiveIndex", "4");
       this.$router.push("/enterpriseInfo");
     },
     viewPersonalInfo() {
@@ -675,6 +676,7 @@ export default {
     },
     more() {
       this.$router.push("/evaluatingCenter");
+      this.$store.commit("home/getTabsactiveIndex", "3");
     }
   },
   created: () => {}

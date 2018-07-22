@@ -24,12 +24,12 @@
                     <span>登录</span>
                   </md-menu-item>
 
-                  <md-menu-item  @click="goRouter(5)">
+                  <md-menu-item  @click="handleSelect(5)">
                     <md-icon>edit</md-icon>
                     <span>修改密码</span>
                   </md-menu-item>
 
-                  <md-menu-item @click="goRouter(6)">
+                  <md-menu-item @click="handleSelect(6)">
                     <md-icon>exit_to_app</md-icon>
                     <span>退出登录</span>
                   </md-menu-item>
@@ -39,16 +39,16 @@
         </div>
 
         <div class="md-toolbar-row" v-if="showTabs">
-          <md-tabs class="md-transparent" md-alignment="fixed"  md-sync-route>
-            <!-- <md-tab id="tab-home" md-label="工作台" to="/overview"></md-tab>
-            <md-tab id="tab-posts" md-label="测评产品" to="/evaluating"></md-tab>
-            <md-tab id="tab-favorites" md-label="测评中心" to="/evaluatingCenter"></md-tab>
-            <md-tab id="tab-pages" md-label="企业设置" to="/enterpriseInfo"></md-tab> -->
-            <md-tab id="tab-home" md-label="工作台" @click="goRouter(1)"></md-tab>
-            <md-tab id="tab-posts" md-label="测评产品" @click="goRouter(2)"></md-tab>
-            <md-tab id="tab-favorites" md-label="测评中心" @click="goRouter(3)"></md-tab>
-            <md-tab id="tab-pages" md-label="企业设置" @click="goRouter(4)"></md-tab>
-          </md-tabs>
+            <div class="md-layout-item md-size-10"></div>
+            <div class="md-layout-item md-size-80" >
+              <el-menu :default-active="tabsActiveIndex"  mode="horizontal" @select="handleSelect" background-color="#eeeeee" active-text-color="#000000">
+                <el-menu-item index="1">工作台</el-menu-item>
+                <el-menu-item index="2">测评产品</el-menu-item>
+                <el-menu-item index="3" >测评中心</el-menu-item>
+                <el-menu-item index="4">企业设置</el-menu-item>
+              </el-menu>
+            </div>
+            <div class="md-layout-item md-size-10"></div>
         </div>
       </md-app-toolbar>
 
@@ -109,6 +109,10 @@
 .usercenterspan {
   cursor: pointer;
 }
+
+.itemactive:hover {
+  border-bottom: 2px solid black;
+}
 </style>
 
 <script>
@@ -121,6 +125,7 @@ export default {
     evaluating
   },
   data: () => ({
+
   }),
   computed: {
     menuVisible() {
@@ -146,6 +151,9 @@ export default {
     },
     useremail() {
       return this.$store.state.loginPage.useremail;
+    },
+    tabsActiveIndex(){
+      return this.$store.state.home.tabsActiveIndex;
     }
   },
   methods: {
@@ -156,19 +164,14 @@ export default {
         !this.showUserCenterButton
       );
     },
-    loginFun() {
-      this.$store.commit("home/showTabsFun", false);
-      this.$store.commit("loginPage/changeLoginShowState", true);
-      this.$router.push("/loginPage/");
-    },
-    goRouter(index) {
-      switch (index) {
-        case 1:
+    handleSelect(key, keyPath) {
+      switch (key) {
+        case "1":
           this.$store.commit("home/showTabsFun", true);
           this.$store.commit("evlaluating/changeShowevaluatingPage", false);
           this.$router.push("/overview");
           break;
-        case 2:
+        case "2":
           //显示导航菜单
           this.$store.commit("home/showTabsFun", true);
           //显示选择评测产品
@@ -182,11 +185,11 @@ export default {
           //路由跳转
           this.$router.push("/evaluating");
           break;
-        case 3:
+        case "3":
           this.$store.commit("evlaluating/changeShowevaluatingPage", false);
           this.$router.push("/evaluatingCenter");
           break;
-        case 4:
+        case "4":
           this.$store.commit("evlaluating/changeShowevaluatingPage", false);
           this.$router.push("/enterpriseInfo");
           break;
@@ -269,6 +272,119 @@ export default {
           break;
       }
     },
+    loginFun() {
+      this.$store.commit("home/showTabsFun", false);
+      this.$store.commit("loginPage/changeLoginShowState", true);
+      this.$router.push("/loginPage/");
+    },
+    // goRouter(index) {
+    //   switch (index) {
+    //     case 1:
+    //       this.$store.commit("home/showTabsFun", true);
+    //       this.$store.commit("evlaluating/changeShowevaluatingPage", false);
+    //       this.$router.push("/overview");
+    //       break;
+    //     case 2:
+    //       //显示导航菜单
+    //       this.$store.commit("home/showTabsFun", true);
+    //       //显示选择评测产品
+    //       this.$store.commit("evlaluating/changeShowevaluatingPage", false);
+    //       //显示答题区
+    //       this.$store.commit("evlaluating/changeEvaluationStart", true);
+    //       //隐藏答题完成界面
+    //       this.$store.commit("evlaluating/changeEvaluationfinished", false);
+    //       //隐藏报告
+    //       this.$store.commit("evlaluating/changeIsShowReport", false);
+    //       //路由跳转
+    //       this.$router.push("/evaluating");
+    //       break;
+    //     case 3:
+    //       this.$store.commit("evlaluating/changeShowevaluatingPage", false);
+    //       this.$router.push("/evaluatingCenter");
+    //       break;
+    //     case 4:
+    //       this.$store.commit("evlaluating/changeShowevaluatingPage", false);
+    //       this.$router.push("/enterpriseInfo");
+    //       break;
+    //     case 5:
+    //       this.$store.commit("home/showTabsFun", false);
+
+    //       this.$store.commit("UserCenter/changePasswordmobile", "");
+    //       this.$store.commit("UserCenter/changePasswordemail", "");
+    //       this.$store.commit("UserCenter/changePasswordcheckWay", "email");
+    //       this.$store.commit("UserCenter/changePasswordVerificationCode", "");
+    //       this.$store.commit("UserCenter/changePasswordshowVCEmpty", false);
+    //       this.$store.commit("UserCenter/changePasswordshowVCError", false);
+    //       this.$store.commit("UserCenter/changePasswordVCHasMessages", false);
+    //       this.$store.commit(
+    //         "UserCenter/changePasswordpasswordFHasMessages",
+    //         true
+    //       );
+    //       this.$store.commit(
+    //         "UserCenter/changePasswordpasswordSHasMessages",
+    //         false
+    //       );
+    //       this.$store.commit("UserCenter/changePasswordcurrentStep1", true);
+    //       this.$store.commit("UserCenter/changePasswordcurrentStep2", false);
+    //       this.$store.commit("UserCenter/changePasswordcurrentStep3", false);
+    //       this.$store.commit("UserCenter/changePasswordpasswordFirst", "");
+    //       this.$store.commit("UserCenter/changePasswordpasswordSecond", "");
+    //       this.$store.commit(
+    //         "UserCenter/changePasswordshowPasswordfEmpty",
+    //         false
+    //       );
+    //       this.$store.commit(
+    //         "UserCenter/changePasswordshowPasswordfError",
+    //         true
+    //       );
+    //       this.$store.commit(
+    //         "UserCenter/changePasswordshowPasswordsEmpty",
+    //         false
+    //       );
+    //       this.$store.commit(
+    //         "UserCenter/changePasswordshowPasswordsError",
+    //         false
+    //       );
+
+    //       this.$router.push("/modifyPassword");
+    //       break;
+    //     case 6:
+    //       let $this = this,
+    //         apikey = "",
+    //         request = {
+    //           email: this.useremail
+    //         };
+    //       $this.$http
+    //         .post("/IBUS/DAIG_SYS/logout", {
+    //           apikey,
+    //           request
+    //         })
+    //         .then(res => {
+    //           if (res.data.errorCode !== 0) {
+    //             $this.showAlert = true;
+    //             $this.AlertMessage = res.data.errorMsg;
+    //           } else {
+    //             //修改登录状态
+    //             this.$store.commit("loginPage/changeLoginState", false);
+    //             //隐藏登录按钮
+    //             this.$store.commit("home/showLogin", true);
+    //             //隐藏用户中心按钮
+    //             this.$store.commit("home/showUserCenterButton", false);
+    //             //隐藏用户中心
+    //             this.$store.commit("home/showUserCenter", false);
+    //             //显示导航菜单
+    //             this.$store.commit("home/showTabsFun", true);
+    //             this.$router.push("/overview");
+    //           }
+    //         })
+    //         .catch(err => {
+    //           console.log(err);
+    //         });
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // },
     gohome() {
       //登录了，隐藏登录按钮
       if (this.getLoginState) {
