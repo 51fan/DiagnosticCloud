@@ -677,7 +677,54 @@ export default {
     more() {
       this.$router.push("/evaluatingCenter");
       this.$store.commit("home/getTabsactiveIndex", "3");
-    }
+    },
+    gohead(e, index) {
+      let $this = this;
+      switch (index) {
+        case 1:
+          $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
+          $this.$store.commit("evlaluating/changeEvaluationfinished", false);
+          //隐藏试卷
+          $this.$store.commit("evlaluating/changeEvaluationStart", false);
+          //显示报告
+          $this.$store.commit("evlaluating/changeIsShowReport", true);
+          $this.$store.commit("evlaluating/getReportParm", {
+            key: "idx",
+            value: e.idx
+          });
+          $this.$store.commit("evlaluating/getReportParm", {
+            key: "name",
+            value: e.name
+          });
+          $this.$store.commit("evlaluating/getReportParm", {
+            key: "evaluationId",
+            value: e.id
+          });
+          $this.$store.commit("evlaluating/getReportParm", {
+            key: "name",
+            value: e.name
+          });
+          $this.$store.commit("evlaluating/getCurrentEvaluationId", e.id);
+          $this.$store.commit("evlaluating/getCurrentEvaluationIdx", e.idx);
+          $this.$router.push("/evaluating");
+          setTimeout(function() {
+            $this.$root.eventBus.$emit("viewReport", true);
+          });
+          break;
+        case 2:
+          $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
+          $this.$store.commit("evlaluating/getCurrentEvaluationId", e.id);
+          $this.$store.commit("evlaluating/getCurrentEvaluationIdx", e.idx);
+          $this.$store.commit("evlaluating/getCurrentEvaluationName", e.name);
+          $this.$store.commit("evlaluating/getCurrentIndex", e.answered_count+1);
+          $this.$store.commit("evlaluating/getQuestionIndex", e.answered_count+1);
+          $this.$store.commit("evlaluating/changeEvaluationStart", true);
+          $this.$router.push("/evaluating");
+          break;
+        default:
+          break;
+      }
+    },
   },
   created: () => {}
 };
