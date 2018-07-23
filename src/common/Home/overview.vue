@@ -7,7 +7,7 @@
                 <div  style="color:rgba(42, 199, 249, 0.8);font-size: medium;cursor: pointer;padding: 5%;" @click="viewEnterpriseInfo()">查看企业信息</div>
             </div>
             <div class="md-layout-item md-size-85" style="text-align: left;padding-top: 2%;font-size: medium;">
-                <div style="display: inline-flex;width: 80%;border-bottom: 1px solid lightgray;padding-bottom: 2%;">
+                <div style="display: inline-flex;width: 90%;border-bottom: 1px solid lightgray;padding-bottom: 2%;margin: 0 5%;">
                     <md-avatar><img :src="PersonalimageSrc" /></md-avatar>
                     <div style="width: 80%;">
                         <div style="margin: 1%;">季先生，欢迎您</div>
@@ -19,10 +19,10 @@
                         </div>
                     </div>
                 </div>
-                <div style="width: 80%;border-bottom: 1px solid lightgray;padding-bottom: 2%;">
+                <div style="width: 90%;border-bottom: 1px solid lightgray;padding-bottom: 2%;margin: 0 5%;">
                     <div style="padding: 2%">您目前进行中的测评</div>
                     <div v-if="showdiscompletedNoMessage" style="padding: 2%">您当前无进行中的测评</div>
-                    <div class="md-layout-item md-size-30" v-if="!showdiscompletedNoMessage" v-for="info in discompletedArray" :key="info.idx" :info="info" style="display: inline-flex;">
+                    <div v-if="!showdiscompletedNoMessage" class="md-layout-item md-size-30"  v-for="info in discompletedArray" :key="info.idx" :info="info" style="display: inline-flex;">
                       <md-card>
                         <md-card-header>
                           <div class="md-title">{{info.name}}</div>
@@ -49,11 +49,11 @@
                         </div>
                       </md-card>
                     </div>
-                    <div v-if="showcompletedMoe" style="padding: 2% 12%;text-align: right;" >
+                    <div v-if="showdiscompletedMore" style="padding: 2% 12%;text-align: right;" >
                       <span @click="more()" style="cursor: pointer;">查看更多</span>
                     </div>
                 </div>
-                <div style="width: 80%;border-bottom: 1px solid lightgray;padding-bottom: 2%;">
+                <div style="width: 90%;border-bottom: 1px solid lightgray;padding-bottom: 2%;margin: 0 5%;">
                      <div style="padding: 2%">已完成测评</div>
                      <div v-if="showcompletedNoMessage" style="padding: 2%">您当前无完成的测评</div>
                      <div v-if="!showcompletedNoMessage" class="md-layout-item md-size-30" v-for="info in completedArray" :key="info.idx" :info="info" style="display: inline-flex;">
@@ -83,7 +83,7 @@
                         </div>
                       </md-card>
                     </div>
-                    <div v-if="showcompletedMoe" style="padding: 2% 12%;text-align: right;" >
+                    <div v-if="showcompletedMore" style="padding: 2% 12%;text-align: right;" >
                       <span @click="more()" style="cursor: pointer;">查看更多</span>
                     </div>
                 </div>
@@ -294,133 +294,11 @@ export default {
     discompletedArray: [],
     showdiscompletedNoMessage: true,
     showcompletedNoMessage: true,
-    showdiscompletedMoe: false,
-    showcompletedMoe: false,
-    testALLinfo: [
-      {
-        idx: 124,
-        id: 2,
-        name: "供应链物流成熟度测评",
-        startTime: "2018-07-20 20:23:28",
-        endTime: null,
-        completeStatus: 0,
-        remark: "针对供应链物流标准的十个维度，全方位对企业现状进行评测",
-        answered_count: 2,
-        complete_degree: 20
-      },
-      {
-        idx: 123,
-        id: 1,
-        name: "智能制造成熟度测评",
-        startTime: "2018-07-20 20:20:01",
-        endTime: "2018-07-20 20:20:22",
-        completeStatus: 1,
-        remark: "针对智能制造标准的十个维度，全方位对企业现状进行评测"
-      },
-      {
-        idx: 125,
-        id: 3,
-        name: "供应链物流成熟度测评",
-        startTime: "2018-07-20 20:23:28",
-        endTime: null,
-        completeStatus: 0,
-        remark: "针对供应链物流标准的十个维度，全方位对企业现状进行评测",
-        answered_count: 5,
-        complete_degree: 67.5
-      },
-      {
-        idx: 126,
-        id: 4,
-        name: "智能制造成熟度测评",
-        startTime: "2018-07-20 20:20:01",
-        endTime: "2018-07-20 20:20:22",
-        completeStatus: 1,
-        remark: "针对智能制造标准的十个维度，全方位对企业现状进行评测"
-      },
-      {
-        idx: 128,
-        id: 5,
-        name: "供应链物流成熟度测评",
-        startTime: "2018-07-20 20:23:28",
-        endTime: null,
-        completeStatus: 0,
-        remark: "针对供应链物流标准的十个维度，全方位对企业现状进行评测",
-        answered_count: 5,
-        complete_degree: 67.5
-      },
-      {
-        idx: 127,
-        id: 6,
-        name: "智能制造成熟度测评",
-        startTime: "2018-07-20 20:20:01",
-        endTime: "2018-07-20 20:20:22",
-        completeStatus: 1,
-        remark: "针对智能制造标准的十个维度，全方位对企业现状进行评测"
-      },
-      {
-        idx: 138,
-        id: 15,
-        name: "供应链物流成熟度测评",
-        startTime: "2018-07-20 20:23:28",
-        endTime: null,
-        completeStatus: 0,
-        remark: "针对供应链物流标准的十个维度，全方位对企业现状进行评测",
-        answered_count: 5,
-        complete_degree: 67.5
-      },
-      {
-        idx: 137,
-        id: 16,
-        name: "智能制造成熟度测评",
-        startTime: "2018-07-20 20:20:01",
-        endTime: "2018-07-20 20:20:22",
-        completeStatus: 1,
-        remark: "针对智能制造标准的十个维度，全方位对企业现状进行评测"
-      },
-      {
-        idx: 138,
-        id: 15,
-        name: "供应链物流成熟度测评",
-        startTime: "2018-07-20 20:23:28",
-        endTime: null,
-        completeStatus: 0,
-        remark: "针对供应链物流标准的十个维度，全方位对企业现状进行评测",
-        answered_count: 5,
-        complete_degree: 67.5
-      }
-    ]
+    showdiscompletedMore: false,
+    showcompletedMore: false
   }),
   mounted: function() {
-    let len = this.testALLinfo.length;
-    // let $t his = this;
-    // this.InfoArray= this.testALLinfo;
-    // let len = this.testALLinfo.length;
-    // if(len>0){
-    //     this.showNoMessage = false;
-    // }
-
-    for (var i = 0; i < this.len; i++) {
-      if (this.testALLinfo[i].completeStatus == 0) {
-        this.discompletedArray.push(this.testALLinfo[i]);
-      }
-      if (this.testALLinfo[i].completeStatus == 1) {
-        this.completedArray.push(this.testALLinfo[i]);
-      }
-    }
-    if (this.discompletedArray.length && this.discompletedArray.length > 0) {
-      this.showdiscompletedNoMessage = false;
-      if (this.discompletedArray.length > 3) {
-        this.discompletedArray = this.discompletedArray.slice(0, 3);
-        this.showdiscompletedMoe = true;
-      }
-    }
-    if (this.completedArray.length && this.completedArray.length > 0) {
-      this.showcompletedNoMessage = false;
-      if (this.completedArray.length > 3) {
-        this.completedArray = this.completedArray.slice(0, 3);
-        this.showcompletedMoe = true;
-      }
-    }
+    this.getUserTestAllInfo();
   },
   computed: {
     firstLogin() {
@@ -471,12 +349,6 @@ export default {
         this.$store.state.UserCenter.enterpriseInfo.selectCounty = newValue;
       }
     },
-    len() {
-      return this.testALLinfo.length;
-    }
-    // testALLinfo() {
-    //   return this.$store.state.home.testALLinfo;
-    // }
   },
   methods: {
     save() {
@@ -647,7 +519,7 @@ export default {
         url = "/IBUS/DAIG_SYS/getUserTestAllInfo",
         request = {
           status: 3,
-          key: this.searchKey,
+          key: "",
           session_id: this.session_id
         },
         param = {
@@ -667,7 +539,33 @@ export default {
             $this.AlertMessage = res.data.errorMsg;
           } else {
             $this.InfoArray = res.data.return.info;
-            $this.$store.commit("home/getTestALLinfo", $this.InfoArray);
+            let len = $this.InfoArray.length;
+
+            for (var i = 0; i < len; i++) {
+              if ($this.InfoArray[i].completeStatus == 0) {
+                $this.discompletedArray.push($this.InfoArray[i]);
+              }
+              if ($this.InfoArray[i].completeStatus == 1) {
+                $this.completedArray.push($this.InfoArray[i]);
+              }
+            }
+            if (
+              $this.discompletedArray.length &&
+              $this.discompletedArray.length > 0
+            ) {
+              $this.showdiscompletedNoMessage = false;
+              if ($this.discompletedArray.length > 3) {
+                $this.discompletedArray = $this.discompletedArray.slice(0, 3);
+                $this.showdiscompletedMore = true;
+              }
+            }
+            if ($this.completedArray.length && $this.completedArray.length > 0) {
+              $this.showcompletedNoMessage = false;
+              if ($this.completedArray.length > 3) {
+                $this.completedArray = $this.completedArray.slice(0, 3);
+                $this.showcompletedMore = true;
+              }
+            }
           }
         })
         .catch(error => {
@@ -680,6 +578,7 @@ export default {
     },
     gohead(e, index) {
       let $this = this;
+      this.$store.commit("home/getTabsactiveIndex", "2");
       switch (index) {
         case 1:
           $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
@@ -716,15 +615,21 @@ export default {
           $this.$store.commit("evlaluating/getCurrentEvaluationId", e.id);
           $this.$store.commit("evlaluating/getCurrentEvaluationIdx", e.idx);
           $this.$store.commit("evlaluating/getCurrentEvaluationName", e.name);
-          $this.$store.commit("evlaluating/getCurrentIndex", e.answered_count+1);
-          $this.$store.commit("evlaluating/getQuestionIndex", e.answered_count+1);
+          $this.$store.commit(
+            "evlaluating/getCurrentIndex",
+            e.answered_count + 1
+          );
+          $this.$store.commit(
+            "evlaluating/getQuestionIndex",
+            e.answered_count + 1
+          );
           $this.$store.commit("evlaluating/changeEvaluationStart", true);
           $this.$router.push("/evaluating");
           break;
         default:
           break;
       }
-    },
+    }
   },
   created: () => {}
 };

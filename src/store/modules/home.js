@@ -6,8 +6,8 @@ const state = {
   showTabs: true,
   showUserCenter:false,
   showUserCenterButton:false,
-  testALLinfo:Object,
-  tabsActiveIndex:"1"
+  tabsActiveIndex:"1",
+  showHomeBgImge:true
 }
 
 // getters
@@ -35,11 +35,11 @@ const mutations = {
     showUserCenterButton(state, value) {
         state.showUserCenterButton = value;
     },
-    getTestALLinfo(state, value) {
-      state.testALLinfo = value;
-    },
     getTabsactiveIndex(state, value) {
       state.tabsActiveIndex = value;
+    },
+    changeShowHomeBgImge(state, value) {
+      state.showHomeBgImge = value;
     },
 }
 

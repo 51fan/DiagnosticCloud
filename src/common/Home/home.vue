@@ -40,19 +40,21 @@
 
         <div class="md-toolbar-row" v-if="showTabs">
             <div class="md-layout-item md-size-10"></div>
-            <div class="md-layout-item md-size-80" >
-              <el-menu :default-active="tabsActiveIndex"  mode="horizontal" @select="handleSelect" background-color="#eeeeee" active-text-color="#000000">
+            <div class="md-layout-item md-size-80">
+              <div style="text-align: end;">
+                <el-menu :default-active="tabsActiveIndex" style="display: inline-flex;padding-right: 35%;"  mode="horizontal" @select="handleSelect" background-color="#eeeeee" active-text-color="#000000">
                 <el-menu-item index="1">工作台</el-menu-item>
                 <el-menu-item index="2">测评产品</el-menu-item>
                 <el-menu-item index="3" >测评中心</el-menu-item>
                 <el-menu-item index="4">企业设置</el-menu-item>
               </el-menu>
+              </div>
             </div>
             <div class="md-layout-item md-size-10"></div>
         </div>
       </md-app-toolbar>
 
-      <md-app-drawer :md-active.sync="showUserCenter" md-persistent="full" >
+      <md-app-drawer :md-active.sync="showUserCenter" md-persistent="full">
         <!-- <md-toolbar class="md-transparent" md-elevation="0">
           <span>用户中心</span>
 
@@ -86,7 +88,7 @@
         </md-list> -->
       </md-app-drawer>
 
-      <md-app-content style="background-color: rgba(216, 209, 202, 0.13);">
+      <md-app-content style="background-color: rgba(216, 209, 202, 0.13);" :class="{'homebgImge':showHomeBgImge}">
        <router-view></router-view>
       </md-app-content>
         
@@ -113,6 +115,9 @@
 .itemactive:hover {
   border-bottom: 2px solid black;
 }
+.homebgImge {
+  background-image: url("/static/imgs/home_bg.jpg");
+}
 </style>
 
 <script>
@@ -124,9 +129,7 @@ export default {
   components: {
     evaluating
   },
-  data: () => ({
-
-  }),
+  data: () => ({}),
   computed: {
     menuVisible() {
       return this.$store.state.home.menuVisible;
@@ -152,8 +155,11 @@ export default {
     useremail() {
       return this.$store.state.loginPage.useremail;
     },
-    tabsActiveIndex(){
+    tabsActiveIndex() {
       return this.$store.state.home.tabsActiveIndex;
+    },
+    showHomeBgImge() {
+      return this.$store.state.home.showHomeBgImge;
     }
   },
   methods: {
@@ -169,9 +175,13 @@ export default {
         case "1":
           this.$store.commit("home/showTabsFun", true);
           this.$store.commit("evlaluating/changeShowevaluatingPage", false);
+          //隐藏首页背景图
+          this.$store.commit("home/changeShowHomeBgImge", false);
           this.$router.push("/overview");
           break;
         case "2":
+          //隐藏首页背景图
+          this.$store.commit("home/changeShowHomeBgImge", false);
           //显示导航菜单
           this.$store.commit("home/showTabsFun", true);
           //显示选择评测产品
@@ -186,14 +196,20 @@ export default {
           this.$router.push("/evaluating");
           break;
         case "3":
+          //隐藏首页背景图
+          this.$store.commit("home/changeShowHomeBgImge", false);
           this.$store.commit("evlaluating/changeShowevaluatingPage", false);
           this.$router.push("/evaluatingCenter");
           break;
         case "4":
+          //隐藏首页背景图
+          this.$store.commit("home/changeShowHomeBgImge", false);
           this.$store.commit("evlaluating/changeShowevaluatingPage", false);
           this.$router.push("/enterpriseInfo");
           break;
         case 5:
+          //隐藏首页背景图
+          this.$store.commit("home/changeShowHomeBgImge", false);
           this.$store.commit("home/showTabsFun", false);
 
           this.$store.commit("UserCenter/changePasswordmobile", "");
@@ -261,7 +277,7 @@ export default {
                 this.$store.commit("home/showUserCenter", false);
                 //显示导航菜单
                 this.$store.commit("home/showTabsFun", true);
-                this.$router.push("/overview");
+                this.$router.push("/loginPage");
               }
             })
             .catch(err => {
@@ -275,116 +291,10 @@ export default {
     loginFun() {
       this.$store.commit("home/showTabsFun", false);
       this.$store.commit("loginPage/changeLoginShowState", true);
+      //显示首页背景图
+      this.$store.commit("home/changeShowHomeBgImge", true);
       this.$router.push("/loginPage/");
     },
-    // goRouter(index) {
-    //   switch (index) {
-    //     case 1:
-    //       this.$store.commit("home/showTabsFun", true);
-    //       this.$store.commit("evlaluating/changeShowevaluatingPage", false);
-    //       this.$router.push("/overview");
-    //       break;
-    //     case 2:
-    //       //显示导航菜单
-    //       this.$store.commit("home/showTabsFun", true);
-    //       //显示选择评测产品
-    //       this.$store.commit("evlaluating/changeShowevaluatingPage", false);
-    //       //显示答题区
-    //       this.$store.commit("evlaluating/changeEvaluationStart", true);
-    //       //隐藏答题完成界面
-    //       this.$store.commit("evlaluating/changeEvaluationfinished", false);
-    //       //隐藏报告
-    //       this.$store.commit("evlaluating/changeIsShowReport", false);
-    //       //路由跳转
-    //       this.$router.push("/evaluating");
-    //       break;
-    //     case 3:
-    //       this.$store.commit("evlaluating/changeShowevaluatingPage", false);
-    //       this.$router.push("/evaluatingCenter");
-    //       break;
-    //     case 4:
-    //       this.$store.commit("evlaluating/changeShowevaluatingPage", false);
-    //       this.$router.push("/enterpriseInfo");
-    //       break;
-    //     case 5:
-    //       this.$store.commit("home/showTabsFun", false);
-
-    //       this.$store.commit("UserCenter/changePasswordmobile", "");
-    //       this.$store.commit("UserCenter/changePasswordemail", "");
-    //       this.$store.commit("UserCenter/changePasswordcheckWay", "email");
-    //       this.$store.commit("UserCenter/changePasswordVerificationCode", "");
-    //       this.$store.commit("UserCenter/changePasswordshowVCEmpty", false);
-    //       this.$store.commit("UserCenter/changePasswordshowVCError", false);
-    //       this.$store.commit("UserCenter/changePasswordVCHasMessages", false);
-    //       this.$store.commit(
-    //         "UserCenter/changePasswordpasswordFHasMessages",
-    //         true
-    //       );
-    //       this.$store.commit(
-    //         "UserCenter/changePasswordpasswordSHasMessages",
-    //         false
-    //       );
-    //       this.$store.commit("UserCenter/changePasswordcurrentStep1", true);
-    //       this.$store.commit("UserCenter/changePasswordcurrentStep2", false);
-    //       this.$store.commit("UserCenter/changePasswordcurrentStep3", false);
-    //       this.$store.commit("UserCenter/changePasswordpasswordFirst", "");
-    //       this.$store.commit("UserCenter/changePasswordpasswordSecond", "");
-    //       this.$store.commit(
-    //         "UserCenter/changePasswordshowPasswordfEmpty",
-    //         false
-    //       );
-    //       this.$store.commit(
-    //         "UserCenter/changePasswordshowPasswordfError",
-    //         true
-    //       );
-    //       this.$store.commit(
-    //         "UserCenter/changePasswordshowPasswordsEmpty",
-    //         false
-    //       );
-    //       this.$store.commit(
-    //         "UserCenter/changePasswordshowPasswordsError",
-    //         false
-    //       );
-
-    //       this.$router.push("/modifyPassword");
-    //       break;
-    //     case 6:
-    //       let $this = this,
-    //         apikey = "",
-    //         request = {
-    //           email: this.useremail
-    //         };
-    //       $this.$http
-    //         .post("/IBUS/DAIG_SYS/logout", {
-    //           apikey,
-    //           request
-    //         })
-    //         .then(res => {
-    //           if (res.data.errorCode !== 0) {
-    //             $this.showAlert = true;
-    //             $this.AlertMessage = res.data.errorMsg;
-    //           } else {
-    //             //修改登录状态
-    //             this.$store.commit("loginPage/changeLoginState", false);
-    //             //隐藏登录按钮
-    //             this.$store.commit("home/showLogin", true);
-    //             //隐藏用户中心按钮
-    //             this.$store.commit("home/showUserCenterButton", false);
-    //             //隐藏用户中心
-    //             this.$store.commit("home/showUserCenter", false);
-    //             //显示导航菜单
-    //             this.$store.commit("home/showTabsFun", true);
-    //             this.$router.push("/overview");
-    //           }
-    //         })
-    //         .catch(err => {
-    //           console.log(err);
-    //         });
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    // },
     gohome() {
       //登录了，隐藏登录按钮
       if (this.getLoginState) {
@@ -402,7 +312,8 @@ export default {
         //隐藏用户中心
         this.$store.commit("home/showUserCenter", false);
       }
-
+      //隐藏首页背景图
+      this.$store.commit("home/changeShowHomeBgImge", false);
       //显示导航菜单
       this.$store.commit("home/showTabsFun", true);
       this.$router.push("/overview");

@@ -140,7 +140,7 @@ export default {
     pageDatas: [],
     pages: ""
   }),
-  mounted: () => {},
+  mounted: function () {},
   methods: {
     getUserTestAllInfo() {
       let $this = this,

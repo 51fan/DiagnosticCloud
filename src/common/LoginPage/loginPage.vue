@@ -1,47 +1,98 @@
 <template>
     <div class="mypanel">
-        <div v-if="showLoginPage" class="cardstyle">
-            <div class="loginHeadTitle">账号密码登录</div>
-            <md-field style="width:90%">
-                <!-- <label>手机/邮箱</label> -->
-                <md-input v-model="phoneOrEmail" placeholder="请输入手机/邮箱"></md-input>
-            </md-field>
-            <md-field style="width:90%">
-                <!-- <label>密码</label> -->
-                <md-input v-model="passWord" type="password" placeholder="请输入密码"></md-input>
-            </md-field>
+      <div class="md-layout-item md-size-100" style="display: inline-flex;">
+        <div class="md-layout-item md-size-65" style="color: white;font-size: xx-large;">
+          <div style="margin: 15% 0 0 0;">中国企业核心能力</div>
+          <div style="margin: 3% 0 0 96px;">测评分析和改善领域最大</div>
+          <div style="margin: 3% 99px 0 0;">服务提供商</div>
+        </div>
+        <div class="md-layout-item md-size-30">
+          <div v-if="showLoginPage" class="cardstyle">
+            <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10% 0;">
+              <div class="md-layout-item md-size-10" ></div>
+              <div class="md-layout-item md-size-80" >
+                <span class="loginHeadTitle">登录</span>
+              </div>
+              <div class="md-layout-item md-size-10" ></div>
+            </div>
+            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+              <div class="md-layout-item md-size-10" ></div>
+              <div class="md-layout-item md-size-80" style="margin: 5% 0;">
+                <md-field>
+                    <label>请输入手机/邮箱</label>
+                    <md-input v-model="phoneOrEmail" placeholder="账号"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-size-10" ></div>
+            </div>
+            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+              <div class="md-layout-item md-size-10" ></div>
+              <div class="md-layout-item md-size-80" >
+                <md-field>
+                    <label>请输入密码</label>
+                    <md-input v-model="passWord" type="password" placeholder="密码"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-size-10" ></div>
+            </div>
+            
             <div v-if="showVerificationCode">
-                <md-field style="width:52%;display: inline-flex;">
-                  <!-- <label>图片验证码</label> -->
-                  <md-input v-model="VerificationCode" placeholder="请输入图片中的内容"></md-input>
-                </md-field> 
-                <!-- <div style="display: inline-block;padding: 0 0 0 10px;" @click="getPicture()"><img src="../../assets/images/check.png"/></div> -->
-                <div style="display: inline-block;padding: 0 0 0 10px;cursor: pointer;width: 36%;" @click="getPicture()"><img :src="VerificationImagesrc"/></div>
+              <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                <div class="md-layout-item md-size-10" ></div>
+                <div class="md-layout-item md-size-80" >
+                  <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                    <div class="md-layout-item md-size-60" >
+                        <md-field style="display: inline-flex;">
+                            <label>请输入图片中的内容</label>
+                            <md-input v-model="VerificationCode" placeholder="图片验证码"></md-input>
+                        </md-field> 
+                    </div>
+                    <div class="md-layout-item md-size-40" >
+                        <!-- <div style="display: inline-block;padding: 0 0 0 10px;" @click="getPicture()"><img src="../../assets/images/check.png"/></div> -->
+                        <div style="margin: 15% 0;cursor: pointer;" @click="getPicture()"><img :src="VerificationImagesrc"/></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="md-layout-item md-size-10" ></div>
+              </div> 
             </div>
-            <div>
-                 <div style="width:90%;cursor: pointer;display: inline-block;">
-                    <!-- <md-checkbox style="float:left" v-model="autoLogin">自动登录</md-checkbox>
-                    <span style="float:right;width: auto;margin: 17px 16px 16px 0;display: inline-flex;position: relative;">忘记密码</span> -->
-                    <md-checkbox style="width:43%;display: inline-flex;" v-model="autoLogin">自动登录</md-checkbox>
-                    <div style="display: inline-block;width: 48%;text-align: right;" @click="forgetPassword()"><span >忘记密码</span></div>
-                </div>     
+            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+              <div class="md-layout-item md-size-10" ></div>
+              <div class="md-layout-item md-size-80" >
+                <div>
+                    <div style="width:90%;cursor: pointer;display: inline-block;">
+                       <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                         <div class="md-layout-item md-size-60" style="text-align: left;">
+                           <md-checkbox style="display: inline-flex;" v-model="autoLogin">自动登录</md-checkbox>
+                         </div>
+                         <div class="md-layout-item md-size-40" >
+                           <div style="text-align:right;margin: 17px 0" @click="forgetPassword()"><span >忘记密码</span></div>
+                         </div>
+                       </div>
+                    </div>     
+                </div>
+                    <md-button class="md-dense md-raised md-primary" style="width:95%;border-radius: 65px;margin: 15% 0 0 0;background-color: #009199;"  @click="loginFun()">登录</md-button>
+                <div>
+                    <div style="width:90%;text-align: right;margin: 10% 0 5% 0;cursor: pointer;" @click="registerFun()">
+                        <!-- <md-checkbox style="float:left" v-model="autoLogin">自动登录</md-checkbox>
+                        <span style="float:right;width: auto;margin: 17px 16px 16px 0;display: inline-flex;position: relative;">忘记密码</span> -->
+                        <!-- <md-checkbox style="width:80%" v-model="autoLogin">自动登录</md-checkbox> -->
+                        <span>注册用户</span>
+                    </div>     
+                </div>
+              </div>
+              <div class="md-layout-item md-size-10" ></div>
             </div>
-                <md-button class="md-dense md-raised md-primary" style="width:90%;margin-top:2%"  @click="loginFun()">登录</md-button>
-            <div>
-                 <div style="width:90%;text-align: right;margin-top: 10px;cursor: pointer;" @click="registerFun()">
-                    <!-- <md-checkbox style="float:left" v-model="autoLogin">自动登录</md-checkbox>
-                    <span style="float:right;width: auto;margin: 17px 16px 16px 0;display: inline-flex;position: relative;">忘记密码</span> -->
-                    <!-- <md-checkbox style="width:80%" v-model="autoLogin">自动登录</md-checkbox> -->
-                    <span>注册用户</span>
-                </div>     
-            </div>
+            
             <md-dialog-alert
                   class="md-primary md-raised"
                   :md-active.sync="showAlert"
                   :md-content="AlertMessage"
                   md-confirm-text="知道了" />
         </div>
-        <forgetPassword v-if="!showLoginPage"></forgetPassword>
+        </div>
+      </div>
+      <forgetPassword v-if="!showLoginPage"></forgetPassword>
     </div>
 </template>
 
@@ -54,26 +105,30 @@
   text-align: -webkit-center;
 }
 .cardstyle {
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  /* box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12); */
+  box-shadow: 0 14px 1px -2px rgba(0, 0, 0, 0.2),
+    0 14px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12);
   position: relative;
   z-index: 1;
-  border-radius: 6px;
+  border-radius: 20px;
   transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition-property: color, background-color;
   will-change: color, background-color;
-  width: 40%;
+  /* width: 40%; */
   padding: 5%;
   border: 1px solid lightgray;
+  background-color: rgba(235, 238, 245, 0.64);
 }
 .loginHeadTitle {
   min-height: 48px;
   margin: 4px 0 24px;
   padding-top: 16px;
-  display: flex;
+  font-size: x-large;
+  /* display: flex; */
   position: relative;
   font-family: inherit;
-  width: 400px;
+  /* width: 400px; */
 }
 </style>
 <script>
@@ -163,7 +218,9 @@ export default {
             $this.$store.commit("home/showTabsFun", true);
             //显示用户中心
             // $this.$store.commit("home/showUserCenter", true);
-            $this.getUserTestAllInfo(res.data.session_id);
+            //隐藏首页背景图
+            $this.$store.commit("home/changeShowHomeBgImge", false);
+            $this.$router.push("/overview");
           }
         })
         .catch(error => {
@@ -196,41 +253,6 @@ export default {
       //   .catch(err => {
       //     console.log(err);
       //   });
-    },
-    getUserTestAllInfo(id) {
-      let $this = this,
-        apikey = "",
-        type = "post",
-        url = "/IBUS/DAIG_SYS/getUserTestAllInfo",
-        request = {
-          status: 3,
-          key: "",
-          session_id: id
-        },
-        param = {
-          apikey,
-          request
-        };
-
-      $this
-        .$http({
-          method: type,
-          url: url,
-          data: param
-        })
-        .then(res => {
-          if (res.data.errorCode !== 0) {
-            $this.showAlert = true;
-            $this.AlertMessage = res.data.errorMsg;
-          } else {
-            $this.InfoArray = res.data.return.info;
-            $this.$store.commit("home/getTestALLinfo", $this.InfoArray);
-            $this.$router.push("/overview");
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
     }
   }
 };
