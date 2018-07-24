@@ -16,6 +16,7 @@ const state = {
     currentIndex: 1,
     questionIndex: 1,
     isShowReport: false,
+    seeReport: false,
     reportParm: {
       name: "",
       evaluationId: "",
@@ -89,7 +90,9 @@ const mutations = {
   changeEvaluationfinished(state, value) {
     state.evaluatingPage.evaluationfinished = value
   },
-
+  changeSeeReport(state, value) {
+    state.evaluatingPage.seeReport = value
+  },
 }
 
 export default {

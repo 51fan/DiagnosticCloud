@@ -1,6 +1,132 @@
 <template>
     <div class="mypanel">
-        <div v-if="showRegisterPage" class="cardstyle">
+        <div class="md-layout-item md-size-100" style="display: inline-flex;">
+          <div class="md-layout-item md-size-65" style="color: white;font-size: xx-large;">
+            <div style="margin: 15% 0 0 0;">中国企业核心能力</div>
+            <div style="margin: 3% 0 0 96px;">测评分析和改善领域最大</div>
+            <div style="margin: 3% 99px 0 0;">服务提供商</div>
+          </div>
+          <div class="md-layout-item md-size-30">
+            <div v-if="showRegisterPage" class="cardstyle">
+              <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10% 0;">
+                <div class="md-layout-item md-size-10" ></div>
+                <div class="md-layout-item md-size-80" >
+                  <span class="loginHeadTitle">企业用户注册</span>
+                </div>
+                <div class="md-layout-item md-size-10" ></div>
+              </div>
+              <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                <div class="md-layout-item md-size-10" ></div>
+                <div class="md-layout-item md-size-80" style="margin: 5% 0;">
+                  <md-field md-clearable :class="emailMessageClass" >
+                      <md-input v-model="email" placeholder="邮箱" v-on:input ="inputFunc(1)" @click="showTips(1)" required></md-input>
+                      <span class="md-error" v-if="showEmailEmpty">邮箱不能为空</span>
+                      <span class="md-error" v-if="showEmailError">邮箱格式不正确</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-size-10" ></div>
+              </div>
+              <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                <div class="md-layout-item md-size-10" ></div>
+                <div class="md-layout-item md-size-80" >
+                  <md-field :class="passwordFMessageClass" >
+                      <label>6 - 16位密码，数字和字母组合，区分大小写，不支持特殊符号</label>
+                      <md-input v-model="passwordFirst" type="password" placeholder="密码" v-on:input ="inputFunc(2)" @click="showTips(2)"></md-input>
+                      <span class="md-error" v-if="showPasswordfEmpty">密码不能为空</span>
+                      <span class="md-error" v-if="showPasswordfError">密码格式不正确,密码最少需要6位/密码不能超过16位</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-size-10" ></div>
+              </div>
+              <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                <div class="md-layout-item md-size-10" ></div>
+                <div class="md-layout-item md-size-80" >
+                  <md-field  :class="passwordSMessageClass">
+                      <md-input v-model="passwordSecond" type="password" placeholder="确认密码" v-on:input ="inputFunc(3)" @click="showTips(3)"></md-input>
+                      <span class="md-error" v-if="showPasswordsEmpty">密码不能为空</span>
+                      <span class="md-error" v-if="showPasswordsError">两次输入密码不一致</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-size-10" ></div>
+              </div>
+              <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                <div class="md-layout-item md-size-10" ></div>
+                <div class="md-layout-item md-size-80" >
+                  <md-field style="display: inline-flex;" :class="phoneNumMessageClass">
+                        <md-input v-model="phoneNum"  placeholder="11位手机号" v-on:input ="inputFunc(4)" @click="showTips(4)"></md-input>
+                        <span class="md-error" v-if="showPhoneNumEmpty">手机号码不能为空</span>
+                        <span class="md-error" v-if="showPhoneNumError">手机号填写不正确</span>
+                      </md-field>
+                  <!-- <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                    <div class="md-layout-item md-size-20" >
+                      <span style="line-height: 76px;">+86</span>
+                    </div>
+                    <div class="md-layout-item md-size-80" >
+                      <md-field style="display: inline-flex;" :class="phoneNumMessageClass">
+                        <md-input v-model="phoneNum"  placeholder="11位手机号" v-on:input ="inputFunc(4)" @click="showTips(4)"></md-input>
+                        <span class="md-error" v-if="showPhoneNumEmpty">手机号码不能为空</span>
+                        <span class="md-error" v-if="showPhoneNumError">手机号填写不正确</span>
+                      </md-field>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="md-layout-item md-size-10" ></div>
+              </div>
+              <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                <div class="md-layout-item md-size-10" ></div>
+                <div class="md-layout-item md-size-80" >
+                    <div v-if="!showCount" class="md-layout-item md-size-100" style="display: inline-flex;">
+                      <div class="md-layout-item md-size-65" >
+                          <md-field  :class="VCMessageClass">
+                            <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(5)" @click="showTips(5)"></md-input>
+                            <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
+                            <span class="md-error" v-if="showVCError">短信验证码错误</span>
+                          </md-field> 
+                      </div>
+                      <div class="md-layout-item md-size-35" >
+                          <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0;background-color: #f9f9fb;color: black;" @click="getVerificationCode()">{{verftext}}</md-button>
+                      </div>
+                    </div>  
+                    <div v-if="showCount" class="md-layout-item md-size-100" style="display: inline-flex;">
+                        <div class="md-layout-item md-size-65" >
+                            <md-field :class="VCMessageClass">
+                              <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(5)" @click="showTips(5)"></md-input>
+                              <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
+                              <span class="md-error" v-if="showVCError">短信验证码错误</span>
+                          </md-field>
+                        </div>
+                        <div class="md-layout-item md-size-35" >
+                            <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;background-color: #f9f9fb;color: black;" @click="getVerificationCode()">{{verftext}}</md-button>
+                            <span v-if="showText" style="color:red">{{time}}</span><span v-if="showText">秒后重新获取</span>
+                        </div>
+                  </div>
+                </div>
+                <div class="md-layout-item md-size-10" ></div>
+              </div>
+              
+              <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                <div class="md-layout-item md-size-10" ></div>
+                <div class="md-layout-item md-size-80" >
+                      <md-button class="md-dense md-raised md-primary" style="width:95%;border-radius: 65px;margin: 5% 0 0 0;background-color: #009199;"  @click="registerFun()">注册</md-button>
+                </div>
+                <div class="md-layout-item md-size-10" ></div>
+              </div>
+              <div class="md-layout-item md-size-100">
+                    <div style=" margin-top: 30px;cursor: pointer;" @click="OldAccountsLogin()">
+                        <span @click="goLoginPge()" style="cursor: pointer;color:#009199;">使用已有账户登录</span>
+                    </div>
+                <div class="md-layout-item md-size-10" ></div>
+              </div>
+              
+              <md-dialog-alert
+                    class="md-primary md-raised"
+                    :md-active.sync="showAlert"
+                    :md-content="AlertMessage"
+                    md-confirm-text="知道了" />
+          </div>
+          </div>
+        </div>
+        <!-- <div v-if="showRegisterPage" class="cardstyle">
             <div style="width: 100%;text-align: center;padding-bottom: 30px;font-size: x-large;">企业用户注册</div>
                 <md-field md-clearable style="width:400px" :class="emailMessageClass" >
                     <md-input v-model="email" placeholder="邮箱" v-on:input ="inputFunc(1)" @click="showTips(1)" required></md-input>
@@ -55,7 +181,7 @@
                         <span @click="goLoginPge()" style="cursor: pointer;">使用已有账户登录</span>
                     </div>
             </div>
-        </div>
+        </div> -->
         <registerSuccess v-if="!showRegisterPage"></registerSuccess>
     </div>
 </template>
@@ -97,7 +223,7 @@ export default {
     AlertMessage: "",
     showCount: false,
     showText: false,
-    counter:""
+    counter: ""
   }),
   methods: {
     OldAccountsLogin() {},
@@ -353,7 +479,7 @@ export default {
             $this.AlertMessage = res.data.errorMsg;
           } else {
             $this.showRegisterPage = false;
-            $this.$store.commit("registerPage/changeUseremail", $this.email)
+            $this.$store.commit("registerPage/changeUseremail", $this.email);
           }
         })
         .catch(error => {
@@ -422,17 +548,29 @@ export default {
   text-align: -webkit-center;
 }
 .cardstyle {
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 14px 1px -2px rgba(0, 0, 0, 0.2),
+    0 14px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12);
   position: relative;
   z-index: 1;
-  border-radius: 6px;
+  border-radius: 20px;
   transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition-property: color, background-color;
   will-change: color, background-color;
-  width: 50%;
+  /* width: 40%; */
   padding: 5%;
   border: 1px solid lightgray;
+  /* background-color: rgba(235, 238, 245, 0.64); */
+  background-color: white;
+}
+.loginHeadTitle {
+  min-height: 48px;
+  margin: 4px 0 24px;
+  padding-top: 16px;
+  font-size: x-large;
+  /* display: flex; */
+  position: relative;
+  font-family: inherit;
+  /* width: 400px; */
 }
 </style>
 

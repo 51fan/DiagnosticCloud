@@ -188,35 +188,40 @@ export default {
   created: function() {},
   mounted: function() {
     let $this = this;
-    let apikey = "",
-      request = {
-        id: this.currentEvaluationId,
-        session_id: this.session_id
-      },
-      // url = "/static/jsons/evaluation.json",
-      // type = "GET",
-      url = "/IBUS/DAIG_SYS/getQuestion",
-      type = "POST",
-      param = {
-        apikey,
-        request
-      };
+    if (!this.seeReport) {
+      let apikey = "",
+        request = {
+          id: this.currentEvaluationId,
+          session_id: this.session_id
+        },
+        // url = "/static/jsons/evaluation.json",
+        // type = "GET",
+        url = "/IBUS/DAIG_SYS/getQuestion",
+        type = "POST",
+        param = {
+          apikey,
+          request
+        };
 
-    this.evaluationId = this.currentEvaluationId;
-    this.idx = this.currentEvaluationIdx;
-    this.name = this.currentEvaluationName;
-    this.$store.commit("evlaluating/getReportParm", {
-      key: "name",
-      value: this.currentEvaluationName
-    });
-    this.$store.commit("evlaluating/getReportParm", {
-      key: "evaluationId",
-      value: this.currentEvaluationId
-    });
-    this.getQuestionData(type, url, param);
-    this.$root.eventBus.$on("viewReport", function(bool) {
-      $this.isViewReport(bool);
-    });
+      this.evaluationId = this.currentEvaluationId;
+      this.idx = this.currentEvaluationIdx;
+      this.name = this.currentEvaluationName;
+      this.$store.commit("evlaluating/getReportParm", {
+        key: "name",
+        value: this.currentEvaluationName
+      });
+      this.$store.commit("evlaluating/getReportParm", {
+        key: "evaluationId",
+        value: this.currentEvaluationId
+      });
+      this.getQuestionData(type, url, param);
+    } else {
+      $this.isViewReport(true);
+    }
+
+    // this.$root.eventBus.$on("viewReport", function(bool) {
+
+    // });
   },
   methods: {
     preItem() {
@@ -269,8 +274,8 @@ export default {
       //debugger;
       let apikey = "";
       let request = {
-          evaluationId: this.evaluationId,
-          idx: this.idx,
+          evaluationId: this.currentEvaluationId,
+          idx: this.currentEvaluationIdx,
           session_id: this.session_id
         },
         param = {
@@ -450,6 +455,9 @@ export default {
     },
     evaluationfinished() {
       return this.$store.state.evlaluating.evaluatingPage.evaluationfinished;
+    },
+    seeReport() {
+      return this.$store.state.evlaluating.evaluatingPage.seeReport;
     }
   },
   created: () => {}

@@ -36,7 +36,7 @@
               <div class="md-layout-item md-size-10" ></div>
             </div>
             
-            <div v-if="showVerificationCode">
+            <div v-if="showVerificationCode&&errCounter>2">
               <div class="md-layout-item md-size-100" style="display: inline-flex;">
                 <div class="md-layout-item md-size-10" ></div>
                 <div class="md-layout-item md-size-80" >
@@ -118,7 +118,8 @@
   /* width: 40%; */
   padding: 5%;
   border: 1px solid lightgray;
-  background-color: rgba(235, 238, 245, 0.64);
+  /* background-color: rgba(235, 238, 245, 0.64); */
+  background-color: white;
 }
 .loginHeadTitle {
   min-height: 48px;
@@ -151,7 +152,8 @@ export default {
     AlertMessage: "",
     VerificationCode: "",
     // VerificationImagesrc:"/static/imgs/check.png"
-    VerificationImagesrc: "http://139.159.141.232:8080/Captch?" + Math.random()
+    VerificationImagesrc: "http://139.159.141.232:8080/Captch?" + Math.random(),
+    errCounter: 0
   }),
   // mounted:()=> {
   //   this.VerificationImagesrc =
@@ -185,51 +187,60 @@ export default {
         apikey,
         request
       };
-
-      $this
-        .$http({
-          method: type,
-          url: url,
-          data: param
-        })
-        .then(res => {
-          // console.log(res);
-          if (res.data.errorCode !== 0) {
-            $this.showVerificationCode = true;
-            $this.showAlert = true;
-            $this.AlertMessage = res.data.errorMsg;
-          } else {
-            // $this.session_id = res.data.session_id;
-            $this.$store.commit("loginPage/getUseremail", res.data.email);
-            $this.$store.commit("loginPage/getUsermobile", res.data.mobile);
-            $this.$store.commit("loginPage/getSession_id", res.data.session_id);
-            $this.$store.commit(
-              "loginPage/changefirstLogin",
-              res.data.firstLogin
-            );
-            if (res.data.firstLogin) {
-              $this.$store.commit("UserCenter/changeShowCityPicker", true);
+      if (this.errCounter > 2 && this.VerificationCode == "") {
+        $this.showAlert = true;
+        $this.AlertMessage = "请输入验证码";
+      } else {
+        $this
+          .$http({
+            method: type,
+            url: url,
+            data: param
+          })
+          .then(res => {
+            // console.log(res);
+            if (res.data.errorCode !== 0) {
+              $this.showVerificationCode = true;
+              $this.showAlert = true;
+              $this.AlertMessage = res.data.errorMsg;
+              $this.errCounter++;
+              console.log($this.errCounter);
+            } else {
+              // $this.session_id = res.data.session_id;
+              $this.$store.commit("loginPage/getUseremail", res.data.email);
+              $this.$store.commit("loginPage/getUsermobile", res.data.mobile);
+              $this.$store.commit(
+                "loginPage/getSession_id",
+                res.data.session_id
+              );
+              $this.$store.commit(
+                "loginPage/changefirstLogin",
+                res.data.firstLogin
+              );
+              if (res.data.firstLogin) {
+                $this.$store.commit("UserCenter/changeShowCityPicker", true);
+              }
+              //修改登录状态
+              $this.$store.commit("loginPage/changeLoginState", true);
+              //隐藏登录按钮
+              // $this.$store.commit("home/showLogin", false);
+              //显示导航菜单
+              $this.$store.commit("home/showTabsFun", true);
+              //显示用户中心
+              // $this.$store.commit("home/showUserCenter", true);
+              //隐藏首页背景图
+              $this.$store.commit("home/changeShowHomeBgImge", false);
+              $this.$router.push("/overview");
             }
-            //修改登录状态
-            $this.$store.commit("loginPage/changeLoginState", true);
-            //隐藏登录按钮
-            // $this.$store.commit("home/showLogin", false);
-            //显示导航菜单
-            $this.$store.commit("home/showTabsFun", true);
-            //显示用户中心
-            // $this.$store.commit("home/showUserCenter", true);
-            //隐藏首页背景图
-            $this.$store.commit("home/changeShowHomeBgImge", false);
-            $this.$router.push("/overview");
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     },
     registerFun() {
       //隐藏登录按钮
-      this.$store.commit("home/showLogin", false);
+      // this.$store.commit("home/showLogin", true);
 
       //this.$store.commit("home/showTabsFun");
       this.$router.push("/register");

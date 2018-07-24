@@ -348,7 +348,7 @@ export default {
       set: function(newValue) {
         this.$store.state.UserCenter.enterpriseInfo.selectCounty = newValue;
       }
-    },
+    }
   },
   methods: {
     save() {
@@ -559,7 +559,10 @@ export default {
                 $this.showdiscompletedMore = true;
               }
             }
-            if ($this.completedArray.length && $this.completedArray.length > 0) {
+            if (
+              $this.completedArray.length &&
+              $this.completedArray.length > 0
+            ) {
               $this.showcompletedNoMessage = false;
               if ($this.completedArray.length > 3) {
                 $this.completedArray = $this.completedArray.slice(0, 3);
@@ -578,6 +581,7 @@ export default {
     },
     gohead(e, index) {
       let $this = this;
+      var data = e;
       this.$store.commit("home/getTabsactiveIndex", "2");
       switch (index) {
         case 1:
@@ -589,40 +593,51 @@ export default {
           $this.$store.commit("evlaluating/changeIsShowReport", true);
           $this.$store.commit("evlaluating/getReportParm", {
             key: "idx",
-            value: e.idx
+            value: data.idx
           });
           $this.$store.commit("evlaluating/getReportParm", {
             key: "name",
-            value: e.name
+            value: data.name
           });
           $this.$store.commit("evlaluating/getReportParm", {
             key: "evaluationId",
-            value: e.id
+            value: data.id
           });
           $this.$store.commit("evlaluating/getReportParm", {
             key: "name",
-            value: e.name
+            value: data.name
           });
-          $this.$store.commit("evlaluating/getCurrentEvaluationId", e.id);
-          $this.$store.commit("evlaluating/getCurrentEvaluationIdx", e.idx);
+          $this.$store.commit("evlaluating/getCurrentEvaluationId", data.id);
+          $this.$store.commit("evlaluating/getCurrentEvaluationIdx", data.idx);
+
+          $this.$store.commit(
+            "evlaluating/getCurrentEvaluationName",
+            data.name
+          );
+          $this.$store.commit("evlaluating/changeSeeReport", true);
           $this.$router.push("/evaluating");
-          setTimeout(function() {
-            $this.$root.eventBus.$emit("viewReport", true);
-          });
+          //   setTimeout(function() {
+          //     $this.$root.eventBus.$emit("viewReport", true);
+          //   });
+          //   $this.$root.eventBus.$emit("viewReport", true);
           break;
         case 2:
           $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
-          $this.$store.commit("evlaluating/getCurrentEvaluationId", e.id);
-          $this.$store.commit("evlaluating/getCurrentEvaluationIdx", e.idx);
-          $this.$store.commit("evlaluating/getCurrentEvaluationName", e.name);
+          $this.$store.commit("evlaluating/getCurrentEvaluationId", data.id);
+          $this.$store.commit("evlaluating/getCurrentEvaluationIdx", data.idx);
+          $this.$store.commit(
+            "evlaluating/getCurrentEvaluationName",
+            data.name
+          );
           $this.$store.commit(
             "evlaluating/getCurrentIndex",
-            e.answered_count + 1
+            data.answered_count + 1
           );
           $this.$store.commit(
             "evlaluating/getQuestionIndex",
-            e.answered_count + 1
+            data.answered_count + 1
           );
+          $this.$store.commit("evlaluating/changeSeeReport", false);
           $this.$store.commit("evlaluating/changeEvaluationStart", true);
           $this.$router.push("/evaluating");
           break;

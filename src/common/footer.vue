@@ -24,7 +24,7 @@ export default {};
   padding: 0 16px;
   position: absolute;
   z-index: 4;
-  background-color: #eee;
+  /* background-color: #eee; */
   /* bottom: 0px; */
   width: 100%;
 }
