@@ -9,7 +9,7 @@
               <div style="width: 30%;margin-left: 35%;">
                   <md-field>
                       <md-input v-model="searchKey" placeholder="关键字搜索" @change="searchfun"></md-input>
-                      <i class="material-icons">search</i>
+                      <i class="material-icons" style="cursor: pointer;" @click="searchfun()">search</i>
                   </md-field>
               </div>
               <md-tabs>
@@ -76,7 +76,9 @@ export default {
       evalutionLists: [],
       evalutionAllLists: [],
       evalution: Object,
-      showmask: false
+      showmask: false,
+      searchArry: [],
+      showEvaluationArray: []
     };
   },
   props: {
@@ -113,9 +115,9 @@ export default {
       }
     },
     getCategory(type, url, param) {
-      let _this = this;
-      _this.showmask = true;
-      _this
+      let $this = this;
+      $this.showmask = true;
+      $this
         .$http({
           method: type,
           url: url,
@@ -123,13 +125,13 @@ export default {
         })
         .then(res => {
           res.data.return.categories.forEach(item => {
-            _this.categories.push({
+            $this.categories.push({
               name: item
             });
           });
-          _this.evalutionLists = res.data.return.evaluations;
-          _this.evalutionAllLists = res.data.return.evaluations;
-          _this.showmask = false;
+          $this.evalutionLists = res.data.return.evaluations;
+          $this.evalutionAllLists = res.data.return.evaluations;
+          $this.showmask = false;
         })
         .catch(error => {
           console.log(error);
@@ -141,29 +143,45 @@ export default {
         type = "post",
         url = "/IBUS/DAIG_SYS/getTestId ",
         request = {
-          keywords: this.searchKey,
+          keywords: this.searchKey
         },
         param = {
           apikey,
           request
         };
-
-      $this
-        .$http({
-          method: type,
-          url: url,
-          data: param
-        })
-        .then(res => {
-          if (res.data.errorCode !== 0) {
-            $this.showAlert = true;
-            $this.AlertMessage = res.data.errorMsg;
-          } else {
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      if (this.searchKey == "") {
+        $this.evalutionLists = $this.evalutionAllLists;
+      } else {
+        $this
+          .$http({
+            method: type,
+            url: url,
+            data: param
+          })
+          .then(res => {
+            if (res.data.errorCode !== 0) {
+              $this.showAlert = true;
+              $this.AlertMessage = res.data.errorMsg;
+            } else {
+              $this.searchArry = res.data.result;
+              if ($this.searchArry && $this.searchArry.length > 0) {
+                let array = [];
+                for (var i in $this.searchArry) {
+                  for (var j in $this.evalutionLists)
+                    if ($this.searchArry[i].id == $this.evalutionLists[j].id) {
+                      array.push($this.evalutionLists[j]);
+                    }
+                }
+                $this.evalutionLists = array;
+              } else {
+                $this.evalutionLists = $this.evalutionAllLists;
+              }
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     }
   },
   computed: {

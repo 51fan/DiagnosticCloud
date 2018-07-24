@@ -205,6 +205,8 @@ export default {
     handleSelect(key, keyPath) {
       switch (key) {
         case "1":
+          this.$store.commit("home/getTabsactiveIndex", "1");
+          this.$store.commit("ACTIVE", "1");
           this.$store.commit("home/showTabsFun", true);
           this.$store.commit("evlaluating/changeShowevaluatingPage", false);
           //隐藏首页背景图
@@ -212,6 +214,8 @@ export default {
           this.$router.push("/overview");
           break;
         case "2":
+          this.$store.commit("home/getTabsactiveIndex", "2");
+          this.$store.commit("ACTIVE", "2");
           //隐藏首页背景图
           this.$store.commit("home/changeShowHomeBgImge", false);
           //显示导航菜单
@@ -230,12 +234,16 @@ export default {
           this.$router.push("/evaluating");
           break;
         case "3":
+          this.$store.commit("home/getTabsactiveIndex", "3");
+          this.$store.commit("ACTIVE", "3");
           //隐藏首页背景图
           this.$store.commit("home/changeShowHomeBgImge", false);
           this.$store.commit("evlaluating/changeShowevaluatingPage", false);
           this.$router.push("/evaluatingCenter");
           break;
         case "4":
+          this.$store.commit("home/getTabsactiveIndex", "4");
+          this.$store.commit("ACTIVE", "4");
           //隐藏首页背景图
           this.$store.commit("home/changeShowHomeBgImge", false);
           this.$store.commit("evlaluating/changeShowevaluatingPage", false);
@@ -313,6 +321,9 @@ export default {
                 $this.$store.commit("home/showTabsFun", true);
                 //显示首页背景图
                 $this.$store.commit("home/changeShowHomeBgImge", true);
+                //清除session信息
+                $this.$store.commit("LOGOUT");
+                //跳转到登录页
                 $this.$router.push("/loginPage");
               }
             })
@@ -325,7 +336,7 @@ export default {
       }
     },
     loginFun() {
-      this.$store.commit("home/showTabsFun", false);
+      this.$store.commit("home/showTabsFun", true);
       this.$store.commit("loginPage/changeLoginShowState", true);
       //显示首页背景图
       this.$store.commit("home/changeShowHomeBgImge", true);

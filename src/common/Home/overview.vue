@@ -55,7 +55,7 @@
                 </div>
                 <div style="width: 90%;border-bottom: 1px solid lightgray;padding-bottom: 2%;margin: 0 5%;">
                      <div style="padding: 2%">已完成测评</div>
-                     <div v-if="showcompletedNoMessage" style="padding: 2%">您当前无完成的测评</div>
+                     <div v-if="showcompletedNoMessage" style="padding: 2%">您当前无已完成的测评</div>
                      <div v-if="!showcompletedNoMessage" class="md-layout-item md-size-30" v-for="info in completedArray" :key="info.idx" :info="info" style="display: inline-flex;">
                       <md-card>
                         <md-card-header>
@@ -298,6 +298,7 @@ export default {
     showcompletedMore: false
   }),
   mounted: function() {
+    let $this = this;
     this.getUserTestAllInfo();
   },
   computed: {
@@ -433,6 +434,7 @@ export default {
     },
     viewEnterpriseInfo() {
       this.$store.commit("home/getTabsactiveIndex", "4");
+      this.$store.commit("ACTIVE", "4");
       this.$router.push("/enterpriseInfo");
     },
     viewPersonalInfo() {
@@ -540,7 +542,8 @@ export default {
           } else {
             $this.InfoArray = res.data.return.info;
             let len = $this.InfoArray.length;
-
+            $this.$store.commit("home/getTabsactiveIndex", "1");
+            $this.$store.commit("ACTIVE", "1");
             for (var i = 0; i < len; i++) {
               if ($this.InfoArray[i].completeStatus == 0) {
                 $this.discompletedArray.push($this.InfoArray[i]);
@@ -576,13 +579,15 @@ export default {
         });
     },
     more() {
-      this.$router.push("/evaluatingCenter");
       this.$store.commit("home/getTabsactiveIndex", "3");
+      this.$store.commit("ACTIVE", "3");
+      this.$router.push("/evaluatingCenter");
     },
     gohead(e, index) {
       let $this = this;
       var data = e;
       this.$store.commit("home/getTabsactiveIndex", "2");
+      this.$store.commit("ACTIVE", "2");
       switch (index) {
         case 1:
           $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
@@ -625,6 +630,7 @@ export default {
           $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
           $this.$store.commit("evlaluating/getCurrentEvaluationId", data.id);
           $this.$store.commit("evlaluating/getCurrentEvaluationIdx", data.idx);
+          $this.$store.commit("evlaluating/changeSeeReport", false);
           $this.$store.commit(
             "evlaluating/getCurrentEvaluationName",
             data.name

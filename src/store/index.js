@@ -12,6 +12,40 @@ import evaluatingCenter from './modules/evaluatingCenter'
 
 Vue.use(Vuex);
 Vue.use(Axios);
+// 初始化时用sessionStore.getItem('token'),这样子刷新页面就无需重新登录
+const state = {
+  user: window.sessionStorage.getItem('user'),
+  token: window.sessionStorage.getItem('token'),
+  activeTab: window.sessionStorage.getItem('activeTab'),
+}
+
+const mutations = {
+  //将token保存到sessionStorage里，token表示登陆状态
+  SET_TOKEN: (state, data) => {
+    state.token = data
+    window.sessionStorage.setItem('token', data)
+  },
+  //获取用户名
+  GET_USER: (state, data) => {
+    // 把用户名存起来
+    state.user = data
+    window.sessionStorage.setItem('user', data)
+  },
+  //登出
+  LOGOUT: (state) => {
+    // 登出的时候要清除token
+    state.token = null
+    state.user = null
+    window.sessionStorage.removeItem('token')
+    window.sessionStorage.removeItem('user')
+  },
+  //激活的菜单
+  ACTIVE: (state, value) => {
+    state.activeTab = value
+    window.sessionStorage.setItem('activeTab', value)
+  }
+}
+const actions = {}
 
 const store = new Vuex.Store({
   modules: {
@@ -22,7 +56,8 @@ const store = new Vuex.Store({
     UserCenter,
     evaluatingCenter
   },
-  actions: {
-  }
+  actions,
+  state,
+  mutations,
 })
 export default store;

@@ -403,6 +403,10 @@ export default {
         url: url,
         data: param
       }).then(res => {
+        if (res.data.errorCode !== 0) {
+          console.log(res.data.errorMsg);
+          return;
+        }
         $this.$store.commit("evlaluating/getReportParm", {
           key: "datas",
           value: res.data.return

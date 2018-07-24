@@ -36,7 +36,7 @@
               <div class="md-layout-item md-size-10" ></div>
             </div>
             
-            <div v-if="showVerificationCode&&errCounter>2">
+            <div v-if="showVerificationCode&&errCounter>1">
               <div class="md-layout-item md-size-100" style="display: inline-flex;">
                 <div class="md-layout-item md-size-10" ></div>
                 <div class="md-layout-item md-size-80" >
@@ -155,9 +155,7 @@ export default {
     VerificationImagesrc: "http://139.159.141.232:8080/Captch?" + Math.random(),
     errCounter: 0
   }),
-  // mounted:()=> {
-  //   this.VerificationImagesrc =
-  // },
+  mounted: function() {},
   computed: {
     menuVisible() {
       return this.$store.state.home.menuVisible;
@@ -187,7 +185,7 @@ export default {
         apikey,
         request
       };
-      if (this.errCounter > 2 && this.VerificationCode == "") {
+      if (this.errCounter > 1 && this.VerificationCode == "") {
         $this.showAlert = true;
         $this.AlertMessage = "请输入验证码";
       } else {
@@ -207,6 +205,8 @@ export default {
               console.log($this.errCounter);
             } else {
               // $this.session_id = res.data.session_id;
+              $this.$store.commit("SET_TOKEN", res.data.session_id);
+              $this.$store.commit("GET_USER", res.data.email);
               $this.$store.commit("loginPage/getUseremail", res.data.email);
               $this.$store.commit("loginPage/getUsermobile", res.data.mobile);
               $this.$store.commit(
@@ -222,14 +222,13 @@ export default {
               }
               //修改登录状态
               $this.$store.commit("loginPage/changeLoginState", true);
-              //隐藏登录按钮
-              // $this.$store.commit("home/showLogin", false);
               //显示导航菜单
               $this.$store.commit("home/showTabsFun", true);
-              //显示用户中心
-              // $this.$store.commit("home/showUserCenter", true);
               //隐藏首页背景图
               $this.$store.commit("home/changeShowHomeBgImge", false);
+              //激活菜单选中项
+              $this.$store.commit("home/getTabsactiveIndex", "1");
+              $this.$store.commit("ACTIVE", "1");
               $this.$router.push("/overview");
             }
           })

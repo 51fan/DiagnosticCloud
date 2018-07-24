@@ -382,7 +382,7 @@ export default {
         $this.department = res.data.result.department;
         $this.position = res.data.result.position;
         $this.date = res.data.result.birthday;
-        $this.gender = res.data.result.gender;
+        $this.sex = res.data.result.gender ==0?"female":"male";
         $this.company = res.data.result.shortName;
       })
       .catch(err => {
@@ -410,7 +410,7 @@ export default {
           apikey,
           request
         };
-
+        console.log(this.date)
       $this
         .$http({
           method: type,

@@ -12,8 +12,8 @@
                                 <md-tab id="tab-testEnd" md-label="已完成" @click="searchCrad(1)"></md-tab>
                             </md-tabs>
                             <md-field style="margin:0;background:white">
-                                <md-input v-model="searchKey" placeholder="" style="width:100%"></md-input>
-                                <i class="material-icons">search</i>
+                                <md-input v-model="searchKey" placeholder="" style="width:100%" @change="searchfun"></md-input>
+                                <i class="material-icons" style="cursor: pointer;" @click="searchfun()">search</i>
                             </md-field>
                         </div>
                     </div>
@@ -66,21 +66,7 @@
                 :current-page="currentPage"
                 :total="totalItems">
             </el-pagination>
-            <!-- <div class="block">
-                <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage4"
-                :page-sizes="[100, 200, 300, 400]"
-                :page-size="100"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="400">
-                </el-pagination>
-            </div> -->
         </div>
-        <!-- <div v-if="showAnswerPage">
-            <EvaluatingPage></EvaluatingPage>
-        </div> -->
     </div>
 </template>
 
@@ -138,9 +124,11 @@ export default {
     currentPage: 1,
     totalItems: "",
     pageDatas: [],
-    pages: ""
+    pages: "",
+    searchArry: [],
+    searchShowArray: []
   }),
-  mounted: function () {},
+  mounted: function() {},
   methods: {
     getUserTestAllInfo() {
       let $this = this,
@@ -189,6 +177,8 @@ export default {
     },
     gohead(e, index) {
       let $this = this;
+      $this.$store.commit("home/getTabsactiveIndex", "2");
+      $this.$store.commit("ACTIVE", "2");
       switch (index) {
         case 1:
           $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
@@ -215,18 +205,25 @@ export default {
           });
           $this.$store.commit("evlaluating/getCurrentEvaluationId", e.id);
           $this.$store.commit("evlaluating/getCurrentEvaluationIdx", e.idx);
+          $this.$store.commit("evlaluating/changeSeeReport", true);
           $this.$router.push("/evaluating");
-          setTimeout(function() {
-            $this.$root.eventBus.$emit("viewReport", true);
-          });
+          //   setTimeout(function() {
+          //     $this.$root.eventBus.$emit("viewReport", true);
+          //   });
           break;
         case 2:
           $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
           $this.$store.commit("evlaluating/getCurrentEvaluationId", e.id);
           $this.$store.commit("evlaluating/getCurrentEvaluationIdx", e.idx);
           $this.$store.commit("evlaluating/getCurrentEvaluationName", e.name);
-          $this.$store.commit("evlaluating/getCurrentIndex", e.answered_count+1);
-          $this.$store.commit("evlaluating/getQuestionIndex", e.answered_count+1);
+          $this.$store.commit(
+            "evlaluating/getCurrentIndex",
+            e.answered_count + 1
+          );
+          $this.$store.commit(
+            "evlaluating/getQuestionIndex",
+            e.answered_count + 1
+          );
           $this.$store.commit("evlaluating/changeEvaluationStart", true);
           $this.$router.push("/evaluating");
           break;
@@ -244,7 +241,7 @@ export default {
               $this.completeTestInfo.push($this.allTestInfo[i]);
             }
           }
-        //   $this.InfoArray = $this.completeTestInfo;
+          //   $this.InfoArray = $this.completeTestInfo;
           $this.pages = Math.ceil($this.completeTestInfo.length / 5);
           $this.totalItems = $this.pages * 10;
           for (var j = 0; j < $this.pages; j++) {
@@ -264,7 +261,7 @@ export default {
               $this.discompleteTestInfo.push($this.allTestInfo[i]);
             }
           }
-        //   $this.InfoArray = $this.discompleteTestInfo;
+          //   $this.InfoArray = $this.discompleteTestInfo;
           $this.pages = Math.ceil($this.discompleteTestInfo.length / 5);
           $this.totalItems = $this.pages * 10;
           for (var j = 0; j < $this.pages; j++) {
@@ -278,7 +275,7 @@ export default {
           $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
           break;
         case 3:
-        //   $this.InfoArray = $this.allTestInfo;
+          //   $this.InfoArray = $this.allTestInfo;
           $this.pages = Math.ceil($this.allTestInfo.length / 5);
           $this.totalItems = $this.pages * 10;
           for (var j = 0; j < $this.pages; j++) {
@@ -301,6 +298,64 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.getData(val);
+    },
+    searchfun() {
+      let $this = this,
+        apikey = "",
+        type = "post",
+        url = "/IBUS/DAIG_SYS/getTestId ",
+        request = {
+          keywords: this.searchKey
+        },
+        param = {
+          apikey,
+          request
+        };
+      if (this.searchKey == "") {
+        $this.InfoArray = $this.allTestInfo;
+      } else {
+        $this
+          .$http({
+            method: type,
+            url: url,
+            data: param
+          })
+          .then(res => {
+            if (res.data.errorCode !== 0) {
+              $this.showAlert = true;
+              $this.AlertMessage = res.data.errorMsg;
+            } else {
+              $this.searchArry = res.data.result;
+              if ($this.searchArry && $this.searchArry.length > 0) {
+                let array = [];
+                for (var i in $this.searchArry) {
+                  for (var j in $this.allTestInfo)
+                    if ($this.searchArry[i].id == $this.allTestInfo[j].id) {
+                      array.push($this.allTestInfo[j]);
+                    }
+                }
+                $this.InfoArray = array;
+
+                $this.pages = Math.ceil($this.InfoArray.length / 5);
+                $this.totalItems = $this.pages * 10;
+                for (var j = 0; j < $this.pages; j++) {
+                  $this.pageDatas[j] = [];
+                  for (var i in $this.InfoArray) {
+                    if (Math.floor(i / 5) == j) {
+                      $this.pageDatas[j].push($this.InfoArray[i]);
+                    }
+                  }
+                }
+                $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
+              } else {
+                $this.InfoArray = $this.allTestInfo;
+              }
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     }
   },
   created: function() {
