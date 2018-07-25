@@ -2,20 +2,22 @@
     <div class="mypanel">
         <div v-if="!showAnswerPage">
             <div class="centerHeader">
-                <div class="md-layout">
-                    <div class="md-layout-item md-size-50" ></div>
+                <div class="md-layout" style="padding: 20px 10px;">
                     <div class="md-layout-item md-size-50" >
-                        <div style="display: inline-flex;">
-                            <md-tabs style="">
-                                <md-tab id="tab-all" md-label="全部" @click="searchCrad(3)"></md-tab>
-                                <md-tab id="tab-testing" md-label="测评中" @click="searchCrad(2)"></md-tab>
-                                <md-tab id="tab-testEnd" md-label="已完成" @click="searchCrad(1)"></md-tab>
-                            </md-tabs>
-                            <md-field style="margin:0;background:white">
-                                <md-input v-model="searchKey" placeholder="" style="width:100%" @change="searchfun"></md-input>
-                                <i class="material-icons" style="cursor: pointer;" @click="searchfun()">search</i>
-                            </md-field>
+                         <md-tabs style="">
+                            <md-tab id="tab-all" md-label="全部" @click="searchCrad(3)"></md-tab>
+                            <md-tab id="tab-testing" md-label="测评中" @click="searchCrad(2)"></md-tab>
+                            <md-tab id="tab-testEnd" md-label="已完成" @click="searchCrad(1)"></md-tab>
+                        </md-tabs>
+                    </div>
+                    <div class="md-layout-item md-size-50" style="display: inline-flex;">
+                        <div class="md-layout-item md-size-20" ></div>
+                        <div class="md-layout-item md-size-60" style="display: inline-flex;">
+                           <el-input v-model="searchKey" placeholder="请输入" style="top: 5px;" @change="searchfun"></el-input>
+                                <!-- <md-input v-model="searchKey" placeholder="请输入" style="width:100%;background: #ececec;" @change="searchfun"></md-input> -->
+                            <i class="material-icons" style="cursor: pointer;background-color: #009199;color:white;padding: 8px;margin: 5px 0;" @click="searchfun()">search</i>
                         </div>
+                        <div class="md-layout-item md-size-20" ></div>
                     </div>
                 </div>
             </div>
@@ -67,6 +69,11 @@
                 :total="totalItems">
             </el-pagination>
         </div>
+        <md-dialog-alert style="z-index: 111"
+                  class="md-primary md-raised"
+                  :md-active.sync="showAlert"
+                  :md-content="AlertMessage"
+                  md-confirm-text="知道了" />
     </div>
 </template>
 
@@ -80,6 +87,9 @@
   width: 100%;
   text-align: right;
   padding-bottom: 1%;
+  margin-right: 16px;
+  margin-left: 16px;
+  background-color: white;
 }
 .headerItem {
   width: 5%;
@@ -97,6 +107,11 @@
   margin: 4px;
   display: inline-block;
   vertical-align: top;
+}
+.el-input__inner {
+  background: #ececec!important;
+  /* background: rgb(236, 236, 236) ; */
+  margin-top: 5px !important;
 }
 </style>
 
@@ -126,7 +141,9 @@ export default {
     pageDatas: [],
     pages: "",
     searchArry: [],
-    searchShowArray: []
+    searchShowArray: [],
+    showAlert: false,
+    AlertMessage: ""
   }),
   mounted: function() {},
   methods: {

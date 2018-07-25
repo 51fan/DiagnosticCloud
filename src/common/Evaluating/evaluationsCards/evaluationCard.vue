@@ -32,6 +32,12 @@
                   :md-active.sync="showAlert"
                   :md-content="AlertMessage"
                   md-confirm-text="知道了" />
+        <md-dialog-alert
+                  class="md-primary md-raised"
+                  :md-active.sync="showErrAlert"
+                  :md-content="AlertMessage"
+                  md-confirm-text="知道了" />
+        
     </div>
 </template>
 
@@ -73,20 +79,69 @@ export default {
     score: Object,
     id: String,
     name: String,
-    showAlert:false,
-    AlertMessage:false
+    showAlert: false,
+    AlertMessage: "",
+    showErrAlert:false
   }),
   methods: {
-    beginEvaluation: function() {
+    beginEvaluation() {
       // this.$router.push({path:'/evaluatingPage', query: {id:this.id, name:this.name}});
       if (this.session_id) {
-        this.$store.commit("evlaluating/changeShowevaluatingPage", true);
-        this.$store.commit("evlaluating/getCurrentEvaluationName", this.name);
-        this.$store.commit("evlaluating/getCurrentEvaluationId", this.id);
-      }else{
+        this.getQuestionData();
+      } else {
         this.showAlert = true;
         this.AlertMessage = "请登录后再开始评测";
       }
+    },
+    getQuestionData() {
+      let $this = this;
+      let apikey = "",
+        request = {
+          id: this.evalution.id,
+          session_id: this.session_id
+        },
+        // url = "/static/jsons/evaluation.json",
+        // type = "GET",
+        url = "/IBUS/DAIG_SYS/getQuestion",
+        type = "POST",
+        param = {
+          apikey,
+          request
+        };
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          //debugger;
+          if (res.data.errorCode !== 0) {
+            if (res.data.errorCode == "-8") {
+              $this.$store.commit(
+                "evlaluating/changeShowevaluatingPage",
+                false
+              );
+              // $this.$store.commit("evlaluating/changeShowErrAlert", true);
+              $this.showErrAlert = true;
+              $this.AlertMessage = res.data.errorMsg;
+            } else {
+              $this.showAlert = true;
+              $this.AlertMessage = res.data.errorMsg;
+            }
+          } else {
+            $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
+            $this.$store.commit(
+              "evlaluating/getCurrentEvaluationName",
+              this.name
+            );
+            $this.$store.commit("evlaluating/getCurrentEvaluationId", this.id);
+          }
+          // console.log($this.questionsList);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
   computed: {

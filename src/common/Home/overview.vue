@@ -1,86 +1,78 @@
 <template>
     <div class="mypanel" style="font-size: xx-large;">
-        <div class="md-layout" style="flex-wrap: nowrap;">
-            <div class="md-layout-item md-size-15">
-                <img :src="conmpanyLogo"/>
-                <div style="font-size: medium;">{{companyName}}</div>
-                <div  style="color:rgba(42, 199, 249, 0.8);font-size: medium;cursor: pointer;padding: 5%;" @click="viewEnterpriseInfo()">查看企业信息</div>
+        <div class="md-layout" style="flex-wrap: nowrap;background-color: white;">
+            <div class="md-layout-item md-size-20" style="border-right: 1px solid lightgray;">
+                <img style="padding: 25% 10% 10%;" :src="conmpanyLogo"/>
+                <div style="font-size: medium;padding: 5%;">{{companyName}}</div>
+                <div  style="color:rgb(47, 165, 172);font-size: small;cursor: pointer;padding: 5%;" @click="viewEnterpriseInfo()">查看企业信息</div>
             </div>
-            <div class="md-layout-item md-size-85" style="text-align: left;padding-top: 2%;font-size: medium;">
-                <div style="display: inline-flex;width: 90%;border-bottom: 1px solid lightgray;padding-bottom: 2%;margin: 0 5%;">
-                    <md-avatar><img :src="PersonalimageSrc" /></md-avatar>
-                    <div style="width: 80%;">
-                        <div style="margin: 1%;">季先生，欢迎您</div>
+            <div class="md-layout-item md-size-80" style="text-align: left;padding-top: 2%;font-size: medium;">
+                <div class="md-layout-item md-size-100" style="display: inline-flex;border-bottom: 1px solid lightgray;padding-bottom: 2%;">
+                    <div class="md-layout-item md-size-20" style="text-align:center;">
+                        <md-avatar><img :src="PersonalimageSrc" /></md-avatar>
+                    </div>
+                    <div class="md-layout-item md-size-40">
+                        <div style="margin: 1%;">{{username}}，欢迎您</div>
                         <div>
-                            <span style="margin: 1%;">生产工程师</span>
+                            <span style="margin: 1%;">{{position}}</span>
                             <span style="border-right: 2px solid #a7acb7;"></span>
-                            <span style="margin: 1%;">生产部门</span>
-                            <span style="margin: 3%;color:rgba(42, 199, 249, 0.8);cursor: pointer;" @click="viewPersonalInfo()">进入个人中心</span>
+                            <span style="margin: 1%;">{{department}}</span>
+                            <span style="margin: 3%;color:rgb(47, 165, 172);cursor: pointer;font-size: small;" @click="viewPersonalInfo()">进入个人中心</span>
                         </div>
                     </div>
+                    <div class="md-layout-item md-size-40"></div>
                 </div>
                 <div style="width: 90%;border-bottom: 1px solid lightgray;padding-bottom: 2%;margin: 0 5%;">
                     <div style="padding: 2%">您目前进行中的测评</div>
                     <div v-if="showdiscompletedNoMessage" style="padding: 2%">您当前无进行中的测评</div>
-                    <div v-if="!showdiscompletedNoMessage" class="md-layout-item md-size-30"  v-for="info in discompletedArray" :key="info.idx" :info="info" style="display: inline-flex;">
-                      <md-card>
+                    <div v-if="!showdiscompletedNoMessage" class="md-layout-item md-size-30 md-medium-size-33 md-small-size-50 md-xsmall-size-100"  v-for="info in discompletedArray" :key="info.idx" :info="info" style="display: inline-flex;min-height: 200px;" @click="gohead(info,2)">
+                      <md-card style="width: 100%;margin-bottom: 16px;" md-with-hover>
                         <md-card-header>
                           <div class="md-title">{{info.name}}</div>
                         </md-card-header>
 
-                        <md-card-content>
+                        <md-card-content style="min-height: 60px;">
                           {{info.remark}}
                         </md-card-content>
-                        <div class="md-layout-item md-size-100">
-                          <div class="md-layout-item md-size-65" style="display: inline-block;">
-                            <md-card-content style="background-color: white;">
-                                <el-progress v-if="info.completeStatus == 1" :percentage="100" status="success"></el-progress>
-                                <el-progress v-if="info.completeStatus == 0" :percentage="info.complete_degree" ></el-progress>
-                            </md-card-content>
-                          </div>
-                          <div class="md-layout-item md-size-30" style="display: inline-flex;">
-                            <md-card-actions>
-                            <md-button>
-                              <span v-if="info.completeStatus == 1" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(info,1)">查看报告</span>
-                              <span v-if="info.completeStatus == 0" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(info,2)">继续</span>
-                            </md-button>
-                          </md-card-actions>
-                          </div>
-                        </div>
+                        <md-card-actions>
+                            <div class="md-layout-item md-size-100" style="display: inline-flex;text-align:center;">
+                                <div class="md-layout-item md-size-75">
+                                    <el-progress :percentage="info.complete_degree" ></el-progress>
+                                </div>
+                                <div class="md-layout-item md-size-25">
+                                    <span style="color:rgb(47, 165, 172);" >继续</span>
+                                </div>
+                            </div>
+                        </md-card-actions>
+                        
                       </md-card>
                     </div>
                     <div v-if="showdiscompletedMore" style="padding: 2% 12%;text-align: right;" >
                       <span @click="more()" style="cursor: pointer;">查看更多</span>
                     </div>
                 </div>
-                <div style="width: 90%;border-bottom: 1px solid lightgray;padding-bottom: 2%;margin: 0 5%;">
+                <div style="width: 90%;padding-bottom: 2%;margin: 0 5%;">
                      <div style="padding: 2%">已完成测评</div>
                      <div v-if="showcompletedNoMessage" style="padding: 2%">您当前无已完成的测评</div>
-                     <div v-if="!showcompletedNoMessage" class="md-layout-item md-size-30" v-for="info in completedArray" :key="info.idx" :info="info" style="display: inline-flex;">
-                      <md-card>
+                     <div v-if="!showcompletedNoMessage" class="md-layout-item md-size-30 md-medium-size-33 md-small-size-50 md-xsmall-size-100" v-for="info in completedArray" :key="info.idx" :info="info" style="display: inline-flex;min-height: 200px;" @click="gohead(info,1)">
+                      <md-card style="width: 100%;margin-bottom: 16px;" md-with-hover>
                         <md-card-header>
                           <div class="md-title">{{info.name}}</div>
                         </md-card-header>
 
-                        <md-card-content>
+                        <md-card-content style="min-height: 60px;">
                           {{info.remark}}
                         </md-card-content>
-                        <div class="md-layout-item md-size-100">
-                          <div class="md-layout-item md-size-60" style="display: inline-block;">
-                            <md-card-content style="background-color: white;">
-                                <el-progress v-if="info.completeStatus == 1" :percentage="100" status="success"></el-progress>
-                                <el-progress v-if="info.completeStatus == 0" :percentage="info.complete_degree" ></el-progress>
-                            </md-card-content>
-                          </div>
-                          <div class="md-layout-item md-size-35" style="display: inline-flex;">
-                            <md-card-actions>
-                            <md-button>
-                              <span v-if="info.completeStatus == 1" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(info,1)">查看报告</span>
-                              <span v-if="info.completeStatus == 0" style="cursor: pointer;color:rgba(16, 129, 165, 0.9);" @click="gohead(info,2)">继续</span>
-                            </md-button>
-                          </md-card-actions>
-                          </div>
-                        </div>
+                        <md-card-actions>
+                            <div class="md-layout-item md-size-100" style="display: inline-flex;text-align:center;">
+                                <div class="md-layout-item md-size-65">
+                                    <span>测评时间：{{info.endTime.slice(0, 10)}}</span>
+                                </div>
+                                <div class="md-layout-item md-size-35">
+                                    <span style="color:rgb(47, 165, 172);">查看报告</span>
+                                </div>
+                            </div>
+                        </md-card-actions>
                       </md-card>
                     </div>
                     <div v-if="showcompletedMore" style="padding: 2% 12%;text-align: right;" >
@@ -247,7 +239,7 @@
   //   height: 40px;
 
   &:nth-child(1) {
-    background: rgba(33, 33, 33, 0.28);
+    // border-right: 1px solid lightgray;
   }
 
   &:nth-child(2) {
@@ -267,6 +259,9 @@ export default {
     cityPicker
   },
   data: () => ({
+    username: "季先生",
+    position:"生产工程师",
+    department:"生产部门",
     showAlert: false,
     province: "",
     city: "",
@@ -503,7 +498,7 @@ export default {
         });
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
+      const isJPG = file.type === "image/jpeg"||file.type === "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
@@ -520,7 +515,7 @@ export default {
         type = "post",
         url = "/IBUS/DAIG_SYS/getUserTestAllInfo",
         request = {
-          status: 3,
+          status: "",
           key: "",
           session_id: this.session_id
         },
@@ -540,38 +535,39 @@ export default {
             $this.showAlert = true;
             $this.AlertMessage = res.data.errorMsg;
           } else {
-            $this.InfoArray = res.data.return.info;
-            let len = $this.InfoArray.length;
+            $this.InfoArray = res.data.return;
             $this.$store.commit("home/getTabsactiveIndex", "1");
             $this.$store.commit("ACTIVE", "1");
-            for (var i = 0; i < len; i++) {
-              if ($this.InfoArray[i].completeStatus == 0) {
-                $this.discompletedArray.push($this.InfoArray[i]);
-              }
-              if ($this.InfoArray[i].completeStatus == 1) {
-                $this.completedArray.push($this.InfoArray[i]);
-              }
-            }
+
             if (
-              $this.discompletedArray.length &&
-              $this.discompletedArray.length > 0
+              $this.InfoArray.doing.length &&
+              $this.InfoArray.doing.length > 0
             ) {
               $this.showdiscompletedNoMessage = false;
+              $this.discompletedArray = $this.InfoArray.doing;
               if ($this.discompletedArray.length > 3) {
                 $this.discompletedArray = $this.discompletedArray.slice(0, 3);
                 $this.showdiscompletedMore = true;
               }
             }
+
             if (
-              $this.completedArray.length &&
-              $this.completedArray.length > 0
+              $this.InfoArray.done.length &&
+              $this.InfoArray.done.length > 0
             ) {
+              $this.completedArray = $this.InfoArray.done;
               $this.showcompletedNoMessage = false;
               if ($this.completedArray.length > 3) {
                 $this.completedArray = $this.completedArray.slice(0, 3);
                 $this.showcompletedMore = true;
               }
             }
+            $this.position =  $this.InfoArray.user_enter.position;
+            $this.username =  $this.InfoArray.user_enter.name;
+            $this.department =  $this.InfoArray.user_enter.department;
+            $this.companyName = $this.InfoArray.user_enter.enterpriseName;
+            $this.PersonalimageSrc = "/IMAGE/" + $this.InfoArray.user_enter.image;
+            $this.conmpanyLogo = "/IMAGE/" + $this.InfoArray.user_enter.logo;
           }
         })
         .catch(error => {

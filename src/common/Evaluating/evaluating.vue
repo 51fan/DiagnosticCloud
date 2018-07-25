@@ -8,8 +8,8 @@
               <!-- 搜索栏 -->
               <div style="width: 30%;margin-left: 35%;">
                   <md-field>
-                      <md-input v-model="searchKey" placeholder="关键字搜索" @change="searchfun"></md-input>
-                      <i class="material-icons" style="cursor: pointer;" @click="searchfun()">search</i>
+                      <md-input v-model="searchKey" placeholder="关键字搜索" @change="searchfun" style="background-color: #406171;"></md-input>
+                      <i class="material-icons" style="cursor: pointer;background-color: #009199;padding: 4px;" @click="searchfun()">search</i>
                   </md-field>
               </div>
               <md-tabs>
@@ -27,6 +27,11 @@
         <!-- <div v-if="showmask">
           <md-progress-spinner class="md-primary" md-mode="indeterminate"></md-progress-spinner>
         </div> -->
+        <md-dialog-alert
+                  class="md-primary md-raised"
+                  :md-active.sync="showErrAlert"
+                  :md-content="正在答卷数量不能超过三个,请先完全其他正在答题的测评"
+                  md-confirm-text="知道了" />
     </div>
 </template>
 
@@ -45,11 +50,11 @@
   width: 80%;
   margin: 30px 10%;
   color: white;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: #002c42;
 }
 
 .panelHeaderTitle {
-  text-align: left;
+  text-align: center;
   padding: 0 3%;
   font-size: x-large;
   line-height: initial;
@@ -182,7 +187,7 @@ export default {
             console.log(error);
           });
       }
-    }
+    },
   },
   computed: {
     showevaluatingPage: {
@@ -191,6 +196,14 @@ export default {
       },
       set: function(newValue) {
         this.$store.state.evlaluating.evlaluating.showevaluatingPage = newValue;
+      }
+    },
+    showErrAlert: {
+      get: function() {
+        return this.$store.state.evlaluating.evaluationCard.showErrAlert;
+      },
+      set: function(newValue) {
+        this.this.$store.state.evlaluating.evaluationCard.showErrAlert = newValue;
       }
     }
   },

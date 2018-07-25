@@ -185,56 +185,61 @@ export default {
         apikey,
         request
       };
-      if (this.errCounter > 1 && this.VerificationCode == "") {
+      if ($this.checkformat(this.phoneOrEmail)) {
         $this.showAlert = true;
-        $this.AlertMessage = "请输入验证码";
+        $this.AlertMessage = "请输入正确的手机号码或者邮箱";
       } else {
-        $this
-          .$http({
-            method: type,
-            url: url,
-            data: param
-          })
-          .then(res => {
-            // console.log(res);
-            if (res.data.errorCode !== 0) {
-              $this.showVerificationCode = true;
-              $this.showAlert = true;
-              $this.AlertMessage = res.data.errorMsg;
-              $this.errCounter++;
-              console.log($this.errCounter);
-            } else {
-              // $this.session_id = res.data.session_id;
-              $this.$store.commit("SET_TOKEN", res.data.session_id);
-              $this.$store.commit("GET_USER", res.data.email);
-              $this.$store.commit("loginPage/getUseremail", res.data.email);
-              $this.$store.commit("loginPage/getUsermobile", res.data.mobile);
-              $this.$store.commit(
-                "loginPage/getSession_id",
-                res.data.session_id
-              );
-              $this.$store.commit(
-                "loginPage/changefirstLogin",
-                res.data.firstLogin
-              );
-              if (res.data.firstLogin) {
-                $this.$store.commit("UserCenter/changeShowCityPicker", true);
+        if (this.errCounter > 1 && this.VerificationCode == "") {
+          $this.showAlert = true;
+          $this.AlertMessage = "请输入验证码";
+        } else {
+          $this
+            .$http({
+              method: type,
+              url: url,
+              data: param
+            })
+            .then(res => {
+              // console.log(res);
+              if (res.data.errorCode !== 0) {
+                $this.showVerificationCode = true;
+                $this.showAlert = true;
+                $this.AlertMessage = res.data.errorMsg;
+                $this.errCounter++;
+                console.log($this.errCounter);
+              } else {
+                // $this.session_id = res.data.session_id;
+                $this.$store.commit("SET_TOKEN", res.data.session_id);
+                $this.$store.commit("GET_USER", res.data.email);
+                $this.$store.commit("loginPage/getUseremail", res.data.email);
+                $this.$store.commit("loginPage/getUsermobile", res.data.mobile);
+                $this.$store.commit(
+                  "loginPage/getSession_id",
+                  res.data.session_id
+                );
+                $this.$store.commit(
+                  "loginPage/changefirstLogin",
+                  res.data.firstLogin
+                );
+                if (res.data.firstLogin) {
+                  $this.$store.commit("UserCenter/changeShowCityPicker", true);
+                }
+                //修改登录状态
+                $this.$store.commit("loginPage/changeLoginState", true);
+                //显示导航菜单
+                $this.$store.commit("home/showTabsFun", true);
+                //隐藏首页背景图
+                $this.$store.commit("home/changeShowHomeBgImge", false);
+                //激活菜单选中项
+                $this.$store.commit("home/getTabsactiveIndex", "1");
+                $this.$store.commit("ACTIVE", "1");
+                $this.$router.push("/overview");
               }
-              //修改登录状态
-              $this.$store.commit("loginPage/changeLoginState", true);
-              //显示导航菜单
-              $this.$store.commit("home/showTabsFun", true);
-              //隐藏首页背景图
-              $this.$store.commit("home/changeShowHomeBgImge", false);
-              //激活菜单选中项
-              $this.$store.commit("home/getTabsactiveIndex", "1");
-              $this.$store.commit("ACTIVE", "1");
-              $this.$router.push("/overview");
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          });
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
       }
     },
     registerFun() {
@@ -263,6 +268,24 @@ export default {
       //   .catch(err => {
       //     console.log(err);
       //   });
+    },
+    checkformat(str){
+      if(this.isEmail(this.phoneOrEmail) ){
+        return false
+      }
+      else if(this.isTelCode(this.phoneOrEmail)){
+        return false
+      }else{
+        return true
+      }  
+    },
+    isEmail(str) {
+      let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+      return reg.test(str);
+    },
+    isTelCode(str) {
+      var reg = /^((0\d{2,3}-\d{7,8})|(1[3456789]\d{9}))$/;
+      return reg.test(str);
     }
   }
 };

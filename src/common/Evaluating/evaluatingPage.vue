@@ -158,6 +158,8 @@ export default {
   props: [],
   data: () => ({
     showAlert: false,
+    // showErrAlert:false,
+    AlertMessage: "",
     second: false,
     evaluationId: "",
     name: "",
@@ -296,8 +298,8 @@ export default {
       this.getTotalScoreInfo(type, url, param);
     },
     getQuestionData(type, url, param) {
-      let _this = this;
-      _this
+      let $this = this;
+      $this
         .$http({
           method: type,
           url: url,
@@ -306,15 +308,25 @@ export default {
         .then(res => {
           //debugger;
           if (res.data.errorCode !== 0) {
-            console.log(res.data.errorMsg);
-            return;
+            if (res.data.errorCode == "-8") {
+              $this.$store.commit(
+                "evlaluating/changeShowevaluatingPage",
+                false
+              );
+              $this.$store.commit("evlaluating/changeShowErrAlert", true);
+            } else {
+              $this.showAlert = true;
+              $this.AlertMessage = res.data.errorMsg;
+            }
+          } else {
+            $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
+            $this.questionsAllList = res.data.return;
+            $this.questionCounts = res.data.count;
+            $this.questionsList.push(
+              $this.questionsAllList[$this.questionIndex - 1]
+            );
           }
-          _this.questionsAllList = res.data.return;
-          _this.questionCounts = res.data.count;
-          _this.questionsList.push(
-            _this.questionsAllList[_this.questionIndex - 1]
-          );
-          // console.log(_this.questionsList);
+          // console.log($this.questionsList);
         })
         .catch(err => {
           console.log(err);
@@ -376,8 +388,8 @@ export default {
         // this.reportParm.idx = this.questionsList[0].idx;
 
         // let request = {
-        //     evaluationId: _this.evaluationId,
-        //     idx: _this.idx
+        //     evaluationId: $this.evaluationId,
+        //     idx: $this.idx
         //   },
         let request = this.savedata,
           apikey = "",
@@ -388,8 +400,8 @@ export default {
             request
           };
         this.addAnswerFunService(type, url, param);
-        // _this.savedata.answer = "";
-        // _this.savedata.expectData = "";
+        // $this.savedata.answer = "";
+        // $this.savedata.expectData = "";
         // this.$store.commit("evlaluating/getCurrentChooseObj", "");
         // this.$store.commit("evlaluating/getCurrentexpertObj", "");
       } else {

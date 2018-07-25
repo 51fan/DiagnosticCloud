@@ -23,6 +23,9 @@ const state = {
       idx: "",
       datas: Object
     }
+  },
+  evaluationCard:{
+    showErrAlert:false
   }
 }
 
@@ -92,6 +95,9 @@ const mutations = {
   },
   changeSeeReport(state, value) {
     state.evaluatingPage.seeReport = value
+  }, 
+  changeShowErrAlert(state, value) {
+    state.evaluatingPage.evaluationCard.showErrAlert = value
   },
 }
 

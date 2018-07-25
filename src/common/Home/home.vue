@@ -62,7 +62,10 @@
                         <md-icon>perm_identity</md-icon>
                         <span>登录</span>
                       </md-menu-item>
-
+                      <md-menu-item  @click="handleSelect(5)" v-if="loginSuccess">
+                        <md-icon>edit</md-icon>
+                        <span>个人信息</span>
+                      </md-menu-item>
                       <md-menu-item  @click="handleSelect(5)" v-if="loginSuccess">
                         <md-icon>edit</md-icon>
                         <span>修改密码</span>
@@ -113,7 +116,7 @@
         </md-list>
       </md-app-drawer> -->
 
-      <md-app-content style="background-color: rgba(216, 209, 202, 0.13);" :class="{'homebgImge':showHomeBgImge}">
+      <md-app-content style="background-color: #f1f3f4;" :class="{'homebgImge':showHomeBgImge}">
        <router-view></router-view>
       </md-app-content>
         
