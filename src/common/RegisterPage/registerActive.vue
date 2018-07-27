@@ -1,11 +1,20 @@
 <template>
   <div class="mypanel">
     <div style="padding-top: 7%;" v-if="activescuuess">
-         <i class="material-icons md-size-5x" style="color: limegreen">check_circle</i>
-         <div style="padding: 20px;">你的帐户激活成功</div>
-         <h2 style="padding-bottom: 15px;"><span style="color:red">{{time}}</span>秒后跳转至登录页面，若未能成功跳转请点击下方按钮跳转。</h2>
+         <!-- <i class="material-icons md-size-5x" style="color: limegreen">check_circle</i> -->
+          <img src="/static/imgs/ic_hint_finish.png">
+          <div style="padding: 20px;font-size: xx-large;margin: 20px;">
+           <span>你的帐户</span>
+           <!-- <span style="color:#009199">{{email}}</span> -->
+           <span>激活成功</span>
+          </div>
+          <div>
+            <span style="color:red">{{time}}</span><span>秒后跳转至登录页面，若未能成功跳转请点击下方按钮跳转。</span>
+          </div>
+          
          <!-- <div style="padding-bottom: 15px;">5秒后跳转至登录页面，若未能成功跳转请点击下方按钮跳转。</div> -->
-         <md-button class="md-dense  md-primary" style="background: lightgray;" @click="goLoginR()">立即跳转</md-button>
+          <!-- <md-button class="md-dense  md-primary" style="background: #009199;" @click="goLoginR()">立即跳转</md-button> -->
+          <div style="color:#009199;cursor: pointer;text-decoration-line: underline;margin: 20px;" @click="goLoginR()">立即跳转</div>
     </div>
     <md-dialog-alert
                   class="md-primary md-raised"
@@ -41,6 +50,7 @@ export default {
     // console.log(window.location.href);
     //隐藏导航菜单
     this.$store.commit("home/showTabsFun", false);
+    this.$store.commit("home/changeShowHomeBgImge", false);
     let RegParam = window.location.href;
     let RegParams = RegParam.split("?");
     console.log(RegParams[1]);
@@ -97,6 +107,7 @@ export default {
       clearInterval(this.counter);
       //隐藏导航菜单
       this.$store.commit("home/showTabsFun", false);
+      this.$store.commit("home/changeShowHomeBgImge", true);
       //隐藏登录按钮
       this.$store.commit("home/showLogin", true);
       //显示用户中心
@@ -111,6 +122,7 @@ export default {
         clearInterval(this.counter);
         //隐藏导航菜单
         this.$store.commit("home/showTabsFun", false);
+        this.$store.commit("home/changeShowHomeBgImge", true);
         //隐藏登录按钮
         this.$store.commit("home/showLogin", true);
         //显示用户中心

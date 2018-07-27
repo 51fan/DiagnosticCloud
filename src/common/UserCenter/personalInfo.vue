@@ -393,9 +393,9 @@ export default {
         url = " /IBUS/DAIG_SYS/modifyUserInfo",
         request = {
           email: this.useremail,
-          position: this.position,
-          department: this.department,
-          birthday: this.date,
+          position: this.position?this.position:"",
+          department: this.department?this.department:"",
+          birthday: this.date?this.date:"",
           gender: this.sex == "female" ? 0 : 1,
           session_id: this.session_id
         },
@@ -545,11 +545,11 @@ export default {
         });
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg" || file.type === "image/png";
+      const isJPG = file.type === "image/jpeg"||file.type === "image/png"||file.type === "image/jpeg"||file.type === "image/gif"||file.type === "image/bmp";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+        this.$message.error("上传头像图片只能是 JPG、png、jpeg、gif、bmp 格式!");
       }
       if (!isLt2M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");

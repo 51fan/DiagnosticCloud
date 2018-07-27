@@ -8,7 +8,6 @@
             <md-button class="md-icon-button" @click="toggleMenu" v-if="showUserCenterButton" >
               <md-icon >menu</md-icon>
             </md-button>
-
             <span class="md-title" @click="gohome()" style="cursor: pointer;">扁鹊云</span>
           </div>
 
@@ -39,7 +38,12 @@
         </div> -->
 
         <div class="md-toolbar-row" v-if="showTabs">
-            <div class="md-layout-item md-size-10"></div>
+            <div class="md-layout-item md-size-10">
+                <!-- <img src="/static/imgs/logo_magpie.png" @click="gohome()" style="cursor: pointer;" alt="扁鹊云"> -->
+                <div class="md-toolbar-section-end">
+                  <img src="/static/imgs/logo_magpie.png" alt="扁鹊云">
+                </div>
+            </div>
             <div class="md-layout-item md-size-80">
               <div style="text-align: end;">
                 <el-menu :default-active="tabsActiveIndex" style="display: inline-flex;padding-right: 35%;"  mode="horizontal" @select="handleSelect"  active-text-color="#000000">
@@ -62,7 +66,7 @@
                         <md-icon>perm_identity</md-icon>
                         <span>登录</span>
                       </md-menu-item>
-                      <md-menu-item  @click="handleSelect(5)" v-if="loginSuccess">
+                      <md-menu-item  @click="handleSelect(7)" v-if="loginSuccess">
                         <md-icon>edit</md-icon>
                         <span>个人信息</span>
                       </md-menu-item>
@@ -257,6 +261,8 @@ export default {
           this.$store.commit("home/changeShowHomeBgImge", false);
           this.$store.commit("home/showTabsFun", false);
 
+          this.$store.commit("home/showLogin", true);
+
           this.$store.commit("UserCenter/changePasswordmobile", "");
           this.$store.commit("UserCenter/changePasswordemail", "");
           this.$store.commit("UserCenter/changePasswordcheckWay", "email");
@@ -314,12 +320,12 @@ export default {
               } else {
                 //修改登录状态
                 $this.$store.commit("loginPage/changeLoginState", false);
-                //隐藏登录按钮
+                //显示登录按钮
                 $this.$store.commit("home/showLogin", true);
-                //隐藏用户中心按钮
-                $this.$store.commit("home/showUserCenterButton", false);
-                //隐藏用户中心
-                $this.$store.commit("home/showUserCenter", false);
+                // //隐藏用户中心按钮
+                // $this.$store.commit("home/showUserCenterButton", false);
+                // //隐藏用户中心
+                // $this.$store.commit("home/showUserCenter", false);
                 //显示导航菜单
                 $this.$store.commit("home/showTabsFun", true);
                 //显示首页背景图
@@ -333,6 +339,12 @@ export default {
             .catch(err => {
               console.log(err);
             });
+          break;
+        case 7:
+          this.$store.commit("home/getTabsactiveIndex", "1");
+          this.$store.commit("ACTIVE", "1");
+          this.$store.commit("home/showTabsFun", true);
+          this.$router.push("/personalInfo");
           break;
         default:
           break;

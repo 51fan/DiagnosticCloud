@@ -96,18 +96,22 @@
                     <div>
                         <div class="infoItem">
                                 <span class="spantitle">企业名称：</span>
-                                <md-field style="width: 80%;">
+                                <md-field :class="enterpriseNameMessageClass" style="width: 80%;">
                                     <label></label>
-                                    <md-input v-model="enterpriseName" placeholder=""></md-input>
+                                    <!-- <md-input v-model="enterpriseName" placeholder=""></md-input> -->
+                                    <md-input v-model="enterpriseName" v-on:input ="inputFunc(1)" @click="showTips(1)" placeholder="给目标起个名字吧"  ></md-input>
+                                    <span class="md-error" v-if="showenterpriseNameEmpty">{{enterpriseNameErr}}</span>
                                 </md-field>
                             </div>
                         </div>
                     <div>
                         <div class="infoItem">
                             <span class="spantitle">企业简称：</span>
-                            <md-field style="width: 80%;">
+                            <md-field :class="enterpriseSNameMessageClass" style="width: 80%;">
                                 <label></label>
-                                <md-input v-model="enterpriseSName" placeholder=""></md-input>
+                                <!-- <md-input v-model="enterpriseSName" placeholder=""></md-input> -->
+                                <md-input v-model="enterpriseSName" v-on:input ="inputFunc(2)" @click="showTips(2)" placeholder="给目标起个名字吧"  ></md-input>
+                                <span class="md-error" v-if="showenterpriseSNameEmpty">{{enterpriseSNameErr}}</span>
                             </md-field>
                         </div>
                     </div>
@@ -298,17 +302,94 @@ export default {
     enterpriseName: "",
     enterpriseSName: "",
     imageSrc: "/static/imgs/noImage.png",
-    imageStaticSrc:"",
+    imageStaticSrc: "",
     upadteSrc: "",
     updateData: "",
     disable: false,
     showAlert: false,
-    AlertMessage: ""
+    AlertMessage: "",
+    showenterpriseNameEmpty: false,
+    enterpriseNameErr: "",
+    showenterpriseSNameEmpty: false,
+    enterpriseSNameErr: "",
+    enterpriseNameHasMessages: false,
+    enterpriseSNameHasMessages: false
   }),
   mounted: function() {
     this.get_industry_type();
   },
   methods: {
+    inputFunc(index) {
+      switch (index) {
+        case 1:
+          this.showenterpriseNameEmpty = false;
+          this.enterpriseNameHasMessages = false;
+          //如果邮箱为空，提示不能为空
+          if (this.enterpriseName.length == "") {
+            this.showenterpriseNameEmpty = true;
+            this.enterpriseNameHasMessages = true;
+            this.enterpriseNameErr = "企业名称不能为空";
+          }
+          if (this.enterpriseName.length > 32) {
+            this.showenterpriseNameEmpty = true;
+            this.enterpriseNameHasMessages = true;
+            this.enterpriseNameErr = "企业名称字符长度不能超过32位";
+          }
+          break;
+        case 2:
+          this.showenterpriseSNameEmpty = false;
+          this.enterpriseSNameHasMessages = false;
+          if (this.enterpriseSName.length == "") {
+            this.showenterpriseSNameEmpty = true;
+            this.enterpriseSNameHasMessages = true;
+            this.enterpriseSNameErr = "企业简称不能为空";
+          }
+          if (this.enterpriseSName.length > 8) {
+            this.showenterpriseSNameEmpty = true;
+            this.enterpriseSNameHasMessages = true;
+            this.enterpriseSNameErr = "企业简称字符长度不能超过8位";
+          }
+          break;
+        default:
+          break;
+      }
+    },
+    showTips(index) {
+      switch (index) {
+        case 1:
+          this.showenterpriseNameEmpty = false;
+          this.enterpriseNameHasMessages = false;
+          //如果邮箱为空，提示不能为空
+          if (this.enterpriseName.length == "") {
+            this.showenterpriseNameEmpty = true;
+            this.enterpriseNameHasMessages = true;
+            this.enterpriseNameErr = "企业名称不能为空";
+          }
+          if (this.enterpriseName.length > 32) {
+            this.showenterpriseNameEmpty = true;
+            this.enterpriseNameHasMessages = true;
+            this.enterpriseNameErr = "企业名称字符长度不能超过32位";
+          }
+
+          break;
+        case 2:
+          this.showenterpriseSNameEmpty = false;
+          this.enterpriseSNameHasMessages = false;
+          if (this.enterpriseSName.length == "") {
+            this.showenterpriseSNameEmpty = true;
+            this.enterpriseSNameHasMessages = true;
+            this.enterpriseSNameErr = "企业简称不能为空";
+          }
+          if (this.enterpriseSName.length > 8) {
+            this.showenterpriseSNameEmpty = true;
+            this.enterpriseSNameHasMessages = true;
+            this.enterpriseSNameErr = "企业简称字符长度不能超过8位";
+          }
+          break;
+        default:
+          break;
+      }
+    },
     updateLogo(e) {
       let _this = this;
       let files = e.target.files[0];
@@ -343,7 +424,7 @@ export default {
           email: this.useremail,
           enterpriseName: this.enterpriseName,
           shortName: this.enterpriseSName,
-          logo: this.imgUrl?this.imgUrl:this.imageStaticSrc,
+          logo: this.imgUrl ? this.imgUrl : this.imageStaticSrc,
           enterpriseCode: this.OrganizationCode,
           province: this.selectProvince,
           city: this.selectCity,
@@ -361,6 +442,41 @@ export default {
           apikey,
           request
         };
+      this.value3 = this.selectIndustry1;
+
+      if (this.enterpriseName.length == "") {
+        this.showAlert = true;
+        this.AlertMessage = "企业名称不能为空";
+        return;
+      }
+      if (this.enterpriseSName == "") {
+        this.showAlert = true;
+        this.AlertMessage = "企业简称不能为空";
+        return;
+      }
+        if (this.enterpriseName.length > 32) {
+          this.showAlert = true;
+          this.AlertMessage = "企业名称字符长度不能超过32位";
+          return;
+        }
+        if (this.enterpriseSName.length > 8) {
+          this.showAlert = true;
+          this.AlertMessage = "企业简称字符长度不能超过8位";
+          return;
+        }
+    //   if (this.enterpriseNameHasMessages || this.enterpriseSNameHasMessages)
+    //     return;
+      if (this.selectCounty == "") {
+        this.showAlert = true;
+        this.AlertMessage = "所在地区需填写完整";
+        return;
+      }
+
+      if (this.selectIndustry1 == "") {
+        this.showAlert = true;
+        this.AlertMessage = "所属行业不能为空";
+        return;
+      }
       $this
         .$http({
           method: type,
@@ -374,10 +490,11 @@ export default {
           } else {
             $this.disable = false;
             $this.$store.commit("UserCenter/changeShowCityPicker", false);
+            this.disable = false;
             //显示导航菜单
-            $this.$store.commit("home/showTabsFun", true);
-            this.$store.commit("home/getTabsactiveIndex", "1");
-            $this.$router.push("/overview");
+            // $this.$store.commit("home/showTabsFun", true);
+            // $this.$store.commit("home/getTabsactiveIndex", "1");
+            // $this.$router.push("/overview");
           }
         })
         .catch(error => {
@@ -430,11 +547,18 @@ export default {
         });
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg"||file.type === "image/png";
+      const isJPG =
+        file.type === "image/jpeg" ||
+        file.type === "image/png" ||
+        file.type === "image/jpeg" ||
+        file.type === "image/gif" ||
+        file.type === "image/bmp";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+        this.$message.error(
+          "上传头像图片只能是 JPG、png、jpeg、gif、bmp 格式!"
+        );
       }
       if (!isLt2M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");
@@ -476,13 +600,17 @@ export default {
         .then(res => {
           $this.enterpriseName = res.data.return.enterpriseName;
           $this.enterpriseSName = res.data.return.shortName;
-          $this.imageSrc = "/IMAGE/" + res.data.return.logo;
+          $this.imageSrc =
+            res.data.return.logo == ""
+              ? "/static/imgs/noImage.png"
+              : "/IMAGE/" + res.data.return.logo;
           $this.imageStaticSrc = res.data.return.logo;
           $this.province = res.data.return.province;
           $this.city = res.data.return.city;
           $this.area = res.data.return.area;
           $this.selectIndustry1 = res.data.return.industryL1;
-          $this.value3 = $this.selectIndustry1 == "" ? "" : $this.selectIndustry1;
+          $this.value3 =
+            $this.selectIndustry1 == "" ? "" : $this.selectIndustry1;
           $this.companySize = res.data.return.scale;
           $this.companyInput = res.data.return.income;
           $this.OrganizationCode = res.data.return.enterpriseCode;
@@ -510,6 +638,16 @@ export default {
     },
     selectCounty() {
       return this.$store.state.UserCenter.enterpriseInfo.selectCounty;
+    },
+    enterpriseNameMessageClass() {
+      return {
+        "md-invalid": this.enterpriseNameHasMessages
+      };
+    },
+    enterpriseSNameMessageClass() {
+      return {
+        "md-invalid": this.enterpriseSNameHasMessages
+      };
     }
   },
   created: () => {}

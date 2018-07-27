@@ -25,7 +25,7 @@
               
                 <!--上一题  -->
                 <!-- <div class="panelContentbodyleft" @click="preItem()"> -->
-                <div class="md-layout-item md-size-10 textCenter highlight" style="padding-top: 25%;" @click="preItem()">
+                <div  class="md-layout-item md-size-10 textCenter highlight" style="padding-top: 25%;" @click="preItem()">
                     <md-icon class="iconSize"  >keyboard_arrow_left</md-icon>
                 </div>
             
@@ -36,7 +36,7 @@
 
                 <!--下一题  -->
                 <!-- <div class="panelContentbodyRight" @click="nextItem()"> -->
-                <div class="md-layout-item md-size-10 textCenter highlight" style="padding-top: 25%;" @click="nextItem()">
+                <div  class="md-layout-item md-size-10 textCenter highlight" style="padding-top: 25%;" @click="nextItem()">
                     <md-icon class="iconSize"  >keyboard_arrow_right</md-icon>
                 </div>
 
@@ -44,7 +44,7 @@
                   class="md-primary md-raised"
                   :md-active.sync="showAlert"
                   md-title="提示!"
-                  md-content="请完成当前答题后再进入下一题"
+                  md-content="AlertMessage"
                   md-confirm-text="知道了" />
             </div>
         </div>
@@ -75,7 +75,7 @@
   margin: 24px;
 }
 .panelHeaderTitle {
-  display: inline-flex;
+  // display: inline-flex;
 }
 .panelContentTitle {
   padding: 15px 40px;
@@ -190,6 +190,8 @@ export default {
   created: function() {},
   mounted: function() {
     let $this = this;
+    this.$store.commit("evlaluating/getCurrentIndex", 1);
+    this.$store.commit("evlaluating/getQuestionIndex", 1);
     if (!this.seeReport) {
       let apikey = "",
         request = {
@@ -242,18 +244,13 @@ export default {
       //this.selectedItem = this.userAnswerlist[this.currentIndex-1];
     },
     nextItem() {
-      let apikey = "";
       if (this.currentIndex == this.questionCounts) return;
       this.addAnswerFun();
     },
     submit() {
-      let apikey = "";
-      this.$store.commit("evlaluating/changeEvaluationStart", false);
-      this.$store.commit("evlaluating/changeEvaluationfinished", true);
       // this.evaluationfinished = true;
       //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
-
-      this.addAnswerFun();
+      this.submitAnsewrFun();
     },
     pushAnswer(answer) {
       // debugger;
@@ -333,23 +330,90 @@ export default {
         });
     },
     addAnswerFunService(type, url, param) {
-      let self = this;
-      self
+      let $this = this;
+      $this
         .$http({
           method: type,
           url: url,
           data: param
         })
-        .then(res => {
-          //debugger;
-          // self.savedata.answer = "";
-          // self.savedata.expectData = "";
-          // this.$store.commit("evlaluating/getCurrentChooseObj", "");
-          // this.$store.commit("evlaluating/getCurrentexpertObj", "");
-        })
+        .then(res => {})
         .catch(err => {
           console.log(err);
         });
+    },
+    submitAnsewrFun() {
+      let $this = this;
+      if (
+        this.savedata.answer &&
+        this.savedata.answer !== "" &&
+        this.savedata.expectData &&
+        this.savedata.expectData !== ""
+      ) {
+        if (this.currentIndex < this.questionCounts) {
+          this.questionIndex++;
+          this.currentIndex++;
+        } else {
+          this.savedata.status = 1;
+        }
+
+        //更新进度条
+        this.fillValue = this.currentIndex / this.questionCounts * 100;
+
+        this.questionsList = [];
+        this.questionsList.push(this.questionsAllList[this.questionIndex - 1]);
+
+        // console.log(this.questionsList);
+        //保存答案
+        this.userAnswerlist.push({
+          answered: this.savedata.answer,
+          expected: this.savedata.expectData
+        });
+
+        //保存答题选项
+        //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
+        this.currentEvaluationIdx = this.questionsList[0].idx;
+        this.$store.commit("evlaluating/getReportParm", {
+          key: "idx",
+          value: this.questionsList[0].idx
+        });
+        // this.reportParm.idx = this.questionsList[0].idx;
+
+        // let request = {
+        //     evaluationId: $this.evaluationId,
+        //     idx: $this.idx
+        //   },
+        let request = this.savedata,
+          apikey = "",
+          type = "POST",
+          url = "/IBUS/DAIG_SYS/addAnswer",
+          param = {
+            apikey,
+            request
+          };
+        $this
+          .$http({
+            method: type,
+            url: url,
+            data: param
+          })
+          .then(res => {
+            $this.$store.commit("evlaluating/changeEvaluationStart", false);
+            $this.$store.commit("evlaluating/changeEvaluationfinished", true);
+            $this.$store.commit("evlaluating/getCurrentIndex", 1);
+            $this.$store.commit("evlaluating/getQuestionIndex", 1);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        // $this.savedata.answer = "";
+        // $this.savedata.expectData = "";
+        // this.$store.commit("evlaluating/getCurrentChooseObj", "");
+        // this.$store.commit("evlaluating/getCurrentexpertObj", "");
+      } else {
+        this.showAlert = true;
+        this.AlertMessage = "请完成当前答题再提交"
+      }
     },
     addAnswerFun() {
       if (
@@ -406,6 +470,7 @@ export default {
         // this.$store.commit("evlaluating/getCurrentexpertObj", "");
       } else {
         this.showAlert = true;
+        this.AlertMessage = "请完成当前答题后再进入下一题";
       }
     },
     getTotalScoreInfo(type, url, param) {

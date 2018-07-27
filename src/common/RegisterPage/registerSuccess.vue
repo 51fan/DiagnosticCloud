@@ -1,10 +1,11 @@
 <template>
-    <div style="padding-top: 7%;">
-         <i class="material-icons md-size-5x" style="color: limegreen">check_circle</i>
-         <div style="padding: 20px;">你的帐户：{{useremail}} 注册成功</div>
+    <div style="background-color: white;padding: 7% 15% 15%;">
+         <!-- <i class="material-icons md-size-5x" style="color: limegreen">check_circle</i> -->
+         <img src="/static/imgs/ic_hint_finish.png">
+         <div style="padding: 20px;"><span>你的帐户： </span><span style="color:#009199">{{useremail}}</span><span>注册成功</span></div>
          <div style="padding-bottom: 15px;">激活邮件已发送到你的邮箱中，邮件有效期为24小时。请及时登录邮箱，点击邮件中的链接激活帐户。</div>
-          <md-button class="md-dense md-raised md-primary" style="margin-right: 2%;" @click="goEmail()">查看邮箱</md-button>
-          <md-button class="md-dense  md-primary" style="background: lightgray;" @click="goHome()">返回首页</md-button>
+          <md-button class="md-dense  md-primary" style="background: rgb(150, 150, 150);color: white;" @click="goHome()">关闭</md-button>
+          <md-button class="md-dense md-raised md-primary" style="margin-right: 2%;background-color: #009199;" @click="goEmail()">查看邮箱</md-button>
     </div>
     
 </template>
@@ -14,6 +15,7 @@ export default {
   name: "registerSuccess",
   methods: {
     goHome() {
+      this.$store.commit("home/changeShowHomeBgImge", true);
       this.$store.commit("home/showTabsFun", true);
       this.$store.commit("home/showLogin", true);
       this.$router.push("/loginPage");
@@ -41,7 +43,7 @@ export default {
         "21cn.com": "http://mail.21cn.com/",
         "188.com": "http://www.188.com/",
         "foxmail.com": "http://www.foxmail.com",
-        "ehz.cn":"mail.ehz.cn"
+        "ehz.cn": "http://mail.ehz.cn"
       };
       // $(function() {
       //   $(".mail").each(function() {
@@ -54,8 +56,8 @@ export default {
       //   });
       // });
       var url = this.useremail.split("@")[1];
-      if(hash[url]){
-         window.location.href =hash[url]; 
+      if (hash[url]) {
+        window.location.href = hash[url];
       }
     }
   },

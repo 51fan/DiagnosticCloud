@@ -1,8 +1,8 @@
 <template>
     <div class="mypanel">
-        <div style="text-align: center;text-align: -webkit-center;">
+        <div style="text-align: center;text-align: -webkit-center;background: white;padding-bottom: 5%;">
             <div class="pogressHead">
-                <md-avatar style="border: 1px solid lightblue;margin:0;margin-left: 5%;" :class="step1Color">
+                <!-- <md-avatar style="border: 1px solid lightblue;margin:0;margin-left: 5%;" :class="step1Color">
                         <span>1</span>
                     </md-avatar>
                 <span style="margin: 0.7% 0 0 1%;font-weight: 600;font-size: medium;">验证身份</span>
@@ -15,63 +15,126 @@
                  <md-avatar style="border: 1px solid lightblue;margin:0;" :class="step3Color">
                         <span>3</span>
                     </md-avatar>
-                <span style="margin: 0.7% 0 0 1%;font-weight: 600;font-size: medium;">完成</span>
+                <span style="margin: 0.7% 0 0 1%;font-weight: 600;font-size: medium;">完成</span> -->
+                <div class="md-layout-item md-size-100">
+                  <el-steps :active="activeStep" finish-status="success" simple>
+                    <el-step title="验证身份" ></el-step>
+                    <el-step title="重设密码" ></el-step>
+                    <el-step title="完成" ></el-step>
+                  </el-steps>
+                </div>
             </div>
 
             <div class="modifyBody">
-                <div v-if="currentStep1" class="cardstyle">
-                    <div style="padding: 3% 6% 3% 6%;">修改密码需要验证您的身份</div>
-                    <div>
-                        <div style="padding: 0 6% 3% 6%;display: inline-block;">验证方式：</div>
-                        <md-radio v-model="checkWay" value="mobile" >通过手机验证</md-radio>
-                        <md-radio v-model="checkWay" value="email" >通过邮箱验证</md-radio>
-                    </div>
-                    <div v-if="changeCheckWay">
-                        <div style="padding: 0 6% 3% 6%">
-                            我们将会向您的手机 {{usermobile}} 发送验证短信，请将收到的验证码填入下方完成验证
+                <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                  <div class="md-layout-item md-size-15"></div>
+                  <div class="md-layout-item md-size-70">
+                      <div v-if="currentStep1">
+                        <div class="md-layout-item md-size-100" style="text-align:center;">
+                          <span style="font-size: x-large;margin: 20px;">修改密码需要验证您的身份</span>
                         </div>
-                        <div v-if="!showCount" style="padding: 0 6% 3% 6%">
-                            <md-field style="width: 20%;display: inline-flex;" :class="VCMessageClass">
-                                <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc()" @click="showTips()"></md-input>
-                                <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
-                                <span class="md-error" v-if="showVCError">短信验证码错误</span>
-                            </md-field>
-                            <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(1)">{{verftext}}</md-button>
+                        
+                        <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0 15px;">
+                          <div class="md-layout-item md-size-50" style="text-align:right;padding: 0 65px;">
+                              <md-radio v-model="checkWay" value="mobile"  class="md-primary" >通过手机验证</md-radio>
+                          </div>
+                          <div class="md-layout-item md-size-50" style="padding: 0 70px;">
+                              <md-radio v-model="checkWay" value="email"  class="md-primary">通过邮箱验证</md-radio>
+                          </div>
+                      </div>
+                      <div v-if="changeCheckWay">
+                            <div class="md-layout-item md-size-100" style="padding: 0 6% 3% 6%;width: 100%;text-align:center;display: inline-flex;">
+                              <div class="md-layout-item md-size-25"></div>
+                              <div class="md-layout-item md-size-50" style="display: inline-flex;">
+                                  <div style="padding: 0 6% 3% 6%;text-align: left;">
+                                    <span>我们将会向您的手机</span><span style="color: rgb(0, 145, 153);">+86{{usermobile}}</span><span> 发送验证短信，请将收到的验证码填入下方完成验证</span>
+                                  </div>
+                              </div>
+                              <div class="md-layout-item md-size-25"></div>
+                            </div>
+                            <div  class="md-layout-item md-size-100" style="padding: 0 6% 0 6%;width: 100%;text-align:center;display: inline-flex;">
+                                <div class="md-layout-item md-size-25"></div>
+                                <div class="md-layout-item md-size-50" style="display: inline-flex;">
+                                    <div class="md-layout-item md-size-10"></div>
+                                    <div class="md-layout-item md-size-50">
+                                        <md-field style="display: inline-flex;" :class="VCMessageClass">
+                                          <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(2)" @click="showTips(2)"></md-input>
+                                            <span class="md-error" v-if="showVCErr">{{vcErrText}}</span>
+                                        </md-field>
+                                    </div>
+                                    <div class="md-layout-item md-size-40">
+                                        <el-button v-if="!showCount" style="margin: 13px 0 0 5px;"  @click="getVerificationCode(1)">{{verftext}}</el-button>
+                                        <el-button v-if="showCount" style="margin: 13px 0 0 5px;"  @click="getVerificationCode(1)">{{phonetime}}{{verftext}}</el-button>
+                                    </div>
+                                </div>
+                                <div class="md-layout-item md-size-25"></div>
+                            </div>
+                      </div>
+                      <div v-if="!changeCheckWay">
+                        <div class="md-layout-item md-size-100" style="padding: 0 6% 3% 6%;width: 100%;text-align:center;display: inline-flex;">
+                          <div class="md-layout-item md-size-25"></div>
+                          <div class="md-layout-item md-size-50" style="display: inline-flex;">
+                            <div style="padding: 0 6% 3% 6%;text-align: left;">
+                              <span>我们将会向您的邮箱</span>
+                              <span style="color: rgb(0, 145, 153);">{{useremail}}</span>
+                              <span> 发送验证邮件，请将收到的验证码填入下方完成验证</span>
+                            </div>
+                          </div>
+                          <div class="md-layout-item md-size-25"></div>
                         </div>
-                        <div v-if="showCount" style="padding: 0 6% 3% 6%">
-                            <md-field style="width: 40%;display: inline-flex;" :class="VCMessageClass">
-                                <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc()" @click="showTips()"></md-input>
-                                <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
-                                <span class="md-error" v-if="showVCError">短信验证码错误</span>
-                            </md-field>
-                            <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(1)">{{verftext}}</md-button>
-                            <span v-if="showPhoneText" style="color:red">{{phonetime}}</span><span v-if="showPhoneText">秒后重新获取</span>
+                        <div  class="md-layout-item md-size-100" style="padding: 0 6% 0 6%;width: 100%;text-align:center;display: inline-flex;">
+                            <div class="md-layout-item md-size-25"></div>
+                            <div class="md-layout-item md-size-50" style="display: inline-flex;">
+                              <div class="md-layout-item md-size-10"></div>
+                                <div class="md-layout-item md-size-50">
+                                  <md-field style="display: inline-flex;" :class="VCMessageClass">
+                                    <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
+                                      <span class="md-error" v-if="showVCErr">{{vcErrText}}</span>
+                                  </md-field>
+                                </div>
+                                <div class="md-layout-item md-size-40">
+                                  <el-button v-if="!showCount" style="margin: 13px 0 0 5px;"  @click="getVerificationCode(2)">{{verftext}}</el-button>
+                                  <el-button v-if="showCount" style="margin: 13px 0 0 5px;"  @click="getVerificationCode(2)">{{emailtime}}{{verftext}}</el-button>
+                                </div>
+                            </div>
+                            <div class="md-layout-item md-size-25"></div>
                         </div>
-                    </div>
-                    <div v-if="!changeCheckWay">
-                        <div style="padding: 0 6% 3% 6%">
-                            我们将会向您的邮箱 {{useremail}} 发送验证邮件，请将收到的验证码填入下方完成验证
-                        </div>
-                        <div v-if="showCount" style="padding: 0 6% 3% 6%">
-                            <md-field style="width: 20%;display: inline-flex;" :class="VCMessageClass">
-                                <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
-                                <span class="md-error" v-if="showVCEmpty">验证码不能为空</span>
-                                <span class="md-error" v-if="showVCError">验证码错误</span>
-                            </md-field>
-                            <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(2)">{{verftext}}</md-button>
-                        </div>
-                        <div v-if="!showCount" style="padding: 0 6% 3% 6%">
-                            <md-field style="width: 20%;display: inline-flex;" :class="VCMessageClass">
-                                <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
-                                <span class="md-error" v-if="showVCEmpty">验证码不能为空</span>
-                                <span class="md-error" v-if="showVCError">验证码错误</span>
-                            </md-field>
-                            <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(2)">{{verftext}}</md-button>
-                            <span v-if="showEmailText" style="color:red">{{emailtime}}</span><span v-if="showEmailText">秒后重新获取</span>
-                        </div>
-                    </div>
+                      </div>
+                  </div>
+                  </div>
+                  <div class="md-layout-item md-size-15"></div>
                 </div>
-                <div v-if="currentStep2" class="cardstyle">
+
+                <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                  <div class="md-layout-item md-size-15"></div>
+                  <div class="md-layout-item md-size-70">
+                      <div v-if="currentStep2">
+                        <div class="md-layout-item md-size-100" style="text-align:center;">
+                            <span style="font-size: x-large;margin: 20px;">重新设置账号{{acconut}} 密码</span>
+                        </div>
+                        <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0 15px;">
+                            <div class="md-layout-item md-size-100" style="padding: 0 6% 3% 6%;width: 100%;text-align:center;display: inline-flex;">
+                              <div class="md-layout-item md-size-25"></div>
+                              <div class="md-layout-item md-size-50">
+                                <md-field :class="passwordFMessageClass" >
+                                      <md-input v-model="passwordFirst" type="password" placeholder="6 - 16位密码，区分大小写" v-on:input ="inputFunc(2)" @click="showTips(2)"></md-input>
+                                      <span class="md-error" v-if="showPasswordfEmpty">{{passWordFerrTest}}</span>
+                                      <span class="md-error" v-if="showPasswordfError">{{passWordFerrTest}}</span>
+                                  </md-field>
+                                  <md-field :class="passwordSMessageClass">
+                                      <md-input v-model="passwordSecond" type="password" placeholder="确认密码" v-on:input ="inputFunc(3)" @click="showTips(3)"></md-input>
+                                      <span class="md-error" v-if="showPasswordsEmpty">{{passWordSerrTest}}</span>
+                                      <span class="md-error" v-if="showPasswordsError">{{passWordSerrTest}}</span>
+                                  </md-field>
+                              </div>
+                              <div class="md-layout-item md-size-25"></div>
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="md-layout-item md-size-15"></div>
+                </div>
+                <!-- <div v-if="currentStep2">
                     <div style="padding: 3% 6% 3% 6%;">重新设置账号{{useremail}} 密码</div>
                     <div style="padding: 0 6% 3% 6%">
                         <md-field style="width:40%" :class="passwordFMessageClass" >
@@ -85,7 +148,7 @@
                             <span class="md-error" v-if="showPasswordsError">两次输入密码不一致</span>
                         </md-field>
                     </div>
-                </div>
+                </div> -->
                 <div v-if="currentStep3" style="text-align: center;">
                     <i class="material-icons md-size-5x" style="color: limegreen">check_circle</i>
                     <div style="padding: 1% 6% 3% 6%;">修改成功</div>
@@ -93,10 +156,30 @@
                     <span style="color: blue;cursor: pointer;text-decoration-line: underline;" @click="goLoginR()">立即跳转</span>
                 </div>
             </div> 
-            <div style="padding-top: 1%;" v-if="!currentStep3">
+            <!-- <div style="padding-top: 1%;" v-if="!currentStep3">
                 <md-button class="md-dense md-raised md-primary" @click="cancel()">取消</md-button>
                 <md-button class="md-dense md-raised md-primary" style="margin: 6px 4%;" @click="nextStep()">下一步</md-button>
+            </div> -->
+            <div v-if="!currentStep3">
+              <div class="md-layout-item md-size-37.5"></div>
+              <div class="md-layout-item md-size-25">
+                <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                   <div class="md-layout-item md-size-40" style="margin-right: 10px;">
+                     <el-button style="background-color: rgb(150, 150, 150);color: white;width: 100%;" @click="cancel()">取消</el-button>
+                   </div>
+                   <div class="md-layout-item md-size-60">
+                      <el-button v-if="currentStep1" style="background-color: rgb(0, 145, 153);color: white;width: 100%;" @click="nextStep()">下一步</el-button>
+                      <el-button v-if="currentStep2" style="background-color: rgb(0, 145, 153);color: white;width: 100%;" @click="nextStep()">完成</el-button>
+                   </div>
+                </div> 
+              </div>
+              <div class="md-layout-item md-size-37.5"></div>
             </div>
+            <md-dialog-alert
+                  class="md-primary md-raised"
+                  :md-active.sync="showAlert"
+                  :md-content="AlertMessage"
+                  md-confirm-text="知道了" />
         </div>
     </div>
 </template>
@@ -143,6 +226,7 @@ import { mapGetters, mapState } from "vuex";
 export default {
   name: "modifyPassword",
   data: () => ({
+    activeStep: 1,
     phonetime: 0,
     emailtime: 0,
     time: 0,
@@ -150,47 +234,90 @@ export default {
     showAlert: false,
     AlertMessage: "",
     showCount: false,
-    showEmailText: false,
-    showPhoneText: false,
-    verftext: "获取验证码"
+    // showEmailText: false,
+    // showPhoneText: false,
+    verftext: "获取验证码",
+    vcErrText: "",
+    showVCErr: false,
+    acconut: "",
+    // showVCError:false,
+    currentStep1: true,
+    currentStep2: false,
+    currentStep3: false,
+    VCHasMessages: false,
+    showPasswordfEmpty: false,
+    showPasswordfError: false,
+    showPasswordsEmpty: false,
+    showPasswordsError: false,
+    passWordFerrTest: "",
+    passWordSerrTest: "",
+    passwordFirst: "",
+    passwordSecond: "",
+    passwordFHasMessages: false,
+    passwordSHasMessages: false
   }),
   methods: {
     inputFunc(index) {
       switch (index) {
         case 1:
-          debugger;
-          this.VerificationCode == ""
-            ? this.$store.commit("UserCenter/changePasswordshowVCEmpty", true)
-            : this.$store.commit("UserCenter/changePasswordshowVCEmpty", false);
-          this.$store.commit(
-            "UserCenter/changePasswordVCHasMessages",
-            this.showVCEmpty
-          );
-          //   this.showVCEmpty = this.VerificationCode == "" ? true : false;
-          //   this.VCHasMessages = this.showVCEmpty;
+          if (this.VerificationCode == "") {
+            this.showVCErr = true;
+            this.VCHasMessages = true;
+            this.vcErrText = "验证码不能为空";
+          }
           break;
         case 2:
           if (this.passwordFirst.length == 0) {
+            this.passwordFHasMessages = true;
             this.showPasswordfEmpty = true;
-            this.showPasswordsEmpty = false;
+            this.showPasswordfError = false;
+            this.passWordFerrTest = "密码不能为空";
           } else {
             this.showPasswordfEmpty = false;
-            this.showPasswordsEmpty = false;
-            this.showPasswordfError = !this.isPassword(this.passwordFirst);
-            this.passwordFHasMessages = !this.isPassword(this.passwordFirst);
+            this.showPasswordfError = false;
+            this.passwordFHasMessages = false;
+            if (this.passwordFirst.length < 5) {
+              this.passWordFerrTest = "密码最少需要6位";
+              this.showPasswordfError = true;
+              this.passwordFHasMessages = true;
+            } else if (this.passwordFirst.length > 16) {
+              this.passWordFerrTest = "密码不能超过16位";
+              this.showPasswordfError = true;
+              this.passwordFHasMessages = true;
+            } else if (!this.isPassword(this.passwordFirst)) {
+              this.passWordFerrTest = "密码格式不正确";
+              this.showPasswordfError = true;
+              this.passwordFHasMessages = true;
+            }
           }
           break;
         case 3:
           if (this.passwordSecond.length == 0) {
-            this.showPasswordfEmpty = false;
+            this.passwordSHasMessages = true;
             this.showPasswordsEmpty = true;
+            this.showPasswordsError = false;
+            this.passWordSerrTest = "密码不能为空";
           } else {
-            this.showPasswordfEmpty = false;
             this.showPasswordsEmpty = false;
-            this.showPasswordsError =
-              this.passwordFirst == this.passwordSecond ? false : true;
-            this.passwordSHasMessages =
-              this.passwordFirst == this.passwordSecond ? false : true;
+            this.showPasswordsError = false;
+            this.passwordSHasMessages = false;
+            if (this.passwordSecond.length < 5) {
+              this.passWordSerrTest = "密码最少需要6位";
+              this.showPasswordsError = true;
+              this.passwordSHasMessages = true;
+            } else if (this.passwordSecond.length > 16) {
+              this.passWordSerrTest = "密码不能超过16位";
+              this.showPasswordsError = true;
+              this.passwordSHasMessages = true;
+            } else if (!this.isPassword(this.passwordSecond)) {
+              this.passWordSerrTest = "密码格式不正确";
+              this.showPasswordsError = true;
+              this.passwordSHasMessages = true;
+            } else if (this.passwordFirst !== this.passwordSecond) {
+              this.passWordSerrTest = "两次输入密码不一致";
+              this.showPasswordsError = true;
+              this.passwordSHasMessages = true;
+            }
           }
           break;
         default:
@@ -201,19 +328,16 @@ export default {
       this;
       switch (index) {
         case 1:
-          //验证码为空就提示不能为空
-          this.VerificationCode == ""
-            ? this.$store.commit("UserCenter/changePasswordshowVCEmpty", true)
-            : this.$store.commit("UserCenter/changePasswordshowVCEmpty", false);
-          this.$store.commit(
-            "UserCenter/changePasswordVCHasMessages",
-            this.showVCEmpty
-          );
-          //   this.VCHasMessages = this.showVCEmpty;
+          if (this.VerificationCode == "") {
+            this.showVCErr = true;
+            this.VCHasMessages = true;
+            this.vcErrText = "验证码不能为空";
+          }
           break;
         case 2:
           //如果密码为空，提示不能为空
           this.showPasswordfEmpty = this.passwordFirst == "" ? true : false;
+          this.passWordFerrTest = "密码不能为空";
           //不为空，判断格式是否正确
           this.showPasswordfError = this.showPasswordfEmpty
             ? false
@@ -226,6 +350,7 @@ export default {
         case 3:
           //如果密码为空，提示不能为空
           this.showPasswordsEmpty = this.passwordSecond == "" ? true : false;
+          this.passWordSerrTest = "密码不能为空";
           //不为空，判断格式是否正确
           this.showPasswordsError = this.showPasswordsEmpty
             ? false
@@ -286,11 +411,12 @@ export default {
           } else {
             if ($this.changeCheckWay) {
               $this.showCount = true;
-              $this.showPhoneText = true;
+              // $this.showPhoneText = true;
               $this.goLogin(60);
             } else {
               $this.showCount = true;
-              $this.showEmailText = true;
+              // $this.showEmailText = true;
+              this.verftext = "秒后重新获取验证码";
               $this.goLogin(60);
             }
           }
@@ -311,17 +437,41 @@ export default {
           apikey,
           request
         };
+
       if ($this.currentStep1) {
         if ($this.changeCheckWay) {
+          if (this.VerificationCode == "") {
+            this.showAlert = true;
+            this.AlertMessage = "验证码为空";
+            return;
+          }
           url = "/IBUS/DAIG_SYS/checkVerifyCodeByMobile ";
           request.mobile = $this.usermobile;
           request.verifyCode = $this.VerificationCode;
+          this.acconut = this.usermobile;
         } else {
+          if (this.VerificationCode == "") {
+            this.showAlert = true;
+            this.AlertMessage = "验证码为空";
+            return;
+          }
           url = "/IBUS/DAIG_SYS/checkVerifyCodeByEmail ";
           request.verifyCode = $this.VerificationCode;
           request.email = $this.useremail;
+          this.acconut = this.useremail;
         }
       } else if ($this.currentStep2) {
+        if (this.passwordFirst == "" || this.passwordSecond == "") {
+          this.showAlert = true;
+          this.AlertMessage = "密码不能为空";
+          return;
+        }
+        if (this.passwordFHasMessages || this.passwordSHasMessages) return;
+        if (this.passwordFirst !== this.passwordSecond) {
+          this.showAlert = true;
+          this.AlertMessage = "两次输入的密码不一致";
+          return;
+        }
         url = " /IBUS/DAIG_SYS/resetPassword";
         request.id = $this.changeCheckWay ? $this.usermobile : $this.useremail;
         request.password = Base64.encode($this.passwordFirst);
@@ -341,31 +491,15 @@ export default {
             $this.AlertMessage = res.data.errorMsg;
           } else {
             if ($this.currentStep1) {
-              $this.$store.commit(
-                "UserCenter/changePasswordcurrentStep1",
-                false
-              );
-              $this.$store.commit(
-                "UserCenter/changePasswordcurrentStep2",
-                true
-              );
-              $this.$store.commit(
-                "UserCenter/changePasswordcurrentStep3",
-                false
-              );
+              $this.currentStep1 = false;
+              $this.currentStep2 = true;
+              $this.currentStep3 = false;
+              $this.activeStep = 2;
             } else if ($this.currentStep2) {
-              $this.$store.commit(
-                "UserCenter/changePasswordcurrentStep1",
-                false
-              );
-              $this.$store.commit(
-                "UserCenter/changePasswordcurrentStep2",
-                false
-              );
-              $this.$store.commit(
-                "UserCenter/changePasswordcurrentStep3",
-                true
-              );
+              $this.currentStep1 = false;
+              $this.currentStep2 = false;
+              $this.currentStep3 = true;
+              $this.activeStep = 3;
               $this.goLogin(5);
             }
           }
@@ -375,20 +509,22 @@ export default {
         });
     },
     isPassword(pass) {
-      var str = pass;
-      if (str == null || str.length < 6) {
-        return false;
-      }
-      var reg1 = new RegExp(/^[0-9A-Za-z]+$/);
-      if (!reg1.test(str)) {
-        return false;
-      }
-      var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
-      if (reg.test(str)) {
-        return true;
-      } else {
-        return false;
-      }
+      // var str = pass;
+      // if (str == null || str.length < 6) {
+      //   return false;
+      // }
+      // var reg1 = new RegExp(/^[0-9A-Za-z]+$/);
+      // if (!reg1.test(str)) {
+      //   return false;
+      // }
+      // var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
+      // if (reg.test(str)) {
+      //   return true;
+      // } else {
+      //   return false;
+      // }
+      var reg = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,16}$/;
+      return reg.test(pass);
     },
     countDown() {
       // let _this = this;
@@ -423,6 +559,7 @@ export default {
       this.$store.commit("home/showTabsFun", false);
       //显示登录按钮
       this.$store.commit("home/showLogin", true);
+      this.$store.commit("home/changeShowHomeBgImge", true);
       //显示用户中心
       this.$store.commit("home/showUserCenter", false);
       this.$router.push("/loginPage");
@@ -445,6 +582,7 @@ export default {
           this.$store.commit("home/showLogin", true);
           //显示用户中心
           this.$store.commit("home/showUserCenter", false);
+          this.$store.commit("home/changeShowHomeBgImge", true);
           //显示登录界面
           this.$store.commit("loginPage/changeLoginShowState", true);
           this.$router.push("/loginPage");
@@ -457,9 +595,9 @@ export default {
         clearInterval(this.counter);
         if (this.showCount) {
           this.verftext = "重新获取验证码";
-          if ($this.changeCheckWay) {
-            $this.showCount = true;
-            $this.showPhoneText = true;
+          if (this.changeCheckWay) {
+            this.showCount = false;
+            // $this.showPhoneText = true;
           }
         }
       }
@@ -470,9 +608,9 @@ export default {
         clearInterval(this.counter);
         if (this.showCount) {
           this.verftext = "重新获取验证码";
-          if (!$this.changeCheckWay) {
-            $this.showCount = true;
-            $this.showPhoneText = true;
+          if (!this.changeCheckWay) {
+            this.showCount = false;
+            // $this.showPhoneText = true;
           }
         }
       }
@@ -499,21 +637,21 @@ export default {
       //this.showCount = false;
       return showType;
     },
-    step1Color() {
-      return {
-        stepBC: this.currentStep1
-      };
-    },
-    step2Color() {
-      return {
-        stepBC: this.currentStep2
-      };
-    },
-    step3Color() {
-      return {
-        stepBC: this.currentStep3
-      };
-    },
+    // step1Color() {
+    //   return {
+    //     stepBC: this.currentStep1
+    //   };
+    // },
+    // step2Color() {
+    //   return {
+    //     stepBC: this.currentStep2
+    //   };
+    // },
+    // step3Color() {
+    //   return {
+    //     stepBC: this.currentStep3
+    //   };
+    // },
     usermobile: {
       get: function() {
         return this.$store.state.loginPage.usermobile;
@@ -548,119 +686,119 @@ export default {
       set: function(newValue) {
         this.$store.state.UserCenter.modifyPassword.VerificationCode = newValue;
       }
-    },
-    showVCEmpty: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.showVCEmpty;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.showVCEmpty = newValue;
-      }
-    },
-    showVCError: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.showVCError;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.showVCError = newValue;
-      }
-    },
-    VCHasMessages: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.VCHasMessages;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.VCHasMessages = newValue;
-      }
-    },
-    passwordFHasMessages: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.passwordFHasMessages;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.passwordFHasMessages = newValue;
-      }
-    },
-    passwordSHasMessages: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.passwordSHasMessages;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.passwordSHasMessages = newValue;
-      }
-    },
-    currentStep1: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.currentStep1;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.currentStep1 = newValue;
-      }
-    },
-    currentStep2: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.currentStep2;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.currentStep2 = newValue;
-      }
-    },
-    currentStep3: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.currentStep3;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.currentStep3 = newValue;
-      }
-    },
-    passwordFirst: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.passwordFirst;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.passwordFirst = newValue;
-      }
-    },
-    passwordSecond: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.passwordSecond;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.passwordSecond = newValue;
-      }
-    },
-    showPasswordfEmpty: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.showPasswordfEmpty;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.showPasswordfEmpty = newValue;
-      }
-    },
-    showPasswordfError: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.showPasswordfError;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.showPasswordfError = newValue;
-      }
-    },
-    showPasswordsEmpty: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.showPasswordsEmpty;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.showPasswordsEmpty = newValue;
-      }
-    },
-    showPasswordsError: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.showPasswordsError;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.showPasswordsError = newValue;
-      }
     }
+    // showVCEmpty: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.showVCEmpty;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.showVCEmpty = newValue;
+    //   }
+    // },
+    // showVCError: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.showVCError;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.showVCError = newValue;
+    //   }
+    // },
+    // VCHasMessages: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.VCHasMessages;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.VCHasMessages = newValue;
+    //   }
+    // },
+    // passwordFHasMessages: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.passwordFHasMessages;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.passwordFHasMessages = newValue;
+    //   }
+    // },
+    // passwordSHasMessages: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.passwordSHasMessages;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.passwordSHasMessages = newValue;
+    //   }
+    // }
+    // currentStep1: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.currentStep1;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.currentStep1 = newValue;
+    //   }
+    // },
+    // currentStep2: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.currentStep2;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.currentStep2 = newValue;
+    //   }
+    // },
+    // currentStep3: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.currentStep3;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.currentStep3 = newValue;
+    //   }
+    // }
+    // passwordFirst: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.passwordFirst;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.passwordFirst = newValue;
+    //   }
+    // },
+    // passwordSecond: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.passwordSecond;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.passwordSecond = newValue;
+    //   }
+    // },
+    // showPasswordfEmpty: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.showPasswordfEmpty;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.showPasswordfEmpty = newValue;
+    //   }
+    // },
+    // showPasswordfError: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.showPasswordfError;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.showPasswordfError = newValue;
+    //   }
+    // },
+    // showPasswordsEmpty: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.showPasswordsEmpty;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.showPasswordsEmpty = newValue;
+    //   }
+    // },
+    // showPasswordsError: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.showPasswordsError;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.showPasswordsError = newValue;
+    //   }
+    // }
   }
 };
 </script>

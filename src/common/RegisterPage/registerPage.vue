@@ -1,14 +1,14 @@
 <template>
     <div class="mypanel">
-        <div class="md-layout-item md-size-100" style="display: inline-flex;">
+        <div v-if="showRegisterPage" class="md-layout-item md-size-100" style="display: inline-flex;">
           <div class="md-layout-item md-size-65" style="color: white;font-size: xx-large;">
             <div style="margin: 15% 0 0 0;">中国企业核心能力</div>
             <div style="margin: 3% 0 0 96px;">测评分析和改善领域最大</div>
             <div style="margin: 3% 99px 0 0;">服务提供商</div>
           </div>
           <div class="md-layout-item md-size-30">
-            <div v-if="showRegisterPage" class="cardstyle">
-              <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10% 0;">
+            <div class="cardstyle">
+              <div class="md-layout-item md-size-100" style="display: inline-flex;">
                 <div class="md-layout-item md-size-10" ></div>
                 <div class="md-layout-item md-size-80" >
                   <span class="loginHeadTitle">企业用户注册</span>
@@ -30,10 +30,9 @@
                 <div class="md-layout-item md-size-10" ></div>
                 <div class="md-layout-item md-size-80" >
                   <md-field :class="passwordFMessageClass" >
-                      <label>6 - 16位密码，数字和字母组合，区分大小写，不支持特殊符号</label>
-                      <md-input v-model="passwordFirst" type="password" placeholder="密码" v-on:input ="inputFunc(2)" @click="showTips(2)"></md-input>
-                      <span class="md-error" v-if="showPasswordfEmpty">密码不能为空</span>
-                      <span class="md-error" v-if="showPasswordfError">密码格式不正确,密码最少需要6位/密码不能超过16位</span>
+                      <md-input v-model="passwordFirst" type="password" placeholder="6 - 16位密码，区分大小写" v-on:input ="inputFunc(2)" @click="showTips(2)"></md-input>
+                      <span class="md-error" v-if="showPasswordfEmpty">{{fpassWordErrText}}</span>
+                      <!-- <span class="md-error" v-if="showPasswordfError">{{fpassWordErrText}}</span> -->
                   </md-field>
                 </div>
                 <div class="md-layout-item md-size-10" ></div>
@@ -43,8 +42,8 @@
                 <div class="md-layout-item md-size-80" >
                   <md-field  :class="passwordSMessageClass">
                       <md-input v-model="passwordSecond" type="password" placeholder="确认密码" v-on:input ="inputFunc(3)" @click="showTips(3)"></md-input>
-                      <span class="md-error" v-if="showPasswordsEmpty">密码不能为空</span>
-                      <span class="md-error" v-if="showPasswordsError">两次输入密码不一致</span>
+                      <span class="md-error" v-if="showPasswordsEmpty">密码不能为空{{spassWordErrText}}</span>
+                      <span class="md-error" v-if="showPasswordsError">两次输入密码不一致{{spassWordErrText}}</span>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-size-10" ></div>
@@ -52,23 +51,11 @@
               <div class="md-layout-item md-size-100" style="display: inline-flex;">
                 <div class="md-layout-item md-size-10" ></div>
                 <div class="md-layout-item md-size-80" >
-                  <md-field style="display: inline-flex;" :class="phoneNumMessageClass">
-                        <md-input v-model="phoneNum"  placeholder="11位手机号" v-on:input ="inputFunc(4)" @click="showTips(4)"></md-input>
-                        <span class="md-error" v-if="showPhoneNumEmpty">手机号码不能为空</span>
-                        <span class="md-error" v-if="showPhoneNumError">手机号填写不正确</span>
-                      </md-field>
-                  <!-- <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                    <div class="md-layout-item md-size-20" >
-                      <span style="line-height: 76px;">+86</span>
-                    </div>
-                    <div class="md-layout-item md-size-80" >
                       <md-field style="display: inline-flex;" :class="phoneNumMessageClass">
                         <md-input v-model="phoneNum"  placeholder="11位手机号" v-on:input ="inputFunc(4)" @click="showTips(4)"></md-input>
                         <span class="md-error" v-if="showPhoneNumEmpty">手机号码不能为空</span>
                         <span class="md-error" v-if="showPhoneNumError">手机号填写不正确</span>
                       </md-field>
-                    </div>
-                  </div> -->
                 </div>
                 <div class="md-layout-item md-size-10" ></div>
               </div>
@@ -96,8 +83,9 @@
                           </md-field>
                         </div>
                         <div class="md-layout-item md-size-35" >
-                            <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;background-color: #f9f9fb;color: black;" @click="getVerificationCode()">{{verftext}}</md-button>
-                            <span v-if="showText" style="color:red">{{time}}</span><span v-if="showText">秒后重新获取</span>
+                          <el-button style="margin: 13px 0 0 5px;" @click="getVerificationCode(1)">{{time}}{{verftext}}</el-button>
+                            <!-- <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;background-color: #f9f9fb;color: black;" @click="getVerificationCode()">{{verftext}}</md-button> -->
+                            <!-- <span v-if="showText" style="color:red">{{time}}</span><span v-if="showText">秒后重新获取</span> -->
                         </div>
                   </div>
                 </div>
@@ -126,62 +114,6 @@
           </div>
           </div>
         </div>
-        <!-- <div v-if="showRegisterPage" class="cardstyle">
-            <div style="width: 100%;text-align: center;padding-bottom: 30px;font-size: x-large;">企业用户注册</div>
-                <md-field md-clearable style="width:400px" :class="emailMessageClass" >
-                    <md-input v-model="email" placeholder="邮箱" v-on:input ="inputFunc(1)" @click="showTips(1)" required></md-input>
-                    <span class="md-error" v-if="showEmailEmpty">邮箱不能为空</span>
-                    <span class="md-error" v-if="showEmailError">邮箱格式不正确</span>
-                </md-field>
-                <md-field style="width:400px" :class="passwordFMessageClass" >
-                    <md-input v-model="passwordFirst" type="password" placeholder="6 - 16位密码，数字和字母组合，区分大小写" v-on:input ="inputFunc(2)" @click="showTips(2)"></md-input>
-                    <span class="md-error" v-if="showPasswordfEmpty">密码不能为空</span>
-                    <span class="md-error" v-if="showPasswordfError">密码格式不正确,密码最少需要6位/密码不能超过16位</span>
-                </md-field>
-                <md-field style="width:400px" :class="passwordSMessageClass">
-                    <md-input v-model="passwordSecond" type="password" placeholder="确认密码" v-on:input ="inputFunc(3)" @click="showTips(3)"></md-input>
-                    <span class="md-error" v-if="showPasswordsEmpty">密码不能为空</span>
-                    <span class="md-error" v-if="showPasswordsError">两次输入密码不一致</span>
-                </md-field>
-                <div style="width: 100%;text-align: center;">
-                    <md-button class="md-dense md-raised md-primary" disabled style="display: inline-flex;margin: 18px 0 0 0;">+86</md-button>
-                    <md-field style="width: 308px;display: inline-flex;" :class="phoneNumMessageClass">
-                        <md-input v-model="phoneNum"  placeholder="11位手机号" v-on:input ="inputFunc(4)" @click="showTips(4)"></md-input>
-                        <span class="md-error" v-if="showPhoneNumEmpty">手机号码不能为空</span>
-                        <span class="md-error" v-if="showPhoneNumError">手机号填写不正确</span>
-                    </md-field>
-                </div>
-                <div style="width: 100%;text-align: center;">
-                    <div v-if="!showCount">
-                        <md-field style="width: 51%;display: inline-flex;" :class="VCMessageClass">
-                            <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(5)" @click="showTips(5)"></md-input>
-                            <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
-                            <span class="md-error" v-if="showVCError">短信验证码错误</span>
-                        </md-field>
-                        <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode()">{{verftext}}</md-button>
-                    </div>
-                    <div v-if="showCount">
-                        <md-field style="width: 30%;display: inline-flex;" :class="VCMessageClass">
-                            <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(5)" @click="showTips(5)"></md-input>
-                            <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
-                            <span class="md-error" v-if="showVCError">短信验证码错误</span>
-                        </md-field>
-                        <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode()">{{verftext}}</md-button>
-                        <span v-if="showText" style="color:red">{{time}}</span><span v-if="showText">秒后重新获取</span>
-                    </div>
-                </div>
-                 <md-dialog-alert
-                  class="md-primary md-raised"
-                  :md-active.sync="showAlert"
-                  :md-content="AlertMessage"
-                  md-confirm-text="知道了" />
-                <div style="width:400px;text-align: left;">
-                    <md-button  class="md-dense md-raised md-primary" style="width:150px;display: inline-flex;margin:18px 0 0 0;" @click="registerFun()">注册</md-button>
-                    <div style=" margin-top: 30px;cursor: pointer;float: right;" @click="OldAccountsLogin()">
-                        <span @click="goLoginPge()" style="cursor: pointer;">使用已有账户登录</span>
-                    </div>
-            </div>
-        </div> -->
         <registerSuccess v-if="!showRegisterPage"></registerSuccess>
     </div>
 </template>
@@ -223,7 +155,9 @@ export default {
     AlertMessage: "",
     showCount: false,
     showText: false,
-    counter: ""
+    counter: "",
+    fpassWordErrText: "",
+    spassWordErrText: ""
   }),
   methods: {
     OldAccountsLogin() {},
@@ -233,20 +167,22 @@ export default {
     },
     /*密码字母数字组合，6-16位,必须包含数字加字母 不能包含特殊符号等*/
     isPassword(pass) {
-      var str = pass;
-      if (str == null || str.length < 6) {
-        return false;
-      }
-      var reg1 = new RegExp(/^[0-9A-Za-z]+$/);
-      if (!reg1.test(str)) {
-        return false;
-      }
-      var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
-      if (reg.test(str)) {
-        return true;
-      } else {
-        return false;
-      }
+      // var str = pass;
+      // if (str == null || str.length < 6) {
+      //   return false;
+      // }
+      // var reg1 = new RegExp(/^[0-9A-Za-z]+$/);
+      // if (!reg1.test(str)) {
+      //   return false;
+      // }
+      // var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
+      // if (reg.test(str)) {
+      //   return true;
+      // } else {
+      //   return false;
+      // }
+      var reg = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,16}$/;
+      return reg.test(pass);
     },
     isTelCode(str) {
       var reg = /^((0\d{2,3}-\d{7,8})|(1[3456789]\d{9}))$/;
@@ -273,20 +209,25 @@ export default {
           break;
         case 2:
           if (this.passwordFirst.length == 0) {
-            this.showEmailEmpty = false;
             this.showPasswordfEmpty = true;
-            this.showPasswordsEmpty = false;
-            this.showPhoneNumEmpty = false;
-            this.showVCEmpty = false;
-            this.showPasswordfError = false;
+            this.passwordFHasMessages = true;
+            this.fpassWordErrText = "密码不能为空";
           } else {
-            this.showEmailEmpty = false;
+            if (this.passwordFirst.length < 6) {
+              this.showPasswordfEmpty = true;
+              this.passwordFHasMessages = true;
+              this.fpassWordErrText = "密码最少需要6位";
+            } else if (this.passwordFirst.length > 16) {
+              this.showPasswordfEmpty = true;
+              this.passwordFHasMessages = true;
+              this.fpassWordErrText = "密码不能超过16位";
+            } else if (!this.isPassword(this.passwordFirst)) {
+              this.showPasswordfEmpty = true;
+              this.passwordFHasMessages = true;
+              this.fpassWordErrText = "密码格式不正确";
+            }
             this.showPasswordfEmpty = false;
-            this.showPasswordsEmpty = false;
-            this.showPhoneNumEmpty = false;
-            this.showVCEmpty = false;
-            this.showPasswordfError = !this.isPassword(this.passwordFirst);
-            this.passwordFHasMessages = !this.isPassword(this.passwordFirst);
+            this.passwordFHasMessages = false;
           }
           break;
         case 3:
@@ -364,15 +305,23 @@ export default {
           break;
         case 2:
           //如果密码为空，提示不能为空
-          this.showPasswordfEmpty = this.passwordFirst == "" ? true : false;
-          //不为空，判断格式是否正确
-          this.showPasswordfError = this.showPasswordfEmpty
-            ? false
-            : !this.isPassword(this.passwordFirst);
-          //显示警告
-          this.passwordFHasMessages = this.showPasswordfEmpty
-            ? true
-            : this.showPasswordfError;
+          // this.showPasswordfEmpty = this.passwordFirst == "" ? true : false;
+          // //不为空，判断格式是否正确
+          // this.showPasswordfError = this.showPasswordfEmpty
+          //   ? false
+          //   : !this.isPassword(this.passwordFirst);
+          // //显示警告
+          // this.passwordFHasMessages = this.showPasswordfEmpty
+          //   ? true
+          //   : this.showPasswordfError;
+          if (this.passwordFirst == "") {
+            this.showPasswordfEmpty = true;
+            this.passwordFHasMessages = true;
+            this.fpassWordErrText = "密码不能为空";
+          } else {
+            this.showPasswordfEmpty = false;
+            this.passwordFHasMessages = false;
+          }
           break;
         case 3:
           //如果密码为空，提示不能为空
@@ -443,6 +392,7 @@ export default {
           } else {
             $this.showCount = true;
             $this.showText = true;
+            $this.verftext = "秒后重新获取";
             $this.goLogin(60);
           }
         })
@@ -465,7 +415,13 @@ export default {
           apikey,
           request
         };
-
+      if (this.passwordFirst == "" || this.passwordSecond == "") {
+        this.showAlert = true;
+        this.AlertMessage = "密码不能为空";
+        return;
+      }
+      if (this.passwordSHasMessages) return;
+      if (this.phoneNumHasMessages) return;
       $this
         .$http({
           method: type,
@@ -479,6 +435,7 @@ export default {
             $this.AlertMessage = res.data.errorMsg;
           } else {
             $this.showRegisterPage = false;
+            $this.$store.commit("home/changeShowHomeBgImge", false);
             $this.$store.commit("registerPage/changeUseremail", $this.email);
           }
         })

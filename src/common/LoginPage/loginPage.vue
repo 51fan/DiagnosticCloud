@@ -1,12 +1,41 @@
 <template>
     <div class="mypanel">
       <div class="md-layout-item md-size-100" style="display: inline-flex;">
-        <div class="md-layout-item md-size-65" style="color: white;font-size: xx-large;">
-          <div style="margin: 15% 0 0 0;">中国企业核心能力</div>
-          <div style="margin: 3% 0 0 96px;">测评分析和改善领域最大</div>
-          <div style="margin: 3% 99px 0 0;">服务提供商</div>
+        <div v-if="showLoginPage" class="md-layout-item md-size-65" style="color: white;font-size: xx-large;">
+          <!-- <div class="md-layout-item md-size-100">
+            <div class="md-layout-item md-size-100">
+              <div class="md-layout-item md-size-40"></div>
+              <div class="md-layout-item md-size-40">
+                <span>中国企业核心能力</span>
+              </div>
+              <div class="md-layout-item md-size-20"></div>
+            </div>
+            <div class="md-layout-item md-size-100">
+              <div class="md-layout-item md-size-40"></div>
+              <div class="md-layout-item md-size-40">
+                <span>测评分析和改善领域最大</span>
+              </div>
+              <div class="md-layout-item md-size-20"></div>
+            </div>
+            <div class="md-layout-item md-size-100">
+              <div class="md-layout-item md-size-40"></div>
+              <div class="md-layout-item md-size-40">
+                <span>服务提供商</span>
+              </div>
+              <div class="md-layout-item md-size-20"></div>
+            </div>
+          </div> -->
+          <div style="margin: 22% 0 0 0;">
+            <span>中国企业核心能力</span>
+          </div>
+          <div style="margin: 3% 0 0 96px;">
+            <span>测评分析和改善领域最大</span>
+          </div>
+          <div style="margin: 3% 99px 0 0;">
+            <span>服务提供商</span>
+          </div>
         </div>
-        <div class="md-layout-item md-size-30">
+        <div class="md-layout-item md-size-30" style="padding-top: 6%;">
           <div v-if="showLoginPage" class="cardstyle">
             <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10% 0;">
               <div class="md-layout-item md-size-10" ></div>
@@ -100,7 +129,7 @@
 .mypanel {
   padding-left: 10%;
   padding-right: 10%;
-  padding-top: 5%;
+  /* padding-top: 5%; */
   text-align: center;
   text-align: -webkit-center;
 }
@@ -252,6 +281,9 @@ export default {
     forgetPassword() {
       //隐藏登录界面
       this.$store.commit("loginPage/changeLoginShowState", false);
+      //隐藏首页背景图
+      this.$store.commit("home/changeShowHomeBgImge", false);
+      this.$store.commit("home/showTabsFun", false);
     },
     getPicture() {
       this.VerificationImagesrc = "";
@@ -269,15 +301,14 @@ export default {
       //     console.log(err);
       //   });
     },
-    checkformat(str){
-      if(this.isEmail(this.phoneOrEmail) ){
-        return false
+    checkformat(str) {
+      if (this.isEmail(this.phoneOrEmail)) {
+        return false;
+      } else if (this.isTelCode(this.phoneOrEmail)) {
+        return false;
+      } else {
+        return true;
       }
-      else if(this.isTelCode(this.phoneOrEmail)){
-        return false
-      }else{
-        return true
-      }  
     },
     isEmail(str) {
       let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
