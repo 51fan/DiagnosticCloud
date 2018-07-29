@@ -30,7 +30,7 @@
         <md-dialog-alert
                   class="md-primary md-raised"
                   :md-active.sync="showErrAlert"
-                  :md-content="正在答卷数量不能超过三个,请先完全其他正在答题的测评"
+                  :md-content="alertMessage"
                   md-confirm-text="知道了" />
     </div>
 </template>
@@ -83,7 +83,8 @@ export default {
       evalution: Object,
       showmask: false,
       searchArry: [],
-      showEvaluationArray: []
+      showEvaluationArray: [],
+      alertMessage:"正在答卷数量不能超过三个,请先完全其他正在答题的测评"
     };
   },
   props: {
@@ -92,10 +93,10 @@ export default {
   mounted: function() {
     let apikey = "",
       request = {},
-      // type = "GET",
-      // url = "/static/jsons/datas.json";
-      type = "POST",
-      url = "/IBUS/DAIG_SYS/getTestInfo";
+      type = "GET",
+      url = "/static/jsons/datas.json";
+      // type = "POST",
+      // url = "/IBUS/DAIG_SYS/getTestInfo";
     let param = {
       apikey,
       request

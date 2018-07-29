@@ -86,12 +86,13 @@ export default {
   methods: {
     beginEvaluation() {
       // this.$router.push({path:'/evaluatingPage', query: {id:this.id, name:this.name}});
-      if (this.session_id) {
-        this.getQuestionData();
-      } else {
-        this.showAlert = true;
-        this.AlertMessage = "请登录后再开始评测";
-      }
+      // if (this.session_id) {
+      //   this.getQuestionData();
+      // } else {
+      //   this.showAlert = true;
+      //   this.AlertMessage = "请登录后再开始评测";
+      // }
+       this.getQuestionData();
     },
     getQuestionData() {
       let $this = this;
@@ -100,10 +101,10 @@ export default {
           id: this.evalution.id,
           session_id: this.session_id
         },
-        // url = "/static/jsons/evaluation.json",
-        // type = "GET",
-        url = "/IBUS/DAIG_SYS/getQuestion",
-        type = "POST",
+        url = "/static/jsons/evaluation.json",
+        type = "GET",
+        // url = "/IBUS/DAIG_SYS/getQuestion",
+        // type = "POST",
         param = {
           apikey,
           request

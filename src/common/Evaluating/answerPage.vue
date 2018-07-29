@@ -9,6 +9,13 @@
         <div class="panelContentAnswer">
             <!-- <div class="answerItem" :class="{selectAnswer:index==currentChooseObj}" v-for="(item, index) in  question.answerLists" :key="item" @click="selectAnswer(index)"> -->
             <span class="expertText">预期</span><span class="currentText">实际</span>
+            <!-- <div >
+              <el-steps direction="vertical" :active="active"  @click.native="next()" finish-status="success">
+                <el-step title="1"  @click="next()"></el-step>
+                <el-step title="2"  @click="next()"></el-step>
+                <el-step title="3"  @click="next()"></el-step>
+              </el-steps>
+            </div> -->
             <div class="answerItem" v-for="(item, index) in  question.answerLists" :key="item" style="width100%">
                  <md-radio  v-model="expertObj" :value="index" style="width:5%"></md-radio>
                  <md-radio class="md-primary" v-model="chooseObj" :value="index" style="width:5%"></md-radio>
@@ -79,6 +86,7 @@ export default {
     chooseObj: "",
     expertObj: "",
     isSelected: false,
+    active:1,
     // currentChooseObj: "",
     // currentexpertObj: "",
     answer: {
@@ -101,7 +109,15 @@ export default {
       this.expertObj = this.question.expected - 1;
     }
   },
-  methods: {},
+  methods: {
+    next(){
+      debugger
+      this.active++
+      if (this.active > 2) {
+        this.active = 0
+      };
+    }
+  },
   watch: {
     chooseObj: function(newvalue, oldvalue) {
       // debugger;

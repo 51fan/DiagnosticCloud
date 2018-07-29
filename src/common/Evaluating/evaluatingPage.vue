@@ -39,12 +39,10 @@
                 <div  class="md-layout-item md-size-10 textCenter highlight" style="padding-top: 25%;" @click="nextItem()">
                     <md-icon class="iconSize"  >keyboard_arrow_right</md-icon>
                 </div>
-
-                <md-dialog-alert
+                 <md-dialog-alert
                   class="md-primary md-raised"
                   :md-active.sync="showAlert"
-                  md-title="提示!"
-                  md-content="AlertMessage"
+                  :md-content="AlertMessage"
                   md-confirm-text="知道了" />
             </div>
         </div>
@@ -198,10 +196,10 @@ export default {
           id: this.currentEvaluationId,
           session_id: this.session_id
         },
-        // url = "/static/jsons/evaluation.json",
-        // type = "GET",
-        url = "/IBUS/DAIG_SYS/getQuestion",
-        type = "POST",
+        url = "/static/jsons/evaluation.json",
+        type = "GET",
+        // url = "/IBUS/DAIG_SYS/getQuestion",
+        // type = "POST",
         param = {
           apikey,
           request
@@ -412,7 +410,7 @@ export default {
         // this.$store.commit("evlaluating/getCurrentexpertObj", "");
       } else {
         this.showAlert = true;
-        this.AlertMessage = "请完成当前答题再提交"
+        this.AlertMessage = "请完成当前答题再提交";
       }
     },
     addAnswerFun() {
