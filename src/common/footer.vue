@@ -20,7 +20,7 @@ export default {};
 
 <style scoped>
 .mainfooter {
-  height: 96px;
+  height: 54px;
   padding: 0 16px;
   position: absolute;
   z-index: 4;

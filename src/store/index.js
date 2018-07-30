@@ -17,6 +17,7 @@ const state = {
   user: window.sessionStorage.getItem('user'),
   token: window.sessionStorage.getItem('token'),
   activeTab: window.sessionStorage.getItem('activeTab'),
+  autoLogin30days: false
 }
 
 const mutations = {
@@ -43,7 +44,17 @@ const mutations = {
   ACTIVE: (state, value) => {
     state.activeTab = value
     window.sessionStorage.setItem('activeTab', value)
-  }
+  },
+  AUTOLOGIN: (state, value) => {
+    state.autoLogin30days = value;
+    if (state.autoLogin30days) {
+      window.localStorage.setItem('token', state.token);
+      window.localStorage.setItem('user', state.user);
+    }else{
+      window.localStorage.removeItem('token');
+      window.localStorage.removeItem('user');
+    }
+  },
 }
 const actions = {}
 

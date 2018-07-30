@@ -1,6 +1,6 @@
 <template>
     <div class="mypanel">
-        <div v-if="!disable">
+        <!-- <div v-if="!disable">
             <div>
                     <div>
                         <div class="infoItem">
@@ -80,17 +80,13 @@
                     <div>
                         <div class="infoItem">
                             <span style="    margin: 3% 2%;width: 20%;">企业图标：</span>
-                            <!-- <md-field style=" width:55%;"  ref="file">
-                                <label style="cursor: pointer;">上传logo</label>
-                                <md-file style="cursor: pointer;"  accept="image/*" @change="updateLogo" disabled/>
-                            </md-field> -->
                             <md-button class="md-raised" disabled>上传图片</md-button>
                             <img class="logoImage" v-bind:src="imageSrc"/>
                         </div>
                     </div>
             </div>
             <md-button class="md-dense md-raised md-primary" style="width:10%;margin-top: 1%;" @click="modify()">修改</md-button>
-        </div>
+        </div> -->
         <div v-if="disable">
              <div>
                     <div>
@@ -235,6 +231,124 @@
             </div>
             <md-button class="md-dense md-raised md-primary" style="width:10%;margin-top: 1%;" @click="cancel()">取消</md-button>
             <md-button class="md-dense md-raised md-primary" style="width:10%;margin-top: 1%;" @click="save()">保存</md-button>
+        </div>
+
+        <div v-if="!disable" style="padding: 0 10%;">
+            <div class="md-layout" style="background-color: white;padding: 5%;">
+                <div class="md-layout-item md-size-100">
+                    <div class="md-layout-item md-size-25">
+                    </div>
+                    <div class="md-layout-item md-size-50">
+                        <md-field style="width: 80%;">
+                            <label>企业名称：</label>
+                            <md-input v-model="enterpriseName" placeholder="" disabled></md-input>
+                        </md-field>
+                    </div>
+                    <div class="md-layout-item md-size-25"></div>
+                </div>
+                <div class="md-layout-item md-size-100">
+                    <div class="md-layout-item md-size-25">
+                    </div>
+                    <div class="md-layout-item md-size-50">
+                        <md-field style="width: 80%;">
+                            <label>企业简称：</label>
+                            <md-input v-model="enterpriseSName" placeholder="" disabled></md-input>
+                        </md-field>
+                    </div>
+                    <div class="md-layout-item md-size-25"></div>
+                </div>
+                <div class="md-layout-item md-size-100">
+                    <div class="md-layout-item md-size-25"></div>
+                    <div class="md-layout-item md-size-50" style="text-align: left;margin-left: 8%;">
+                        <span style="margin: 3% 2%;width: 20%;font-size: 16px;color: rgba(0,0,0,0.42);">企业图标：</span>
+                        <img class="logoImage" v-bind:src="imageSrc"/>
+                        <!-- <md-button class="md-raised" disabled>上传</md-button>  -->
+                        <el-button style="background-color: #f5f7fa;" disabled>上传</el-button>
+                    </div>
+                    <div class="md-layout-item md-size-25"></div>
+                </div>
+                <div class="md-layout-item md-size-100">
+                    <div class="md-layout-item md-size-25">
+                    </div>
+                    <div class="md-layout-item md-size-50" style="display: inline-flex;">
+                        <span class="spantitle" style="width: 18%;margin: 6% 0 0px 6.5%;font-size: 16px;color: rgba(0,0,0,0.42);">所属行业：</span>
+                        <cityPicker style="width:70%;margin: 4% 0 0 0;text-align: left;" ></cityPicker>
+                    </div>
+                    <div class="md-layout-item md-size-25"></div>
+                </div>
+                <div class="md-layout-item md-size-100">
+                    <div class="md-layout-item md-size-25">
+                    </div>
+                    <div class="md-layout-item md-size-50" style="display: inline-flex;">
+                        <span class="spantitle" style="width: 18%;margin: 6% 0 0px 6.5%;font-size: 16px;color: rgba(0,0,0,0.42);">所在地区：</span>
+                        <div class="md-layout-item" style="text-align: start;padding: 5% 0 0 0;">
+                            <el-select v-model="value3" disabled placeholder="请选择" style="width: 87%">
+                                <el-option>{{selectIndustry1}}</el-option>
+                            </el-select>
+                        </div>
+                    </div>
+                    <div class="md-layout-item md-size-25"></div>
+                </div>
+                <div class="md-layout-item md-size-100">
+                    <div class="md-layout-item md-size-25">
+                    </div>
+                    <div class="md-layout-item md-size-50" style="display: inline-flex;">
+                        <span class="spantitle" style="width: 18%;margin: 6% 0 0px 6.5%;font-size: 16px;color: rgba(0,0,0,0.42);">企业规模：</span>
+                        <div class="md-layout-item" style="text-align: start;padding: 5% 0 0 0;">
+                            <el-select v-model="companySize" disabled placeholder="请选择" style="width: 87%">
+                                <el-option>100人以内</el-option>
+                                <el-option>500人以内</el-option>
+                                <el-option>1000人以内</el-option>
+                                <el-option>大于1000人</el-option>
+                            </el-select>
+                        </div>
+                    </div>
+                    <div class="md-layout-item md-size-25"></div>
+                </div>
+                <div class="md-layout-item md-size-100">
+                    <div class="md-layout-item md-size-25">
+                    </div>
+                    <div class="md-layout-item md-size-50" style="display: inline-flex;">
+                        <span class="spantitle" style="width: 18%;margin: 6% 0 0px 6.5%;font-size: 16px;color: rgba(0,0,0,0.42);">年销售收入：</span>
+                        <div class="md-layout-item" style="text-align: start;padding: 5% 0 0 0;">
+                            <el-select v-model="companyInput" disabled placeholder="请选择" style="width: 87%">
+                                <el-option>1000万以内</el-option>
+                                <el-option>5000万以内</el-option>
+                                <el-option>1亿以内</el-option>
+                                <el-option>大于1亿</el-option>
+                            </el-select>
+                        </div>
+                    </div>
+                    <div class="md-layout-item md-size-25"></div>
+                </div>
+                <div class="md-layout-item md-size-100">
+                    <div class="md-layout-item md-size-25">
+                    </div>
+                    <div class="md-layout-item md-size-50">
+                        <md-field style="width: 80%;">
+                            <label>组织机构代码：</label>
+                            <md-input v-model="OrganizationCode" placeholder="" disabled></md-input>
+                        </md-field>
+                    </div>
+                    <div class="md-layout-item md-size-25"></div>
+                </div>
+                <div class="md-layout-item md-size-100" style="padding-top: 2%;">
+                    <div class="md-layout-item md-size-25">
+                    </div>
+                    <div class="md-layout-item md-size-50" style="display: inline-flex;">
+                        <div class="md-layout-item md-size-25" ></div>
+                        <div class="md-layout-item md-size-20" style="margin-right: 10px;">
+                            <el-button style="background-color: rgb(150, 150, 150);color: white;width: 100%;" @click="cancel()">取消</el-button>
+                        </div>
+                        <div class="md-layout-item md-size-43">
+                            <el-button  style="background-color: rgb(0, 145, 153);color: white;width: 100%;" @click="modify()">修改</el-button>
+                        </div>
+                        <div class="md-layout-item md-size-10" ></div>
+                    </div>
+                    <div class="md-layout-item md-size-25"></div>
+                </div>
+                
+            </div>
         </div>
         <md-dialog-alert style="z-index: 111"
                   class="md-primary md-raised"
@@ -454,18 +568,18 @@ export default {
         this.AlertMessage = "企业简称不能为空";
         return;
       }
-        if (this.enterpriseName.length > 32) {
-          this.showAlert = true;
-          this.AlertMessage = "企业名称字符长度不能超过32位";
-          return;
-        }
-        if (this.enterpriseSName.length > 8) {
-          this.showAlert = true;
-          this.AlertMessage = "企业简称字符长度不能超过8位";
-          return;
-        }
-    //   if (this.enterpriseNameHasMessages || this.enterpriseSNameHasMessages)
-    //     return;
+      if (this.enterpriseName.length > 32) {
+        this.showAlert = true;
+        this.AlertMessage = "企业名称字符长度不能超过32位";
+        return;
+      }
+      if (this.enterpriseSName.length > 8) {
+        this.showAlert = true;
+        this.AlertMessage = "企业简称字符长度不能超过8位";
+        return;
+      }
+      //   if (this.enterpriseNameHasMessages || this.enterpriseSNameHasMessages)
+      //     return;
       if (this.selectCounty == "") {
         this.showAlert = true;
         this.AlertMessage = "所在地区需填写完整";

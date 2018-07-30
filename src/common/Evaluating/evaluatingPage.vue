@@ -3,12 +3,12 @@
         <!--标题头部  -->
         <div v-if="evaluationStart" class="panelHeader">
             <div class="panelHeaderTitle">
-                <h3>{{name}}</h3>
+                {{name}}
             </div>
             <div class="progressBar">
                 <label>当前进度：</label>
                     <md-progress-bar md-mode="determinate" :md-value="fillValue" class="progressBarFill"></md-progress-bar>
-                <label >{{questionIndex}}/{{questionCounts}}</label>
+                <label style="color:#009199;font-size: 30pt;">{{questionIndex}}</label><label style="font-size: 16pt;">/</label><label style="font-size: 18pt;">{{questionCounts}}</label>
             </div>
             <!-- <md-button v-if="questionIndex==questionCounts" class="md-primary" @click="submit()">提交</md-button> -->
    
@@ -30,7 +30,7 @@
                 </div>
             
                 <!--试题正文  -->
-                <div class="md-layout-item textCenter">
+                <div class="md-layout-item textCenter" style="background-color: white;">
                   <answerPage v-for="question in questionsList" :key="question.id" :question="question"  @selectedAnswer="pushAnswer"></answerPage>
                 </div>
 
@@ -57,7 +57,7 @@
 
 <style lang="scss" scoped>
 .panelContent {
-  background-color: rgba(255, 250, 240, 0.2);
+  // background-color: rgba(255, 250, 240, 0.2);
   margin: 0 2%;
 }
 
@@ -65,15 +65,19 @@
   text-align: center;
   // padding: 10px 0px 0px;
   // width: 90%;
-  margin: 20px 10%;
-  // background-color: rgba(126, 207, 210, 0.7);
+  margin: 0 0 20px 0;
+  background-color: #002c42;
+  color: white;
+  padding: 3% 0 0% 0;
+  height: 220px;
 }
 
 .md-progress-bar {
   margin: 24px;
 }
 .panelHeaderTitle {
-  // display: inline-flex;
+  font-size: 20pt;
+  margin: 2% 0;
 }
 .panelContentTitle {
   padding: 15px 40px;
@@ -164,7 +168,7 @@ export default {
     questionCounts: "",
     // questionIndex: 1,
     // currentIndex: 1,
-    fillValue: 10,
+    fillValue: 1,
     questionsAllList: [],
     questionsList: [],
     question: Object,
@@ -196,10 +200,10 @@ export default {
           id: this.currentEvaluationId,
           session_id: this.session_id
         },
-        url = "/static/jsons/evaluation.json",
-        type = "GET",
-        // url = "/IBUS/DAIG_SYS/getQuestion",
-        // type = "POST",
+        // url = "/static/jsons/evaluation.json",
+        // type = "GET",
+        url = "/IBUS/DAIG_SYS/getQuestion",
+        type = "POST",
         param = {
           apikey,
           request
@@ -233,6 +237,7 @@ export default {
 
       //更新进度条
       this.fillValue = this.currentIndex / this.questionCounts * 100;
+      // console.log("pre"+this.fillValue)
 
       this.questionsList = [];
       this.questionsList.push(this.questionsAllList[this.questionIndex - 1]);
@@ -317,6 +322,10 @@ export default {
             $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
             $this.questionsAllList = res.data.return;
             $this.questionCounts = res.data.count;
+            $this.currentIndex = res.data.answered_count;
+            $this.questionIndex = res.data.answered_count;
+            $this.fillValue =  ($this.questionIndex/$this.questionCounts).toFixed(2)*100;
+            // console.log($this.fillValue)
             $this.questionsList.push(
               $this.questionsAllList[$this.questionIndex - 1]
             );
@@ -429,6 +438,7 @@ export default {
 
         //更新进度条
         this.fillValue = this.currentIndex / this.questionCounts * 100;
+        // console.log("next"+this.fillValue)
 
         this.questionsList = [];
         this.questionsList.push(this.questionsAllList[this.questionIndex - 1]);

@@ -92,7 +92,7 @@
                     <div style="width:90%;cursor: pointer;display: inline-block;">
                        <div class="md-layout-item md-size-100" style="display: inline-flex;">
                          <div class="md-layout-item md-size-60" style="text-align: left;">
-                           <md-checkbox style="display: inline-flex;" v-model="autoLogin">自动登录</md-checkbox>
+                           <md-checkbox style="display: inline-flex;" v-model="autoLogin" >30天内自动登录</md-checkbox>
                          </div>
                          <div class="md-layout-item md-size-40" >
                            <div style="text-align:right;margin: 17px 0" @click="forgetPassword()"><span >忘记密码</span></div>
@@ -184,7 +184,25 @@ export default {
     VerificationImagesrc: "http://139.159.141.232:8080/Captch?" + Math.random(),
     errCounter: 0
   }),
-  mounted: function() {},
+  mounted: function() {
+    let $this = this;
+    if (this.autoLogin30days) {
+      let url = "/IBUS/DAIG_SYS/check_login",
+        type = "post",
+        param = {},
+        apikey = "";
+
+      $this.http({
+        method: type,
+        url: url,
+        data: param
+      }).then(res => {
+        console.log("autologin")
+      });
+    }else{
+      console.log("noautologin")
+    }
+  },
   computed: {
     menuVisible() {
       return this.$store.state.home.menuVisible;
@@ -197,6 +215,9 @@ export default {
     },
     firstLogin() {
       return this.$store.state.loginPage.firstLogin;
+    },
+    autoLogin30days() {
+      return this.$store.state.autoLogin30days;
     }
   },
   methods: {
@@ -252,6 +273,12 @@ export default {
                 );
                 if (res.data.firstLogin) {
                   $this.$store.commit("UserCenter/changeShowCityPicker", true);
+                }
+                console.log($this.autoLogin);
+                if ($this.autoLogin) {
+                  $this.$store.commit("AUTOLOGIN", true);
+                } else {
+                  $this.$store.commit("AUTOLOGIN", false);
                 }
                 //修改登录状态
                 $this.$store.commit("loginPage/changeLoginState", true);

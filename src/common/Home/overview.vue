@@ -353,7 +353,9 @@ export default {
     enterpriseSNameErr: ""
   }),
   mounted: function() {
-    let $this = this;
+    if (window.localStorage.getItem("token")) {
+      this.checkAutoLogin();
+    }
     if (!this.firstLogin) {
       this.getUserTestAllInfo();
     }
@@ -409,6 +411,9 @@ export default {
       set: function(newValue) {
         this.$store.state.UserCenter.enterpriseInfo.selectCounty = newValue;
       }
+    },
+    autoLogin30days() {
+      return this.$store.state.autoLogin30days;
     }
   },
   methods: {
@@ -848,6 +853,29 @@ export default {
       this.$store.commit("evlaluating/changeSeeReport", false);
       //路由跳转
       this.$router.push("/evaluating");
+    },
+    checkAutoLogin() {
+      let $this = this;
+      if (this.autoLogin30days) {
+        let url = "/IBUS/DAIG_SYS/check_login",
+          type = "post",
+          param = {
+            id: window.localStorage.getItem("token")
+          },
+          apikey = "";
+
+        $this
+          .$http({
+            method: type,
+            url: url,
+            data: param
+          })
+          .then(res => {
+            console.log("autologin");
+          });
+      } else {
+        console.log("noautologin");
+      }
     }
   },
   created: () => {}

@@ -236,10 +236,11 @@ export default {
             key: "level1",
             value: result.data.level
           });
-          console.log(result.data.level);
-          console.log($this.reportParm.level1.length);
+          // console.log(result.data.level);
+          // console.log($this.reportParm.level1.length);
+          if(!$this.reportParm.level1.length)return;
           //如果第一维度小于2个，就用条形图显示，大于2就用雷达图显示
-          if ($this.reportParm.level1.length > 2) {
+          if ($this.reportParm.level1.length&&$this.reportParm.level1.length > 2) {
             $this.showRadar = true;
             $this.showBar = false;
             $this.reportParm.level1.forEach(item => {

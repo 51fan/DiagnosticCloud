@@ -1,6 +1,6 @@
 <template>
     <div class="mypanel">
-        <div v-if="!showAnswerPage">
+        <div v-if="!showAnswerPage" style="padding: 16px;">
             <div class="centerHeader">
                 <div class="md-layout" style="padding: 20px 10px;">
                     <div class="md-layout-item md-size-50" >

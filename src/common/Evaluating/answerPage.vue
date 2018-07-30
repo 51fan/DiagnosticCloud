@@ -1,27 +1,37 @@
 <template>
     <div class="panelContentbodyCenter">
-        <div class="panelContentTitle">
-            <label style="font-size: x-large">{{question.level2}}——{{question.level3}}</label>
+      <div class="panelContentTitle">
+        <div style="padding: 0 0 4% 8%;">
+            <label style="font-size: x-large">{{question.level2}}/{{question.level3}}/{{question.level4}}</label>
             <div style="opacity: 0.5;font-size: medium;padding: 10px 0 30px 0;">{{question.level1}}</div>
                 <!-- 问题-->
             <label>测评项：</label><label style="font-size: x-large;padding: 10px;">{{question.question}}</label>
         </div>
-        <div class="panelContentAnswer">
+        <div style="border-top: 1px solid lightgray;padding: 5% 0 0 10%;">
             <!-- <div class="answerItem" :class="{selectAnswer:index==currentChooseObj}" v-for="(item, index) in  question.answerLists" :key="item" @click="selectAnswer(index)"> -->
-            <span class="expertText">预期</span><span class="currentText">实际</span>
-            <!-- <div >
-              <el-steps direction="vertical" :active="active"  @click.native="next()" finish-status="success">
-                <el-step title="1"  @click="next()"></el-step>
-                <el-step title="2"  @click="next()"></el-step>
-                <el-step title="3"  @click="next()"></el-step>
-              </el-steps>
-            </div> -->
-            <div class="answerItem" v-for="(item, index) in  question.answerLists" :key="item" style="width100%">
-                 <md-radio  v-model="expertObj" :value="index" style="width:5%"></md-radio>
-                 <md-radio class="md-primary" v-model="chooseObj" :value="index" style="width:5%"></md-radio>
-                 <div style="display: inline-flex;width: 80%;">{{index+1}}、{{item}}</div>
+            <div class="md-layout">
+              <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                <!-- <div class="md-layout-item md-size-10"></div> -->
+                <!-- <div class="md-layout-item md-size-15">
+                  <answerSelectd :selectLength="questionLength"></answerSelectd>
+                </div> -->
+                <div class="md-layout-item md-size-100">
+                  <div style="margin: 27px 0;">
+                    <span class="expertText" style="margin: 8px;">预期</span><span class="currentText" style="margin: 28px;">实际</span>
+                    <div class="answerItem" v-for="(item, index) in  question.answerLists" :key="item" style="width:100%">
+                        <md-radio  v-model="expertObj" :value="index" style="width:5%"></md-radio>
+                        <md-radio class="md-primary" v-model="chooseObj" :value="index" style="width:5%"></md-radio>
+                        <div style="display: inline-flex;width: 80%;">{{index+1}}、{{item}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+            
+            <!-- <answerSelectds></answerSelectds> -->
+            
         </div>
+      </div>
     </div>
 </template>
 
@@ -33,7 +43,7 @@
 .panelContentTitle {
   border: 1px solid burlywood;
   padding: 15px;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
   position: relative;
@@ -43,11 +53,11 @@
   transition-property: color, background-color;
   will-change: color, background-color;
   width: 100%;
-  padding: 5%;
+  padding: 3% 5% 1% 5%;
   border: 1px solid lightgray;
 }
 .answerItem {
-  padding: 5px 10px;
+  padding: 10px 10px;
   /* cursor: pointer; */
   font-size: smaller;
 }
@@ -69,26 +79,27 @@
 .selectAnswer {
   background-color: rgba(10, 185, 222, 0.32);
 }
-.expertText {
-  margin-left: 1%;
-  padding-right: 4%;
-  font-size: larger;
-}
-.currentText {
-  font-size: larger;
-}
 </style>
 
 <script>
+import answerSelectd from "../../components/wheels/answerSelectd/answerSelectd.vue";
+import answerSelectds from "../../components/wheels/answerSelectd/answerSelectds.vue";
+
 export default {
   props: ["question"],
+  components: {
+    answerSelectd,
+    answerSelectds
+  },
   data: () => ({
     chooseObj: "",
     expertObj: "",
     isSelected: false,
-    active:1,
+    active: 1,
     // currentChooseObj: "",
     // currentexpertObj: "",
+    questionLength: this.question,
+    selectLength: "",
     answer: {
       questionId: "",
       expected: "",
@@ -110,12 +121,12 @@ export default {
     }
   },
   methods: {
-    next(){
-      debugger
-      this.active++
-      if (this.active > 2) {
-        this.active = 0
-      };
+    next(index) {
+      this.active = index;
+      // this.active++
+      // if (this.active > 2) {
+      //   this.active = 0
+      // };
     }
   },
   watch: {

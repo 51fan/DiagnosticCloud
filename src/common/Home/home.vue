@@ -131,10 +131,12 @@
 <style lang="scss" scoped>
 .md-app {
   //max-height: 800px;
-  min-height: 1000px;
+  min-height: 1040px;
   border: 1px solid rgba(#000, 0.12);
 }
-
+.md-app-content{
+  padding: 0!important;
+}
 // Demo purposes only
 .md-drawer {
   width: 200px;

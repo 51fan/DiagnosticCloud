@@ -71,7 +71,7 @@
                           </md-field> 
                       </div>
                       <div class="md-layout-item md-size-35" >
-                          <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0;background-color: #f9f9fb;color: black;" @click="getVerificationCode()">{{verftext}}</md-button>
+                          <md-button  class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0;background-color: #f9f9fb;color: black;" @click="getVerificationCode()">{{verftext}}</md-button>
                       </div>
                     </div>  
                     <div v-if="showCount" class="md-layout-item md-size-100" style="display: inline-flex;">
@@ -83,7 +83,7 @@
                           </md-field>
                         </div>
                         <div class="md-layout-item md-size-35" >
-                          <el-button style="margin: 13px 0 0 5px;" @click="getVerificationCode(1)">{{time}}{{verftext}}</el-button>
+                          <el-button  style="margin: 13px 0 0 5px;" @click="getVerificationCode(1)" disabled>{{time}}{{verftext}}</el-button>
                             <!-- <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;background-color: #f9f9fb;color: black;" @click="getVerificationCode()">{{verftext}}</md-button> -->
                             <!-- <span v-if="showText" style="color:red">{{time}}</span><span v-if="showText">秒后重新获取</span> -->
                         </div>
@@ -157,7 +157,8 @@ export default {
     showText: false,
     counter: "",
     fpassWordErrText: "",
-    spassWordErrText: ""
+    spassWordErrText: "",
+    // showdisableBtn:false
   }),
   methods: {
     OldAccountsLogin() {},
@@ -393,6 +394,7 @@ export default {
             $this.showCount = true;
             $this.showText = true;
             $this.verftext = "秒后重新获取";
+            // $this,showdisableBtn = true;
             $this.goLogin(60);
           }
         })
@@ -490,6 +492,7 @@ export default {
         this.verftext = "重新获取验证码";
         this.showText = false;
         this.showCount = false;
+        // this,showdisableBtn = false;
       }
     }
   }

@@ -36,9 +36,11 @@
 </template>
 
 <style lang="scss" scoped>
+
 .mypanel {
   padding-left: 10%;
   padding-right: 10%;
+  // padding: 0;
 }
 .md-field label {
   top: 17px;
@@ -93,10 +95,10 @@ export default {
   mounted: function() {
     let apikey = "",
       request = {},
-      type = "GET",
-      url = "/static/jsons/datas.json";
-      // type = "POST",
-      // url = "/IBUS/DAIG_SYS/getTestInfo";
+      // type = "GET",
+      // url = "/static/jsons/datas.json";
+      type = "POST",
+      url = "/IBUS/DAIG_SYS/getTestInfo";
     let param = {
       apikey,
       request
