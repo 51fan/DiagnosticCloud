@@ -17,42 +17,66 @@ const state = {
   user: window.sessionStorage.getItem('user'),
   token: window.sessionStorage.getItem('token'),
   activeTab: window.sessionStorage.getItem('activeTab'),
-  autoLogin30days: false
+  autoLogin30days: window.localStorage.getItem('autoLogin30days'),
+  luser: window.localStorage.getItem('user'),
+  ltoken: window.localStorage.getItem('token'),
+  UsereMail: window.localStorage.getItem('UsereMail'),
+  UsereMobile: window.localStorage.getItem('UsereMobile'),
 }
 
 const mutations = {
   //将token保存到sessionStorage里，token表示登陆状态
   SET_TOKEN: (state, data) => {
-    state.token = data
-    window.sessionStorage.setItem('token', data)
+    state.token = data;
+    window.sessionStorage.setItem('token', data);
   },
   //获取用户名
   GET_USER: (state, data) => {
     // 把用户名存起来
-    state.user = data
-    window.sessionStorage.setItem('user', data)
+    state.user = data;
+    window.sessionStorage.setItem('user', data);
+  },
+  SET_UsereMail: (state, value) => {
+    state.UsereMail = value;
+    window.localStorage.setItem('UsereMail', value);
+  },
+  GET_UsereMobile: (state, value) => {
+    state.UsereMobile = value;
+    window.localStorage.setItem('UsereMobile', value);
   },
   //登出
   LOGOUT: (state) => {
     // 登出的时候要清除token
-    state.token = null
-    state.user = null
-    window.sessionStorage.removeItem('token')
-    window.sessionStorage.removeItem('user')
+    state.token = null;
+    state.user = null;
+    state.autoLogin30days = false;
+    window.sessionStorage.removeItem('token');
+    window.sessionStorage.removeItem('user');
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('user');
+    window.localStorage.removeItem('UsereMail');
+    window.localStorage.removeItem('UsereMobile');
+    window.localStorage.setItem('autoLogin30days', false);
   },
   //激活的菜单
   ACTIVE: (state, value) => {
-    state.activeTab = value
-    window.sessionStorage.setItem('activeTab', value)
+    state.activeTab = value;
+    window.sessionStorage.setItem('activeTab', value);
   },
   AUTOLOGIN: (state, value) => {
     state.autoLogin30days = value;
     if (state.autoLogin30days) {
       window.localStorage.setItem('token', state.token);
       window.localStorage.setItem('user', state.user);
-    }else{
+      window.localStorage.setItem('UsereMail', state.UsereMail);
+      window.localStorage.setItem('UsereMobile', state.UsereMobile);
+      window.localStorage.setItem('autoLogin30days', state.autoLogin30days);
+    } else {
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('user');
+      // window.localStorage.removeItem('UsereMail');
+      // window.localStorage.removeItem('UsereMobile');
+      window.localStorage.setItem('autoLogin30days', state.autoLogin30days);
     }
   },
 }

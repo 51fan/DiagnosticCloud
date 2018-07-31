@@ -1,92 +1,5 @@
 <template>
     <div class="mypanel">
-        <!-- <div v-if="!disable">
-            <div>
-                    <div>
-                        <div class="infoItem">
-                                <span class="spantitle">企业名称：</span>
-                                <md-field style="width: 80%;">
-                                    <label></label>
-                                    <md-input v-model="enterpriseName" placeholder="" disabled></md-input>
-                                </md-field>
-                            </div>
-                        </div>
-                    <div>
-                        <div class="infoItem">
-                            <span class="spantitle">企业简称：</span>
-                            <md-field style="width: 80%;">
-                                <label></label>
-                                <md-input v-model="enterpriseSName" placeholder="" disabled></md-input>
-                            </md-field>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="infoItem">
-                            <span class="spantitle" style="width:20%;margin: 6% 0 0 0;">所在地区：</span>
-                            <cityPicker style="width:74%;margin: 4% 0 0 0;text-align: left;" ></cityPicker>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="infoItem">
-                            <span class="spantitle" style="width:20%">所属行业：</span>
-                            <div class="md-layout-item" style="text-align: start;padding: 2% 0;">
-                                <el-select v-model="value3" disabled placeholder="请选择" style="width: 30%">
-                                    <el-option>{{selectIndustry1}}
-                                    </el-option>
-                                </el-select>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="infoItem">
-                            <span class="spantitle" style="width:20%">企业规模：</span>
-                            <div class="md-layout-item" style="width:80%;">
-                                <md-field>
-                                    <md-select v-model="companySize" name="companySize" id="companySize" md-dense disabled>
-                                        <md-option value="australia">100人以内</md-option>
-                                        <md-option value="brazil">500人以内</md-option>
-                                        <md-option value="japan">1000人以内</md-option>
-                                        <md-option value="united-states">大于1000人</md-option>
-                                    </md-select>
-                                </md-field>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="infoItem">
-                            <span class="spantitle" style="width:23%">年销售收入：</span>
-                            <div class="md-layout-item" style="width:75%;">
-                                <md-field>
-                                    <md-select v-model="companyInput" name="companyInput" id="companyInput" md-dense disabled>
-                                        <md-option value="australia">1000万以内</md-option>
-                                        <md-option value="brazil">5000万以内</md-option>
-                                        <md-option value="japan">1亿以内</md-option>
-                                        <md-option value="united-states">大于1亿</md-option>
-                                    </md-select>
-                                </md-field>
-                            </div>
-                        </div>
-                    </div>
-                   <div>
-                        <div class="infoItem">
-                            <span class="spantitle" style="width: 25%;">组织机构代码：</span>
-                            <div class="md-layout-item" style="width:65%;margin: -1% 0;">
-                                <md-field>
-                                    <md-input v-model="OrganizationCode" placeholder="" disabled></md-input>
-                                </md-field>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="infoItem">
-                            <span style="    margin: 3% 2%;width: 20%;">企业图标：</span>
-                            <md-button class="md-raised" disabled>上传图片</md-button>
-                            <img class="logoImage" v-bind:src="imageSrc"/>
-                        </div>
-                    </div>
-            </div>
-            <md-button class="md-dense md-raised md-primary" style="width:10%;margin-top: 1%;" @click="modify()">修改</md-button>
-        </div> -->
         <div v-if="disable">
              <div>
                     <div>
@@ -691,7 +604,7 @@ export default {
           request
         })
         .then(res => {
-          console.log(res);
+        //   console.log(res);
           $this.Industry1 = res.data.return;
           $this.getEnterpriseInfo();
         })

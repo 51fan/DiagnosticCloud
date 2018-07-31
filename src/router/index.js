@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store/index'
+import axios from "axios"
 
 // import home from '@/common/Home/home'
 // import evaluating from '@/common/Evaluating/evaluating'
@@ -87,13 +88,17 @@ const router = new Router({
 
 // 注册全局钩子用来拦截导航
 router.beforeEach(function (to, from, next) {
-  debugger;
-  const token = store.state.token
+  // debugger;
+  const token = store.state.token ? store.state.token : window.localStorage.getItem("token");
   if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
+
+    let $this = this;
 
     if (token) { // 通过vuex state获取当前的token是否存在
       store.commit("loginPage/getSession_id", token);
-      store.commit("loginPage/getUseremail", store.state.user);
+
+      store.commit("loginPage/getUseremail", window.localStorage.getItem('UsereMail'));
+      store.commit("loginPage/getUsermobile", window.localStorage.getItem('UsereMobile'));
       //修改登录状态
       store.commit("loginPage/changeLoginState", true);
       //保持激活的菜单
@@ -102,18 +107,97 @@ router.beforeEach(function (to, from, next) {
       store.commit("home/changeShowHomeBgImge", false);
       next()
     } else {
-      //显示首页背景图
-      store.commit("home/changeShowHomeBgImge", true);
-      //激活工作台菜单
-      store.commit("home/getTabsactiveIndex", "1");
-      store.commit("ACTIVE", "1");
-      next({
-        path: '/loginPage',
-        // query: {redirect: to.fullPath} // 将跳转的路由path作为参数，登录成功后跳转到该路由
-      })
+      //如果没有token，判断是否勾选了自动登录
+      if (store.state.autoLogin30days == "true") {
+        let url = "/IBUS/DAIG_SYS/check_login",
+          type = "post",
+          request = {
+            id: window.localStorage.getItem("token")
+          },
+          apikey = "";
+        let param = {
+          apikey,
+          request
+        };
+
+        axios({
+            method: type,
+            url: url,
+            data: param
+          })
+          .then(res => {
+            console.log("autologin");
+            store.commit("SET_TOKEN", window.localStorage.getItem("token"));
+            store.commit("GET_USER", window.localStorage.getItem("user"));
+            store.commit("loginPage/getUseremail", window.localStorage.getItem('UsereMail'));
+            store.commit("loginPage/getUsermobile", window.localStorage.getItem('UsereMobile'));
+            store.commit("home/getTabsactiveIndex", "1");
+            store.commit("ACTIVE", "1");
+            store.commit("home/showTabsFun", true);
+            store.commit("evlaluating/changeShowevaluatingPage", false);
+            //隐藏首页背景图
+            store.commit("home/changeShowHomeBgImge", false);
+            router.push("/overview");
+          });
+      } else {
+        console.log("noautologin");
+        //显示首页背景图
+        store.commit("home/changeShowHomeBgImge", true);
+        //激活工作台菜单
+        store.commit("home/getTabsactiveIndex", "1");
+        store.commit("ACTIVE", "1");
+        next({
+          path: '/loginPage',
+          // query: {redirect: to.fullPath} // 将跳转的路由path作为参数，登录成功后跳转到该路由
+        })
+      }
     }
   } else {
-    next()
+    //如果不需要权限，判断是否登录页，如果是，判断是否有token，自动登录是否为true,请求接口校验，校验通过就跳转到工作台，否则就是登录页
+    if (to.fullPath == "/loginPage" && window.localStorage.getItem("autoLogin30days") == "true") {
+      let url = "/IBUS/DAIG_SYS/check_login",
+        type = "post",
+        request = {
+          id: window.localStorage.getItem("token")
+        },
+        apikey = "";
+      let param = {
+        apikey,
+        request
+      };
+
+      axios({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          console.log("autologin");
+          store.commit("SET_TOKEN", window.localStorage.getItem("token"));
+          store.commit("GET_USER", window.localStorage.getItem("user"));
+          store.commit("loginPage/getUseremail", window.localStorage.getItem('UsereMail'));
+          store.commit("loginPage/getUsermobile", window.localStorage.getItem('UsereMobile'));
+          store.commit("home/getTabsactiveIndex", "1");
+          store.commit("ACTIVE", "1");
+          store.commit("home/showTabsFun", true);
+          store.commit("evlaluating/changeShowevaluatingPage", false);
+          //隐藏首页背景图
+          store.commit("home/changeShowHomeBgImge", false);
+          router.push("/overview");
+        }).catch(err => {
+          console.log(err);
+          store.commit("home/changeShowHomeBgImge", true);
+          //激活工作台菜单
+          store.commit("home/getTabsactiveIndex", "1");
+          store.commit("ACTIVE", "1");
+          next({
+            path: '/loginPage',
+            // query: {redirect: to.fullPath} // 将跳转的路由path作为参数，登录成功后跳转到该路由
+          })
+        });
+    } else {
+      next();
+    }
   }
 })
 

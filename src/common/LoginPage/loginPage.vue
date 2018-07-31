@@ -185,23 +185,23 @@ export default {
     errCounter: 0
   }),
   mounted: function() {
-    let $this = this;
-    if (this.autoLogin30days) {
-      let url = "/IBUS/DAIG_SYS/check_login",
-        type = "post",
-        param = {},
-        apikey = "";
+    // let $this = this;
+    // if (this.autoLogin30days) {
+    //   let url = "/IBUS/DAIG_SYS/check_login",
+    //     type = "post",
+    //     param = {},
+    //     apikey = "";
 
-      $this.http({
-        method: type,
-        url: url,
-        data: param
-      }).then(res => {
-        console.log("autologin")
-      });
-    }else{
-      console.log("noautologin")
-    }
+    //   $this.http({
+    //     method: type,
+    //     url: url,
+    //     data: param
+    //   }).then(res => {
+    //     console.log("autologin")
+    //   });
+    // }else{
+    //   console.log("noautologin")
+    // }
   },
   computed: {
     menuVisible() {
@@ -261,6 +261,8 @@ export default {
                 // $this.session_id = res.data.session_id;
                 $this.$store.commit("SET_TOKEN", res.data.session_id);
                 $this.$store.commit("GET_USER", res.data.email);
+                $this.$store.commit("SET_UsereMail", res.data.email);
+                $this.$store.commit("GET_UsereMobile", res.data.mobile);
                 $this.$store.commit("loginPage/getUseremail", res.data.email);
                 $this.$store.commit("loginPage/getUsermobile", res.data.mobile);
                 $this.$store.commit(
