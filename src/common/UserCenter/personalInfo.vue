@@ -6,13 +6,13 @@
                 <div class="md-layout-item md-size-80">
                     <md-card>
                         <md-card-content>
-                            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                            <div class="md-layout-item md-size-100" style="display: inline-flex;padding: 25px;">
                                 <div class="md-layout-item md-size-15"></div>
                                 <div class="md-layout-item md-size-25">
                                     <div class="md-layout-item md-size-100">
                                         <div class="md-layout-item md-size-25"></div>
                                         <div class="md-layout-item md-size-100" style="text-align:center;">
-                                            <md-avatar>
+                                            <md-avatar style="width:80px!important;height: 80px!important;">
                                                 <img class="logoImage" v-bind:src="imageSrc"/>
                                             </md-avatar>
                                         </div>
@@ -31,10 +31,10 @@
                                 </div>
                                 <div class="md-layout-item md-size-60">
                                     <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                        <div v-if="canEditName" class="md-layout-item md-size-15" style="text-align: right;padding: 2%;">
+                                        <div v-if="canEditName" class="md-layout-item md-size-15" style="text-align: right;padding: 2%;font-size: 16px;color: rgba(0, 0, 0, 0.42);">
                                             <span >姓名：</span>
                                         </div>
-                                        <div v-if="!canEditName" class="md-layout-item md-size-15" style="text-align: right;">
+                                        <div v-if="!canEditName" class="md-layout-item md-size-15" style="text-align: right;font-size: 16px;color: rgba(0, 0, 0, 0.42);">
                                             <span >姓名：</span>
                                         </div>
                                         <div class="md-layout-item md-size-80">
@@ -44,8 +44,8 @@
                                         </div>
                                         <div class="md-layout-item md-size-5"></div>
                                     </div>
-                                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin-top: 10px;">
-                                        <div  class="md-layout-item md-size-15" style="text-align: right;">
+                                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin-top: 20px;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;font-size: 16px;color: rgba(0, 0, 0, 0.42);">
                                             <span >邮箱：</span>
                                         </div>
                                         <div class="md-layout-item md-size-80">
@@ -53,8 +53,8 @@
                                         </div>
                                         <div class="md-layout-item md-size-5"></div>
                                     </div>
-                                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin-top: 10px;">
-                                        <div  class="md-layout-item md-size-15" style="text-align: right;">
+                                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin-top: 20px;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;font-size: 16px;color: rgba(0, 0, 0, 0.42);">
                                             <span >手机：</span>
                                         </div>
                                         <div class="md-layout-item md-size-80">
@@ -62,8 +62,8 @@
                                         </div>
                                         <div class="md-layout-item md-size-5"></div>
                                     </div>
-                                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin-top: 10px;">
-                                        <div  class="md-layout-item md-size-15" style="text-align: right;">
+                                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin-top: 20px;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;font-size: 16px;color: rgba(0, 0, 0, 0.42);">
                                             <span >当前企业：</span>
                                         </div>
                                         <div class="md-layout-item md-size-80">
@@ -90,7 +90,7 @@
                                 <div class="md-layout-item md-size-40"></div>
                                 <div class="md-layout-item md-size-60">
                                     <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;font-size: 16px;color: rgba(0, 0, 0, 0.42);">
                                             <span>性别：</span>
                                         </div>
                                         <div class="md-layout-item md-size-80">
@@ -110,7 +110,7 @@
                                 <div class="md-layout-item md-size-40"></div>
                                 <div class="md-layout-item md-size-60">
                                     <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;font-size: 16px;color: rgba(0, 0, 0, 0.42);">
                                             <span>出生日期：</span>
                                         </div>
                                         <div class="md-layout-item md-size-40" >
@@ -130,7 +130,7 @@
                                 <div class="md-layout-item md-size-40"></div>
                                 <div class="md-layout-item md-size-60">
                                     <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;font-size: 16px;color: rgba(0, 0, 0, 0.42);">
                                             <span>部门：</span>
                                         </div>
                                         <div class="md-layout-item md-size-40">
@@ -144,7 +144,7 @@
                                 <div class="md-layout-item md-size-40"></div>
                                 <div class="md-layout-item md-size-60">
                                     <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;font-size: 16px;color: rgba(0, 0, 0, 0.42);">
                                             <span>职位：</span>
                                         </div>
                                         <div class="md-layout-item md-size-40">
@@ -183,7 +183,7 @@
                                 <div class="md-layout-item md-size-40"></div>
                                 <div class="md-layout-item md-size-60">
                                     <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;font-size: 16px;color: rgba(0, 0, 0, 0.42);">
                                             <span>性别：</span>
                                         </div>
                                         <div class="md-layout-item md-size-80">
@@ -203,7 +203,7 @@
                                 <div class="md-layout-item md-size-40"></div>
                                 <div class="md-layout-item md-size-60">
                                     <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;font-size: 16px;color: rgba(0, 0, 0, 0.42);">
                                             <span>出生日期：</span>
                                         </div>
                                         <div class="md-layout-item md-size-40" >
@@ -223,7 +223,7 @@
                                 <div class="md-layout-item md-size-40"></div>
                                 <div class="md-layout-item md-size-60">
                                     <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;font-size: 16px;color: rgba(0, 0, 0, 0.42);">
                                             <span>部门：</span>
                                         </div>
                                         <div class="md-layout-item md-size-40">
@@ -237,7 +237,7 @@
                                 <div class="md-layout-item md-size-40"></div>
                                 <div class="md-layout-item md-size-60">
                                     <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;font-size: 16px;color: rgba(0, 0, 0, 0.42);">
                                             <span>职位：</span>
                                         </div>
                                         <div class="md-layout-item md-size-40">
