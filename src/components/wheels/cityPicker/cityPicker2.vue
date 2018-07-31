@@ -1,10 +1,9 @@
 <template>
       <div class="linkage">
         <el-select
-        style="width: 32%;"
+        style="width: 34%;"
         v-model="selectProvince"
         @change="choseProvince"
-        :disabled="!showCityPicker"
         filterable
         placeholder="省级地区">
         <el-option
@@ -15,10 +14,9 @@
         </el-option>
         </el-select>
         <el-select
-        style="width: 31%;"
+        style="width: 32%;"
         v-model="selectCity"
         @change="choseCity"
-        :disabled="!showCityPicker"
         filterable
         placeholder="市级地区">
         <el-option
@@ -29,10 +27,9 @@
         </el-option>
         </el-select>
         <el-select
-        style="width: 30%;"
+        style="width: 31%;"
         v-model="selectCounty"
         @change="choseBlock"
-        :disabled="!showCityPicker"
         filterable
         placeholder="区级地区">
         <el-option

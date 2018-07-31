@@ -1,14 +1,28 @@
 <template>
       <div class="linkage">
         <el-select
-        style="width: 32%;"
+        style="width: 35%;"
         v-model="selectProvince"
         @change="choseProvince"
         :disabled="!showCityPicker"
         filterable
         placeholder="省级地区">
         <el-option
-            v-for="item in province"
+            v-for="item in provinceArray"
+            :key="item.id"
+            :label="item.value"
+            :value="item.id">
+        </el-option>
+        </el-select>
+        <el-select
+        style="width: 32%;"
+        v-model="selectCity"
+        @change="choseCity"
+        :disabled="!showCityPicker"
+        filterable
+        placeholder="市级地区">
+        <el-option
+            v-for="item in shiArray"
             :key="item.id"
             :label="item.value"
             :value="item.id">
@@ -16,27 +30,13 @@
         </el-select>
         <el-select
         style="width: 31%;"
-        v-model="selectCity"
-        @change="choseCity"
-        :disabled="!showCityPicker"
-        filterable
-        placeholder="市级地区">
-        <el-option
-            v-for="item in shi1"
-            :key="item.id"
-            :label="item.value"
-            :value="item.id">
-        </el-option>
-        </el-select>
-        <el-select
-        style="width: 30%;"
         v-model="selectCounty"
         @change="choseBlock"
         :disabled="!showCityPicker"
         filterable
         placeholder="区级地区">
         <el-option
-            v-for="item in qu1"
+            v-for="item in quArray"
             :key="item.id"
             :label="item.value"
             :value="item.id">
@@ -53,19 +53,19 @@ export default {
   name: "city-picker",
   data: () => ({
     mapJson: "/static/jsons/map.json",
-    province: "",
+    provinceArray: "",
     // sheng: "",
     // shi: "",
-    shi1: "",
+    shiArray: "",
     // qu: "",
-    qu1: "",
+    quArray: "",
     city: "",
     block: ""
   }),
   mounted: () => {
-    // console.log(this.selectProvince);
-    // console.log(this.selectCity);
-    // console.log(this.selectCounty);
+    console.log(this.selectProvince);
+    console.log(this.selectCity);
+    console.log(this.selectCounty);
   },
   methods: {
     getEnterprierData() {
@@ -94,16 +94,16 @@ export default {
     // 加载china地点数据，三级
     getCityData() {
       var data = mapdata;
-      this.province = [];
+      this.provinceArray = [];
       this.city = [];
       this.block = [];
-      this.shi1 = [];
-      this.qu1 = [];
+      this.shiArray = [];
+      this.quArray = [];
       // 省市区数据分类
       for (var item in data) {
         if (item.match(/0000$/)) {
           //省
-          this.province.push({
+          this.provinceArray.push({
             id: item,
             value: data[item],
             children: []
@@ -118,13 +118,13 @@ export default {
       }
 
       // 分类市级
-      for (var index in this.province) {
+      for (var index in this.provinceArray) {
         for (var index1 in this.city) {
           if (
-            this.province[index].id.slice(0, 2) ===
+            this.provinceArray[index].id.slice(0, 2) ===
             this.city[index1].id.slice(0, 2)
           ) {
-            this.province[index].children.push(this.city[index1]);
+            this.provinceArray[index].children.push(this.city[index1]);
           }
         }
       }
@@ -140,29 +140,31 @@ export default {
         }
       }
       if (this.selectProvince) {
-        for (var i in this.province) {
-          if (this.province[i].id === this.selectProvince) {
-            this.shi1 = this.province[i].children;
+        for (var i in this.provinceArray) {
+          if (this.provinceArray[i].id === this.selectProvince) {
+            this.shiArray = this.provinceArray[i].children;
+            console.log(this.shiArray);
           }
         }
         for (var j in this.city) {
           if (this.city[j].id === this.selectCity) {
-            this.qu1 = this.city[j].children;
+            this.quArray = this.city[j].children;
+            console.log(this.quArray);
           }
         }
       }
     },
     // 选省
     choseProvince(e) {
-      for (var index2 in this.province) {
-        if (e === this.province[index2].id) {
-          this.shi1 = this.province[index2].children;
-          this.selectCity = this.province[index2].children[0].value;
-          this.qu1 = this.province[index2].children[0].children;
-          this.selectCounty = this.province[
+      for (var index2 in this.provinceArray) {
+        if (e === this.provinceArray[index2].id) {
+          this.shiArray = this.provinceArray[index2].children;
+          this.selectCity = this.provinceArray[index2].children[0].value;
+          this.quArray = this.provinceArray[index2].children[0].children;
+          this.selectCounty = this.provinceArray[
             index2
           ].children[0].children[0].value;
-          this.E = this.qu1[0].id;
+          this.E = this.quArray[0].id;
         }
       }
     },
@@ -170,9 +172,9 @@ export default {
     choseCity(e) {
       for (var index3 in this.city) {
         if (e === this.city[index3].id) {
-          this.qu1 = this.city[index3].children;
+          this.quArray = this.city[index3].children;
           this.qu = this.city[index3].children[0].value;
-          this.E = this.qu1[0].id;
+          this.E = this.quArray[0].id;
           // console.log(this.E)
         }
       }

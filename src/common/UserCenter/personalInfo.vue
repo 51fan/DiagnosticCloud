@@ -1,193 +1,273 @@
 <template>
     <div class="mypanel">
-        <div v-if="!disable">
-            <div style="margin-bottom: 10px;">
-                <div class="md-layout">
-                    <div class="md-layout-item md-size-10"></div>
-                    <div class="md-layout-item md-size-80">
-                        <md-card>
-                            <md-card-content>
-                                <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                    <div class="md-layout-item md-size-30" style="border-right: 1px solid rgba(211, 211, 211, 0.51);">
-                                        <div class="md-layout-item md-size-100">
-                                            <div class="md-layout-item md-size-25"></div>
-                                            <div class="md-layout-item md-size-100" style="text-align: -webkit-center;">
-                                                <md-avatar>
-                                                    <img class="logoImage" v-bind:src="imageSrc"/>
-                                                </md-avatar>
-                                            </div>
-                                            <div class="md-layout-item md-size-80">
-                                                <md-field>
-                                                    <label>上传头像</label>
-                                                    <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
-                                                </md-field>
-                                                <!-- <i class="material-icons" style="color:rgb(47, 165, 172);cursor: pointer;padding:8px 0;">add</i> --> 
-                                            </div>
-                                            <div class="md-layout-item md-size-25"></div>
-                                            </div>
-                                    </div>
-                                    <div class="md-layout-item md-size-5"></div>
-                                    <div class="md-layout-item md-size-65">
-                                            <div style="  width: 70%;display: inline-flex;">
-                                                    <span style="width:10%">姓名：</span>
-                                                    <md-field style="margin-top: -3%;" v-if="!canEditName">
-                                                        <md-input v-model="name" disabled></md-input>
-                                                        <i class="material-icons" @click="editName()" style="cursor: pointer;">edit</i>
-                                                    </md-field>          
-                                                    <md-field style="margin-top: -3%;" v-if="canEditName">
-                                                        <md-input v-model="name" v-on:blur="saveName()" id="eidtName"></md-input>
-                                                    </md-field>
-                                                </div>
-                                                <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                                                    <span style="width:100%">邮箱：{{useremail}}</span>
-                                                </div>
-                                                <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                                                    <span style="width:100%">手机：{{usermobile}}</span>
-                                                </div>
-                                                <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                                                    <span style="width:100%">当前企业：{{company}}</span>
-                                                </div>
-                                            
-                                            <!-- <md-card>
-                                                <md-card-header>
-                                                    <md-card-header-text>
-                                                        <div style="  width: 70%;display: inline-flex;">
-                                                            <span style="width:10%">姓名：</span>
-                                                            <md-field style="margin-top: -3%;" v-if="!canEditName">
-                                                                <md-input v-model="name" disabled></md-input>
-                                                                <i class="material-icons" @click="editName()" style="cursor: pointer;">edit</i>
-                                                            </md-field>          
-                                                            <md-field style="margin-top: -3%;" v-if="canEditName">
-                                                                <md-input v-model="name" v-on:blur="saveName()" id="eidtName"></md-input>
-                                                            </md-field>
-                                                        </div>
-                                                        <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                                                            <span style="width:100%">邮箱：{{useremail}}</span>
-                                                        </div>
-                                                        <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                                                            <span style="width:100%">手机：{{usermobile}}</span>
-                                                        </div>
-                                                        <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                                                            <span style="width:100%">当前企业：{{company}}</span>
-                                                        </div>
-                                                    </md-card-header-text>
-                                                </md-card-header>
-                                            </md-card> -->
-                                        </div>
-                                </div>
-                            </md-card-content>
-                        </md-card>
-                    </div>
-                    <div class="md-layout-item md-size-10"></div>
-                </div>
-            </div>
-
+        <div style="margin-bottom: 10px;">
             <div class="md-layout">
                 <div class="md-layout-item md-size-10"></div>
                 <div class="md-layout-item md-size-80">
                     <md-card>
                         <md-card-content>
                             <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                <div class="md-layout-item md-size-30" style="border-right: 1px solid rgba(211, 211, 211, 0.51);"></div>
-                                <div class="md-layout-item md-size-5"></div>
-                                <div class="md-layout-item md-size-65">
-                                    <div style="display: inline-flex;margin-top: 1%;"> 
-                                        <span style="width:55%;margin: 9% 5% 0 0;">性别：</span>
-                                        <div>
-                                            <md-radio v-model="sex" value="male" style="width:50%;" disabled>男</md-radio>
-                                            <md-radio v-model="sex" value="female" style="width:10%;" disabled>女</md-radio>
+                                <div class="md-layout-item md-size-15"></div>
+                                <div class="md-layout-item md-size-25">
+                                    <div class="md-layout-item md-size-100">
+                                        <div class="md-layout-item md-size-25"></div>
+                                        <div class="md-layout-item md-size-100" style="text-align:center;">
+                                            <md-avatar>
+                                                <img class="logoImage" v-bind:src="imageSrc"/>
+                                            </md-avatar>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <span  style="width:10%">出生日期：</span>
-                                        <el-date-picker
-                                            v-model="date"
-                                            type="date"
-                                            disabled
-                                            placeholder="选择日期">
-                                        </el-date-picker>
-                                    </div>
-                                    <div>
-                                        <span  style="width:10%">部门：</span>
-                                        <md-field style="width: 70%;">
-                                            <md-input v-model="department" disabled></md-input>
-                                        </md-field>
-                                    </div>
-                                    <div>
-                                        <span  style="width:10%">职位：</span>
-                                        <md-field style="width: 70%">
-                                            <md-input v-model="position" disabled></md-input>
-                                        </md-field>
+                                        <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                            <div class="md-layout-item md-size-20"></div>
+                                            <div class="md-layout-item md-size-60">
+                                                <md-field>
+                                                    <label>上传头像</label>
+                                                    <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
+                                                </md-field>
+                                            </div>
+                                            <div class="md-layout-item md-size-20"></div>
+                                        </div>
+                                        <div class="md-layout-item md-size-25"></div>
                                     </div>
                                 </div>
+                                <div class="md-layout-item md-size-60">
+                                    <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                        <div v-if="canEditName" class="md-layout-item md-size-15" style="text-align: right;padding: 2%;">
+                                            <span >姓名：</span>
+                                        </div>
+                                        <div v-if="!canEditName" class="md-layout-item md-size-15" style="text-align: right;">
+                                            <span >姓名：</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-80">
+                                            <span v-if="!canEditName">{{name}}</span>
+                                            <span v-if="!canEditName" @click="editName()" style="cursor: pointer;color: rgb(0, 145, 153);margin: 0 10px;">修改</span>
+                                            <el-input v-if="canEditName" v-model="name" placeholder="" v-on:blur="saveName()" id="eidtName"></el-input>
+                                        </div>
+                                        <div class="md-layout-item md-size-5"></div>
+                                    </div>
+                                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin-top: 10px;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;">
+                                            <span >邮箱：</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-80">
+                                            <span>{{useremail}}</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-5"></div>
+                                    </div>
+                                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin-top: 10px;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;">
+                                            <span >手机：</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-80">
+                                            <span>{{usermobile}}</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-5"></div>
+                                    </div>
+                                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin-top: 10px;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;">
+                                            <span >当前企业：</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-80">
+                                            <span>{{company}}</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-5"></div>
+                                    </div>
+                                </div>
+                                <!-- <div class="md-layout-item md-size-20"></div> -->
                             </div>
                         </md-card-content>
-                        <div style="text-align: -webkit-center;">
-                            <md-button class="md-dense md-raised md-primary" style="width:10%" @click="comeback()">取消</md-button>
-                            <md-button class="md-dense md-raised md-primary" style="width:10%" @click="modify()">修改</md-button>
-                        </div>
                     </md-card>
                 </div>
                 <div class="md-layout-item md-size-10"></div>
             </div>
         </div>
-        <div v-if="disable">
-           <div style="margin-bottom: 10px;">
-                <div class="md-layout">
-                    <div class="md-layout-item md-size-10"></div>
-                    <div class="md-layout-item md-size-80">
-                        <div class="md-layout-item md-size-100">
-                            <md-card>
-                                <md-card-content>
+        <div v-if="!disable">
+            <div class="md-layout">
+                <div class="md-layout-item md-size-10"></div>
+                <div class="md-layout-item md-size-80">
+                     <md-card>
+                         <md-card-content>
+                            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                <div class="md-layout-item md-size-40"></div>
+                                <div class="md-layout-item md-size-60">
                                     <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                        <div class="md-layout-item md-size-30" style="border-right: 1px solid rgba(211, 211, 211, 0.51);">
-                                            <div class="md-layout-item md-size-100">
-                                                <div class="md-layout-item md-size-25"></div>
-                                                <div class="md-layout-item md-size-100" style="text-align: -webkit-center;">
-                                                    <md-avatar>
-                                                        <img class="logoImage" v-bind:src="imageSrc"/>
-                                                    </md-avatar>
-                                                </div>
-                                                <div class="md-layout-item md-size-80">
-                                                    <md-field>
-                                                        <label>上传头像</label>
-                                                        <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
-                                                    </md-field>
-                                                    <!-- <i class="material-icons" style="color:rgb(47, 165, 172);cursor: pointer;padding:8px 0;">add</i> --> 
-                                                </div>
-                                                <div class="md-layout-item md-size-25"></div>
-                                            </div>
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                            <span>性别：</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-80">
+                                             <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                                <div class="md-layout-item md-size-5"></div>
+                                                <div class="md-layout-item md-size-95">
+                                                    <md-radio v-model="sex" value="male"  disabled>男</md-radio>
+                                                    <md-radio v-model="sex" value="female"  disabled>女</md-radio> 
+                                                </div>   
+                                             </div>
                                         </div>
                                         <div class="md-layout-item md-size-5"></div>
-                                        <div class="md-layout-item md-size-65">
-                                                <div style="  width: 70%;display: inline-flex;">
-                                                        <span style="width:10%">姓名：</span>
-                                                        <md-field style="margin-top: -3%;" v-if="!canEditName">
-                                                            <md-input v-model="name" disabled></md-input>
-                                                            <i class="material-icons" @click="editName()" style="cursor: pointer;">edit</i>
-                                                        </md-field>          
-                                                        <md-field style="margin-top: -3%;" v-if="canEditName">
-                                                            <md-input v-model="name" v-on:blur="saveName()" id="eidtName"></md-input>
-                                                        </md-field>
-                                                    </div>
-                                                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                                                        <span style="width:100%">邮箱：{{useremail}}</span>
-                                                    </div>
-                                                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                                                        <span style="width:100%">手机：{{usermobile}}</span>
-                                                    </div>
-                                                    <div style="  width: 70%;display: inline-flex;margin: 1% 0;">
-                                                        <span style="width:100%">当前企业：{{company}}</span>
-                                                    </div>
-                                            </div>
                                     </div>
-                                </md-card-content>
-                            </md-card>
+                                </div>
+                            </div>
+                            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                <div class="md-layout-item md-size-40"></div>
+                                <div class="md-layout-item md-size-60">
+                                    <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                            <span>出生日期：</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-40" >
+                                            <el-date-picker
+                                                style="width: 100%;"
+                                                v-model="date"
+                                                type="date"
+                                                disabled
+                                                placeholder="选择日期">
+                                            </el-date-picker>
+                                        </div>
+                                        <div class="md-layout-item md-size-35"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                <div class="md-layout-item md-size-40"></div>
+                                <div class="md-layout-item md-size-60">
+                                    <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                            <span>部门：</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-40">
+                                            <el-input  v-model="department"  placeholder="" disabled></el-input>
+                                        </div>
+                                        <div class="md-layout-item md-size-35"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                <div class="md-layout-item md-size-40"></div>
+                                <div class="md-layout-item md-size-60">
+                                    <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                            <span>职位：</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-40">
+                                             <el-input  v-model="position"  placeholder="" disabled></el-input>
+                                        </div>
+                                        <div class="md-layout-item md-size-35"></div>
+                                    </div>
+                                </div>
+                            </div>
+                         </md-card-content>
+                         <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                            <div class="md-layout-item md-size-40"></div>
+                            <div class="md-layout-item md-size-60">
+                                <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                    <div  class="md-layout-item md-size-15"></div>
+                                    <div class="md-layout-item md-size-40">
+                                        <!-- <md-button class="md-dense md-raised md-primary" style="width:95%;padding: 0 0 40px 0;cursor: pointer;background-color: rgb(0, 145, 153)" @click="modify()">修改</md-button> -->
+                                        <md-button class="md-dense md-raised md-primary" style="width:30%;background-color: rgb(0, 145, 153)" @click="modify()">修改</md-button>
+                                    </div>
+                                    <div class="md-layout-item md-size-35"></div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="md-layout-item md-size-10"></div>
-                    </div>
+                     </md-card>
                 </div>
+                <div class="md-layout-item md-size-10"></div>
+            </div>
+        </div>
+        <div v-if="disable">
+             <div class="md-layout">
+                <div class="md-layout-item md-size-10"></div>
+                <div class="md-layout-item md-size-80">
+                     <md-card>
+                         <md-card-content>
+                            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                <div class="md-layout-item md-size-40"></div>
+                                <div class="md-layout-item md-size-60">
+                                    <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                            <span>性别：</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-80">
+                                             <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                                <div class="md-layout-item md-size-5"></div>
+                                                <div class="md-layout-item md-size-95">
+                                                    <md-radio v-model="sex" value="male" >男</md-radio>
+                                                    <md-radio v-model="sex" value="female" >女</md-radio> 
+                                                </div>   
+                                             </div>
+                                        </div>
+                                        <div class="md-layout-item md-size-5"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                <div class="md-layout-item md-size-40"></div>
+                                <div class="md-layout-item md-size-60">
+                                    <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                            <span>出生日期：</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-40" >
+                                            <el-date-picker
+                                                style="width: 100%;"
+                                                v-model="date"
+                                                type="date"
+                                                
+                                                placeholder="选择日期">
+                                            </el-date-picker>
+                                        </div>
+                                        <div class="md-layout-item md-size-35"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                <div class="md-layout-item md-size-40"></div>
+                                <div class="md-layout-item md-size-60">
+                                    <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                            <span>部门：</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-40">
+                                            <el-input  v-model="department"  placeholder="" ></el-input>
+                                        </div>
+                                        <div class="md-layout-item md-size-35"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                <div class="md-layout-item md-size-40"></div>
+                                <div class="md-layout-item md-size-60">
+                                    <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                        <div  class="md-layout-item md-size-15" style="text-align: right;padding: 15px 0;">
+                                            <span>职位：</span>
+                                        </div>
+                                        <div class="md-layout-item md-size-40">
+                                             <el-input  v-model="position"  placeholder="" ></el-input>
+                                        </div>
+                                        <div class="md-layout-item md-size-35"></div>
+                                    </div>
+                                </div>
+                            </div>
+                         </md-card-content>
+                         <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                            <div class="md-layout-item md-size-40"></div>
+                            <div class="md-layout-item md-size-60">
+                                <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                    <div  class="md-layout-item md-size-15"></div>
+                                    <div class="md-layout-item md-size-40">
+                                        <!-- <md-button class="md-dense md-raised md-primary" style="width:95%;padding: 0 0 40px 0;cursor: pointer;background-color: rgb(0, 145, 153)" @click="modify()">修改</md-button> -->
+                                        <md-button class="md-dense md-raised md-primary" style="width:30%;background-color: rgb(150, 150, 150);" @click="cancel()">取消</md-button>
+                                        <md-button class="md-dense md-raised md-primary" style="width:59%;background-color: rgb(0, 145, 153)" @click="save()">保存</md-button>
+                                    </div>
+                                    <div class="md-layout-item md-size-35"></div>
+                                </div>
+                            </div>
+                        </div>
+                     </md-card>
+                </div>
+                <div class="md-layout-item md-size-10"></div>
+            </div>
+        </div>
+        <!-- <div v-if="disable">
             <div class="md-layout">
                <div class="md-layout-item md-size-10"></div>
                 <div class="md-layout-item md-size-80">
@@ -240,7 +320,7 @@
                   :md-active.sync="showAlert"
                   :md-content="AlertMessage"
                   md-confirm-text="知道了" />       
-        </div>
+        </div> -->
     </div>   
 </template>
 
@@ -383,7 +463,7 @@ export default {
       this.$store.commit("ACTIVE", "1");
       this.$store.commit("home/showTabsFun", true);
       this.$store.commit("evlaluating/changeShowevaluatingPage", false);
-      
+
       this.$router.push("/overview");
     },
     save() {
@@ -393,9 +473,9 @@ export default {
         url = " /IBUS/DAIG_SYS/modifyUserInfo",
         request = {
           email: this.useremail,
-          position: this.position?this.position:"",
-          department: this.department?this.department:"",
-          birthday: this.date?this.date:"",
+          position: this.position ? this.position : "",
+          department: this.department ? this.department : "",
+          birthday: this.date ? this.date : "",
           gender: this.sex == "female" ? 0 : 1,
           session_id: this.session_id
         },
@@ -545,11 +625,18 @@ export default {
         });
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg"||file.type === "image/png"||file.type === "image/jpeg"||file.type === "image/gif"||file.type === "image/bmp";
+      const isJPG =
+        file.type === "image/jpeg" ||
+        file.type === "image/png" ||
+        file.type === "image/jpeg" ||
+        file.type === "image/gif" ||
+        file.type === "image/bmp";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG、png、jpeg、gif、bmp 格式!");
+        this.$message.error(
+          "上传头像图片只能是 JPG、png、jpeg、gif、bmp 格式!"
+        );
       }
       if (!isLt2M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");

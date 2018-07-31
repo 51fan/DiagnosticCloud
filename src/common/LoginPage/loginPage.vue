@@ -243,6 +243,12 @@ export default {
           $this.showAlert = true;
           $this.AlertMessage = "请输入验证码";
         } else {
+          const loading = this.$loading({
+            lock: true,
+            text: 'Loading',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+          });
           $this
             .$http({
               method: type,
@@ -292,6 +298,7 @@ export default {
                 $this.$store.commit("home/getTabsactiveIndex", "1");
                 $this.$store.commit("ACTIVE", "1");
                 $this.$router.push("/overview");
+                loading.close();
               }
             })
             .catch(error => {

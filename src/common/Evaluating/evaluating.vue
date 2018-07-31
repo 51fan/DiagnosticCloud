@@ -1,7 +1,7 @@
 <template>
     <div style="overflow: hidden;">
         <div v-if="!showevaluatingPage">
-            <div  class="panelHeader">
+            <div  class="panelHeader md-layout-item" >
               <div class="panelHeaderTitle">
                   <h3>请选择你要测评的产品</h3>
               </div>

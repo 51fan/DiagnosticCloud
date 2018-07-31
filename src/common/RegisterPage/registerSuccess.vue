@@ -57,7 +57,8 @@ export default {
       // });
       var url = this.useremail.split("@")[1];
       if (hash[url]) {
-        window.location.href = hash[url];
+        // window.location.href = hash[url];
+        window.open( hash[url])
       }
     }
   },

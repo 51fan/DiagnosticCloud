@@ -256,6 +256,7 @@ export default {
           //隐藏首页背景图
           this.$store.commit("home/changeShowHomeBgImge", false);
           this.$store.commit("evlaluating/changeShowevaluatingPage", false);
+          this.$store.commit("UserCenter/changeShowCityPicker", false);
           this.$router.push("/enterpriseInfo");
           break;
         case 5:

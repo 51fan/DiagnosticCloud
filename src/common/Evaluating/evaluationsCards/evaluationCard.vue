@@ -1,6 +1,6 @@
 <template>
     <div @click="beginEvaluation()">
-        <md-card md-with-hover>
+        <md-card md-with-hover style="width: 100%;">
           <md-ripple>
           <md-card-header>
                             <md-avatar>
