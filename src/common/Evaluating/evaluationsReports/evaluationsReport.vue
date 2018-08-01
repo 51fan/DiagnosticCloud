@@ -18,21 +18,18 @@
             <div style="display: inline-flex;width: 100%;background-color: rgba(216, 209, 202, 0.13);">
                 <div class="evaluationModel">
                     <div style="width: 100%;">
-                        <md-tabs md-sync-route md-alignment="fixed" >
-                        <md-tab id="tab-home" md-label="一级指标" to="" @click="switchTable(1)">
-                           <ve-radar :data="chartData1" width="100%" v-if="showRadar" ref="tab1radar1"></ve-radar>
-                           <ve-bar :data="chartDatabar" width="100%" v-if="showBar" ref="tab1bar1"></ve-bar>
-                        </md-tab>
-
-                        <md-tab id="tab-pages" md-label="二级指标" to="" @click="switchTable(2)">
+                        <el-tabs v-model="activeName" :stretch="true" @tab-click="switchTable">
+                          <el-tab-pane label="一级指标" name="1">
+                            <ve-radar :data="chartData1" width="100%" v-if="showRadar" ref="tab1radar1"></ve-radar>
+                            <ve-bar :data="chartDatabar" width="100%" v-if="showBar" ref="tab1bar1"></ve-bar>
+                          </el-tab-pane>
+                          <el-tab-pane label="二级指标" name="2">
                             <ve-radar :data="chartData2" width="100%" ref="tab2radar1"  :settings="chart2Settings"></ve-radar>
-                        </md-tab>
-
-                        <md-tab id="tab-posts" md-label="三级指标" to="" @click="switchTable(3)">
+                          </el-tab-pane>
+                          <el-tab-pane label="三级指标" name="3">
                             <ve-radar :data="chartData3" width="100%"  ref="tab3radar1"  :settings="chart3Settings"></ve-radar>
-                        </md-tab>
-
-                    </md-tabs>
+                          </el-tab-pane>
+                        </el-tabs>
                     </div>
                 </div>
                 <div class="Modeltable">
@@ -146,6 +143,7 @@ export default {
   name: "evaluationsReport",
   // props: ["reportParm"],
   data: () => ({
+    activeName: "1",
     date: String,
     showLevel1Table: true,
     showLevel2Table: false,
@@ -238,9 +236,12 @@ export default {
           });
           // console.log(result.data.level);
           // console.log($this.reportParm.level1.length);
-          if(!$this.reportParm.level1.length)return;
+          if (!$this.reportParm.level1.length) return;
           //如果第一维度小于2个，就用条形图显示，大于2就用雷达图显示
-          if ($this.reportParm.level1.length&&$this.reportParm.level1.length > 2) {
+          if (
+            $this.reportParm.level1.length &&
+            $this.reportParm.level1.length > 2
+          ) {
             $this.showRadar = true;
             $this.showBar = false;
             $this.reportParm.level1.forEach(item => {
@@ -287,10 +288,10 @@ export default {
         });
     },
     getLevel2Datas: function() {
-      var self = this;
+      var $this = this;
       var request = {
-          evaluationId: self.reportParm.evaluationId,
-          idx: self.reportParm.idx,
+          evaluationId: $this.reportParm.evaluationId,
+          idx: $this.reportParm.idx,
           level: 2,
           session_id: this.session_id
         },
@@ -304,25 +305,25 @@ export default {
         type = "POST",
         url = "/IBUS/DAIG_SYS/getLevelInfo";
 
-      self
+      $this
         .$http({
           method: type,
           url: url,
           data: param
         })
         .then(result => {
-          self.$store.commit("evlaluating/getReportParm", {
+          $this.$store.commit("evlaluating/getReportParm", {
             key: "level2",
             value: result.data.level
           });
 
-          self.reportParm.level2.forEach(item => {
-            self.chartData2.columns.push(item.name);
+          $this.reportParm.level2.forEach(item => {
+            $this.chartData2.columns.push(item.name);
           });
           var currentData = { 标题: "实际" },
             expertData = { 标题: "预期" };
-          self.chartData2.columns.forEach(colum => {
-            self.reportParm.level2.forEach(lev => {
+          $this.chartData2.columns.forEach(colum => {
+            $this.reportParm.level2.forEach(lev => {
               if (lev.name == colum) {
                 currentData[colum] = lev.score;
                 expertData[colum] = lev.expectScore;
@@ -330,19 +331,19 @@ export default {
             });
           });
 
-          self.chartData2.rows.push(expertData);
-          self.chartData2.rows.push(currentData);
-          self.getLevel3Datas();
+          $this.chartData2.rows.push(expertData);
+          $this.chartData2.rows.push(currentData);
+          $this.getLevel3Datas();
         })
         .catch(error => {
           console.log(error);
         });
     },
     getLevel3Datas: function() {
-      var self = this;
+      var $this = this;
       var request = {
-          evaluationId: self.reportParm.evaluationId,
-          idx: self.reportParm.idx,
+          evaluationId: $this.reportParm.evaluationId,
+          idx: $this.reportParm.idx,
           level: 3,
           session_id: this.session_id
         },
@@ -356,63 +357,75 @@ export default {
         type = "POST",
         url = "/IBUS/DAIG_SYS/getLevelInfo";
 
-      self
+      $this
         .$http({
           method: type,
           url: url,
           data: param
         })
         .then(result => {
-          self.$store.commit("evlaluating/getReportParm", {
+          $this.$store.commit("evlaluating/getReportParm", {
             key: "level3",
             value: result.data.level
           });
 
-          console.log(self.reportParm.level3);
-          self.reportParm.level3.forEach(item => {
-            self.chartData3.columns.push(item.name);
+          console.log($this.reportParm.level3);
+          $this.reportParm.level3.forEach(item => {
+            $this.chartData3.columns.push(item.name);
           });
           var currentData = { 标题: "实际" },
             expertData = { 标题: "预期" };
-          self.chartData3.columns.forEach(colum => {
-            self.reportParm.level3.forEach(lev => {
+          $this.chartData3.columns.forEach(colum => {
+            $this.reportParm.level3.forEach(lev => {
               if (lev.name == colum) {
                 currentData[colum] = lev.score;
                 expertData[colum] = lev.expectScore;
               }
             });
           });
-          self.chartData3.rows.push(expertData);
-          self.chartData3.rows.push(currentData);
-          self.switchTable(1);
+          $this.chartData3.rows.push(expertData);
+          $this.chartData3.rows.push(currentData);
+          setTimeout(() => {
+            $this.switchTable({ index: "0" });
+          }, 1000);
         })
         .catch(error => {
           console.log(error);
         });
     },
     switchTable: function(index) {
-      if (index == 1) {
+      if (index.index == "0") {
         this.showLevel1Table = true;
         this.showLevel2Table = false;
         this.showLevel3Table = false;
         if (this.showRadar) {
-          this.$refs.tab1radar1.echarts.resize();
+          setTimeout(() => {
+            this.$refs.tab1radar1.echarts.resize();
+          }, 100);
         }
         if (this.showBar) {
-          this.$refs.tab1bar1.echarts.resize();
+          setTimeout(() => {
+            this.$refs.tab1bar1.echarts.resize();
+          }, 100);
         }
-      } else if (index == 2) {
+      } else if (index.index == "1") {
         this.showLevel1Table = false;
         this.showLevel2Table = true;
         this.showLevel3Table = false;
-        this.$refs.tab2radar1.echarts.resize();
-      } else if (index == 3) {
+        setTimeout(() => {
+          this.$refs.tab2radar1.echarts.resize();
+        }, 100);
+      } else if (index.index == "2") {
         this.showLevel1Table = false;
         this.showLevel2Table = false;
         this.showLevel3Table = true;
-        this.$refs.tab3radar1.echarts.resize();
+
+        setTimeout(() => {
+          this.$refs.tab3radar1.echarts.resize();
+        }, 100);
       }
-    }
+    },
+    handleClick() {}
   },
   computed: {
     reportParm() {
@@ -428,7 +441,7 @@ export default {
 
 <style scoped>
 .concent {
-    width: 90%;
+  width: 90%;
   /* margin: 0px 10%; */
   margin-left: 5%;
   padding: 2% 5%;
@@ -454,6 +467,7 @@ export default {
   text-align: center; /*IE*/
   text-align: -moz-center; /*Firefox*/
   text-align: -webkit-center; /*Chrome*/
+  background-color: #fff;
 }
 .Modeltable {
   width: 50%;

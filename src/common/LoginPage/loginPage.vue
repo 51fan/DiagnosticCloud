@@ -2,29 +2,6 @@
     <div class="mypanel">
       <div class="md-layout-item md-size-100" style="display: inline-flex;">
         <div v-if="showLoginPage" class="md-layout-item md-size-65" style="color: white;font-size: xx-large;">
-          <!-- <div class="md-layout-item md-size-100">
-            <div class="md-layout-item md-size-100">
-              <div class="md-layout-item md-size-40"></div>
-              <div class="md-layout-item md-size-40">
-                <span>中国企业核心能力</span>
-              </div>
-              <div class="md-layout-item md-size-20"></div>
-            </div>
-            <div class="md-layout-item md-size-100">
-              <div class="md-layout-item md-size-40"></div>
-              <div class="md-layout-item md-size-40">
-                <span>测评分析和改善领域最大</span>
-              </div>
-              <div class="md-layout-item md-size-20"></div>
-            </div>
-            <div class="md-layout-item md-size-100">
-              <div class="md-layout-item md-size-40"></div>
-              <div class="md-layout-item md-size-40">
-                <span>服务提供商</span>
-              </div>
-              <div class="md-layout-item md-size-20"></div>
-            </div>
-          </div> -->
           <div style="margin: 22% 0 0 0;">
             <span>中国企业核心能力</span>
           </div>
@@ -59,7 +36,7 @@
               <div class="md-layout-item md-size-80" >
                 <md-field>
                     <label>请输入密码</label>
-                    <md-input v-model="passWord" type="password" placeholder="密码"></md-input>
+                    <md-input v-model="passWord" type="password" placeholder="密码" maxlength="16"></md-input>
                 </md-field>
               </div>
               <div class="md-layout-item md-size-10" ></div>
@@ -73,7 +50,7 @@
                     <div class="md-layout-item md-size-60" >
                         <md-field style="display: inline-flex;">
                             <label>请输入图片中的内容</label>
-                            <md-input v-model="VerificationCode" placeholder="图片验证码"></md-input>
+                            <md-input v-model="VerificationCode" placeholder="图片验证码" maxlength="4"></md-input>
                         </md-field> 
                     </div>
                     <div class="md-layout-item md-size-40" >
@@ -102,10 +79,7 @@
                 </div>
                     <md-button class="md-dense md-raised md-primary" style="width:95%;border-radius: 65px;margin: 15% 0 0 0;background-color: #009199;"  @click="loginFun()">登录</md-button>
                 <div>
-                    <div style="width:90%;text-align: right;margin: 10% 0 5% 0;cursor: pointer;" @click="registerFun()">
-                        <!-- <md-checkbox style="float:left" v-model="autoLogin">自动登录</md-checkbox>
-                        <span style="float:right;width: auto;margin: 17px 16px 16px 0;display: inline-flex;position: relative;">忘记密码</span> -->
-                        <!-- <md-checkbox style="width:80%" v-model="autoLogin">自动登录</md-checkbox> -->
+                    <div style="width: 90%;text-align: center;margin: 10% 0px 5%;cursor: pointer;color: #009199;" @click="registerFun()">
                         <span>注册用户</span>
                     </div>     
                 </div>

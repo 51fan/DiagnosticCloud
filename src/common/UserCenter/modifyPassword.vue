@@ -226,7 +226,7 @@ import { mapGetters, mapState } from "vuex";
 export default {
   name: "modifyPassword",
   data: () => ({
-    activeStep: 1,
+    activeStep: 0,
     phonetime: 0,
     emailtime: 0,
     time: 0,

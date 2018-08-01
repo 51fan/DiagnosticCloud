@@ -63,9 +63,9 @@ export default {
     block: ""
   }),
   mounted: () => {
-    console.log(this.selectProvince);
-    console.log(this.selectCity);
-    console.log(this.selectCounty);
+    // console.log(this.selectProvince);
+    // console.log(this.selectCity);
+    // console.log(this.selectCounty);
   },
   methods: {
     getEnterprierData() {

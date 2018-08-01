@@ -103,7 +103,9 @@ export default {
       apikey,
       request
     };
-    this.getCategory(type, url, param);
+    if(!this.isShowReport){
+      this.getCategory(type, url, param);
+    }
   },
   methods: {
     categorySelectFun(name) {
@@ -208,7 +210,10 @@ export default {
       set: function(newValue) {
         this.this.$store.state.evlaluating.evaluationCard.showErrAlert = newValue;
       }
-    }
+    },
+    isShowReport() {
+      return this.$store.state.evlaluating.evaluatingPage.isShowReport;
+    },
   },
   created: () => {}
 };

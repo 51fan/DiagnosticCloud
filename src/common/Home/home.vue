@@ -67,11 +67,11 @@
                         <span>登录</span>
                       </md-menu-item>
                       <md-menu-item  @click="handleSelect(7)" v-if="loginSuccess">
-                        <md-icon>edit</md-icon>
+                        <md-icon>person</md-icon>
                         <span>个人信息</span>
                       </md-menu-item>
                       <md-menu-item  @click="handleSelect(5)" v-if="loginSuccess">
-                        <md-icon>edit</md-icon>
+                        <md-icon>vpn_key</md-icon>
                         <span>修改密码</span>
                       </md-menu-item>
 
@@ -152,6 +152,7 @@
 .homebgImge {
   background-image: url("/static/imgs/home_bg.jpg");
   background-repeat: no-repeat;
+  background-size:100% 100%;
 }
 .el-menu--horizontal {
   border-bottom: solid 0px #e6e6e6;

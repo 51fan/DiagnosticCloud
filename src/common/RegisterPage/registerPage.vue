@@ -17,7 +17,7 @@
               </div>
               <div class="md-layout-item md-size-100" style="display: inline-flex;">
                 <div class="md-layout-item md-size-10" ></div>
-                <div class="md-layout-item md-size-80" style="margin: 5% 0;">
+                <div class="md-layout-item md-size-80" style="margin: 5% 0 0 0;">
                   <md-field md-clearable :class="emailMessageClass" >
                       <md-input v-model="email" placeholder="邮箱" v-on:input ="inputFunc(1)" @click="showTips(1)" required></md-input>
                       <span class="md-error" v-if="showEmailEmpty">邮箱不能为空</span>
