@@ -237,6 +237,7 @@ export default {
                 $this.AlertMessage = res.data.errorMsg;
                 $this.errCounter++;
                 console.log($this.errCounter);
+                loading.close();
               } else {
                 // $this.session_id = res.data.session_id;
                 $this.$store.commit("SET_TOKEN", res.data.session_id);
@@ -277,6 +278,7 @@ export default {
             })
             .catch(error => {
               console.log(error);
+              loading.close();
             });
         }
       }

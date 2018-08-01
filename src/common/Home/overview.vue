@@ -592,7 +592,7 @@ export default {
           city: this.selectCity,
           area: this.selectCounty,
           industryL1: this.selectIndustry1,
-          industryL2: this.selectIndustry2?this.selectIndustry2:"",
+          industryL2: this.selectIndustry2,
           industryL3: "",
           industryL4: "",
           industryL5: "",

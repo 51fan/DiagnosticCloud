@@ -223,6 +223,7 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
+import base64 from "js-base64";
 export default {
   name: "modifyPassword",
   data: () => ({
@@ -562,6 +563,8 @@ export default {
       this.$store.commit("home/changeShowHomeBgImge", true);
       //显示用户中心
       this.$store.commit("home/showUserCenter", false);
+      //清除session信息
+      this.$store.commit("LOGOUT");
       this.$router.push("/loginPage");
     },
     cancel() {
@@ -585,6 +588,8 @@ export default {
           this.$store.commit("home/changeShowHomeBgImge", true);
           //显示登录界面
           this.$store.commit("loginPage/changeLoginShowState", true);
+           //清除session信息
+          this.$store.commit("LOGOUT");
           this.$router.push("/loginPage");
         }
       }

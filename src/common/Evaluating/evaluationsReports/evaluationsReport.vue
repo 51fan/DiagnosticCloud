@@ -20,14 +20,23 @@
                     <div style="width: 100%;">
                         <el-tabs v-model="activeName" :stretch="true" @tab-click="switchTable">
                           <el-tab-pane label="一级指标" name="1">
-                            <ve-radar :data="chartData1" width="100%" v-if="showRadar" ref="tab1radar1"></ve-radar>
+                            <!-- <ve-radar :data="chartData1" width="100%" v-if="showRadar" ref="tab1radar1"></ve-radar> -->
+                            <div  v-if="showRadar">
+                              <div id="chartOption1" style="width:100%;height:400px"></div>
+                            </div>
                             <ve-bar :data="chartDatabar" width="100%" v-if="showBar" ref="tab1bar1"></ve-bar>
                           </el-tab-pane>
                           <el-tab-pane label="二级指标" name="2">
-                            <ve-radar :data="chartData2" width="100%" ref="tab2radar1"  :settings="chart2Settings"></ve-radar>
+                            <!-- <ve-radar :data="chartData2" width="100%" ref="tab2radar1"  :settings="chart2Settings"></ve-radar> -->
+                            <div>
+                              <div id="chartOption2" style="width:100%;height:400px"></div>
+                            </div>
                           </el-tab-pane>
                           <el-tab-pane label="三级指标" name="3">
-                            <ve-radar :data="chartData3" width="100%"  ref="tab3radar1"  :settings="chart3Settings"></ve-radar>
+                            <!-- <ve-radar :data="chartData3" width="100%"  ref="tab3radar1"  :settings="chart3Settings"></ve-radar> -->
+                            <div>
+                              <div id="chartOption3" style="width:100%;height:400px"></div>
+                            </div>
                           </el-tab-pane>
                         </el-tabs>
                     </div>
@@ -50,7 +59,7 @@
                             <md-table-cell>{{lev.total}}</md-table-cell>
                             <md-table-cell>{{lev.score}}</md-table-cell>
                             <md-table-cell>{{lev.lose}}</md-table-cell>
-                            <md-table-cell>{{lev.scorePercent}}</md-table-cell>
+                            <md-table-cell>{{lev.scorePercent}}%</md-table-cell>
                         </md-table-row>
                     </md-table>
                     <md-table md-card v-if="showLevel2Table">
@@ -70,7 +79,7 @@
                             <md-table-cell>{{lev.total}}</md-table-cell>
                             <md-table-cell>{{lev.score}}</md-table-cell>
                             <md-table-cell>{{lev.lose}}</md-table-cell>
-                            <md-table-cell>{{lev.scorePercent}}</md-table-cell>
+                            <md-table-cell>{{lev.scorePercent}}%</md-table-cell>
                         </md-table-row>
                     </md-table>
                     <md-table md-card v-if="showLevel3Table">
@@ -90,7 +99,7 @@
                             <md-table-cell>{{lev.total}}</md-table-cell>
                             <md-table-cell>{{lev.score}}</md-table-cell>
                             <md-table-cell>{{lev.lose}}</md-table-cell>
-                            <md-table-cell>{{lev.scorePercent}}</md-table-cell>
+                            <md-table-cell>{{lev.scorePercent}}%</md-table-cell>
                         </md-table-row>
                     </md-table>
                 </div>
@@ -109,7 +118,6 @@
                 </div>
             </div>
             <div>
-
             </div>
             <div style="padding: 20px 0;font-size: 1.5em;">
                 <span>同区域分析</span>
@@ -134,7 +142,9 @@
 <script>
 import Vue from "vue";
 import VCharts from "v-charts";
+import Echarts from "echarts";
 
+Vue.use(Echarts);
 Vue.use(VCharts);
 export default {
   components: {
@@ -143,6 +153,9 @@ export default {
   name: "evaluationsReport",
   // props: ["reportParm"],
   data: () => ({
+    option1:Object,
+    option2: Object,
+    option3:Object,
     activeName: "1",
     date: String,
     showLevel1Table: true,
@@ -150,32 +163,36 @@ export default {
     showLevel3Table: false,
     showRadar: false,
     showBar: false,
-    chart2Settings: {
-      // dimension: ["实际"],
-      // metrics: [ "实际", "预期"],
-      // dataType: {}
-    },
-    chart3Settings: {
-      // dimension: ["实际"],
-      // metrics: [ "实际", "预期"],
-      // dataType: {}
-    },
+    radarOption: [],
+    mychart1: Object,
+    mychart2: Object,
+    mychart3: Object,
+    // chart2Settings: {
+    //   // dimension: ["实际"],
+    //   // metrics: [ "实际", "预期"],
+    //   // dataType: {}
+    // },
+    // chart3Settings: {
+    //   // dimension: ["实际"],
+    //   // metrics: [ "实际", "预期"],
+    //   // dataType: {}
+    // },
     chartDatabar: {
       columns: ["标题", , "实际", "预期"],
       rows: []
     },
-    chartData1: {
-      columns: ["标题", , "实际", "预期"],
-      rows: []
-    },
-    chartData2: {
-      columns: ["标题"],
-      rows: []
-    },
-    chartData3: {
-      columns: ["标题"],
-      rows: []
-    },
+    // chartData1: {
+    //   columns: ["标题", , "实际", "预期"],
+    //   rows: []
+    // },
+    // chartData2: {
+    //   columns: ["标题"],
+    //   rows: []
+    // },
+    // chartData3: {
+    //   columns: ["标题"],
+    //   rows: []
+    // },
     chartData4: {
       columns: ["日期", "访问用户"],
       rows: [
@@ -247,19 +264,115 @@ export default {
             $this.reportParm.level1.forEach(item => {
               $this.chartData1.columns.push(item.name);
             });
-            var currentData = { 标题: "实际" },
-              expertData = { 标题: "预期" };
+            // var currentData = { 标题: "实际" },
+            //   expertData = { 标题: "预期" };
+            let indicatorArray = [];
+            let Edata = [];
+            let Cdata = [];
             $this.chartData1.columns.forEach(colum => {
               $this.reportParm.level1.forEach(lev => {
                 if (lev.name == colum) {
-                  currentData[colum] = lev.score;
-                  expertData[colum] = lev.expectScore;
+                  // currentData[colum] = lev.score;
+                  // expertData[colum] = lev.expectScore;
+                  indicatorArray.push({ name: lev.name, max: 100 });
+                  Edata.push(lev.scorePercent);
+                  Cdata.push((lev.expectScore / lev.total).toFixed(2) * 100);
                 }
               });
             });
 
-            $this.chartData1.rows.push(expertData);
-            $this.chartData1.rows.push(currentData);
+            // $this.chartData1.rows.push(expertData);
+            // $this.chartData1.rows.push(currentData);
+            var lineStyle = {
+              normal: {
+                width: 1,
+                opacity: 0.5
+              }
+            };
+            $this.option1 = {
+              backgroundColor: "#fff",
+              legend: {
+                top: 20,
+                left: 20,
+                data: ["预期", "实际"]
+              },
+              radar: [
+                {
+                  indicator: indicatorArray,
+
+                  shape: "circle",
+                  splitNumber: Edata.length,
+
+                  name: {
+                    textStyle: {
+                      color: "#333"
+                    }
+                  },
+                  splitArea: {
+                    areaStyle: {
+                      color: [
+                        "rgba(114, 172, 209, 0.2)",
+                        "rgba(114, 172, 209, 0.4)"
+                      ]
+                    }
+                  }
+                }
+              ],
+              series: [
+                {
+                  name: "雷达图",
+                  type: "radar",
+                  itemStyle: {
+                    emphasis: {
+                      // color: 各异,
+                      lineStyle: {
+                        width: 4
+                      }
+                    }
+                  },
+                  data: [
+                    {
+                      value: Edata,
+                      name: "预期",
+                      label: {
+                        normal: {
+                          show: true,
+                          formatter: function(params) {
+                            return params.value + "%";
+                          }
+                        }
+                      },
+                      itemStyle: {
+                        normal: {
+                          color: "#19d4ae"
+                        }
+                      }
+                    },
+                    {
+                      value: Cdata,
+                      name: "实际",
+                      label: {
+                        normal: {
+                          show: true,
+                          formatter: function(params) {
+                            return params.value + "%";
+                          }
+                        }
+                      },
+                      itemStyle: {
+                        normal: {
+                          color: "#5ab1ef"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            };
+            $this.mychart1 = $this.$echarts.init(
+              document.getElementById("chartOption1")
+            );
+            $this.mychart1.setOption($this.option1, true);
             $this.getLevel2Datas();
           } else {
             $this.showRadar = false;
@@ -281,8 +394,8 @@ export default {
               });
               showData.push(arry);
             });
-
             $this.chartDatabar.rows = showData;
+            // console.log($this.chartDatabar.rows);
             $this.getLevel2Datas();
           }
         });
@@ -320,20 +433,121 @@ export default {
           $this.reportParm.level2.forEach(item => {
             $this.chartData2.columns.push(item.name);
           });
-          var currentData = { 标题: "实际" },
-            expertData = { 标题: "预期" };
+          // var currentData = { 标题: "实际" },
+          //   expertData = { 标题: "预期" };
+          let indicatorArray = [];
+          let Edata = [];
+          let Cdata = [];
           $this.chartData2.columns.forEach(colum => {
             $this.reportParm.level2.forEach(lev => {
               if (lev.name == colum) {
-                currentData[colum] = lev.score;
-                expertData[colum] = lev.expectScore;
+                // currentData[colum] = lev.score;
+                // expertData[colum] = lev.expectScore;
+                indicatorArray.push({ name: lev.name, max: 100 });
+                Edata.push(lev.scorePercent);
+                Cdata.push((lev.expectScore / lev.total).toFixed(2) * 100);
               }
             });
           });
 
-          $this.chartData2.rows.push(expertData);
-          $this.chartData2.rows.push(currentData);
+          // $this.chartData2.rows.push(expertData);
+          // $this.chartData2.rows.push(currentData);
+          // console.log($this.chartData2.rows);
+          // console.log(indicatorArray);
+          // console.log(Edata);
+          // console.log(Cdata);
           $this.getLevel3Datas();
+
+          var lineStyle = {
+            normal: {
+              width: 1,
+              opacity: 0.5
+            }
+          };
+          $this.option2 = {
+            backgroundColor: "#fff",
+            legend: {
+              top: 20,
+              left: 20,
+              data: ["预期", "实际"]
+            },
+            radar: [
+              {
+                indicator: indicatorArray,
+
+                shape: "circle",
+                splitNumber: Edata.length,
+
+                name: {
+                  textStyle: {
+                    color: "#333"
+                  }
+                },
+                splitArea: {
+                  areaStyle: {
+                    color: [
+                      "rgba(114, 172, 209, 0.2)",
+                      "rgba(114, 172, 209, 0.4)"
+                    ]
+                  }
+                }
+              }
+            ],
+            series: [
+              {
+                name: "雷达图",
+                type: "radar",
+                itemStyle: {
+                  emphasis: {
+                    // color: 各异,
+                    lineStyle: {
+                      width: 4
+                    }
+                  }
+                },
+                data: [
+                  {
+                    value: Edata,
+                    name: "预期",
+                    label: {
+                      normal: {
+                        show: true,
+                        formatter: function(params) {
+                          return params.value + "%";
+                        }
+                      }
+                    },
+                    itemStyle: {
+                      normal: {
+                        color: "#19d4ae"
+                      }
+                    }
+                  },
+                  {
+                    value: Cdata,
+                    name: "实际",
+                    label: {
+                      normal: {
+                        show: true,
+                        formatter: function(params) {
+                          return params.value + "%";
+                        }
+                      }
+                    },
+                    itemStyle: {
+                      normal: {
+                        color: "#5ab1ef"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          };
+          $this.mychart2 = $this.$echarts.init(
+            document.getElementById("chartOption2")
+          );
+          $this.mychart2.setOption($this.option2, true);
         })
         .catch(error => {
           console.log(error);
@@ -369,22 +583,120 @@ export default {
             value: result.data.level
           });
 
-          console.log($this.reportParm.level3);
+          // console.log($this.reportParm.level3);
           $this.reportParm.level3.forEach(item => {
             $this.chartData3.columns.push(item.name);
           });
-          var currentData = { 标题: "实际" },
-            expertData = { 标题: "预期" };
+          // var currentData = { 标题: "实际" },
+          //   expertData = { 标题: "预期" };
+          let indicatorArray = [];
+          let Edata = [];
+          let Cdata = [];
           $this.chartData3.columns.forEach(colum => {
             $this.reportParm.level3.forEach(lev => {
               if (lev.name == colum) {
-                currentData[colum] = lev.score;
-                expertData[colum] = lev.expectScore;
+                // currentData[colum] = lev.score;
+                // expertData[colum] = lev.expectScore;
+                indicatorArray.push({ name: lev.name, max: 100 });
+                Edata.push(lev.scorePercent);
+                Cdata.push((lev.expectScore / lev.total).toFixed(2) * 100);
               }
             });
           });
-          $this.chartData3.rows.push(expertData);
-          $this.chartData3.rows.push(currentData);
+          // $this.chartData3.rows.push(expertData);
+          // $this.chartData3.rows.push(currentData);
+
+          var lineStyle = {
+            normal: {
+              width: 1,
+              opacity: 0.5
+            }
+          };
+          $this.option3 = {
+            backgroundColor: "#fff",
+            legend: {
+              top: 20,
+              left: 20,
+              data: ["预期", "实际"]
+            },
+            radar: [
+              {
+                indicator: indicatorArray,
+
+                shape: "circle",
+                splitNumber: Edata.length,
+
+                name: {
+                  textStyle: {
+                    color: "#333"
+                  }
+                },
+                splitArea: {
+                  areaStyle: {
+                    color: [
+                      "rgba(114, 172, 209, 0.2)",
+                      "rgba(114, 172, 209, 0.4)"
+                    ]
+                  }
+                }
+              }
+            ],
+            series: [
+              {
+                name: "雷达图",
+                type: "radar",
+                itemStyle: {
+                  emphasis: {
+                    // color: 各异,
+                    lineStyle: {
+                      width: 4
+                    }
+                  }
+                },
+                data: [
+                  {
+                    value: Edata,
+                    name: "预期",
+                    label: {
+                      normal: {
+                        show: true,
+                        formatter: function(params) {
+                          return params.value + "%";
+                        }
+                      }
+                    },
+                    itemStyle: {
+                      normal: {
+                        color: "#19d4ae"
+                      }
+                    }
+                  },
+                  {
+                    value: Cdata,
+                    name: "实际",
+                    label: {
+                      normal: {
+                        show: true,
+                        formatter: function(params) {
+                          return params.value + "%";
+                        }
+                      }
+                    },
+                    itemStyle: {
+                      normal: {
+                        color: "#5ab1ef"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          };
+          $this.mychart3 = $this.$echarts.init(
+            document.getElementById("chartOption3")
+          );
+          $this.mychart3.setOption($this.option3, true);
+
           setTimeout(() => {
             $this.switchTable({ index: "0" });
           }, 1000);
@@ -400,7 +712,7 @@ export default {
         this.showLevel3Table = false;
         if (this.showRadar) {
           setTimeout(() => {
-            this.$refs.tab1radar1.echarts.resize();
+            this.mychart1.resize();
           }, 100);
         }
         if (this.showBar) {
@@ -413,7 +725,7 @@ export default {
         this.showLevel2Table = true;
         this.showLevel3Table = false;
         setTimeout(() => {
-          this.$refs.tab2radar1.echarts.resize();
+          this.mychart2.resize();
         }, 100);
       } else if (index.index == "2") {
         this.showLevel1Table = false;
@@ -421,7 +733,7 @@ export default {
         this.showLevel3Table = true;
 
         setTimeout(() => {
-          this.$refs.tab3radar1.echarts.resize();
+          this.mychart3.resize();
         }, 100);
       }
     },
