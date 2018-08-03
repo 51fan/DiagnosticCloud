@@ -155,7 +155,8 @@ export default {
     AlertMessage: "",
     VerificationCode: "",
     // VerificationImagesrc:"/static/imgs/check.png"
-    VerificationImagesrc: "http://139.159.141.232:8080/Captch?" + Math.random(),
+    // VerificationImagesrc: "http://139.159.141.232:8080/Captch?" + Math.random(),
+    VerificationImagesrc: "/Captch?" + Math.random(),
     errCounter: 0
   }),
   mounted: function() {
@@ -165,7 +166,6 @@ export default {
     //     type = "post",
     //     param = {},
     //     apikey = "";
-
     //   $this.http({
     //     method: type,
     //     url: url,
@@ -219,9 +219,9 @@ export default {
         } else {
           const loading = this.$loading({
             lock: true,
-            text: 'Loading',
-            spinner: 'el-icon-loading',
-            background: 'rgba(0, 0, 0, 0.7)'
+            text: "Loading",
+            spinner: "el-icon-loading",
+            background: "rgba(0, 145, 153, 0.7)"
           });
           $this
             .$http({
@@ -243,9 +243,15 @@ export default {
                 $this.$store.commit("SET_TOKEN", res.data.session_id);
                 $this.$store.commit("GET_USER", res.data.email);
                 $this.$store.commit("SET_UsereMail", res.data.email);
-                $this.$store.commit("GET_UsereMobile", res.data.mobile);
+                $this.$store.commit("SET_UsereMobile", res.data.mobile);
+                if (res.data.image !== null) {
+                  $this.$store.commit("SET_UserImage", res.data.image);
+                }
                 $this.$store.commit("loginPage/getUseremail", res.data.email);
                 $this.$store.commit("loginPage/getUsermobile", res.data.mobile);
+                if (res.data.image !== null) {
+                  $this.$store.commit("loginPage/getUserImage", res.data.image);
+                }
                 $this.$store.commit(
                   "loginPage/getSession_id",
                   res.data.session_id
@@ -267,6 +273,7 @@ export default {
                 $this.$store.commit("loginPage/changeLoginState", true);
                 //显示导航菜单
                 $this.$store.commit("home/showTabsFun", true);
+                $this.$store.commit("home/showLogin", true);
                 //隐藏首页背景图
                 $this.$store.commit("home/changeShowHomeBgImge", false);
                 //激活菜单选中项
@@ -299,8 +306,7 @@ export default {
     },
     getPicture() {
       this.VerificationImagesrc = "";
-      this.VerificationImagesrc =
-        "http://139.159.141.232:8080/Captch?" + Math.random();
+      this.VerificationImagesrc = "/Captch?" + Math.random();
       // let $this = this,
       //   apikey = "",
       //   request = {};

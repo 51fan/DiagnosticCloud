@@ -11,7 +11,7 @@ import evaluatingCenter from './modules/evaluatingCenter'
 //import actions from './actions'
 
 Vue.use(Vuex);
-Vue.use(Axios);
+// Vue.use(Axios);
 // 初始化时用sessionStore.getItem('token'),这样子刷新页面就无需重新登录
 const state = {
   user: window.sessionStorage.getItem('user'),
@@ -22,6 +22,7 @@ const state = {
   ltoken: window.localStorage.getItem('token'),
   UsereMail: window.localStorage.getItem('UsereMail'),
   UsereMobile: window.localStorage.getItem('UsereMobile'),
+  UserImage: window.localStorage.getItem('UserImage'),
 }
 
 const mutations = {
@@ -40,9 +41,13 @@ const mutations = {
     state.UsereMail = value;
     window.localStorage.setItem('UsereMail', value);
   },
-  GET_UsereMobile: (state, value) => {
+  SET_UsereMobile: (state, value) => {
     state.UsereMobile = value;
     window.localStorage.setItem('UsereMobile', value);
+  },
+  SET_UserImage: (state, value) => {
+    state.UserImage = value;
+    window.localStorage.setItem('UserImage', value);
   },
   //登出
   LOGOUT: (state) => {
@@ -56,6 +61,7 @@ const mutations = {
     window.localStorage.removeItem('user');
     window.localStorage.removeItem('UsereMail');
     window.localStorage.removeItem('UsereMobile');
+    window.localStorage.removeItem('UserImage');
     window.localStorage.setItem('autoLogin30days', false);
   },
   //激活的菜单
@@ -70,6 +76,7 @@ const mutations = {
       window.localStorage.setItem('user', state.user);
       window.localStorage.setItem('UsereMail', state.UsereMail);
       window.localStorage.setItem('UsereMobile', state.UsereMobile);
+      window.localStorage.setItem('UserImage', state.UserImage);
       window.localStorage.setItem('autoLogin30days', state.autoLogin30days);
     } else {
       window.localStorage.removeItem('token');

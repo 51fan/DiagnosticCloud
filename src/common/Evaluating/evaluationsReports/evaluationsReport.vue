@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="Modeltable">
-                    <md-table md-card v-if="showLevel1Table">
+                    <md-table md-card v-show="showLevel1Table">
                         <md-table-toolbar>
                             <h1 class="md-title">一级指标</h1>
                         </md-table-toolbar>
@@ -62,7 +62,7 @@
                             <md-table-cell>{{lev.scorePercent}}%</md-table-cell>
                         </md-table-row>
                     </md-table>
-                    <md-table md-card v-if="showLevel2Table">
+                    <md-table md-card v-show="showLevel2Table">
                         <md-table-toolbar>
                             <h1 class="md-title">二级指标</h1>
                         </md-table-toolbar>
@@ -82,7 +82,7 @@
                             <md-table-cell>{{lev.scorePercent}}%</md-table-cell>
                         </md-table-row>
                     </md-table>
-                    <md-table md-card v-if="showLevel3Table">
+                    <md-table md-card v-show="showLevel3Table">
                         <md-table-toolbar>
                             <h1 class="md-title">三级指标</h1>
                         </md-table-toolbar>
@@ -153,9 +153,7 @@ export default {
   name: "evaluationsReport",
   // props: ["reportParm"],
   data: () => ({
-    option1:Object,
     option2: Object,
-    option3:Object,
     activeName: "1",
     date: String,
     showLevel1Table: true,
@@ -167,32 +165,32 @@ export default {
     mychart1: Object,
     mychart2: Object,
     mychart3: Object,
-    // chart2Settings: {
-    //   // dimension: ["实际"],
-    //   // metrics: [ "实际", "预期"],
-    //   // dataType: {}
-    // },
-    // chart3Settings: {
-    //   // dimension: ["实际"],
-    //   // metrics: [ "实际", "预期"],
-    //   // dataType: {}
-    // },
+    chart2Settings: {
+      // dimension: ["实际"],
+      // metrics: [ "实际", "预期"],
+      // dataType: {}
+    },
+    chart3Settings: {
+      // dimension: ["实际"],
+      // metrics: [ "实际", "预期"],
+      // dataType: {}
+    },
     chartDatabar: {
       columns: ["标题", , "实际", "预期"],
       rows: []
     },
-    // chartData1: {
-    //   columns: ["标题", , "实际", "预期"],
-    //   rows: []
-    // },
-    // chartData2: {
-    //   columns: ["标题"],
-    //   rows: []
-    // },
-    // chartData3: {
-    //   columns: ["标题"],
-    //   rows: []
-    // },
+    chartData1: {
+      columns: ["标题", , "实际", "预期"],
+      rows: []
+    },
+    chartData2: {
+      columns: ["标题"],
+      rows: []
+    },
+    chartData3: {
+      columns: ["标题"],
+      rows: []
+    },
     chartData4: {
       columns: ["日期", "访问用户"],
       rows: [
@@ -264,16 +262,16 @@ export default {
             $this.reportParm.level1.forEach(item => {
               $this.chartData1.columns.push(item.name);
             });
-            // var currentData = { 标题: "实际" },
-            //   expertData = { 标题: "预期" };
+            var currentData = { 标题: "实际" },
+              expertData = { 标题: "预期" };
             let indicatorArray = [];
             let Edata = [];
             let Cdata = [];
             $this.chartData1.columns.forEach(colum => {
               $this.reportParm.level1.forEach(lev => {
                 if (lev.name == colum) {
-                  // currentData[colum] = lev.score;
-                  // expertData[colum] = lev.expectScore;
+                  currentData[colum] = lev.score;
+                  expertData[colum] = lev.expectScore;
                   indicatorArray.push({ name: lev.name, max: 100 });
                   Edata.push(lev.scorePercent);
                   Cdata.push((lev.expectScore / lev.total).toFixed(2) * 100);
@@ -281,8 +279,8 @@ export default {
               });
             });
 
-            // $this.chartData1.rows.push(expertData);
-            // $this.chartData1.rows.push(currentData);
+            $this.chartData1.rows.push(expertData);
+            $this.chartData1.rows.push(currentData);
             var lineStyle = {
               normal: {
                 width: 1,
@@ -370,7 +368,7 @@ export default {
               ]
             };
             $this.mychart1 = $this.$echarts.init(
-              document.getElementById("chartOption1")
+              document.getElementById("chartOption2")
             );
             $this.mychart1.setOption($this.option1, true);
             $this.getLevel2Datas();
@@ -395,7 +393,7 @@ export default {
               showData.push(arry);
             });
             $this.chartDatabar.rows = showData;
-            // console.log($this.chartDatabar.rows);
+            console.log($this.chartDatabar.rows);
             $this.getLevel2Datas();
           }
         });
@@ -433,16 +431,16 @@ export default {
           $this.reportParm.level2.forEach(item => {
             $this.chartData2.columns.push(item.name);
           });
-          // var currentData = { 标题: "实际" },
-          //   expertData = { 标题: "预期" };
+          var currentData = { 标题: "实际" },
+            expertData = { 标题: "预期" };
           let indicatorArray = [];
           let Edata = [];
           let Cdata = [];
           $this.chartData2.columns.forEach(colum => {
             $this.reportParm.level2.forEach(lev => {
               if (lev.name == colum) {
-                // currentData[colum] = lev.score;
-                // expertData[colum] = lev.expectScore;
+                currentData[colum] = lev.score;
+                expertData[colum] = lev.expectScore;
                 indicatorArray.push({ name: lev.name, max: 100 });
                 Edata.push(lev.scorePercent);
                 Cdata.push((lev.expectScore / lev.total).toFixed(2) * 100);
@@ -450,8 +448,8 @@ export default {
             });
           });
 
-          // $this.chartData2.rows.push(expertData);
-          // $this.chartData2.rows.push(currentData);
+          $this.chartData2.rows.push(expertData);
+          $this.chartData2.rows.push(currentData);
           // console.log($this.chartData2.rows);
           // console.log(indicatorArray);
           // console.log(Edata);
@@ -583,28 +581,28 @@ export default {
             value: result.data.level
           });
 
-          // console.log($this.reportParm.level3);
+          console.log($this.reportParm.level3);
           $this.reportParm.level3.forEach(item => {
             $this.chartData3.columns.push(item.name);
           });
-          // var currentData = { 标题: "实际" },
-          //   expertData = { 标题: "预期" };
+          var currentData = { 标题: "实际" },
+            expertData = { 标题: "预期" };
           let indicatorArray = [];
           let Edata = [];
           let Cdata = [];
           $this.chartData3.columns.forEach(colum => {
             $this.reportParm.level3.forEach(lev => {
               if (lev.name == colum) {
-                // currentData[colum] = lev.score;
-                // expertData[colum] = lev.expectScore;
+                currentData[colum] = lev.score;
+                expertData[colum] = lev.expectScore;
                 indicatorArray.push({ name: lev.name, max: 100 });
                 Edata.push(lev.scorePercent);
                 Cdata.push((lev.expectScore / lev.total).toFixed(2) * 100);
               }
             });
           });
-          // $this.chartData3.rows.push(expertData);
-          // $this.chartData3.rows.push(currentData);
+          $this.chartData3.rows.push(expertData);
+          $this.chartData3.rows.push(currentData);
 
           var lineStyle = {
             normal: {
@@ -697,9 +695,9 @@ export default {
           );
           $this.mychart3.setOption($this.option3, true);
 
-          setTimeout(() => {
-            $this.switchTable({ index: "0" });
-          }, 1000);
+          // setTimeout(() => {
+          //   $this.switchTable({ index: "0" });
+          // }, 1000);
         })
         .catch(error => {
           console.log(error);
@@ -710,31 +708,32 @@ export default {
         this.showLevel1Table = true;
         this.showLevel2Table = false;
         this.showLevel3Table = false;
-        if (this.showRadar) {
-          setTimeout(() => {
-            this.mychart1.resize();
-          }, 100);
-        }
-        if (this.showBar) {
-          setTimeout(() => {
-            this.$refs.tab1bar1.echarts.resize();
-          }, 100);
-        }
+        // if (this.showRadar) {
+        //   this.$nextTick(() => {
+        //     this.mychart1.resize();
+        //   });
+        // }
+        // if (this.showBar) {
+        //   this.$nextTick(() => {
+        //     this.$refs.tab1bar1.echarts.resize();
+        //   });
+        // }
       } else if (index.index == "1") {
         this.showLevel1Table = false;
         this.showLevel2Table = true;
         this.showLevel3Table = false;
-        setTimeout(() => {
-          this.mychart2.resize();
-        }, 100);
+        // this.$nextTick(() => {
+        //   this.mychart2.resize();
+        // });
       } else if (index.index == "2") {
         this.showLevel1Table = false;
         this.showLevel2Table = false;
         this.showLevel3Table = true;
-
-        setTimeout(() => {
-          this.mychart3.resize();
-        }, 100);
+        // this.$nextTick(() => {
+        //   this.$nextTick(() => {
+        //     this.mychart3.resize();
+        //   });
+        // });
       }
     },
     handleClick() {}
@@ -745,6 +744,30 @@ export default {
     },
     session_id() {
       return this.$store.state.loginPage.session_id;
+    }
+  },
+  updated: function() {
+    if (this.showLevel1Table) {
+      if (this.showRadar) {
+        this.$nextTick(() => {
+          this.mychart1.resize();
+        });
+      }
+      if (this.showBar) {
+        this.$nextTick(() => {
+          this.$refs.tab1bar1.echarts.resize();
+        });
+      }
+    }
+    if (this.showLevel3Table) {
+      this.$nextTick(() => {
+        this.mychart3.resize();
+      });
+    }
+    if (this.showLevel2Table) {
+      this.$nextTick(() => {
+        this.mychart2.resize();
+      });
     }
   }
 };

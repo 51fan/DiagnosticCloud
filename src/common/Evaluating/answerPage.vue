@@ -2,8 +2,8 @@
     <div class="panelContentbodyCenter">
       <div class="panelContentTitle">
         <div style="padding: 0 0 4% 8%;">
-            <label style="font-size: x-large">{{question.level2}}/{{question.level3}}/{{question.level4}}</label>
-            <div style="opacity: 0.5;font-size: medium;padding: 10px 0 30px 0;">{{question.level1}}</div>
+            <label style="font-size: x-large">{{question.level1}}/{{question.level2}}/{{question.level3}}/{{question.level4}}</label>
+            <!-- <div style="opacity: 0.5;font-size: medium;padding: 10px 0 30px 0;">{{question.level1}}</div> -->
                 <!-- 问题-->
             <label>测评项：</label><label style="font-size: x-large;padding: 10px;">{{question.question}}</label>
         </div>

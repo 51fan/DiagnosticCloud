@@ -2,10 +2,10 @@
 const state = {
   menuVisible: false,
   loginPage: false,
-  showLogin:true,
-  showTabs: true,
-  showUserCenter:false,
-  showUserCenterButton:false,
+  showLogin:false,
+  showTabs: false,
+  // showUserCenter:false,
+  // showUserCenterButton:false,
   tabsActiveIndex:"1",
   showHomeBgImge:true
 }
@@ -29,12 +29,12 @@ const mutations = {
     showTabsFun(state, value){
         state.showTabs = value;
     },
-    showUserCenter(state, value) {
-        state.showUserCenter = value;
-    },
-    showUserCenterButton(state, value) {
-        state.showUserCenterButton = value;
-    },
+    // showUserCenter(state, value) {
+    //     state.showUserCenter = value;
+    // },
+    // showUserCenterButton(state, value) {
+    //     state.showUserCenterButton = value;
+    // },
     getTabsactiveIndex(state, value) {
       state.tabsActiveIndex = value;
     },

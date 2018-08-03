@@ -5,7 +5,7 @@
         v-model="selectProvince"
         @change="choseProvince"
         filterable
-        placeholder="省级地区">
+        placeholder="省">
         <el-option
             v-for="item in province"
             :key="item.id"
@@ -18,7 +18,7 @@
         v-model="selectCity"
         @change="choseCity"
         filterable
-        placeholder="市级地区">
+        placeholder="市">
         <el-option
             v-for="item in shi1"
             :key="item.id"
@@ -31,7 +31,7 @@
         v-model="selectCounty"
         @change="choseBlock"
         filterable
-        placeholder="区级地区">
+        placeholder="区">
         <el-option
             v-for="item in qu1"
             :key="item.id"

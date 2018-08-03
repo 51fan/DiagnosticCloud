@@ -6,7 +6,7 @@
         @change="choseProvince"
         :disabled="!showCityPicker"
         filterable
-        placeholder="省级地区">
+        placeholder="省">
         <el-option
             v-for="item in provinceArray"
             :key="item.id"
@@ -20,7 +20,7 @@
         @change="choseCity"
         :disabled="!showCityPicker"
         filterable
-        placeholder="市级地区">
+        placeholder="市">
         <el-option
             v-for="item in shiArray"
             :key="item.id"
@@ -34,7 +34,7 @@
         @change="choseBlock"
         :disabled="!showCityPicker"
         filterable
-        placeholder="区级地区">
+        placeholder="区">
         <el-option
             v-for="item in quArray"
             :key="item.id"

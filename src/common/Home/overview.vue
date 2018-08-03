@@ -7,21 +7,21 @@
                 <div  style="color:rgb(47, 165, 172);font-size: small;cursor: pointer;padding: 5%;" @click="viewEnterpriseInfo()">查看企业信息</div>
             </div>
             <div class="md-layout-item md-size-80" style="text-align: left;padding-top: 2%;font-size: medium;">
-                <div style="width: 90%;padding-bottom: 2%;margin: 0 5%;">
-                    <div class="md-layout-item md-size-100" style="display: inline-flex;border-bottom: 1px solid lightgray;padding-bottom: 2%;">
+                <div style="width: 90%;padding-bottom: 2%;margin: 0 5%;height:200px">
+                    <div class="md-layout-item md-size-100" style="display: inline-flex;border-bottom: 1px solid lightgray;height: 100%;">
                         <div class="md-layout-item md-size-20" style="text-align:center;">
-                            <md-avatar><img :src="PersonalimageSrc" /></md-avatar>
+                            <md-avatar style="width: 96pt;height: 96pt;border-radius: 50%;"><img :src="PersonalimageSrc" /></md-avatar>
                         </div>
-                        <div class="md-layout-item md-size-40">
-                            <div style="margin: 1%;">{{username}}，欢迎您</div>
-                            <div>
+                        <div class="md-layout-item md-size-60">
+                            <div style="margin: 7% 4% 1%;">{{username}}，欢迎您</div>
+                            <div style="margin: 3% 3%;">
                                 <span style="margin: 1%;">{{position}}</span>
                                 <span style="border-right: 2px solid #a7acb7;"></span>
                                 <span style="margin: 1%;">{{department}}</span>
                                 <span style="margin: 3%;color:rgb(47, 165, 172);cursor: pointer;font-size: small;" @click="viewPersonalInfo()">进入个人中心</span>
                             </div>
                         </div>
-                        <div class="md-layout-item md-size-40"></div>
+                        <div class="md-layout-item md-size-20"></div>
                     </div>
                 </div>
                 
@@ -334,38 +334,6 @@
                             </el-option>
                         </el-select>
                     </div>
-                    <!-- <div class="md-layout-item md-size-40" style="text-align: left;">
-                       <div class="md-layout-item" style="text-align: start;padding: 2% 0;">
-                                <div style="width: 34%">
-                                    <el-select
-                                    v-model="selectIndustry1"
-                                    @change="choseIndusty1"
-                                    filterable
-                                    placeholder="请选择">
-                                    <el-option
-                                        v-for="item in Industry1"
-                                        :key="item.id"
-                                        
-                                        :value="item.title">
-                                    </el-option>
-                                    </el-select>
-                                </div>
-                                <div style="width: 30%">
-                                    <el-select
-                                        v-model="selectIndustry2"
-                                        @change="choseIndusty2"
-                                        filterable
-                                        placeholder="请选择">
-                                        <el-option
-                                            v-for="item in Industry2"
-                                            :key="item.id"
-                                            :label="item.lable"
-                                            :value="item.title">
-                                        </el-option>
-                                    </el-select>
-                                </div>
-                            </div>
-                    </div> -->
                     <div class="md-layout-item md-size-25"></div>
                 </div>
                 <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">

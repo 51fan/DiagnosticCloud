@@ -339,8 +339,8 @@ export default {
     province: "",
     city: "",
     area: "",
-    vaule1:"",
-    vaule2:"",
+    vaule1: "",
+    vaule2: "",
     Industry1: "",
     Industry2: "",
     selectIndustry1: "",
@@ -464,6 +464,11 @@ export default {
       this.disable = false;
       this.showenterpriseNameErr = false;
       this.$store.commit("UserCenter/changeShowCityPicker", false);
+    //   this.imgUrl = this.imageStaticSrc;
+    //   this.imageSrc =
+    //     this.imageStaticSrc == ""
+    //       ? "/static/imgs/noImage.png"
+    //       : "/IMAGE/" + this.imageStaticSrc;
     },
     save() {
       let $this = this,
@@ -480,7 +485,7 @@ export default {
           city: this.selectCity,
           area: this.selectCounty,
           industryL1: this.selectIndustry1,
-          industryL2: this.selectIndustry2?this.selectIndustry2:"",
+          industryL2: this.selectIndustry2 ? this.selectIndustry2 : "",
           industryL3: "",
           industryL4: "",
           industryL5: "",
@@ -607,12 +612,10 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error(
-          "上传头像图片只能是 JPG、png、jpeg、gif、bmp 格式!"
-        );
+        this.$message.error("上传图片只能是 JPG、png、jpeg、gif、bmp 格式!");
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error("上传图片大小不能超过 1MB!");
       }
       return isJPG && isLt2M;
     },
@@ -685,7 +688,7 @@ export default {
           request
         })
         .then(res => {
-        //   console.log(res);
+          //   console.log(res);
           $this.Industry2 = res.data.return;
         })
         .catch(err => {

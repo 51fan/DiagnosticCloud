@@ -5,7 +5,8 @@ const state = {
   firstLogin: false,
   session_id: "",
   useremail: "",
-  usermobile: ""
+  usermobile: "",
+  userImage:""
 }
 
 // getters
@@ -31,7 +32,10 @@ const mutations = {
   },
   getUsermobile(state, value) {
     state.usermobile = value;
-  }
+  },
+  getUserImage(state, value) {
+    state.userImage = value;
+  },
 }
 
 export default {

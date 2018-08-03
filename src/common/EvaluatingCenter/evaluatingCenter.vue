@@ -400,17 +400,6 @@ export default {
       this.getData(val);
     },
     searchfun() {
-      //   let $this = this,
-      //     apikey = "",
-      //     type = "post",
-      //     url = "/IBUS/DAIG_SYS/getTestId ",
-      //     request = {
-      //       keywords: this.searchKey
-      //     },
-      //     param = {
-      //       apikey,
-      //       request
-      //     };
       let $this = this,
         apikey = "",
         type = "post",
@@ -425,96 +414,42 @@ export default {
           apikey,
           request
         };
-      if (this.searchKey == "") {
-        $this
-          .$http({
-            method: type,
-            url: url,
-            data: param
-          })
-          .then(res => {
-            if (res.data.errorCode !== 0) {
-              $this.showAlert = true;
-              $this.AlertMessage = res.data.errorMsg;
-            } else {
-              $this.searchArry = res.data.return.info;
-              $this.allTestInfo = res.data.return.info;
-              if ($this.searchArry && $this.searchArry.length > 0) {
-                // let array = [];
-                // for (var i in $this.searchArry) {
-                //   for (var j in $this.allTestInfo)
-                //     if ($this.searchArry[i].id == $this.allTestInfo[j].id) {
-                //       array.push($this.allTestInfo[j]);
-                //     }
-                // }
-                $this.InfoArray = $this.searchArry;
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          if (res.data.errorCode !== 0) {
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            $this.searchArry = res.data.return.info;
+            $this.allTestInfo = res.data.return.info;
 
-                $this.pages = Math.ceil($this.InfoArray.length / 5);
-                $this.totalItems = $this.pages * 10;
-                for (var j = 0; j < $this.pages; j++) {
-                  $this.pageDatas[j] = [];
-                  for (var i in $this.InfoArray) {
-                    if (Math.floor(i / 5) == j) {
-                      $this.pageDatas[j].push($this.InfoArray[i]);
-                    }
+            if ($this.searchArry && $this.searchArry.length > 0) {
+              $this.InfoArray = $this.searchArry;
+
+              $this.pages = Math.ceil($this.InfoArray.length / 5);
+              $this.totalItems = $this.pages * 10;
+              for (var j = 0; j < $this.pages; j++) {
+                $this.pageDatas[j] = [];
+                for (var i in $this.InfoArray) {
+                  if (Math.floor(i / 5) == j) {
+                    $this.pageDatas[j].push($this.InfoArray[i]);
                   }
                 }
-                $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
               }
-              //   else {
-              //     $this.InfoArray = $this.allTestInfo;
-              //   }
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      } else {
-        $this
-          .$http({
-            method: type,
-            url: url,
-            data: param
-          })
-          .then(res => {
-            if (res.data.errorCode !== 0) {
-              $this.showAlert = true;
-              $this.AlertMessage = res.data.errorMsg;
+              $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
             } else {
-              $this.searchArry = res.data.return.info;
-              $this.allTestInfo = res.data.return.info;
-              //   console.log($this.searchArry)
-              if ($this.searchArry && $this.searchArry.length > 0) {
-                // let array = [];
-                // for (var i in $this.searchArry) {
-                //   for (var j in $this.allTestInfo)
-                //     if ($this.searchArry[i].id == $this.allTestInfo[j].id) {
-                //       array.push($this.allTestInfo[j]);
-                //     }
-                // }
-                $this.InfoArray = $this.searchArry;
-
-                $this.pages = Math.ceil($this.InfoArray.length / 5);
-                $this.totalItems = $this.pages * 10;
-                for (var j = 0; j < $this.pages; j++) {
-                  $this.pageDatas[j] = [];
-                  for (var i in $this.InfoArray) {
-                    if (Math.floor(i / 5) == j) {
-                      $this.pageDatas[j].push($this.InfoArray[i]);
-                    }
-                  }
-                }
-                $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
-              }
-              //   else {
-              //     $this.InfoArray = $this.allTestInfo;
-              //   }
+              $this.InfoArray = [];
             }
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     goEvalution() {
       this.$store.commit("home/getTabsactiveIndex", "2");

@@ -99,10 +99,13 @@ router.beforeEach(function (to, from, next) {
 
       store.commit("loginPage/getUseremail", window.localStorage.getItem('UsereMail'));
       store.commit("loginPage/getUsermobile", window.localStorage.getItem('UsereMobile'));
+      store.commit("loginPage/getUserImage", window.localStorage.getItem('UserImage'));
       //修改登录状态
       store.commit("loginPage/changeLoginState", true);
       //保持激活的菜单
       store.commit("home/getTabsactiveIndex", store.state.activeTab);
+      store.commit("home/showLogin", true);
+      store.commit("home/showTabsFun", true);
       //隐藏首页背景图
       store.commit("home/changeShowHomeBgImge", false);
       next()
@@ -129,10 +132,12 @@ router.beforeEach(function (to, from, next) {
             console.log("autologin");
             store.commit("SET_TOKEN", window.localStorage.getItem("token"));
             store.commit("GET_USER", window.localStorage.getItem("user"));
+            store.commit("ACTIVE", "1");
             store.commit("loginPage/getUseremail", window.localStorage.getItem('UsereMail'));
             store.commit("loginPage/getUsermobile", window.localStorage.getItem('UsereMobile'));
+            store.commit("loginPage/getUserImage", window.localStorage.getItem('UserImage'));
             store.commit("home/getTabsactiveIndex", "1");
-            store.commit("ACTIVE", "1");
+            store.commit("home/showLogin", true);
             store.commit("home/showTabsFun", true);
             store.commit("evlaluating/changeShowevaluatingPage", false);
             //隐藏首页背景图

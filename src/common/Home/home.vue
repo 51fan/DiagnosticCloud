@@ -37,7 +37,7 @@
           </div>
         </div> -->
 
-        <div class="md-toolbar-row" v-if="showTabs">
+        <div class="md-toolbar-row">
             <div class="md-layout-item md-size-10">
                 <!-- <img src="/static/imgs/logo_magpie.png" @click="gohome()" style="cursor: pointer;" alt="扁鹊云"> -->
                 <div class="md-toolbar-section-end">
@@ -45,20 +45,21 @@
                 </div>
             </div>
             <div class="md-layout-item md-size-80">
-              <div style="text-align: end;">
-                <el-menu :default-active="tabsActiveIndex" style="display: inline-flex;padding-right: 35%;"  mode="horizontal" @select="handleSelect"  active-text-color="#000000">
-                <el-menu-item index="1">工作台</el-menu-item>
-                <el-menu-item index="2">测评产品</el-menu-item>
-                <el-menu-item index="3" >测评中心</el-menu-item>
-                <el-menu-item index="4">企业设置</el-menu-item>
-              </el-menu>
+              <div style="text-align: end;" v-if="showTabs">
+                <el-menu :default-active="tabsActiveIndex" style="display: inline-flex;padding-right: 35%;"  mode="horizontal" @select="handleSelect">
+                  <el-menu-item index="1">工作台</el-menu-item>
+                  <el-menu-item index="2">测评产品</el-menu-item>
+                  <el-menu-item index="3" >测评中心</el-menu-item>
+                  <el-menu-item index="4">企业设置</el-menu-item>
+                </el-menu>
               </div>
             </div>
             <div class="md-layout-item md-size-10">
               <div class="md-toolbar-section-start" v-if="showLogin">
                   <md-menu>
                     <md-button class="md-icon-button"  md-menu-trigger>
-                        <md-icon>account_circle</md-icon>
+                        <md-icon v-if="!showPersonalimageSrc">account_circle</md-icon>
+                        <md-avatar v-if="showPersonalimageSrc"><img :src="PersonalimageSrc" style="    width: 24px;height: 24px;border-radius: 50%;" /></md-avatar>
                     </md-button>
 
                     <md-menu-content>
@@ -120,13 +121,22 @@
         </md-list>
       </md-app-drawer> -->
 
-      <md-app-content style="background-color: #f1f3f4;" :class="{'homebgImge':showHomeBgImge}">
+      <md-app-content style="background-color: #f1f3f4" :class="{'homebgImge':showHomeBgImge}">
        <router-view></router-view>
       </md-app-content>
         
     </md-app>
 </div>
 </template>
+<style>
+.el-menu--horizontal>.el-menu-item{
+  color: #000000!important;
+}
+.el-menu-item.is-active{
+  border-bottom-color:#009199!important;
+  color: #066666!important;
+}
+</style>
 
 <style lang="scss" scoped>
 .md-app {
@@ -134,8 +144,8 @@
   min-height: 1040px;
   border: 1px solid rgba(#000, 0.12);
 }
-.md-app-content{
-  padding: 0!important;
+.md-app-content {
+  padding: 0 !important;
 }
 // Demo purposes only
 .md-drawer {
@@ -152,7 +162,7 @@
 .homebgImge {
   background-image: url("/static/imgs/home_bg.jpg");
   background-repeat: no-repeat;
-  background-size:100% 100%;
+  background-size: 100% 100%;
 }
 .el-menu--horizontal {
   border-bottom: solid 0px #e6e6e6;
@@ -171,7 +181,19 @@ export default {
   components: {
     evaluating
   },
-  data: () => ({}),
+  data: () => ({
+    PersonalimageSrc: "",
+    showPersonalimageSrc: false
+  }),
+  mounted: function() {
+    if (this.userImage !== "") {
+      this.showPersonalimageSrc = true;
+      this.PersonalimageSrc = "/IMAGE/" + this.userImage;
+    } else {
+      this.showPersonalimageSrc = false;
+      this.PersonalimageSrc = "";
+    }
+  },
   computed: {
     menuVisible() {
       return this.$store.state.home.menuVisible;
@@ -182,9 +204,9 @@ export default {
     showTabs() {
       return this.$store.state.home.showTabs;
     },
-    showUserCenterButton() {
-      return this.$store.state.home.showUserCenterButton;
-    },
+    // showUserCenterButton() {
+    //   return this.$store.state.home.showUserCenterButton;
+    // },
     showUserCenter() {
       return this.$store.state.home.showUserCenter;
     },
@@ -202,16 +224,30 @@ export default {
     },
     showHomeBgImge() {
       return this.$store.state.home.showHomeBgImge;
+    },
+    userImage() {
+      return this.$store.state.loginPage.userImage;
+    }
+  },
+  watch: {
+    userImage: function(newVal, oldVal) {
+      if (newVal !== "") {
+        this.showPersonalimageSrc = true;
+        this.PersonalimageSrc = "/IMAGE/" + newVal;
+      } else {
+        this.showPersonalimageSrc = false;
+        this.PersonalimageSrc = "";
+      }
     }
   },
   methods: {
-    toggleMenu() {
-      this.$store.commit("home/showUserCenter", !this.showUserCenter);
-      this.$store.commit(
-        "home/showUserCenterButton",
-        !this.showUserCenterButton
-      );
-    },
+    // toggleMenu() {
+    //   this.$store.commit("home/showUserCenter", !this.showUserCenter);
+    //   this.$store.commit(
+    //     "home/showUserCenterButton",
+    //     !this.showUserCenterButton
+    //   );
+    // },
     handleSelect(key, keyPath) {
       switch (key) {
         case "1":
@@ -325,15 +361,17 @@ export default {
                 //修改登录状态
                 $this.$store.commit("loginPage/changeLoginState", false);
                 //显示登录按钮
-                $this.$store.commit("home/showLogin", true);
+                $this.$store.commit("home/showLogin", false);
                 // //隐藏用户中心按钮
                 // $this.$store.commit("home/showUserCenterButton", false);
                 // //隐藏用户中心
                 // $this.$store.commit("home/showUserCenter", false);
                 //显示导航菜单
-                $this.$store.commit("home/showTabsFun", true);
+                $this.$store.commit("home/showTabsFun", false);
                 //显示首页背景图
                 $this.$store.commit("home/changeShowHomeBgImge", true);
+                //清楚头像图片
+                $this.$store.commit("loginPage/getUserImage", "");
                 //清除session信息
                 $this.$store.commit("LOGOUT");
                 //跳转到登录页

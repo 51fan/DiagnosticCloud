@@ -120,7 +120,7 @@
 
 <script>
 import registerSuccess from "./registerSuccess.vue";
-import Base64 from "js-base64";
+import base64 from "js-base64";
 
 export default {
   name: "registerPage",
@@ -157,7 +157,7 @@ export default {
     showText: false,
     counter: "",
     fpassWordErrText: "",
-    spassWordErrText: "",
+    spassWordErrText: ""
     // showdisableBtn:false
   }),
   methods: {
@@ -209,6 +209,8 @@ export default {
           }
           break;
         case 2:
+          this.showPasswordfEmpty = false;
+          this.passwordFHasMessages = false;
           if (this.passwordFirst.length == 0) {
             this.showPasswordfEmpty = true;
             this.passwordFHasMessages = true;
@@ -227,8 +229,6 @@ export default {
               this.passwordFHasMessages = true;
               this.fpassWordErrText = "密码格式不正确";
             }
-            this.showPasswordfEmpty = false;
-            this.passwordFHasMessages = false;
           }
           break;
         case 3:

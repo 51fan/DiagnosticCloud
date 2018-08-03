@@ -2,20 +2,6 @@
     <div class="mypanel">
         <div style="text-align: center;text-align: -webkit-center;background: white;padding-bottom: 5%;">
             <div class="pogressHead">
-                <!-- <md-avatar style="border: 1px solid lightblue;margin:0;margin-left: 5%;" :class="step1Color">
-                        <span>1</span>
-                    </md-avatar>
-                <span style="margin: 0.7% 0 0 1%;font-weight: 600;font-size: medium;">验证身份</span>
-                <div style="width:30%;border-bottom: 2px solid lightgrey;margin: 1.5%;"></div>
-                <md-avatar style="border: 1px solid lightblue;margin:0;" :class="step2Color">
-                        <span>2</span>
-                    </md-avatar>
-                <span style="margin: 0.7% 0 0 1%;font-weight: 600;font-size: medium;">修改密码</span>
-                <div style="width:30%;border-bottom: 2px solid lightgrey;margin: 1.5%;"></div>
-                 <md-avatar style="border: 1px solid lightblue;margin:0;" :class="step3Color">
-                        <span>3</span>
-                    </md-avatar>
-                <span style="margin: 0.7% 0 0 1%;font-weight: 600;font-size: medium;">完成</span> -->
                 <div class="md-layout-item md-size-100">
                   <el-steps :active="activeStep" finish-status="success" simple>
                     <el-step title="验证身份" ></el-step>
@@ -261,6 +247,8 @@ export default {
     inputFunc(index) {
       switch (index) {
         case 1:
+          this.showVCErr = false;
+          this.VCHasMessages = false;
           if (this.VerificationCode == "") {
             this.showVCErr = true;
             this.VCHasMessages = true;
@@ -413,11 +401,12 @@ export default {
             if ($this.changeCheckWay) {
               $this.showCount = true;
               // $this.showPhoneText = true;
+              $this.verftext = "秒后重新获取验证码";
               $this.goLogin(60);
             } else {
               $this.showCount = true;
               // $this.showEmailText = true;
-              this.verftext = "秒后重新获取验证码";
+              $this.verftext = "秒后重新获取验证码";
               $this.goLogin(60);
             }
           }
@@ -588,7 +577,7 @@ export default {
           this.$store.commit("home/changeShowHomeBgImge", true);
           //显示登录界面
           this.$store.commit("loginPage/changeLoginShowState", true);
-           //清除session信息
+          //清除session信息
           this.$store.commit("LOGOUT");
           this.$router.push("/loginPage");
         }
@@ -618,6 +607,19 @@ export default {
             // $this.showPhoneText = true;
           }
         }
+      }
+    },
+    changeCheckWay:function (newVal, oldVal) {
+      if(newVal == true){
+        clearInterval(this.counter);
+        this.phonetime = 0;
+        this.showCount = false;
+        this.verftext = "获取验证码";
+      }else{
+        clearInterval(this.counter);
+        this.emailtime = 0;
+        this.showCount = false;
+        this.verftext = "获取验证码";
       }
     }
   },
