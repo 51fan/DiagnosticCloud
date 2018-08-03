@@ -100,6 +100,7 @@ router.beforeEach(function (to, from, next) {
       store.commit("loginPage/getUseremail", window.localStorage.getItem('UsereMail'));
       store.commit("loginPage/getUsermobile", window.localStorage.getItem('UsereMobile'));
       store.commit("loginPage/getUserImage", window.localStorage.getItem('UserImage'));
+      store.commit("loginPage/changefirstLogin", window.sessionStorage.getItem('firstLogin') == "true" ? 1 : 0);
       //修改登录状态
       store.commit("loginPage/changeLoginState", true);
       //保持激活的菜单
@@ -140,8 +141,10 @@ router.beforeEach(function (to, from, next) {
             store.commit("home/showLogin", true);
             store.commit("home/showTabsFun", true);
             store.commit("evlaluating/changeShowevaluatingPage", false);
-            //隐藏首页背景图
-            store.commit("home/changeShowHomeBgImge", false);
+            if (to.fullPath !== "/loginPage") {
+              //隐藏首页背景图
+              store.commit("home/changeShowHomeBgImge", false);
+            }
             router.push("/overview");
           });
       } else {
@@ -201,6 +204,7 @@ router.beforeEach(function (to, from, next) {
           })
         });
     } else {
+      store.commit("home/changeShowHomeBgImge", true);
       next();
     }
   }

@@ -1,44 +1,49 @@
 <template>
       <div class="linkage">
-        <el-select
-        style="width: 34%;"
-        v-model="selectProvince"
-        @change="choseProvince"
-        filterable
-        placeholder="省">
-        <el-option
-            v-for="item in province"
-            :key="item.id"
-            :label="item.value"
-            :value="item.id">
-        </el-option>
-        </el-select>
-        <el-select
-        style="width: 32%;"
-        v-model="selectCity"
-        @change="choseCity"
-        filterable
-        placeholder="市">
-        <el-option
-            v-for="item in shi1"
-            :key="item.id"
-            :label="item.value"
-            :value="item.id">
-        </el-option>
-        </el-select>
-        <el-select
-        style="width: 31%;"
-        v-model="selectCounty"
-        @change="choseBlock"
-        filterable
-        placeholder="区">
-        <el-option
-            v-for="item in qu1"
-            :key="item.id"
-            :label="item.value"
-            :value="item.id">
-        </el-option>
-        </el-select>
+        <div class="md-layout-item md-size-100" style="display: inline-flex;">
+            <div class="md-layout-item md-size-35 md-medium-size-35 md-small-size-80 md-xsmall-size-100">
+                <el-select
+                v-model="selectProvince"
+                @change="choseProvince"
+                filterable
+                placeholder="省">
+                <el-option
+                    v-for="item in province"
+                    :key="item.id"
+                    :label="item.value"
+                    :value="item.id">
+                </el-option>
+                </el-select>
+            </div>
+            <div class="md-layout-item md-size-32 md-medium-size-32 md-small-size-80 md-xsmall-size-100">
+                <el-select
+                v-model="selectCity"
+                @change="choseCity"
+                filterable
+                placeholder="市">
+                <el-option
+                    v-for="item in shi1"
+                    :key="item.id"
+                    :label="item.value"
+                    :value="item.id">
+                </el-option>
+                </el-select>
+            </div>
+            <div class="md-layout-item md-size-31 md-medium-size-31 md-small-size-80 md-xsmall-size-100">
+                <el-select
+                v-model="selectCounty"
+                @change="choseBlock"
+                filterable
+                placeholder="区">
+                <el-option
+                    v-for="item in qu1"
+                    :key="item.id"
+                    :label="item.value"
+                    :value="item.id">
+                </el-option>
+                </el-select>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -155,10 +160,11 @@ export default {
         if (e === this.province[index2].id) {
           this.shi1 = this.province[index2].children;
           this.selectCity = this.province[index2].children[0].value;
+          this.selectCounty = this.province[index2].children[0].children[0].value;
           this.qu1 = this.province[index2].children[0].children;
-          this.selectCounty = this.province[
-            index2
-          ].children[0].children[0].value;
+        //   this.selectCounty = this.province[
+        //     index2
+        //   ].children[0].children[0].value;
           this.E = this.qu1[0].id;
         }
       }
@@ -169,6 +175,7 @@ export default {
         if (e === this.city[index3].id) {
           this.qu1 = this.city[index3].children;
           this.qu = this.city[index3].children[0].value;
+          this.selectCounty = this.city[index3].children[0].value;
           this.E = this.qu1[0].id;
           // console.log(this.E)
         }
@@ -177,6 +184,7 @@ export default {
     // 选区
     choseBlock(e) {
       this.E = e;
+      this.selectCounty = e;
       // console.log(this.E)
     }
   },

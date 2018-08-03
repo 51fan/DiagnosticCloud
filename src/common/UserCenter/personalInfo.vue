@@ -15,11 +15,16 @@
                                         </div>
                                         <div class="md-layout-item md-size-100" style="display: inline-flex;">
                                             <div class="md-layout-item md-size-10"></div>
-                                            <div class="md-layout-item md-size-80">
-                                                <md-field>
+                                            <div class="md-layout-item md-size-80" style="text-align: center;margin: 5% 0 0 0;">
+                                                <!-- <md-field>
                                                     <label>上传头像</label>
                                                     <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
-                                                </md-field>
+                                                </md-field> -->
+                                                <label id="realBtn" class="btn btn-info">
+                                                    <input type="file" id="fileInput1" name="file" class="mFileInput" style="left:-9999px;position:absolute;"  @change='updateLogo'>
+                                                    <span class="uploadBtn">更换头像</span>
+                                                    <!-- <md-button class="md-dense md-raised md-primary" style="width:30%;background-color: rgb(150, 150, 150);">更换头像</md-button> -->
+                                                </label>
                                             </div>
                                             <div class="md-layout-item md-size-10"></div>
                                         </div>
@@ -316,7 +321,43 @@
         </div> -->
     </div>   
 </template>
-
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+.uploadBtn {
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 1px 1px rgba(0, 0, 0, 0.075);
+  border: 1px solid transparent;
+  border-color: #ccc;
+  background-image: linear-gradient(to bottom, #fff 0, #e0e0e0 100%);
+}
+</style>
 <style scoped>
 .mypanel {
   padding-left: 10%;
@@ -428,7 +469,17 @@ export default {
     imageSrc: "/static/imgs/noImage.png",
     upadteSrc: "",
     imageUrl: "",
-    canEditName: false
+    canEditName: false,
+    imageUrl: "",
+    param: {
+      apikey: "",
+      request: {
+        email: this.useremail,
+        type: 0,
+        path: this.updateData,
+        session_id: this.session_id
+      }
+    }
   }),
   mounted: function() {
     let $this = this,
@@ -625,6 +676,7 @@ export default {
 
             // $this.$router.push("/overview");
             $this.imgUrl = res.data.image_url;
+            $this.$store.commit("SET_UserImage", res.data.image_url)
             $this.$store.commit("loginPage/getUserImage", res.data.image_url);
             // $this.imageSrc = "/IMAGE/" + res.data.image_url;
           }
@@ -651,6 +703,9 @@ export default {
         this.$message.error("上传头像图片大小不能超过 1MB!");
       }
       return isJPG && isLt2M;
+    },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
     }
   },
   computed: {

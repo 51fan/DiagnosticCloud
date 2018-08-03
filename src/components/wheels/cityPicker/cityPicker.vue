@@ -1,47 +1,52 @@
 <template>
       <div class="linkage">
-        <el-select
-        style="width: 35%;"
-        v-model="selectProvince"
-        @change="choseProvince"
-        :disabled="!showCityPicker"
-        filterable
-        placeholder="省">
-        <el-option
-            v-for="item in provinceArray"
-            :key="item.id"
-            :label="item.value"
-            :value="item.id">
-        </el-option>
-        </el-select>
-        <el-select
-        style="width: 32%;"
-        v-model="selectCity"
-        @change="choseCity"
-        :disabled="!showCityPicker"
-        filterable
-        placeholder="市">
-        <el-option
-            v-for="item in shiArray"
-            :key="item.id"
-            :label="item.value"
-            :value="item.id">
-        </el-option>
-        </el-select>
-        <el-select
-        style="width: 31%;"
-        v-model="selectCounty"
-        @change="choseBlock"
-        :disabled="!showCityPicker"
-        filterable
-        placeholder="区">
-        <el-option
-            v-for="item in quArray"
-            :key="item.id"
-            :label="item.value"
-            :value="item.id">
-        </el-option>
-        </el-select>
+          <div class="md-layout-item md-size-100" style="display: inline-flex;">
+            <div class="md-layout-item md-size-35 md-medium-size-35 md-small-size-80 md-xsmall-size-100">
+                <el-select
+                v-model="selectProvince"
+                @change="choseProvince"
+                :disabled="!showCityPicker"
+                filterable
+                placeholder="省">
+                <el-option
+                    v-for="item in provinceArray"
+                    :key="item.id"
+                    :label="item.value"
+                    :value="item.id">
+                </el-option>
+                </el-select>
+            </div>
+            <div class="md-layout-item md-size-32 md-medium-size-32 md-small-size-80 md-xsmall-size-100">
+                <el-select
+                v-model="selectCity"
+                @change="choseCity"
+                :disabled="!showCityPicker"
+                filterable
+                placeholder="市">
+                <el-option
+                    v-for="item in shiArray"
+                    :key="item.id"
+                    :label="item.value"
+                    :value="item.id">
+                </el-option>
+                </el-select>
+            </div>
+            <div class="md-layout-item md-size-31 md-medium-size-31 md-small-size-80 md-xsmall-size-100">
+                <el-select
+                v-model="selectCounty"
+                @change="choseBlock"
+                :disabled="!showCityPicker"
+                filterable
+                placeholder="区">
+                <el-option
+                    v-for="item in quArray"
+                    :key="item.id"
+                    :label="item.value"
+                    :value="item.id">
+                </el-option>
+                </el-select>
+            </div>
+          </div>
     </div>
 </template>
 
@@ -160,10 +165,12 @@ export default {
         if (e === this.provinceArray[index2].id) {
           this.shiArray = this.provinceArray[index2].children;
           this.selectCity = this.provinceArray[index2].children[0].value;
+          debugger;
+          this.selectCounty = this.provinceArray[index2].children[0].children[0].value;
           this.quArray = this.provinceArray[index2].children[0].children;
-          this.selectCounty = this.provinceArray[
-            index2
-          ].children[0].children[0].value;
+        //   this.selectCounty = this.provinceArray[
+        //     index2
+        //   ].children[0].children[0].value;
           this.E = this.quArray[0].id;
         }
       }
@@ -174,6 +181,7 @@ export default {
         if (e === this.city[index3].id) {
           this.quArray = this.city[index3].children;
           this.qu = this.city[index3].children[0].value;
+          this.selectCounty = this.this.city[index3].children[0].value;
           this.E = this.quArray[0].id;
           // console.log(this.E)
         }
@@ -182,6 +190,7 @@ export default {
     // 选区
     choseBlock(e) {
       this.E = e;
+      this.selectCounty = e;
       // console.log(this.E)
     }
   },

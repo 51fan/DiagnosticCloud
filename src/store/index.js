@@ -17,6 +17,7 @@ const state = {
   user: window.sessionStorage.getItem('user'),
   token: window.sessionStorage.getItem('token'),
   activeTab: window.sessionStorage.getItem('activeTab'),
+  firstLogin: window.sessionStorage.getItem('firstLogin'),
   autoLogin30days: window.localStorage.getItem('autoLogin30days'),
   luser: window.localStorage.getItem('user'),
   ltoken: window.localStorage.getItem('token'),
@@ -49,6 +50,10 @@ const mutations = {
     state.UserImage = value;
     window.localStorage.setItem('UserImage', value);
   },
+  SET_FirstLogin: (state, value) => {
+    state.firstLogin = value;
+    window.sessionStorage.setItem('firstLogin', value);
+  },
   //登出
   LOGOUT: (state) => {
     // 登出的时候要清除token
@@ -57,6 +62,7 @@ const mutations = {
     state.autoLogin30days = false;
     window.sessionStorage.removeItem('token');
     window.sessionStorage.removeItem('user');
+    window.sessionStorage.removeItem('firstLogin');
     window.localStorage.removeItem('token');
     window.localStorage.removeItem('user');
     window.localStorage.removeItem('UsereMail');

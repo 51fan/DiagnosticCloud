@@ -59,7 +59,7 @@
                   <md-menu>
                     <md-button class="md-icon-button"  md-menu-trigger>
                         <md-icon v-if="!showPersonalimageSrc">account_circle</md-icon>
-                        <md-avatar v-if="showPersonalimageSrc"><img :src="PersonalimageSrc" style="    width: 24px;height: 24px;border-radius: 50%;" /></md-avatar>
+                        <md-avatar v-if="showPersonalimageSrc" style="width: 48px;height: 48px;"><img :src="PersonalimageSrc" style="border-radius: 50%;" /></md-avatar>
                     </md-button>
 
                     <md-menu-content>
@@ -136,6 +136,10 @@
   border-bottom-color:#009199!important;
   color: #066666!important;
 }
+.el-menu-item{
+  font-size: larger!important;
+}
+
 </style>
 
 <style lang="scss" scoped>
@@ -186,7 +190,7 @@ export default {
     showPersonalimageSrc: false
   }),
   mounted: function() {
-    if (this.userImage !== "") {
+    if (this.userImage !== null) {
       this.showPersonalimageSrc = true;
       this.PersonalimageSrc = "/IMAGE/" + this.userImage;
     } else {

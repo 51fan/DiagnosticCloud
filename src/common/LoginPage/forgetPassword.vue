@@ -262,7 +262,7 @@ export default {
   data: () => ({
     showAlert: false,
     AlertMessage: "",
-    activeStep: 1,
+    activeStep: 0,
     verftext: "获取验证码",
     time: 0,
     mobile: "",

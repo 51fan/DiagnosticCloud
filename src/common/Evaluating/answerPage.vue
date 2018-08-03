@@ -5,7 +5,9 @@
             <label style="font-size: x-large">{{question.level1}}/{{question.level2}}/{{question.level3}}/{{question.level4}}</label>
             <!-- <div style="opacity: 0.5;font-size: medium;padding: 10px 0 30px 0;">{{question.level1}}</div> -->
                 <!-- 问题-->
-            <label>测评项：</label><label style="font-size: x-large;padding: 10px;">{{question.question}}</label>
+                <div style="padding: 20px 0 0 0;">
+                  <label>测评项：</label><label style="font-size: x-large;padding: 10px;">{{question.question}}</label>
+                </div>
         </div>
         <div style="border-top: 1px solid lightgray;padding: 5% 0 0 10%;">
             <!-- <div class="answerItem" :class="{selectAnswer:index==currentChooseObj}" v-for="(item, index) in  question.answerLists" :key="item" @click="selectAnswer(index)"> -->

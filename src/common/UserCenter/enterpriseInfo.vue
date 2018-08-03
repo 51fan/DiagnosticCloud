@@ -45,14 +45,18 @@
                     <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
                         <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业图标：</span>
                     </div>
-                    <div class="md-layout-item md-size-40" style="text-align: left;display: inline-flex;">
+                    <div class="md-layout-item md-size-40" style="text-align: left;">
                         <!-- <img class="logoImage" v-bind:src="imageSrc"/>
                         <el-button style="background-color: #f5f7fa;" disabled>上传</el-button> -->
                         <img class="logoImage" v-bind:src="imageSrc"/>
-                        <md-field   ref="file">
+                        <!-- <md-field   ref="file">
                             <label style="cursor: pointer;">上传</label>
                             <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
-                        </md-field>    
+                        </md-field>     -->
+                        <label id="realBtn" style="line-height: 1;margin: 32px 0 0 5%;">
+                          <input type="file" id="fileInput1" name="file" class="mFileInput" style="left:-9999px;position:absolute;"  @change='updateLogo'>
+                          <span class="uploadBtn">上传</span>
+                        </label>
                     </div>
                     <div class="md-layout-item md-size-25"></div>
                 </div>
@@ -76,32 +80,36 @@
                         <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">所属行业：</span>
                     </div>
                     <div class="md-layout-item md-size-40" style="text-align: left;">
-                       <el-select
-                            style="width: 35%"
-                            v-model="selectIndustry1"
-                            @change="choseIndusty1"
-                            filterable
-                            placeholder="请选择">
-                            <el-option
-                                v-for="item in Industry1"
-                                :key="item.id"
-                                :label="item.lable"
-                                :value="item.title">
-                            </el-option>
-                        </el-select>
-                        <el-select
-                            style="width: 30%"
-                            v-model="selectIndustry2"
-                            @change="choseIndusty2"
-                            filterable
-                            placeholder="请选择">
-                            <el-option
-                                v-for="item in Industry2"
-                                :key="item.id"
-                                :label="item.lable"
-                                :value="item.title">
-                            </el-option>
-                        </el-select>
+                      <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                        <div class="md-layout-item md-size-35 md-medium-size-35 md-small-size-80 md-xsmall-size-100">
+                          <el-select
+                              v-model="selectIndustry1"
+                              @change="choseIndusty1"
+                              filterable
+                              placeholder="请选择">
+                              <el-option
+                                  v-for="item in Industry1"
+                                  :key="item.id"
+                                  :label="item.lable"
+                                  :value="item.title">
+                              </el-option>
+                          </el-select>
+                        </div>
+                        <div class="md-layout-item md-size-30 md-medium-size-32 md-small-size-80 md-xsmall-size-100">
+                          <el-select
+                              v-model="selectIndustry2"
+                              @change="choseIndusty2"
+                              filterable
+                              placeholder="请选择">
+                              <el-option
+                                  v-for="item in Industry2"
+                                  :key="item.id"
+                                  :label="item.lable"
+                                  :value="item.title">
+                              </el-option>
+                          </el-select>
+                        </div>
+                      </div>
                     </div>
                     <div class="md-layout-item md-size-25"></div>
                 </div>
@@ -194,7 +202,7 @@
                     </div>
                     <div class="md-layout-item md-size-40" style="text-align: left;">
                         <img class="logoImage" v-bind:src="imageSrc"/>
-                        <el-button style="background-color: #f5f7fa;" disabled>上传</el-button>
+                        <el-button style="background-color: #f5f7fa;padding: 5px 15px;margin-left: 5%;" disabled>上传</el-button>
                     </div>
                     <div class="md-layout-item md-size-25"></div>
                 </div>
@@ -218,12 +226,18 @@
                         <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">所属行业：</span>
                     </div>
                     <div class="md-layout-item md-size-40" style="text-align: left;">
-                       <el-select v-model="vaule1" disabled placeholder="请选择" style="width: 35%">
-                            <el-option>{{selectIndustry1}}</el-option>
-                        </el-select>
-                        <el-select v-model="vaule2" disabled placeholder="请选择" style="width: 30%">
-                            <el-option>{{selectIndustry2}}</el-option>
-                        </el-select>
+                      <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                        <div class="md-layout-item md-size-35 md-medium-size-35 md-small-size-80 md-xsmall-size-100">
+                          <el-select v-model="vaule1" disabled placeholder="请选择">
+                              <el-option>{{selectIndustry1}}</el-option>
+                          </el-select>
+                        </div>
+                        <div class="md-layout-item md-size-30 md-medium-size-32 md-small-size-80 md-xsmall-size-100">
+                           <el-select v-model="vaule2" disabled placeholder="请选择">
+                              <el-option>{{selectIndustry2}}</el-option>
+                          </el-select>
+                        </div>
+                      </div>    
                     </div>
                     <div class="md-layout-item md-size-25"></div>
                 </div>
@@ -324,6 +338,18 @@
 .inputError {
   color: red;
   text-align: left;
+}
+.uploadBtn {
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 1px 1px rgba(0, 0, 0, 0.075);
+  border: 1px solid transparent;
+  border-color: #ccc;
+  background-image: linear-gradient(to bottom, #fff 0, #e0e0e0 100%);
 }
 </style>
 
@@ -464,11 +490,11 @@ export default {
       this.disable = false;
       this.showenterpriseNameErr = false;
       this.$store.commit("UserCenter/changeShowCityPicker", false);
-    //   this.imgUrl = this.imageStaticSrc;
-    //   this.imageSrc =
-    //     this.imageStaticSrc == ""
-    //       ? "/static/imgs/noImage.png"
-    //       : "/IMAGE/" + this.imageStaticSrc;
+      //   this.imgUrl = this.imageStaticSrc;
+      //   this.imageSrc =
+      //     this.imageStaticSrc == ""
+      //       ? "/static/imgs/noImage.png"
+      //       : "/IMAGE/" + this.imageStaticSrc;
     },
     save() {
       let $this = this,
@@ -633,6 +659,7 @@ export default {
         .then(res => {
           //   console.log(res);
           $this.Industry1 = res.data.return;
+          $this.selectIndustry1 = $this.industryL1[0].title;
           $this.getEnterpriseInfo();
         })
         .catch(err => {

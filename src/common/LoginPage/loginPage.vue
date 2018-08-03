@@ -251,6 +251,8 @@ export default {
                 $this.$store.commit("loginPage/getUsermobile", res.data.mobile);
                 if (res.data.image !== null) {
                   $this.$store.commit("loginPage/getUserImage", res.data.image);
+                }else{
+                  $this.$store.commit("loginPage/getUserImage", "");
                 }
                 $this.$store.commit(
                   "loginPage/getSession_id",
@@ -262,6 +264,7 @@ export default {
                 );
                 if (res.data.firstLogin) {
                   $this.$store.commit("UserCenter/changeShowCityPicker", true);
+                  $this.$store.commit("SET_FirstLogin", true);
                 }
                 console.log($this.autoLogin);
                 if ($this.autoLogin) {

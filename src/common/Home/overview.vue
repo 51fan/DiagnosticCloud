@@ -276,14 +276,18 @@
                     <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
                         <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业图标：</span>
                     </div>
-                    <div class="md-layout-item md-size-40" style="text-align: left;display: inline-flex;">
+                    <div class="md-layout-item md-size-40" style="text-align: left;">
                         <!-- <img class="logoImage" v-bind:src="imageSrc"/>
                         <el-button style="background-color: #f5f7fa;" disabled>上传</el-button> -->
                         <img class="logoImage" v-bind:src="imageSrc"/>
-                        <md-field   ref="file">
+                        <!-- <md-field   ref="file">
                             <label style="cursor: pointer;">上传</label>
                             <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
-                        </md-field>    
+                        </md-field>     -->
+                        <label id="realBtn" class="btn btn-info">
+                            <input type="file" id="fileInput1" name="file" class="mFileInput" style="left:-9999px;position:absolute;"  @change='updateLogo'>
+                            <span class="uploadBtn">上传</span>
+                        </label>
                     </div>
                     <div class="md-layout-item md-size-25"></div>
                 </div>
@@ -431,6 +435,18 @@
 .inputError {
   color: red;
   text-align: left;
+}
+.uploadBtn {
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 1px 1px rgba(0, 0, 0, 0.075);
+  border: 1px solid transparent;
+  border-color: #ccc;
+  background-image: linear-gradient(to bottom, #fff 0, #e0e0e0 100%);
 }
 </style>
 
@@ -617,6 +633,7 @@ export default {
             $this.AlertMessage = res.data.errorMsg;
           } else {
             $this.$store.commit("loginPage/changefirstLogin", false);
+            $this.$store.commit("SET_FirstLogin", false);
             $this.getUserTestAllInfo();
           }
         })
@@ -768,14 +785,19 @@ export default {
         });
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg" || file.type === "image/png";
+      const isJPG =
+        file.type === "image/jpeg" ||
+        file.type === "image/png" ||
+        file.type === "image/jpeg" ||
+        file.type === "image/gif" ||
+        file.type === "image/bmp";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+        this.$message.error("上传图片只能是 JPG、png、jpeg、gif、bmp 格式!");
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error("上传图片大小不能超过 1MB!");
       }
       return isJPG && isLt2M;
     },
@@ -950,8 +972,10 @@ export default {
           request
         })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           $this.Industry1 = res.data.return;
+          console.log($this.Industry1);
+          // $this.selectIndustry1 = $this.industryL1[0].title;
           //   $this.getEnterpriseInfo();
         })
         .catch(err => {
