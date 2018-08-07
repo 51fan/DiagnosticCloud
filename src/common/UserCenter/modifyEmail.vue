@@ -43,10 +43,6 @@
                                 <div class="md-layout-item md-size-50" style="display: inline-flex;">
                                     <div class="md-layout-item md-size-10"></div>
                                     <div class="md-layout-item md-size-50">
-                                        <!-- <md-field style="display: inline-flex;" :class="VCMessageClass">
-                                          <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(2)" @click="showTips(2)"></md-input>
-                                            <span class="md-error" v-if="showVCErr">{{vcErrText}}</span>
-                                        </md-field> -->
                                         <el-input  v-model="VerificationCode" placeholder="输入验证码" v-on:input ="inputFunc(2)" @click="showTips(2)"></el-input>
                                         <div class="inputError">
                                             <span v-if="showVCErr">{{vcErrText}}</span>
@@ -77,10 +73,6 @@
                             <div class="md-layout-item md-size-50" style="display: inline-flex;">
                               <div class="md-layout-item md-size-10"></div>
                                 <div class="md-layout-item md-size-50">
-                                  <!-- <md-field style="display: inline-flex;" :class="VCMessageClass">
-                                    <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
-                                      <span class="md-error" v-if="showVCErr">{{vcErrText}}</span>
-                                  </md-field> -->
                                     <el-input  v-model="VerificationCode" placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></el-input>
                                     <div class="inputError">
                                         <span v-if="showVCErr">{{vcErrText}}</span>
@@ -100,54 +92,52 @@
                 </div>
 
                 <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                  <div class="md-layout-item md-size-15"></div>
-                  <div class="md-layout-item md-size-70">
-                      <div v-if="currentStep2">
-                        <div class="md-layout-item md-size-100" style="text-align:left;display: inline-flex;">
-                            <div class="md-layout-item md-size-25"></div>
-                            <div class="md-layout-item md-size-50">
-                                <span style="font-size: x-large;margin: 20px;">设置新邮箱</span>
-                            </div>
-                            <div class="md-layout-item md-size-25"></div>
-                        </div>
-                        <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0 15px;">
-                            <div class="md-layout-item md-size-100" style="padding: 0 6% 3% 6%;width: 100%;text-align:center;display: inline-flex;">
+                    <div class="md-layout-item md-size-15"></div>
+                    <div class="md-layout-item md-size-70">
+                        <div v-if="currentStep2">
+                            <div class="md-layout-item md-size-100" style="text-align:left;display: inline-flex;">
                                 <div class="md-layout-item md-size-25"></div>
                                 <div class="md-layout-item md-size-50">
-                                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 5% 0;">
-                                        <el-input  v-model="NewEmail" placeholder="输入新的邮箱" v-on:input ="inputFunc(2)" @click="showTips(2)"></el-input>
-                                    </div>
-                                    <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                        <div class="md-layout-item md-size-60">
-                                            <el-input  v-model="VerificationCode" placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></el-input>
-                                            <div class="inputError">
-                                                <span v-if="showVCErr">{{vcErrText}}</span>
-                                            </div>
-                                        </div>
-                                        <div class="md-layout-item md-size-40" style="text-align: right;">
-                                            <el-button v-if="!showCount" style="background-color: #F1F3F7;"   @click="getVerificationCode(3)">{{verftext}}</el-button>
-                                            <el-button v-if="showCount" style="background-color: #F1F3F7;"   @click="getVerificationCode(3)">{{time}}{{verftext}}</el-button>
-                                        </div>
-                                    </div>
+                                    <span style="font-size: x-large;margin: 20px;">设置新邮箱</span>
                                 </div>
                                 <div class="md-layout-item md-size-25"></div>
                             </div>
+                            <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0 15px;">
+                                <div class="md-layout-item md-size-100" style="padding: 0 6% 3% 6%;width: 100%;text-align:center;display: inline-flex;">
+                                    <div class="md-layout-item md-size-25"></div>
+                                    <div class="md-layout-item md-size-50">
+                                        <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 5% 0;">
+                                            <el-input  v-model="NewEmail" placeholder="输入新的邮箱" v-on:input ="inputFunc(2)" @click="showTips(2)"></el-input>
+                                        </div>
+                                        <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                            <div class="md-layout-item md-size-60">
+                                                <el-input  v-model="VerificationCode" placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></el-input>
+                                                <div class="inputError">
+                                                    <span v-if="showVCErr">{{vcErrText}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="md-layout-item md-size-40" style="text-align: right;">
+                                                <el-button v-if="!showCount" style="background-color: #F1F3F7;"   @click="getVerificationCode(3)">{{verftext}}</el-button>
+                                                <el-button v-if="showCount" style="background-color: #F1F3F7;"   @click="getVerificationCode(3)">{{time}}{{verftext}}</el-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="md-layout-item md-size-25"></div>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                  </div>
-                  <div class="md-layout-item md-size-15"></div>
+                    </div>
+                    <div class="md-layout-item md-size-15"></div>
                 </div>
                 <div v-if="currentStep3" style="text-align: center;">
-                    <i class="material-icons md-size-5x" style="color: limegreen">check_circle</i>
+                    <!-- <i class="material-icons md-size-5x" style="color: limegreen">check_circle</i> -->
+                    <img src="/static/imgs/ic_hint_finish.png">
                     <div style="padding: 1% 6% 3% 6%;">邮箱修改成功</div>
                     <h2>您的账号关联的邮箱已经修改为<span style="color:green">{{NewEmail}}</span></h2>
                     <!-- <span style="color: blue;cursor: pointer;text-decoration-line: underline;" @click="goLoginR()">立即跳转</span> -->
+                     <el-button  style="background-color: rgb(0, 145, 153);color: white;" @click="goPersonalCenter()">返回个人中心</el-button>
                 </div>
             </div> 
-            <!-- <div style="padding-top: 1%;" v-if="!currentStep3">
-                <md-button class="md-dense md-raised md-primary" @click="cancel()">取消</md-button>
-                <md-button class="md-dense md-raised md-primary" style="margin: 6px 4%;" @click="nextStep()">下一步</md-button>
-            </div> -->
             <div v-if="!currentStep3">
                 <div class="md-layout-item md-size-100" style="display: inline-flex;">
                     <div class="md-layout-item md-size-15"></div>
@@ -161,7 +151,6 @@
                                 <div class="md-layout-item md-size-60">
                                     <el-button v-if="currentStep1" style="background-color: rgb(0, 145, 153);color: white;width: 100%;" @click="nextStep()">下一步</el-button>
                                     <el-button v-if="currentStep2" style="background-color: rgb(0, 145, 153);color: white;width: 100%;" @click="nextStep()">完成</el-button>
-                                    <el-button v-if="currentStep3" style="background-color: rgb(0, 145, 153);color: white;width: 100%;" @click="nextStep()">返回个人中心</el-button>
                                 </div>
                             </div>
                         </div>
@@ -332,7 +321,7 @@ export default {
         default:
           break;
       }
-    //   this.verftext = "获取验证码";
+      //   this.verftext = "获取验证码";
       //请求接口
       $this
         .$http({
@@ -438,17 +427,16 @@ export default {
               $this.currentStep2 = false;
               $this.currentStep3 = true;
               $this.activeStep = 3;
-              $this.goLogin(5);
+
+              $this.$store.commit("SET_UsereMail", $this.NewEmail);
+              $this.$store.commit("loginPage/getUseremail", $this.NewEmail);
+              //   $this.goLogin(5);
             }
           }
         })
         .catch(error => {
           console.log(error);
         });
-    },
-    isPassword(pass) {
-      var reg = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,16}$/;
-      return reg.test(pass);
     },
     countDown() {
       // let _this = this;
@@ -480,10 +468,10 @@ export default {
         this.time = num;
         this.counter = setInterval(_this.countDown, 1000);
       }
-      if (this.currentStep3) {
-        this.time = num;
-        this.counter = setInterval(_this.countDown, 1000);
-      }
+      //   if (this.currentStep3) {
+      //     this.time = num;
+      //     this.counter = setInterval(_this.countDown, 1000);
+      //   }
     },
     goLoginR() {
       //隐藏导航菜单
@@ -501,6 +489,11 @@ export default {
       this.$store.commit("home/showLogin", true);
       this.$store.commit("home/showTabsFun", true);
       this.$router.push("/overview");
+    },
+    goPersonalCenter() {
+      this.$store.commit("home/showLogin", true);
+      this.$store.commit("home/showTabsFun", true);
+      this.$router.push("/overview");
     }
   },
   watch: {
@@ -512,20 +505,20 @@ export default {
           this.verftext = "重新获取验证码";
           this.showCount = false;
         }
-        if (this.currentStep3) {
-          //隐藏导航菜单
-          this.$store.commit("home/showTabsFun", false);
-          //隐藏登录按钮
-          this.$store.commit("home/showLogin", true);
-          //显示用户中心
-          this.$store.commit("home/showUserCenter", false);
-          this.$store.commit("home/changeShowHomeBgImge", true);
-          //显示登录界面
-          this.$store.commit("loginPage/changeLoginShowState", true);
-          //清除session信息
-          this.$store.commit("LOGOUT");
-          this.$router.push("/loginPage");
-        }
+        // if (this.currentStep3) {
+        //   //隐藏导航菜单
+        //   this.$store.commit("home/showTabsFun", false);
+        //   //隐藏登录按钮
+        //   this.$store.commit("home/showLogin", true);
+        //   //显示用户中心
+        //   this.$store.commit("home/showUserCenter", false);
+        //   this.$store.commit("home/changeShowHomeBgImge", true);
+        //   //显示登录界面
+        //   this.$store.commit("loginPage/changeLoginShowState", true);
+        //   //清除session信息
+        //   this.$store.commit("LOGOUT");
+        //   this.$router.push("/loginPage");
+        // }
       }
     },
     changeCheckWay: function(newVal, oldVal) {
@@ -579,15 +572,15 @@ export default {
       set: function(newValue) {
         this.$store.state.UserCenter.modifyPassword.checkWay = newValue;
       }
-    },
-    VerificationCode: {
-      get: function() {
-        return this.$store.state.UserCenter.modifyPassword.VerificationCode;
-      },
-      set: function(newValue) {
-        this.$store.state.UserCenter.modifyPassword.VerificationCode = newValue;
-      }
     }
+    // VerificationCode: {
+    //   get: function() {
+    //     return this.$store.state.UserCenter.modifyPassword.VerificationCode;
+    //   },
+    //   set: function(newValue) {
+    //     this.$store.state.UserCenter.modifyPassword.VerificationCode = newValue;
+    //   }
+    // }
   }
 };
 </script>

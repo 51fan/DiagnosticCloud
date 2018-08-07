@@ -226,7 +226,10 @@
                                             <span>部门：</span>
                                         </div>
                                         <div class="md-layout-item md-size-60">
-                                            <el-input  v-model="department"  placeholder="" ></el-input>
+                                            <el-input  v-model="department"  placeholder="" v-on:input ="inputFunc(1)" @click="showTips(1)"></el-input>
+                                            <div class="inputError">
+                                                <span  v-if="showDepartmentErr">{{departmentErr}}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -240,7 +243,10 @@
                                             <span>职位：</span>
                                         </div>
                                         <div class="md-layout-item md-size-60">
-                                             <el-input  v-model="position"  placeholder="" ></el-input>
+                                            <el-input  v-model="position"  placeholder="" v-on:input ="inputFunc(2)" @click="showTips(2)"></el-input>
+                                            <div class="inputError">
+                                                <span  v-if="showPositionErr">{{positionErr}}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -267,6 +273,11 @@
                 <div class="md-layout-item md-size-10"></div>
             </div>
         </div>
+        <md-dialog-alert 
+                  class="md-primary md-raised"
+                  :md-active.sync="showAlert"
+                  :md-content="AlertMessage"
+                  md-confirm-text="知道了" /> 
         <!-- <div v-if="disable">
             <div class="md-layout">
                <div class="md-layout-item md-size-10"></div>
@@ -450,6 +461,11 @@
   margin-left: 16px;
   overflow: visible;
 }
+
+.inputError {
+  color: red;
+  text-align: left;
+}
 </style>
 
 
@@ -481,7 +497,11 @@ export default {
         path: this.updateData,
         session_id: this.session_id
       }
-    }
+    },
+    showDepartmentErr: false,
+    departmentErr: "",
+    showPositionErr: false,
+    positionErr: ""
   }),
   mounted: function() {
     let $this = this,
@@ -542,7 +562,16 @@ export default {
           apikey,
           request
         };
-      console.log(this.date);
+      if (this.department.length > 10) {
+        this.showAlert = true;
+        this.AlertMessage = "部门名字长度不能超过10位";
+        return;
+      }
+      if (this.position.length > 10) {
+        this.showAlert = true;
+        this.AlertMessage = "部门名字长度不能超过10位";
+        return;
+      }
       $this
         .$http({
           method: type,
@@ -710,11 +739,50 @@ export default {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
     editUseremail() {
-        this.$router.push("/modifyEmail");
-
+      this.$router.push("/modifyEmail");
     },
     editUsermobilel() {
-        this.$router.push("/modifyPhoneNum");
+      this.$router.push("/modifyPhoneNum");
+    },
+    inputFunc(index) {
+      switch (index) {
+        case 1:
+          this.showDepartmentErr = false;
+          if (this.department.length > 10) {
+            this.showDepartmentErr = true;
+            this.departmentErr = "部门名字长度不能超过10位";
+          }
+          break;
+        case 2:
+          this.showPositionErr = false;
+          if (this.position.length > 10) {
+            this.showPositionErr = true;
+            this.positionErr = "部门名字长度不能超过10位";
+          }
+          break;
+        default:
+          break;
+      }
+    },
+    showTips(index) {
+      switch (index) {
+        case 1:
+          this.showDepartmentErr = false;
+          if (this.department.length > 10) {
+            this.showDepartmentErr = true;
+            this.departmentErr = "部门名字长度不能超过10位";
+          }
+          break;
+        case 2:
+          this.showPositionErr = false;
+          if (this.position.length > 10) {
+            this.showPositionErr = true;
+            this.positionErr = "部门名字长度不能超过10位";
+          }
+          break;
+        default:
+          break;
+      }
     }
   },
   computed: {
