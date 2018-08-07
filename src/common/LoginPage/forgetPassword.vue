@@ -44,39 +44,21 @@
                             </div>
                             <div class="md-layout-item md-size-25"></div>
                           </div>
-                          <div v-if="!showCount" class="md-layout-item md-size-100" style="padding: 0 6% 0 6%;width: 100%;text-align:center;display: inline-flex;">
+                          <div  class="md-layout-item md-size-100" style="padding: 0 6% 0 6%;width: 100%;text-align:center;display: inline-flex;">
                               <div class="md-layout-item md-size-25"></div>
                               <div class="md-layout-item md-size-50" style="display: inline-flex;">
                                 <div class="md-layout-item md-size-68">
                                     <md-field style="display: inline-flex;" :class="VCMessageClass">
                                       <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
-                                      <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
-                                      <span class="md-error" v-if="showVCError">短信验证码错误</span>
+                                      <span class="md-error" v-if="showVCEmpty">{{vcErrText}}</span>
                                     </md-field>
                                 </div>
                                 <div class="md-layout-item md-size-30">
-                                  <el-button style="margin: 13px 0 0 5px;" @click="getVerificationCode(1)">{{verftext}}</el-button>
+                                  <el-button v-if="!showCount" style="margin: 13px 0 0 5px;" @click="getVerificationCode(1)">{{verftext}}</el-button>
+                                  <el-button v-if="showCount" style="margin: 13px 0 0 5px;" @click="getVerificationCode(1)">{{phonetime}}{{verftext}}</el-button>
                                 </div>
                               </div>
                               <div class="md-layout-item md-size-25"></div>
-                          </div>
-                          <div v-if="showCount" class="md-layout-item md-size-100" style="padding: 0 6% 0 6%;width: 100%;text-align:center;display: inline-flex;">
-                            <div class="md-layout-item md-size-25"></div>
-                              <div class="md-layout-item md-size-50" style="display: inline-flex;">
-                                <div class="md-layout-item md-size-68">
-                                    <md-field style="display: inline-flex;" :class="VCMessageClass">
-                                      <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
-                                      <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
-                                      <span class="md-error" v-if="showVCError">短信验证码错误</span>
-                                    </md-field>
-                                </div>
-                                <div class="md-layout-item md-size-30">
-                                  <el-button style="margin: 13px 0 0 5px;" @click="getVerificationCode(1)">{{time}}{{verftext}}</el-button>
-                                  <!-- <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;" @click="getVerificationCode(1)">{{verftext}}</md-button> -->
-                                  <!-- <span v-if="showText" style="color:red">{{time}}</span><span v-if="showText">秒后重新获取</span> -->
-                                </div>
-                              </div>
-                            <div class="md-layout-item md-size-25"></div>
                           </div>
                     </div>
                     <div v-if="!changeCheckWay">
@@ -91,34 +73,19 @@
                             </div>
                             <div class="md-layout-item md-size-25"></div>
                           </div>
-                          <div v-if="!showCount" class="md-layout-item md-size-100" style="padding: 0 6% 0 6%;width: 100%;text-align:center;display: inline-flex;">
+                          <div  class="md-layout-item md-size-100" style="padding: 0 6% 0 6%;width: 100%;text-align:center;display: inline-flex;">
                             <div class="md-layout-item md-size-25"></div>
                             <div class="md-layout-item md-size-50" style="display: inline-flex;">
                               <div class="md-layout-item md-size-68">
                                 <md-field style="display: inline-flex;" :class="VCMessageClass">
                                   <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
-                                    <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
-                                    <span class="md-error" v-if="showVCError">短信验证码错误</span>
+                                    <span class="md-error" v-if="showVCEmpty">{{vcErrText}}</span>
+                                    <!-- <span class="md-error" v-if="showVCError">短信验证码错误</span> -->
                                 </md-field>
                               </div>
                             <div class="md-layout-item md-size-30">
-                              <el-button style="margin: 13px 0 0 5px;"  @click="getVerificationCode(2)">{{verftext}}</el-button>
-                            </div>
-                            </div>
-                            <div class="md-layout-item md-size-25"></div>
-                          </div>
-                          <div v-if="showCount" class="md-layout-item md-size-100" style="padding: 0 6% 0 6%;width: 100%;text-align:center;display: inline-flex;">
-                            <div class="md-layout-item md-size-25"></div>
-                            <div class="md-layout-item md-size-50" style="display: inline-flex;">
-                              <div class="md-layout-item md-size-68">
-                                <md-field style="display: inline-flex;" :class="VCMessageClass">
-                                  <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
-                                    <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
-                                    <span class="md-error" v-if="showVCError">短信验证码错误</span>
-                                  </md-field>
-                              </div>
-                            <div class="md-layout-item md-size-30">
-                              <el-button style="margin: 13px 0 0 5px;"  @click="getVerificationCode(2)">{{verftext}}</el-button>
+                              <el-button v-if="!showCount" style="margin: 13px 0 0 5px;"  @click="getVerificationCode(2)">{{verftext}}</el-button>
+                              <el-button v-if="showCount" style="margin: 13px 0 0 5px;"  @click="getVerificationCode(2)">{{emailtime}}{{verftext}}</el-button>
                             </div>
                             </div>
                             <div class="md-layout-item md-size-25"></div>
@@ -142,13 +109,13 @@
                             <div class="md-layout-item md-size-50">
                                <md-field :class="passwordFMessageClass" >
                                     <md-input v-model="passwordFirst" type="password" placeholder="6 - 16位密码，区分大小写" v-on:input ="inputFunc(2)" @click="showTips(2)"></md-input>
-                                    <span class="md-error" v-if="showPasswordfEmpty">{{passWordFerrTest}}</span>
-                                    <span class="md-error" v-if="showPasswordfError">{{passWordFerrTest}}</span>
+                                    <span class="md-error" v-if="showPasswordfEmpty">{{passWordFerrText}}</span>
+                                    <span class="md-error" v-if="showPasswordfError">{{passWordFerrText}}</span>
                                 </md-field>
                                 <md-field :class="passwordSMessageClass">
                                     <md-input v-model="passwordSecond" type="password" placeholder="确认密码" v-on:input ="inputFunc(3)" @click="showTips(3)"></md-input>
-                                    <span class="md-error" v-if="showPasswordsEmpty">{{passWordSerrTest}}</span>
-                                    <span class="md-error" v-if="showPasswordsError">{{passWordSerrTest}}</span>
+                                    <span class="md-error" v-if="showPasswordsEmpty">{{passWordSerrText}}</span>
+                                    <span class="md-error" v-if="showPasswordsError">{{passWordSerrText}}</span>
                                 </md-field>
                             </div>
                             <div class="md-layout-item md-size-25"></div>
@@ -265,13 +232,15 @@ export default {
     activeStep: 0,
     verftext: "获取验证码",
     time: 0,
+    phonetime: 0,
+    emailtime: 0,
     mobile: "",
     email: "",
     acconut: "",
     checkWay: "mobile",
     VerificationCode: "",
     showVCEmpty: false,
-    showVCError: false,
+    // showVCError: false,
     VCHasMessages: false,
     phoneNumHasMessages: false,
     passwordFHasMessages: false,
@@ -290,11 +259,12 @@ export default {
     showPasswordsError: false,
     showEmailEmpty: false,
     showEmailError: false,
-    passWordFerrTest: "",
-    passWordSerrTest: "",
+    passWordFerrText: "",
+    passWordSerrText: "",
     showCount: false,
     showText: false,
-    counter: ""
+    counter: "",
+    vcErrText: ""
   }),
   methods: {
     inputFunc(index) {
@@ -302,27 +272,28 @@ export default {
         case 1:
           this.showVCEmpty = this.VerificationCode == "" ? true : false;
           this.VCHasMessages = this.showVCEmpty;
+          this.vcErrText = "短信验证码不能为空";
           break;
         case 2:
           if (this.passwordFirst.length == 0) {
             this.passwordFHasMessages = true;
             this.showPasswordfEmpty = true;
             this.showPasswordfError = false;
-            this.passWordFerrTest = "密码不能为空";
+            this.passWordFerrText = "密码不能为空";
           } else {
             this.showPasswordfEmpty = false;
             this.showPasswordfError = false;
             this.passwordFHasMessages = false;
             if (this.passwordFirst.length < 5) {
-              this.passWordFerrTest = "密码最少需要6位";
+              this.passWordFerrText = "密码最少需要6位";
               this.showPasswordfError = true;
               this.passwordFHasMessages = true;
             } else if (this.passwordFirst.length > 16) {
-              this.passWordFerrTest = "密码不能超过16位";
+              this.passWordFerrText = "密码不能超过16位";
               this.showPasswordfError = true;
               this.passwordFHasMessages = true;
             } else if (!this.isPassword(this.passwordFirst)) {
-              this.passWordFerrTest = "密码格式不正确";
+              this.passWordFerrText = "密码格式不正确";
               this.showPasswordfError = true;
               this.passwordFHasMessages = true;
             }
@@ -333,25 +304,25 @@ export default {
             this.passwordSHasMessages = true;
             this.showPasswordsEmpty = true;
             this.showPasswordsError = false;
-            this.passWordSerrTest = "密码不能为空";
+            this.passWordSerrText = "密码不能为空";
           } else {
             this.showPasswordsEmpty = false;
             this.showPasswordsError = false;
             this.passwordSHasMessages = false;
             if (this.passwordSecond.length < 5) {
-              this.passWordSerrTest = "密码最少需要6位";
+              this.passWordSerrText = "密码最少需要6位";
               this.showPasswordsError = true;
               this.passwordSHasMessages = true;
             } else if (this.passwordSecond.length > 16) {
-              this.passWordSerrTest = "密码不能超过16位";
+              this.passWordSerrText = "密码不能超过16位";
               this.showPasswordsError = true;
               this.passwordSHasMessages = true;
             } else if (!this.isPassword(this.passwordSecond)) {
-              this.passWordSerrTest = "密码格式不正确";
+              this.passWordSerrText = "密码格式不正确";
               this.showPasswordsError = true;
               this.passwordSHasMessages = true;
-            } else if(this.passwordFirst !== this.passwordSecond){
-              this.passWordSerrTest = "两次输入密码不一致";
+            } else if (this.passwordFirst !== this.passwordSecond) {
+              this.passWordSerrText = "两次输入密码不一致";
               this.showPasswordsError = true;
               this.passwordSHasMessages = true;
             }
@@ -385,11 +356,12 @@ export default {
           //验证码为空就提示不能为空
           this.showVCEmpty = this.VerificationCode == "" ? true : false;
           this.VCHasMessages = this.showVCEmpty;
+          this.vcErrText = "短信验证码不能为空";
           break;
         case 2:
           //如果密码为空，提示不能为空
           this.showPasswordfEmpty = this.passwordFirst == "" ? true : false;
-          this.passWordFerrTest = "密码不能为空";
+          this.passWordFerrText = "密码不能为空";
           //不为空，判断格式是否正确
           this.showPasswordfError = this.showPasswordfEmpty
             ? false
@@ -402,7 +374,7 @@ export default {
         case 3:
           //如果密码为空，提示不能为空
           this.showPasswordsEmpty = this.passwordSecond == "" ? true : false;
-          this.passWordSerrTest = "密码不能为空";
+          this.passWordSerrText = "密码不能为空";
           //不为空，判断格式是否正确
           this.showPasswordsError = this.showPasswordsEmpty
             ? false
@@ -439,7 +411,11 @@ export default {
       }
     },
     getVerificationCode(index) {
-      if (this.time !== 0) return;
+      if (this.changeCheckWay) {
+        if (this.phonetime !== 0) return;
+      } else {
+        if (this.emailtime !== 0) return;
+      }
       //获取验证码
       let $this = this,
         apikey = "",
@@ -463,7 +439,7 @@ export default {
           apikey,
           request
         };
-
+      $this.verftext = "获取验证码";
       $this
         .$http({
           method: type,
@@ -477,10 +453,17 @@ export default {
             $this.showAlert = true;
             $this.AlertMessage = res.data.errorMsg;
           } else {
-            $this.showCount = true;
-            $this.showText = true;
-            $this.verftext = "秒后重新获取";
-            $this.goLogin(60);
+            if ($this.changeCheckWay) {
+              $this.showCount = true;
+              // $this.showPhoneText = true;
+              $this.verftext = "秒后重新获取验证码";
+              $this.goLogin(60);
+            } else {
+              $this.showCount = true;
+              // $this.showEmailText = true;
+              $this.verftext = "秒后重新获取验证码";
+              $this.goLogin(60);
+            }
           }
         })
         .catch(error => {
@@ -600,20 +583,6 @@ export default {
         });
     },
     isPassword(pass) {
-      // var str = pass;
-      // if (str == null || str.length < 6) {
-      //   return false;
-      // }
-      // var reg1 = new RegExp(/^[0-9A-Za-z]+$/);
-      // if (!reg1.test(str)) {
-      //   return false;
-      // }
-      // var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
-      // if (reg.test(str)) {
-      //   return true;
-      // } else {
-      //   return false;
-      // }
       var reg = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,16}$/;
       return reg.test(pass);
     },
@@ -626,13 +595,31 @@ export default {
       return reg.test(str);
     },
     countDown() {
-      let _this = this;
-      _this.time--;
+      if (this.currentStep1) {
+        if (this.changeCheckWay) {
+          this.phonetime--;
+        } else {
+          this.emailtime--;
+        }
+      }
+      if (this.currentStep3) {
+        this.time--;
+      }
     },
     goLogin(num) {
       let _this = this;
-      _this.time = num;
-      this.counter = setInterval(_this.countDown, 1000);
+      if (this.currentStep1) {
+        if (this.changeCheckWay) {
+          this.phonetime = num;
+        } else {
+          this.emailtime = num;
+        }
+        this.counter = setInterval(_this.countDown, 1000);
+      }
+      if (this.currentStep3) {
+        this.time = num;
+        this.counter = setInterval(_this.countDown, 1000);
+      }
     },
     goLoginR() {
       //隐藏导航菜单
@@ -674,17 +661,43 @@ export default {
         }
       }
     },
-    checkWay: function(newVal, oldVal) {
-      if (newVal !== oldVal) {
-        this.showPhoneNumEmpty = false;
-        this.showPhoneNumError = false;
-        this.showEmailEmpty = false;
-        this.showEmailError = false;
-        this.showVCEmpty = false;
-        this.showVCError = false;
-        this.phoneNumHasMessages = false;
-        this.emailHasMessages = false;
-        this.VCHasMessages = false;
+    phonetime: function(newVal, oldVal) {
+      //   debugger;
+      if (newVal == 0) {
+        clearInterval(this.counter);
+        if (this.showCount) {
+          this.verftext = "重新获取验证码";
+          if (this.changeCheckWay) {
+            this.showCount = false;
+            // $this.showPhoneText = true;
+          }
+        }
+      }
+    },
+    emailtime: function(newVal, oldVal) {
+      //   debugger;
+      if (newVal == 0) {
+        clearInterval(this.counter);
+        if (this.showCount) {
+          this.verftext = "重新获取验证码";
+          if (!this.changeCheckWay) {
+            this.showCount = false;
+            // $this.showPhoneText = true;
+          }
+        }
+      }
+    },
+    changeCheckWay: function(newVal, oldVal) {
+      if (newVal == true) {
+        clearInterval(this.counter);
+        this.phonetime = 0;
+        this.showCount = false;
+        this.verftext = "获取验证码";
+      } else {
+        clearInterval(this.counter);
+        this.emailtime = 0;
+        this.showCount = false;
+        this.verftext = "获取验证码";
       }
     }
   },

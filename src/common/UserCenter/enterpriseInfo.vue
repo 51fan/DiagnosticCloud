@@ -229,12 +229,12 @@
                       <div class="md-layout-item md-size-100" style="display: inline-flex;">
                         <div class="md-layout-item md-size-35 md-medium-size-35 md-small-size-80 md-xsmall-size-100">
                           <el-select v-model="vaule1" disabled placeholder="请选择">
-                              <el-option>{{selectIndustry1}}</el-option>
+                              <el-option :value="selectIndustry1"></el-option>
                           </el-select>
                         </div>
                         <div class="md-layout-item md-size-30 md-medium-size-32 md-small-size-80 md-xsmall-size-100">
                            <el-select v-model="vaule2" disabled placeholder="请选择">
-                              <el-option>{{selectIndustry2}}</el-option>
+                              <el-option :value="selectIndustry2"></el-option>
                           </el-select>
                         </div>
                       </div>    
@@ -659,7 +659,8 @@ export default {
         .then(res => {
           //   console.log(res);
           $this.Industry1 = res.data.return;
-          $this.selectIndustry1 = $this.industryL1[0].title;
+          $this.selectIndustry1 = $this.Industry1[0].title;
+          $this.vaule1 = this.selectIndustry1;
           $this.getEnterpriseInfo();
         })
         .catch(err => {

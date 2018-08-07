@@ -190,7 +190,7 @@ export default {
     showPersonalimageSrc: false
   }),
   mounted: function() {
-    if (this.userImage !== null) {
+    if (this.userImage !== null && this.userImage !== "") {
       this.showPersonalimageSrc = true;
       this.PersonalimageSrc = "/IMAGE/" + this.userImage;
     } else {
@@ -235,7 +235,7 @@ export default {
   },
   watch: {
     userImage: function(newVal, oldVal) {
-      if (newVal !== "") {
+      if (newVal !== "" && newVal !== null) {
         this.showPersonalimageSrc = true;
         this.PersonalimageSrc = "/IMAGE/" + newVal;
       } else {
@@ -370,7 +370,7 @@ export default {
                 // $this.$store.commit("home/showUserCenterButton", false);
                 // //隐藏用户中心
                 // $this.$store.commit("home/showUserCenter", false);
-                //显示导航菜单
+                //隐藏导航菜单
                 $this.$store.commit("home/showTabsFun", false);
                 //显示首页背景图
                 $this.$store.commit("home/changeShowHomeBgImge", true);

@@ -20,8 +20,8 @@
                 <div class="md-layout-item md-size-80" style="margin: 5% 0 0 0;">
                   <md-field md-clearable :class="emailMessageClass" >
                       <md-input v-model="email" placeholder="邮箱" v-on:input ="inputFunc(1)" @click="showTips(1)" required></md-input>
-                      <span class="md-error" v-if="showEmailEmpty">邮箱不能为空</span>
-                      <span class="md-error" v-if="showEmailError">邮箱格式不正确</span>
+                      <!-- <span class="md-error" v-if="showEmailEmpty"></span> -->
+                      <span class="md-error" v-if="showEmailError">{{emailErrText}}</span>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-size-10" ></div>
@@ -31,8 +31,8 @@
                 <div class="md-layout-item md-size-80" >
                   <md-field :class="passwordFMessageClass" >
                       <md-input v-model="passwordFirst" type="password" placeholder="6 - 16位密码，区分大小写" v-on:input ="inputFunc(2)" @click="showTips(2)"></md-input>
-                      <span class="md-error" v-if="showPasswordfEmpty">{{fpassWordErrText}}</span>
-                      <!-- <span class="md-error" v-if="showPasswordfError">{{fpassWordErrText}}</span> -->
+                      <!-- <span class="md-error" v-if="showPasswordfEmpty">{{fpassWordErrText}}</span> -->
+                      <span class="md-error" v-if="showPasswordfError">{{fpassWordErrText}}</span>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-size-10" ></div>
@@ -42,8 +42,8 @@
                 <div class="md-layout-item md-size-80" >
                   <md-field  :class="passwordSMessageClass">
                       <md-input v-model="passwordSecond" type="password" placeholder="确认密码" v-on:input ="inputFunc(3)" @click="showTips(3)"></md-input>
-                      <span class="md-error" v-if="showPasswordsEmpty">密码不能为空{{spassWordErrText}}</span>
-                      <span class="md-error" v-if="showPasswordsError">两次输入密码不一致{{spassWordErrText}}</span>
+                      <!-- <span class="md-error" v-if="showPasswordsEmpty">{{spassWordErrText}}</span> -->
+                      <span class="md-error" v-if="showPasswordsError">{{spassWordErrText}}</span>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-size-10" ></div>
@@ -53,8 +53,8 @@
                 <div class="md-layout-item md-size-80" >
                       <md-field style="display: inline-flex;" :class="phoneNumMessageClass">
                         <md-input v-model="phoneNum"  placeholder="11位手机号" v-on:input ="inputFunc(4)" @click="showTips(4)"></md-input>
-                        <span class="md-error" v-if="showPhoneNumEmpty">手机号码不能为空</span>
-                        <span class="md-error" v-if="showPhoneNumError">手机号填写不正确</span>
+                        <!-- <span class="md-error" v-if="showPhoneNumEmpty"></span> -->
+                        <span class="md-error" v-if="showPhoneNumError">{{phoneErrText}}</span>
                       </md-field>
                 </div>
                 <div class="md-layout-item md-size-10" ></div>
@@ -66,8 +66,8 @@
                       <div class="md-layout-item md-size-65" >
                           <md-field  :class="VCMessageClass">
                             <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(5)" @click="showTips(5)"></md-input>
-                            <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
-                            <span class="md-error" v-if="showVCError">短信验证码错误</span>
+                            <!-- <span class="md-error" v-if="showVCEmpty"></span> -->
+                            <span class="md-error" v-if="showVCError">{{vccodeErrText}}</span>
                           </md-field> 
                       </div>
                       <div class="md-layout-item md-size-35" >
@@ -78,8 +78,8 @@
                         <div class="md-layout-item md-size-65" >
                             <md-field :class="VCMessageClass">
                               <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(5)" @click="showTips(5)"></md-input>
-                              <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span>
-                              <span class="md-error" v-if="showVCError">短信验证码错误</span>
+                              <!-- <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span> -->
+                              <span class="md-error" v-if="showVCError">{{vccodeErrText}}</span>
                           </md-field>
                         </div>
                         <div class="md-layout-item md-size-35" >
@@ -156,8 +156,11 @@ export default {
     showCount: false,
     showText: false,
     counter: "",
-    fpassWordErrText: "",
-    spassWordErrText: ""
+    emailErrText: "邮箱不能为空",
+    fpassWordErrText: "密码不能为空",
+    spassWordErrText: "密码不能为空",
+    phoneErrText: "手机号码不能为空",
+    vccodeErrText: "验证码不能为空"
     // showdisableBtn:false
   }),
   methods: {
@@ -193,39 +196,33 @@ export default {
       switch (index) {
         case 1:
           if (this.email.length == 0) {
-            this.showEmailEmpty = true;
-            this.showPasswordfEmpty = false;
-            this.showPasswordsEmpty = false;
-            this.showPhoneNumEmpty = false;
-            this.showVCEmpty = false;
+            this.showEmailError = true;
+            this.emailHasMessages = true;
+            this.emailErrText = "邮箱不能为空";
           } else {
-            this.showEmailEmpty = false;
-            this.showPasswordfEmpty = false;
-            this.showPasswordsEmpty = false;
-            this.showPhoneNumEmpty = false;
-            this.showVCEmpty = false;
             this.showEmailError = !this.isEmail(this.email);
             this.emailHasMessages = !this.isEmail(this.email);
+            this.emailErrText = "邮箱格式不正确";
           }
           break;
         case 2:
-          this.showPasswordfEmpty = false;
+          this.showPasswordfError = false;
           this.passwordFHasMessages = false;
           if (this.passwordFirst.length == 0) {
-            this.showPasswordfEmpty = true;
+            this.showPasswordfError = true;
             this.passwordFHasMessages = true;
             this.fpassWordErrText = "密码不能为空";
           } else {
             if (this.passwordFirst.length < 6) {
-              this.showPasswordfEmpty = true;
+              this.showPasswordfError = true;
               this.passwordFHasMessages = true;
               this.fpassWordErrText = "密码最少需要6位";
             } else if (this.passwordFirst.length > 16) {
-              this.showPasswordfEmpty = true;
+              this.showPasswordfError = true;
               this.passwordFHasMessages = true;
               this.fpassWordErrText = "密码不能超过16位";
             } else if (!this.isPassword(this.passwordFirst)) {
-              this.showPasswordfEmpty = true;
+              this.showPasswordfError = true;
               this.passwordFHasMessages = true;
               this.fpassWordErrText = "密码格式不正确";
             }
@@ -233,57 +230,37 @@ export default {
           break;
         case 3:
           if (this.passwordSecond.length == 0) {
-            this.showEmailEmpty = false;
-            this.showPasswordfEmpty = false;
-            this.showPasswordsEmpty = true;
-            this.showPhoneNumEmpty = false;
-            this.showVCEmpty = false;
-            this.showPasswordfError = false;
+            this.showPasswordsError = true;
+            this.passwordSHasMessages = true;
+            this.spassWordErrText = "密码不能为空";
           } else {
-            this.showEmailEmpty = false;
-            this.showPasswordfEmpty = false;
-            this.showPasswordsEmpty = false;
-            this.showPhoneNumEmpty = false;
-            this.showVCEmpty = false;
+            this.showPasswordsError = false;
             this.showPasswordsError =
               this.passwordFirst == this.passwordSecond ? false : true;
-            this.passwordSHasMessages =
-              this.passwordFirst == this.passwordSecond ? false : true;
+            this.passwordSHasMessages = this.showPasswordsError;
+            this.spassWordErrText = "两次输入密码不一致";
           }
           break;
         case 4:
           if (this.phoneNum.length == 0) {
-            this.showEmailEmpty = false;
-            this.showPasswordfEmpty = false;
-            this.showPasswordsEmpty = false;
-            this.showPhoneNumEmpty = true;
-            this.showVCEmpty = false;
+            this.showPhoneNumError = true;
+            this.phoneNumHasMessages = true;
+            this.phoneErrText = "手机号码不能为空";
           } else {
-            this.showEmailEmpty = false;
-            this.showPasswordfEmpty = false;
-            this.showPasswordsEmpty = false;
-            this.showPhoneNumEmpty = false;
-            this.showVCEmpty = false;
             this.showPhoneNumError = !this.isTelCode(this.phoneNum);
             this.phoneNumHasMessages = !this.isTelCode(this.phoneNum);
+            this.phoneErrText = "手机号填写不正确";
           }
           break;
         case 5:
           if (this.VerificationCode.length == 0) {
-            this.showEmailEmpty = false;
-            this.showPasswordfEmpty = false;
-            this.showPasswordsEmpty = false;
-            this.showPhoneNumEmpty = false;
-            this.showVCEmpty = true;
+            this.showVCError = true;
+            this.VCHasMessages = true;
+            this.vccodeErrText = "验证码不能为空";
           } else {
-            this.showEmailEmpty = false;
-            this.showPasswordfEmpty = false;
-            this.showPasswordsEmpty = false;
-            this.showPhoneNumEmpty = false;
-            this.showVCEmpty = false;
+            this.showVCError = false;
+            // this.vccodeErrText = "短信验证码错误"
             //后端校验
-            // this.showVCError = !this.isTelCode(this.VerificationCode);
-            // this.VCHasMessages = !this.isTelCode(this.VerificationCode);
           }
           break;
         default:
@@ -306,57 +283,55 @@ export default {
           break;
         case 2:
           //如果密码为空，提示不能为空
-          // this.showPasswordfEmpty = this.passwordFirst == "" ? true : false;
           // //不为空，判断格式是否正确
-          // this.showPasswordfError = this.showPasswordfEmpty
-          //   ? false
-          //   : !this.isPassword(this.passwordFirst);
-          // //显示警告
-          // this.passwordFHasMessages = this.showPasswordfEmpty
-          //   ? true
-          //   : this.showPasswordfError;
           if (this.passwordFirst == "") {
-            this.showPasswordfEmpty = true;
+            this.showPasswordfError = true;
             this.passwordFHasMessages = true;
             this.fpassWordErrText = "密码不能为空";
+          } else if (!this.isPassword(this.passwordFirst)) {
+            this.showPasswordfError = true;
+            this.passwordFHasMessages = true;
+            this.fpassWordErrText = "密码格式不正确";
           } else {
-            this.showPasswordfEmpty = false;
+            this.showPasswordfError = false;
             this.passwordFHasMessages = false;
           }
           break;
         case 3:
           //如果密码为空，提示不能为空
-          this.showPasswordsEmpty = this.passwordSecond == "" ? true : false;
           //不为空，判断格式是否正确
-          this.showPasswordsError = this.showPasswordsEmpty
-            ? false
-            : this.passwordFirst == this.passwordSecond ? false : true;
-          //显示警告
-          this.passwordSHasMessages = this.showPasswordsEmpty
-            ? true
-            : this.showPasswordsError;
+          if (this.passwordSecond == "") {
+            this.showPasswordsError = true;
+            this.passwordSHasMessages = true;
+            this.spassWordErrText = "密码不能为空";
+          } else if (this.passwordFirst !== this.passwordSecond) {
+            this.showPasswordsError = true;
+            this.passwordSHasMessages = true;
+            this.spassWordErrText = "两次输入密码不一致";
+          } else {
+            this.showPasswordsError = false;
+            this.passwordSHasMessages = false;
+          }
           break;
         case 4:
           //如果手机为空，提示不能为空
-          this.showPhoneNumEmpty = this.phoneNum == "" ? true : false;
           //不为空，判断格式是否正确
-          this.showPhoneNumError = this.showPhoneNumEmpty
-            ? false
-            : !this.isTelCode(this.phoneNum);
-          //显示警告
-          this.phoneNumHasMessages = this.showPhoneNumEmpty
-            ? true
-            : this.showPhoneNumError;
+
+          if (this.phoneNum.length == 0) {
+            this.showPhoneNumError = true;
+            this.phoneNumHasMessages = true;
+            this.phoneErrText = "手机号码不能为空";
+          } else {
+            this.showPhoneNumError = !this.isTelCode(this.phoneNum);
+            this.phoneNumHasMessages = !this.isTelCode(this.phoneNum);
+            this.phoneErrText = "手机号填写不正确";
+          }
           break;
         case 5:
           //如果手机为空，提示不能为空
-          this.showVCEmpty = this.VerificationCode == "" ? true : false;
-          //不为空，判断格式是否正确
-          //   this.showVCError = this.showVCEmpty
-          //     ? false
-          //     : !this.isTelCode(this.VerificationCode);
-          //显示警告
-          this.VCHasMessages = this.showVCEmpty ? true : this.showVCError;
+          this.showVCError = this.VerificationCode == "" ? true : false;
+          this.vccodeErrText = "验证码不能为空";
+          this.VCHasMessages = this.showVCError;
           break;
         default:
           break;
@@ -417,13 +392,51 @@ export default {
           apikey,
           request
         };
-      if (this.passwordFirst == "" || this.passwordSecond == "") {
+      if (this.email == "") {
         this.showAlert = true;
-        this.AlertMessage = "密码不能为空";
+        this.AlertMessage = this.emailErrText;
         return;
       }
-      if (this.passwordSHasMessages) return;
-      if (this.phoneNumHasMessages) return;
+      if (this.emailHasMessages) {
+        this.showAlert = true;
+        this.AlertMessage = this.emailErrText;
+        return;
+      }
+      if (this.passwordFirst == "") {
+        this.showAlert = true;
+        this.AlertMessage = this.fpassWordErrText;
+        return;
+      }
+      if (this.passwordFHasMessages) {
+        this.showAlert = true;
+        this.AlertMessage = this.fpassWordErrText;
+        return;
+      }
+      if (this.passwordSecond == "") {
+        this.showAlert = true;
+        this.AlertMessage = this.spassWordErrText;
+        return;
+      }
+      if (this.passwordSHasMessages) {
+        this.showAlert = true;
+        this.AlertMessage = this.spassWordErrText;
+        return;
+      }
+      if (this.phoneNum == "") {
+        this.showAlert = true;
+        this.AlertMessage = this.phoneErrText;
+        return;
+      }
+      if (this.phoneNumHasMessages) {
+        this.showAlert = true;
+        this.AlertMessage = this.phoneErrText;
+        return;
+      }
+      if (this.verifyCode == "") {
+        this.showAlert = true;
+        this.AlertMessage = this.vccodeErrText;
+        return;
+      }
       $this
         .$http({
           method: type,
@@ -446,6 +459,16 @@ export default {
         });
     },
     goLoginPge() {
+      //修改登录状态
+      this.$store.commit("loginPage/changeLoginState", false);
+      //隐藏登录按钮
+      this.$store.commit("home/showLogin", false);
+      //隐藏导航菜单
+      this.$store.commit("home/showTabsFun", false);
+      //显示首页背景图
+      this.$store.commit("home/changeShowHomeBgImge", true);
+      //清楚头像图片
+      this.$store.commit("loginPage/getUserImage", "");
       this.$router.push("/loginPage/");
     },
     countDown() {

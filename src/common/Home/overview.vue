@@ -860,25 +860,12 @@ export default {
                 ? $this.useremail
                 : $this.InfoArray.user_enter.name;
             $this.department =
-              $this.InfoArray.user_enter.department == null
-                ? "部门"
-                : $this.InfoArray.user_enter.department;
+              $this.InfoArray.user_enter.department !== null? ($this.InfoArray.user_enter.department==""?"部门": $this.InfoArray.user_enter.department):"部门";
             $this.position =
-              $this.InfoArray.user_enter.position == null
-                ? "职位"
-                : $this.InfoArray.user_enter.position;
-            $this.companyName =
-              $this.InfoArray.user_enter.enterpriseName == null
-                ? "公司名称"
-                : $this.InfoArray.user_enter.enterpriseName;
-            $this.PersonalimageSrc =
-              $this.InfoArray.user_enter.image == null
-                ? "/static/imgs/ic_user.png"
-                : "/IMAGE/" + $this.InfoArray.user_enter.image;
-            $this.conmpanyLogo =
-              $this.InfoArray.user_enter.logo == ""
-                ? "/static/imgs/updateLogo.png"
-                : "/IMAGE/" + $this.InfoArray.user_enter.logo;
+              $this.InfoArray.user_enter.position !== null? ($this.InfoArray.user_enter.position==""?"职位": $this.InfoArray.user_enter.position):"职位";
+            $this.companyName =$this.InfoArray.user_enter.enterpriseName !== null? ($this.InfoArray.user_enter.enterpriseName==""?"公司名称": $this.InfoArray.user_enter.enterpriseName):"公司名称";
+            $this.PersonalimageSrc =$this.InfoArray.user_enter.image !== null? ($this.InfoArray.user_enter.image==""?"/static/imgs/ic_user.png" :"/IMAGE/" +$this.InfoArray.user_enter.image ):"/static/imgs/ic_user.png";
+            $this.conmpanyLogo =$this.InfoArray.user_enter.logo!==null?($this.InfoArray.user_enter.logo == "" ? "/static/imgs/updateLogo.png": "/IMAGE/" + $this.InfoArray.user_enter.logo):"/static/imgs/updateLogo.png";
           }
         })
         .catch(error => {

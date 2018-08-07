@@ -50,6 +50,7 @@
                                         </div>
                                         <div class="md-layout-item md-size-65">
                                             <span>{{useremail}}</span>
+                                            <span  @click="editUseremail()" style="cursor: pointer;color: rgb(0, 145, 153);margin: 0 10px;">修改</span>
                                         </div>
                                     </div>
                                     <div class="md-layout-item md-size-100" style="display: inline-flex;margin-top: 30px;">
@@ -58,6 +59,7 @@
                                         </div>
                                         <div class="md-layout-item md-size-65">
                                             <span>{{usermobile}}</span>
+                                            <span  @click="editUsermobilel()" style="cursor: pointer;color: rgb(0, 145, 153);margin: 0 10px;">修改</span>
                                         </div>
                                     </div>
                                     <div class="md-layout-item md-size-100" style="display: inline-flex;margin-top: 30px;">
@@ -676,7 +678,7 @@ export default {
 
             // $this.$router.push("/overview");
             $this.imgUrl = res.data.image_url;
-            $this.$store.commit("SET_UserImage", res.data.image_url)
+            $this.$store.commit("SET_UserImage", res.data.image_url);
             $this.$store.commit("loginPage/getUserImage", res.data.image_url);
             // $this.imageSrc = "/IMAGE/" + res.data.image_url;
           }
@@ -706,6 +708,13 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    editUseremail() {
+        this.$router.push("/modifyEmail");
+
+    },
+    editUsermobilel() {
+        this.$router.push("/modifyPhoneNum");
     }
   },
   computed: {

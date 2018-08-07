@@ -221,7 +221,7 @@ export default {
             lock: true,
             text: "Loading",
             spinner: "el-icon-loading",
-            background: "rgba(0, 145, 153, 0.7)"
+            background: "rgba(61, 61, 61, 0.7)"
           });
           $this
             .$http({
@@ -253,6 +253,7 @@ export default {
                   $this.$store.commit("loginPage/getUserImage", res.data.image);
                 }else{
                   $this.$store.commit("loginPage/getUserImage", "");
+                  $this.$store.commit("loginPage/getUserImage", res.data.image);
                 }
                 $this.$store.commit(
                   "loginPage/getSession_id",

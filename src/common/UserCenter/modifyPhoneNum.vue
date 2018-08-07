@@ -5,7 +5,7 @@
                 <div class="md-layout-item md-size-100">
                   <el-steps :active="activeStep" finish-status="success" simple>
                     <el-step title="验证身份" ></el-step>
-                    <el-step title="重设密码" ></el-step>
+                    <el-step title="修改手机" ></el-step>
                     <el-step title="完成" ></el-step>
                   </el-steps>
                 </div>
@@ -17,7 +17,7 @@
                   <div class="md-layout-item md-size-70">
                       <div v-if="currentStep1">
                         <div class="md-layout-item md-size-100" style="text-align:center;">
-                          <span style="font-size: x-large;margin: 20px;">修改密码需要验证您的身份</span>
+                          <span style="font-size: x-large;margin: 20px;">修改手机前我们需要验证您的身份</span>
                         </div>
                         
                         <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0 15px;">
@@ -221,7 +221,7 @@ export default {
     showAlert: false,
     AlertMessage: "",
     showCount: false,
-    VerificationCode:"",
+    VerificationCode: "",
     // showEmailText: false,
     // showPhoneText: false,
     verftext: "获取验证码",
@@ -381,7 +381,6 @@ export default {
         case 2:
           url = "/IBUS/DAIG_SYS/resetPasswordByEmail";
           request.email = this.useremail;
-          request.type = 0;
           break;
         default:
           break;
@@ -611,13 +610,13 @@ export default {
         }
       }
     },
-    changeCheckWay:function (newVal, oldVal) {
-      if(newVal == true){
+    changeCheckWay: function(newVal, oldVal) {
+      if (newVal == true) {
         clearInterval(this.counter);
         this.phonetime = 0;
         this.showCount = false;
         this.verftext = "获取验证码";
-      }else{
+      } else {
         clearInterval(this.counter);
         this.emailtime = 0;
         this.showCount = false;
@@ -673,14 +672,14 @@ export default {
         this.$store.state.UserCenter.modifyPassword.checkWay = newValue;
       }
     },
-    // VerificationCode: {
-    //   get: function() {
-    //     return this.$store.state.UserCenter.modifyPassword.VerificationCode;
-    //   },
-    //   set: function(newValue) {
-    //     this.$store.state.UserCenter.modifyPassword.VerificationCode = newValue;
-    //   }
-    // }
+    VerificationCode: {
+      get: function() {
+        return this.$store.state.UserCenter.modifyPassword.VerificationCode;
+      },
+      set: function(newValue) {
+        this.$store.state.UserCenter.modifyPassword.VerificationCode = newValue;
+      }
+    }
   }
 };
 </script>

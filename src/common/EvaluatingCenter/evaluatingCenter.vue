@@ -64,7 +64,7 @@
                     </md-card>
                 </div>
                 <div v-if="hasTest">
-                    <div v-for="info in InfoArray" :key="info.idx" :info="info" @click="gohead(info)" style="cursor: pointer;">
+                    <div v-for="info in InfoArray" :key="info.idx" :info="info">
                         <md-card>
                             <md-ripple>
                                 <div class="md-layout" style="width:100%">
@@ -95,8 +95,9 @@
                                     </div>
                                     <div class="md-layout-item md-size-15" style="text-align: center;" >
                                         <md-card-content style="margin: 24px 0;">
-                                            <span v-if="info.completeStatus == 1" style="color:rgba(16, 129, 165, 0.9);" >查看报告</span>
-                                            <span v-if="info.completeStatus == 0" style="color:rgba(16, 129, 165, 0.9);" >继续</span>
+                                            <span v-if="info.completeStatus == 1" style="color:rgba(16, 129, 165, 0.9);cursor: pointer;" @click="gohead(info)">查看报告</span>
+                                            <span v-if="info.completeStatus == 0" style="color:rgba(16, 129, 165, 0.9);cursor: pointer;margin-right:10%" @click="gohead(info)">继续</span>
+                                            <span v-if="info.completeStatus == 0" style="color:rgba(16, 129, 165, 0.9);cursor: pointer;" @click="showDeleDialog(info)">废弃</span>
                                         </md-card-content>
                                     </div>
                                 </div>
@@ -120,6 +121,14 @@
                   :md-active.sync="showAlert"
                   :md-content="AlertMessage"
                   md-confirm-text="知道了" />
+        <md-dialog-confirm
+                    :md-active.sync="showDeleted"
+                    :md-title="deleDialogTitle"
+                    md-content="废弃测评会导致当前测评产品已答完的问题成果丢失，确认废弃吗？"
+                    md-confirm-text="确定"
+                    md-cancel-text="取消"
+                    @md-cancel="onCancel"
+                    @md-confirm="deleteTest" />
     </div>
 </template>
 <style>
@@ -131,6 +140,9 @@
 }
 .el-tabs__item.is-active {
   color: rgb(0, 145, 153) !important;
+}
+.md-dialog-content {
+  color: red;
 }
 </style>
 
@@ -197,8 +209,10 @@ export default {
     searchShowArray: [],
     showAlert: false,
     AlertMessage: "",
+    showDeleted: false,
     hasNoCompletedTest: false,
-    hasNodisCompletedTest: false
+    hasNodisCompletedTest: false,
+    deleDialogTitle: ""
   }),
   mounted: function() {},
   methods: {
@@ -470,6 +484,72 @@ export default {
       this.$store.commit("evlaluating/changeSeeReport", false);
       //路由跳转
       this.$router.push("/evaluating");
+    },
+    showDeleDialog(info) {
+      this.showDeleted = true;
+      this.deleDialogTitle = "您确认废弃【" + info.name + "】测评？";
+      this.deleID = info.id;
+    },
+    deleteTest() {
+      let $this = this,
+        apikey = "",
+        type = "post",
+        url = "/IBUS/DAIG_SYS/deleteTesting ",
+        request = {
+          session_id: this.session_id,
+          id: this.deleID
+        },
+        param = {
+          apikey,
+          request
+        };
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          if (res.data.errorCode !== 0) {
+            $this.showAlert = true;
+            $this.AlertMessage = res.data.errorMsg;
+          } else {
+            //删除成功，1、在未完成测评数组中删除该测评；2、在所以测评数组中删除该测评
+            for (var i in $this.allTestInfo) {
+              if ($this.allTestInfo[i].id == $this.deleID) {
+                // if (i == $this.allTestInfo.length - 1) {
+                //   $this.allTestInfo.splice(-1, 0);
+                // } else {
+                //   $this.allTestInfo.splice(i, i);
+                // }
+                $this.allTestInfo.splice(i,1);
+              }
+            }
+
+            // for (let i in $this.discompleteTestInfo) {
+            //   if ($this.discompleteTestInfo[i].id == $this.deleID) {
+            //     $this.discompleteTestInfo.splice(i , i);
+            //   }
+            // }
+
+            for (var i in $this.InfoArray) {
+              if ($this.InfoArray[i].id == $this.deleID) {
+                // if (i == $this.InfoArray.length - 1) {
+                //   $this.InfoArray.splice(-1, 0);
+                // } else {
+                //   $this.InfoArray.splice(i, i);
+                // }
+                $this.InfoArray.splice(i,1);
+              }
+            }
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    onCancel() {
+      //   this.value = "Disagreed";
     }
   },
   created: function() {
