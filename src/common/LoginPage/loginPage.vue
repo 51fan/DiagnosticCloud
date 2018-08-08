@@ -231,12 +231,20 @@ export default {
             })
             .then(res => {
               // console.log(res);
-              if (res.data.errorCode !== 0) {
+              if (res.data.errorCode !== 0 && res.data.errorCode !== -6) {
                 $this.showVerificationCode = true;
                 $this.showAlert = true;
                 $this.AlertMessage = res.data.errorMsg;
                 $this.errCounter++;
                 console.log($this.errCounter);
+                loading.close();
+              } else if (res.data.errorCode == -6) {
+                //隐藏首页背景图
+                $this.$store.commit("home/changeShowHomeBgImge", false);
+                $this.$store.commit("home/showTabsFun", false);
+                $this.$store.commit("loginPage/getUseremail", res.data.return.email);
+                $this.$store.commit("loginPage/getUsermobile", res.data.return.mobile);
+                $this.$router.push("/registerNoActive");
                 loading.close();
               } else {
                 // $this.session_id = res.data.session_id;
@@ -251,7 +259,7 @@ export default {
                 $this.$store.commit("loginPage/getUsermobile", res.data.mobile);
                 if (res.data.image !== null) {
                   $this.$store.commit("loginPage/getUserImage", res.data.image);
-                }else{
+                } else {
                   $this.$store.commit("loginPage/getUserImage", "");
                   $this.$store.commit("loginPage/getUserImage", res.data.image);
                 }

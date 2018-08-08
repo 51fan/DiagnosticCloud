@@ -98,6 +98,11 @@ const router = new Router({
       name: 'registerActive',
       component: (resolve) => require(['../common/RegisterPage/registerActive.vue'], resolve)
     },
+    {
+      path: '/registerNoActive/',
+      name: 'registerNoActive',
+      component: (resolve) => require(['../common/RegisterPage/registerNoActive.vue'], resolve),
+    },
   ],
   // mode: "history"
 })

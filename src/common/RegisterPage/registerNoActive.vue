@@ -1,16 +1,20 @@
 <template>
+  <div class="mypanel">
     <div style="padding: 7% 15% 15%;background-color: white;">
-         <!-- <i class="material-icons md-size-5x" style="color: limegreen">check_circle</i> -->
-         <img src="/static/imgs/ic_hint_finish.png">
-         <div style="padding: 20px;font-size: 24px;margin: 3% 0;"><span>你的帐户： </span><span style="color:#009199">{{useremail}}</span><span>注册成功</span></div>
-         <div style="padding-bottom: 15px;margin-bottom: 4%;">激活邮件已发送到你的邮箱中，邮件有效期为24小时。请及时登录邮箱，点击邮件中的链接激活帐户。</div>
-         <div style="padding-bottom: 15px;margin-bottom: 4%;">
-           <span>没有收到邮件？</span>
-           <span v-if="!showCount" style="color:#009199;cursor: pointer;" @click="reSendActiveEmail()">重新获取</span>
-           <!-- <span v-if="showCount" style="color:#009199;cursor: pointer;" @click="reSendActiveEmail()">{{time}}秒后可重新获取</span> -->
-           <span v-if="showCount"><span  style="color:red">{{time}}</span><span style="color:#009199;cursor: pointer;" @click="reSendActiveEmail()">秒后可重新获取</span></span>
-         </div>
-        <div>
+        <md-icon class="md-size-5x" style="color: burlywood">info</md-icon>
+         <!-- <i class="material-icons md-size-5x" style="color: burlywood">info</i> -->
+          <!-- <img src="/static/imgs/info.png" style="color: burlywood"> -->
+          <div style="padding: 20px;font-size: xx-large;margin: 20px;">
+            <div>{{useremail}},你的帐户尚未激活</div>
+          </div>
+          <div style="font-size: large;color: #8e8989;padding-bottom: 2%;">请登录您的邮箱根据邮件提示激活账户。</div>
+          <div>
+            <span>未收到邮件？</span>
+            <span v-if="!showCount" style="color:#009199;cursor: pointer;" @click="reSendActiveEmail()">重新发送</span>
+            <span v-if="showCount"><span  style="color:red">{{time}}</span><span style="color:#009199;cursor: pointer;" @click="reSendActiveEmail()">秒后可重新获取</span></span>
+          </div>
+          
+         <div>
             <div class="md-layout-item md-size-100">
               <div class="md-layout-item md-size-20"></div>
               <div class="md-layout-item md-size-60">
@@ -31,21 +35,46 @@
             </div>
         </div>
     </div>
+    <md-dialog-alert
+                  class="md-primary md-raised"
+                  :md-active.sync="showAlert"
+                  :md-content="AlertMessage"
+                  md-confirm-text="知道了" />
+</div>
+    
     
 </template>
+<style scoped>
+.mypanel {
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 5%;
+  text-align: center;
+  text-align: -webkit-center;
+}
+</style>
 
 <script>
 export default {
-  name: "registerSuccess",
+  name: "registerActive",
   data: () => ({
     time: 0,
-    showCount: false
+    counter: "",
+    showCount: false,
+    showAlert: false,
+    AlertMessage: "",
+    activescuuess: false
   }),
+  mounted: function() {
+    this.$store.commit("home/changeShowHomeBgImge", false);
+    this.$store.commit("home/showTabsFun", false);
+    this.$store.commit("home/showLogin", false);
+  },
   methods: {
     goHome() {
       this.$store.commit("home/changeShowHomeBgImge", true);
-      this.$store.commit("home/showTabsFun", true);
-      this.$store.commit("home/showLogin", true);
+      this.$store.commit("home/showTabsFun", false);
+      this.$store.commit("home/showLogin", false);
       this.$router.push("/loginPage");
     },
     goEmail() {
@@ -134,11 +163,6 @@ export default {
       _this.counter = setInterval(_this.countDown, 1000);
     }
   },
-  computed: {
-    useremail() {
-      return this.$store.state.registerPage.useremail;
-    }
-  },
   watch: {
     time: function(newVal, oldVal) {
       //   debugger;
@@ -147,6 +171,11 @@ export default {
         //隐藏导航菜单
         this.showCount = false;
       }
+    }
+  },
+  computed: {
+    useremail() {
+      return this.$store.state.loginPage.useremail;
     }
   }
 };

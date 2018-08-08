@@ -171,20 +171,6 @@ export default {
     },
     /*密码字母数字组合，6-16位,必须包含数字加字母 不能包含特殊符号等*/
     isPassword(pass) {
-      // var str = pass;
-      // if (str == null || str.length < 6) {
-      //   return false;
-      // }
-      // var reg1 = new RegExp(/^[0-9A-Za-z]+$/);
-      // if (!reg1.test(str)) {
-      //   return false;
-      // }
-      // var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
-      // if (reg.test(str)) {
-      //   return true;
-      // } else {
-      //   return false;
-      // }
       var reg = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,16}$/;
       return reg.test(pass);
     },
@@ -451,6 +437,9 @@ export default {
           } else {
             $this.showRegisterPage = false;
             $this.$store.commit("home/changeShowHomeBgImge", false);
+            //显示导航菜单
+            $this.$store.commit("home/showTabsFun", false);
+            $this.$store.commit("home/showLogin", false);
             $this.$store.commit("registerPage/changeUseremail", $this.email);
           }
         })

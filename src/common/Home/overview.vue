@@ -461,7 +461,7 @@ export default {
     cityPicker
   },
   data: () => ({
-    username: "先生/女士",
+    username: "",
     position: "职位",
     department: "部门",
     showAlert: false,
@@ -856,9 +856,7 @@ export default {
             }
             $this.position = $this.InfoArray.user_enter.position;
             $this.username =
-              $this.InfoArray.user_enter.name == null
-                ? $this.useremail
-                : $this.InfoArray.user_enter.name;
+              $this.InfoArray.user_enter.name !== null?( $this.InfoArray.user_enter.name==""?$this.useremail: $this.InfoArray.user_enter.name):$this.useremail;
             $this.department =
               $this.InfoArray.user_enter.department !== null? ($this.InfoArray.user_enter.department==""?"部门": $this.InfoArray.user_enter.department):"部门";
             $this.position =

@@ -522,7 +522,7 @@ export default {
                 // } else {
                 //   $this.allTestInfo.splice(i, i);
                 // }
-                $this.allTestInfo.splice(i,1);
+                $this.allTestInfo.splice(i, 1);
               }
             }
 
@@ -539,8 +539,11 @@ export default {
                 // } else {
                 //   $this.InfoArray.splice(i, i);
                 // }
-                $this.InfoArray.splice(i,1);
+                $this.InfoArray.splice(i, 1);
               }
+            }
+            if ($this.InfoArray.length == 0) {
+              $this.hasTest = false;
             }
           }
         })
