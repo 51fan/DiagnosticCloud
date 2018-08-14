@@ -46,7 +46,7 @@
                     <div v-if="!showdiscompletedNoMessage" class="md-layout-item md-size-30 md-medium-size-33 md-small-size-50 md-xsmall-size-100"  v-for="info in discompletedArray" :key="info.idx" :info="info" style="display: inline-flex;min-height: 200px;" @click="gohead(info,2)">
                       <md-card style="width: 100%;margin-bottom: 16px;" md-with-hover>
                         <md-card-header>
-                          <div class="md-title">{{info.name}}</div>
+                          <div style="font-weight: 600;color: #009199;">{{info.name}}</div>
                         </md-card-header>
 
                         <md-card-content style="min-height: 60px;">
@@ -93,7 +93,7 @@
                      <div v-if="!showcompletedNoMessage" class="md-layout-item md-size-30 md-medium-size-33 md-small-size-50 md-xsmall-size-100" v-for="info in completedArray" :key="info.idx" :info="info" style="display: inline-flex;min-height: 200px;" @click="gohead(info,1)">
                       <md-card style="width: 100%;margin-bottom: 16px;" md-with-hover>
                         <md-card-header>
-                          <div class="md-title">{{info.name}}</div>
+                          <div style="font-weight: 600;color: #009199;">{{info.name}}</div>
                         </md-card-header>
 
                         <md-card-content style="min-height: 60px;">
@@ -526,7 +526,7 @@ export default {
         return this.$store.state.loginPage.session_id;
       },
       set: function(newValue) {
-        this.$store.state.$store.state.loginPage.session_id = newValue;
+        this.$store.state.loginPage.session_id = newValue;
       }
     },
     useremail() {

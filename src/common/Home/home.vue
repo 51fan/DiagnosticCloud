@@ -1,131 +1,132 @@
 <template>
-<div class="page-container">
-    <!-- <md-app md-waterfall style="background-image:url('./static/imgs/bluecloud.jpg');background-size:cover;"> -->
-    <md-app>
-      <md-app-toolbar class="md-large md-dense md-transparent" >
-        <!-- <div class="md-toolbar-row">
-          <div class="md-toolbar-section-start">
-            <md-button class="md-icon-button" @click="toggleMenu" v-if="showUserCenterButton" >
-              <md-icon >menu</md-icon>
-            </md-button>
-            <span class="md-title" @click="gohome()" style="cursor: pointer;">扁鹊云</span>
-          </div>
-
-          <div class="md-toolbar-section-end" v-if="showLogin">
-              <md-menu>
-                <md-button class="md-icon-button"  md-menu-trigger>
-                    <md-icon>account_circle</md-icon>
+<div>
+    <div>
+        <md-app>
+          <md-app-toolbar class="md-large md-dense md-transparent" >
+            <!-- <div class="md-toolbar-row">
+              <div class="md-toolbar-section-start">
+                <md-button class="md-icon-button" @click="toggleMenu" v-if="showUserCenterButton" >
+                  <md-icon >menu</md-icon>
                 </md-button>
-
-                <md-menu-content>
-                  <md-menu-item @click="loginFun()">
-                    <md-icon>perm_identity</md-icon>
-                    <span>登录</span>
-                  </md-menu-item>
-
-                  <md-menu-item  @click="handleSelect(5)">
-                    <md-icon>edit</md-icon>
-                    <span>修改密码</span>
-                  </md-menu-item>
-
-                  <md-menu-item @click="handleSelect(6)">
-                    <md-icon>exit_to_app</md-icon>
-                    <span>退出登录</span>
-                  </md-menu-item>
-                </md-menu-content>
-              </md-menu>
-          </div>
-        </div> -->
-
-        <div class="md-toolbar-row">
-            <div class="md-layout-item md-size-10">
-                <!-- <img src="/static/imgs/logo_magpie.png" @click="gohome()" style="cursor: pointer;" alt="扁鹊云"> -->
-                <div class="md-toolbar-section-end">
-                  <img src="/static/imgs/logo_magpie.png" alt="扁鹊云">
-                </div>
-            </div>
-            <div class="md-layout-item md-size-80">
-              <div style="text-align: end;" v-if="showTabs">
-                <el-menu :default-active="tabsActiveIndex" style="display: inline-flex;padding-right: 35%;"  mode="horizontal" @select="handleSelect">
-                  <el-menu-item index="1">工作台</el-menu-item>
-                  <el-menu-item index="2">测评产品</el-menu-item>
-                  <el-menu-item index="3" >测评中心</el-menu-item>
-                  <el-menu-item index="4">企业设置</el-menu-item>
-                </el-menu>
+                <span class="md-title" @click="gohome()" style="cursor: pointer;">扁鹊云</span>
               </div>
-            </div>
-            <div class="md-layout-item md-size-10">
-              <div class="md-toolbar-section-start" v-if="showLogin">
+
+              <div class="md-toolbar-section-end" v-if="showLogin">
                   <md-menu>
                     <md-button class="md-icon-button"  md-menu-trigger>
-                        <md-icon v-if="!showPersonalimageSrc">account_circle</md-icon>
-                        <md-avatar v-if="showPersonalimageSrc" style="width: 48px;height: 48px;"><img :src="PersonalimageSrc" style="border-radius: 50%;" /></md-avatar>
+                        <md-icon>account_circle</md-icon>
                     </md-button>
 
                     <md-menu-content>
-                      <md-menu-item @click="loginFun()" v-if="!loginSuccess">
+                      <md-menu-item @click="loginFun()">
                         <md-icon>perm_identity</md-icon>
                         <span>登录</span>
                       </md-menu-item>
-                      <md-menu-item  @click="handleSelect(7)" v-if="loginSuccess">
-                        <md-icon>person</md-icon>
-                        <span>个人信息</span>
-                      </md-menu-item>
-                      <md-menu-item  @click="handleSelect(5)" v-if="loginSuccess">
-                        <md-icon>vpn_key</md-icon>
+
+                      <md-menu-item  @click="handleSelect(5)">
+                        <md-icon>edit</md-icon>
                         <span>修改密码</span>
                       </md-menu-item>
 
-                      <md-menu-item @click="handleSelect(6)" v-if="loginSuccess">
+                      <md-menu-item @click="handleSelect(6)">
                         <md-icon>exit_to_app</md-icon>
                         <span>退出登录</span>
                       </md-menu-item>
                     </md-menu-content>
                   </md-menu>
               </div>
+            </div> -->
+
+            <div class="md-toolbar-row">
+                <div class="md-layout-item md-size-10">
+                    <!-- <img src="/static/imgs/logo_magpie.png" @click="gohome()" style="cursor: pointer;" alt="扁鹊云"> -->
+                    <div class="md-toolbar-section-end">
+                      <img src="/static/imgs/logo_magpie.png" alt="扁鹊云">
+                    </div>
+                </div>
+                <div class="md-layout-item md-size-80">
+                  <div style="text-align: end;" v-if="showTabs">
+                    <el-menu :default-active="tabsActiveIndex" style="display: inline-flex;padding-right: 35%;"  mode="horizontal" @select="handleSelect">
+                      <el-menu-item index="1">工作台</el-menu-item>
+                      <el-menu-item index="2">测评产品</el-menu-item>
+                      <el-menu-item index="3" >测评中心</el-menu-item>
+                      <el-menu-item index="4">企业设置</el-menu-item>
+                    </el-menu>
+                  </div>
+                </div>
+                <div class="md-layout-item md-size-10">
+                  <div class="md-toolbar-section-start" v-if="showLogin">
+                      <md-menu>
+                        <md-button class="md-icon-button"  md-menu-trigger>
+                            <md-icon v-if="!showPersonalimageSrc">account_circle</md-icon>
+                            <md-avatar v-if="showPersonalimageSrc" style="width: 48px;height: 48px;"><img :src="PersonalimageSrc" style="border-radius: 50%;" /></md-avatar>
+                        </md-button>
+
+                        <md-menu-content>
+                          <md-menu-item @click="loginFun()" v-if="!loginSuccess">
+                            <md-icon>perm_identity</md-icon>
+                            <span>登录</span>
+                          </md-menu-item>
+                          <md-menu-item  @click="handleSelect(7)" v-if="loginSuccess">
+                            <md-icon>person</md-icon>
+                            <span>个人信息</span>
+                          </md-menu-item>
+                          <md-menu-item  @click="handleSelect(5)" v-if="loginSuccess">
+                            <md-icon>vpn_key</md-icon>
+                            <span>修改密码</span>
+                          </md-menu-item>
+
+                          <md-menu-item @click="handleSelect(6)" v-if="loginSuccess">
+                            <md-icon>exit_to_app</md-icon>
+                            <span>退出登录</span>
+                          </md-menu-item>
+                        </md-menu-content>
+                      </md-menu>
+                  </div>
+                </div>
             </div>
-        </div>
-      </md-app-toolbar>
+          </md-app-toolbar>
 
-      <!-- <md-app-drawer :md-active.sync="showUserCenter" md-persistent="full">
-        <md-toolbar class="md-transparent" md-elevation="0">
-          <span>用户中心</span>
+          <!-- <md-app-drawer :md-active.sync="showUserCenter" md-persistent="full">
+            <md-toolbar class="md-transparent" md-elevation="0">
+              <span>用户中心</span>
 
-          <div class="md-toolbar-section-end">
-            <md-button class="md-icon-button md-dense" @click="toggleMenu">
-              <md-icon>keyboard_arrow_left</md-icon>
-            </md-button>
-          </div>
-        </md-toolbar>
+              <div class="md-toolbar-section-end">
+                <md-button class="md-icon-button md-dense" @click="toggleMenu">
+                  <md-icon>keyboard_arrow_left</md-icon>
+                </md-button>
+              </div>
+            </md-toolbar>
 
-        <md-list>
-          <md-list-item>
-            <md-icon>move_to_inbox</md-icon>
-            <span class="md-list-item-text usercenterspan"  @click="goRouter(1)">个人信息</span>
-          </md-list-item>
+            <md-list>
+              <md-list-item>
+                <md-icon>move_to_inbox</md-icon>
+                <span class="md-list-item-text usercenterspan"  @click="goRouter(1)">个人信息</span>
+              </md-list-item>
 
-          <md-list-item>
-            <md-icon>send</md-icon>
-            <span class="md-list-item-text usercenterspan" @click="goRouter(2)">企业信息</span>
-          </md-list-item>
+              <md-list-item>
+                <md-icon>send</md-icon>
+                <span class="md-list-item-text usercenterspan" @click="goRouter(2)">企业信息</span>
+              </md-list-item>
 
-          <md-list-item>
-            <md-icon>delete</md-icon>
-            <span class="md-list-item-text usercenterspan" @click="goRouter(3)">修改密码</span>
-          </md-list-item>
+              <md-list-item>
+                <md-icon>delete</md-icon>
+                <span class="md-list-item-text usercenterspan" @click="goRouter(3)">修改密码</span>
+              </md-list-item>
 
-          <md-list-item>
-            <md-icon>error</md-icon>
-            <span class="md-list-item-text usercenterspan" @click="goRouter(4)">退出登录</span>
-          </md-list-item>
-        </md-list>
-      </md-app-drawer> -->
+              <md-list-item>
+                <md-icon>error</md-icon>
+                <span class="md-list-item-text usercenterspan" @click="goRouter(4)">退出登录</span>
+              </md-list-item>
+            </md-list>
+          </md-app-drawer> -->
 
-      <md-app-content style="background-color: #f1f3f4" :class="{'homebgImge':showHomeBgImge}">
-       <router-view></router-view>
-      </md-app-content>
-        
-    </md-app>
+          <md-app-content style="background-color: #f1f3f4" :class="{'homebgImge':showHomeBgImge}">
+          <router-view></router-view>
+          </md-app-content>
+            
+        </md-app>
+    </div>
 </div>
 </template>
 <style>
@@ -231,7 +232,7 @@ export default {
     },
     userImage() {
       return this.$store.state.loginPage.userImage;
-    }
+    },
   },
   watch: {
     userImage: function(newVal, oldVal) {

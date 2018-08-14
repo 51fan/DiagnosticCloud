@@ -11,7 +11,7 @@
                     v-for="item in province"
                     :key="item.id"
                     :label="item.value"
-                    :value="item.id">
+                    :value="item.value">
                 </el-option>
                 </el-select>
             </div>
@@ -25,7 +25,7 @@
                     v-for="item in shi1"
                     :key="item.id"
                     :label="item.value"
-                    :value="item.id">
+                    :value="item.value">
                 </el-option>
                 </el-select>
             </div>
@@ -39,7 +39,7 @@
                     v-for="item in qu1"
                     :key="item.id"
                     :label="item.value"
-                    :value="item.id">
+                    :value="item.value">
                 </el-option>
                 </el-select>
             </div>
@@ -165,7 +165,7 @@ export default {
         //   this.selectCounty = this.province[
         //     index2
         //   ].children[0].children[0].value;
-          this.E = this.qu1[0].id;
+          this.E = this.qu1[0].value;
         }
       }
     },
@@ -176,7 +176,7 @@ export default {
           this.qu1 = this.city[index3].children;
           this.qu = this.city[index3].children[0].value;
           this.selectCounty = this.city[index3].children[0].value;
-          this.E = this.qu1[0].id;
+          this.E = this.qu1[0].value;
           // console.log(this.E)
         }
       }

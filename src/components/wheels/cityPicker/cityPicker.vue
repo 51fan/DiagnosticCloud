@@ -12,7 +12,7 @@
                     v-for="item in provinceArray"
                     :key="item.id"
                     :label="item.value"
-                    :value="item.id">
+                    :value="item.value">
                 </el-option>
                 </el-select>
             </div>
@@ -27,7 +27,7 @@
                     v-for="item in shiArray"
                     :key="item.id"
                     :label="item.value"
-                    :value="item.id">
+                    :value="item.value">
                 </el-option>
                 </el-select>
             </div>
@@ -42,7 +42,7 @@
                     v-for="item in quArray"
                     :key="item.id"
                     :label="item.value"
-                    :value="item.id">
+                    :value="item.value">
                 </el-option>
                 </el-select>
             </div>
@@ -57,7 +57,7 @@ import mapdata from "./mapdata.js";
 export default {
   name: "city-picker",
   data: () => ({
-    mapJson: "/static/jsons/map.json",
+    // mapJson: "/static/jsons/map.json",
     provinceArray: "",
     // sheng: "",
     // shi: "",
@@ -171,7 +171,7 @@ export default {
         //   this.selectCounty = this.provinceArray[
         //     index2
         //   ].children[0].children[0].value;
-          this.E = this.quArray[0].id;
+          this.E = this.quArray[0].value;
         }
       }
     },
@@ -182,7 +182,7 @@ export default {
           this.quArray = this.city[index3].children;
           this.qu = this.city[index3].children[0].value;
           this.selectCounty = this.this.city[index3].children[0].value;
-          this.E = this.quArray[0].id;
+          this.E = this.quArray[0].value;
           // console.log(this.E)
         }
       }

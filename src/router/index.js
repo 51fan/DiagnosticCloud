@@ -102,7 +102,7 @@ const router = new Router({
       path: '/registerNoActive/',
       name: 'registerNoActive',
       component: (resolve) => require(['../common/RegisterPage/registerNoActive.vue'], resolve),
-    },
+    }
   ],
   // mode: "history"
 })
@@ -181,7 +181,7 @@ router.beforeEach(function (to, from, next) {
         })
       }
     }
-  } else {
+  }else {
     //如果不需要权限，判断是否登录页，如果是，判断是否有token，自动登录是否为true,请求接口校验，校验通过就跳转到工作台，否则就是登录页
     if (to.fullPath == "/loginPage" && window.localStorage.getItem("autoLogin30days") == "true") {
       let url = "/IBUS/DAIG_SYS/check_login",

@@ -569,7 +569,7 @@ export default {
       }
       if (this.position.length > 10) {
         this.showAlert = true;
-        this.AlertMessage = "部门名字长度不能超过10位";
+        this.AlertMessage = "职位名字长度不能超过10位";
         return;
       }
       $this

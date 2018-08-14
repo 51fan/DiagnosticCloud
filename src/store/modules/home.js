@@ -7,7 +7,7 @@ const state = {
   // showUserCenter:false,
   // showUserCenterButton:false,
   tabsActiveIndex:"1",
-  showHomeBgImge:true
+  showHomeBgImge:true,
 }
 
 // getters

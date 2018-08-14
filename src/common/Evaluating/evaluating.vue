@@ -36,7 +36,6 @@
 </template>
 
 <style lang="scss" scoped>
-
 .mypanel {
   padding-left: 10%;
   padding-right: 10%;
@@ -83,10 +82,10 @@ export default {
       evalutionLists: [],
       evalutionAllLists: [],
       evalution: Object,
-      showmask: false,
+      // showmask: false,
       searchArry: [],
       showEvaluationArray: [],
-      alertMessage:"正在答卷数量不能超过三个,请先完全其他正在答题的测评"
+      alertMessage: "正在答卷数量不能超过三个,请先完全其他正在答题的测评"
     };
   },
   props: {
@@ -103,30 +102,27 @@ export default {
       apikey,
       request
     };
-    if(!this.isShowReport){
+    if (!this.isShowReport) {
       this.getCategory(type, url, param);
     }
   },
   methods: {
     categorySelectFun(name) {
-      let self = this,
-        targetArrays = [];
+      let targetArrays = [];
       if (name == "全部") {
-        self.evalutionLists = self.evalutionAllLists;
+        this.evalutionLists = this.evalutionAllLists;
       } else {
-        self.evalutionAllLists.forEach(function(item) {
-          item.categories.forEach(function(category) {
-            if (category == name) {
-              targetArrays.push(item);
-            }
-          });
+        this.evalutionAllLists.forEach(function(item) {
+          if (item.categories == name) {
+            targetArrays.push(item);
+          }
         });
-        self.evalutionLists = targetArrays;
+        this.evalutionLists = targetArrays;
       }
     },
     getCategory(type, url, param) {
       let $this = this;
-      $this.showmask = true;
+      // $this.showmask = true;
       $this
         .$http({
           method: type,
@@ -141,7 +137,7 @@ export default {
           });
           $this.evalutionLists = res.data.return.evaluations;
           $this.evalutionAllLists = res.data.return.evaluations;
-          $this.showmask = false;
+          // $this.showmask = false;
         })
         .catch(error => {
           console.log(error);
@@ -192,7 +188,7 @@ export default {
             console.log(error);
           });
       }
-    },
+    }
   },
   computed: {
     showevaluatingPage: {
@@ -213,7 +209,7 @@ export default {
     },
     isShowReport() {
       return this.$store.state.evlaluating.evaluatingPage.isShowReport;
-    },
+    }
   },
   created: () => {}
 };

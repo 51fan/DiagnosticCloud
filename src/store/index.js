@@ -8,6 +8,7 @@ import registerPage from './modules/registerPage'
 import UserCenter from './modules/UserCenter'
 import evaluatingCenter from './modules/evaluatingCenter'
 
+
 //import actions from './actions'
 
 Vue.use(Vuex);

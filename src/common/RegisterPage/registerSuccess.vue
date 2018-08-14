@@ -11,9 +11,9 @@
            <span v-if="showCount"><span  style="color:red">{{time}}</span><span style="color:#009199;cursor: pointer;" @click="reSendActiveEmail()">秒后可重新获取</span></span>
          </div>
         <div>
-            <div class="md-layout-item md-size-100">
+            <div class="md-layout-item md-size-100" style="display: inline-flex;">
               <div class="md-layout-item md-size-20"></div>
-              <div class="md-layout-item md-size-60">
+              <div class="md-layout-item md-size-60" style="display: inline-flex;">
                   <div class="md-layout-item md-size-20"></div>
                   <div class="md-layout-item md-size-60">
                     <div class="md-layout-item md-size-100" style="display: inline-flex;">
