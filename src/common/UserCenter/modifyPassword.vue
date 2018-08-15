@@ -1,6 +1,72 @@
 <template>
     <div class="mypanel">
         <div style="text-align: center;text-align: -webkit-center;background: white;padding-bottom: 5%;">
+            <v-stepper v-model="e1">
+              <v-stepper-header>
+                <v-stepper-step :complete="e1 > 1" step="1">Name of step 1</v-stepper-step>
+
+                <v-divider></v-divider>
+
+                <v-stepper-step :complete="e1 > 2" step="2">Name of step 2</v-stepper-step>
+
+                <v-divider></v-divider>
+
+                <v-stepper-step step="3">Name of step 3</v-stepper-step>
+              </v-stepper-header>
+
+              <v-stepper-items>
+                <v-stepper-content step="1">
+                  <v-card
+                    class="mb-5"
+                    color="grey lighten-1"
+                    height="200px"
+                  ></v-card>
+
+                  <v-btn
+                    color="primary"
+                    @click="e1 = 2"
+                  >
+                    Continue
+                  </v-btn>
+
+                  <v-btn flat>Cancel</v-btn>
+                </v-stepper-content>
+
+                <v-stepper-content step="2">
+                  <v-card
+                    class="mb-5"
+                    color="grey lighten-1"
+                    height="200px"
+                  ></v-card>
+
+                  <v-btn
+                    color="primary"
+                    @click="e1 = 3"
+                  >
+                    Continue
+                  </v-btn>
+
+                  <v-btn flat>Cancel</v-btn>
+                </v-stepper-content>
+
+                <v-stepper-content step="3">
+                  <v-card
+                    class="mb-5"
+                    color="grey lighten-1"
+                    height="200px"
+                  ></v-card>
+
+                  <v-btn
+                    color="primary"
+                    @click="e1 = 1"
+                  >
+                    Continue
+                  </v-btn>
+
+                  <v-btn flat>Cancel</v-btn>
+                </v-stepper-content>
+              </v-stepper-items>
+            </v-stepper>
             <div class="pogressHead">
                 <div class="md-layout-item md-size-100">
                   <el-steps :active="activeStep" finish-status="success" simple>
@@ -50,7 +116,7 @@
                                     </div>
                                     <div class="md-layout-item md-size-40">
                                         <el-button v-if="!showCount" style="margin: 13px 0 0 5px;"  @click="getVerificationCode(1)">{{verftext}}</el-button>
-                                        <el-button v-if="showCount" style="margin: 13px 0 0 5px;"  @click="getVerificationCode(1)">{{phonetime}}{{verftext}}</el-button>
+                                        <el-button v-if="showCount" style="margin: 13px 0 0 5px;" disabled @click="getVerificationCode(1)">{{phonetime}}{{verftext}}</el-button>
                                     </div>
                                 </div>
                                 <div class="md-layout-item md-size-25"></div>
@@ -80,7 +146,7 @@
                                 </div>
                                 <div class="md-layout-item md-size-40">
                                   <el-button v-if="!showCount" style="margin: 13px 0 0 5px;"  @click="getVerificationCode(2)">{{verftext}}</el-button>
-                                  <el-button v-if="showCount" style="margin: 13px 0 0 5px;"  @click="getVerificationCode(2)">{{emailtime}}{{verftext}}</el-button>
+                                  <el-button v-if="showCount" style="margin: 13px 0 0 5px;" disabled @click="getVerificationCode(2)">{{emailtime}}{{verftext}}</el-button>
                                 </div>
                             </div>
                             <div class="md-layout-item md-size-25"></div>
@@ -213,6 +279,7 @@ import base64 from "js-base64";
 export default {
   name: "modifyPassword",
   data: () => ({
+    e1: 0,
     activeStep: 0,
     phonetime: 0,
     emailtime: 0,

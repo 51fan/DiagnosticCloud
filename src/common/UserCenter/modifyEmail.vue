@@ -50,7 +50,7 @@
                                     </div>
                                     <div class="md-layout-item md-size-40">
                                         <el-button v-if="!showCount" style="background-color: #F1F3F7;"   @click="getVerificationCode(1)">{{verftext}}</el-button>
-                                        <el-button v-if="showCount" style="background-color: #F1F3F7;"   @click="getVerificationCode(1)">{{phonetime}}{{verftext}}</el-button>
+                                        <el-button v-if="showCount" style="background-color: #F1F3F7;" disabled  @click="getVerificationCode(1)">{{phonetime}}{{verftext}}</el-button>
                                     </div>
                                 </div>
                                 <div class="md-layout-item md-size-25"></div>
@@ -80,7 +80,7 @@
                                 </div>
                                 <div class="md-layout-item md-size-40">
                                   <el-button v-if="!showCount" style="background-color: #F1F3F7;"  @click="getVerificationCode(2)">{{verftext}}</el-button>
-                                  <el-button v-if="showCount" style="background-color: #F1F3F7;"  @click="getVerificationCode(2)">{{emailtime}}{{verftext}}</el-button>
+                                  <el-button v-if="showCount" style="background-color: #F1F3F7;" disabled @click="getVerificationCode(2)">{{emailtime}}{{verftext}}</el-button>
                                 </div>
                             </div>
                             <div class="md-layout-item md-size-25"></div>
@@ -487,8 +487,10 @@ export default {
     },
     cancel() {
       this.$store.commit("home/showLogin", true);
+      this.$store.commit("home/getTabsactiveIndex", "1");
+      this.$store.commit("ACTIVE", "1");
       this.$store.commit("home/showTabsFun", true);
-      this.$router.push("/overview");
+      this.$router.push("/personalInfo");
     },
     goPersonalCenter() {
       this.$store.commit("home/showLogin", true);

@@ -5,7 +5,7 @@ const state = {
     // time: 0,
     // mobile: "",
     // email: "",
-    checkWay: "email",
+    checkWay: "mobile",
     // VerificationCode: "",
   },
   enterpriseInfo: {

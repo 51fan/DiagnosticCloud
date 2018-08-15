@@ -162,7 +162,7 @@ export default {
     // 选省
     choseProvince(e) {
       for (var index2 in this.provinceArray) {
-        if (e === this.provinceArray[index2].id) {
+        if (e === this.provinceArray[index2].value) {
           this.shiArray = this.provinceArray[index2].children;
           this.selectCity = this.provinceArray[index2].children[0].value;
           debugger;
@@ -178,7 +178,7 @@ export default {
     // 选市
     choseCity(e) {
       for (var index3 in this.city) {
-        if (e === this.city[index3].id) {
+        if (e === this.city[index3].value) {
           this.quArray = this.city[index3].children;
           this.qu = this.city[index3].children[0].value;
           this.selectCounty = this.this.city[index3].children[0].value;

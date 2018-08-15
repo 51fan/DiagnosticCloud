@@ -1,6 +1,5 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import Axios from "axios";
+import Vue from 'vue';
+import Vuex from 'vuex';
 import evlaluating from './modules/evlaluating'
 import home from './modules/home'
 import loginPage from './modules/loginPage'
@@ -10,8 +9,8 @@ import evaluatingCenter from './modules/evaluatingCenter'
 
 
 //import actions from './actions'
-
 Vue.use(Vuex);
+
 // Vue.use(Axios);
 // 初始化时用sessionStore.getItem('token'),这样子刷新页面就无需重新登录
 const state = {
