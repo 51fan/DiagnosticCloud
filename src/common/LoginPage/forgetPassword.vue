@@ -1,7 +1,7 @@
 <template>
     <div class="mypanel">
       <v-stepper v-model="currentStep" style="background-color: white;">
-              <v-stepper-header>
+              <!-- <v-stepper-header>
                 <v-stepper-step :complete="currentStep > 1" step="1">验证身份</v-stepper-step>
 
                 <v-divider></v-divider>
@@ -11,8 +11,15 @@
                 <v-divider></v-divider>
 
                 <v-stepper-step step="3">完成</v-stepper-step>
-              </v-stepper-header>
-
+              </v-stepper-header> -->
+              <v-layout row>
+                <v-stepper-step :complete="currentStep> 1" style="padding: 24px 8px 24px 24px;" step="1">验证身份</v-stepper-step>
+                <v-divider style="margin-top: 36px;"></v-divider>
+                <v-stepper-step :complete="currentStep> 2"  style="padding: 24px 10px 24px 10px;" step="2">重设密码</v-stepper-step>
+                <v-divider style="margin-top: 36px;"></v-divider>
+                <v-stepper-step step="3" style="padding: 24px 24px 24px 10px;">完成</v-stepper-step>
+              </v-layout>
+ 
               <v-stepper-items>
                 <v-stepper-content step="1">
                 
@@ -36,52 +43,74 @@
                       <v-flex xl3 lg3 md1 hidden-sm-and-down></v-flex>
                       <v-flex xl6 lg6 md10 sm12 xs12>
                         <v-card dark tile flat>
-                          <v-card-text>
-                            <div v-if="changeCheckWay">
-                                <div class="md-layout-item md-size-100" style="padding: 0 6% 3% 6%;">
-                                  <md-field md-clearable style="min-width: 50%;display: inline-flex;" :class="phoneNumMessageClass">
-                                    <label>输入注册的手机号</label>
-                                    <span class="md-prefix" style="font-size: medium;">+86</span>
-                                    <md-input v-model="mobile"  placeholder="" v-on:input ="inputFunc(4)" @click="showTips(4)"></md-input>
-                                    <span class="md-error" v-if="showPhoneNumEmpty">手机号码不能为空</span>
-                                    <span class="md-error" v-if="showPhoneNumError">手机号填写不正确</span>
-                                  </md-field>
+                          <v-layout row wrap>
+                            <v-flex xl1 hidden-xl-and-down></v-flex>
+                            <v-flex xl10 lg12 md12 sm12 xs12>
+                              <v-card-text>
+                                <div v-if="changeCheckWay">
+                                    <div class="md-layout-item md-size-100" style="padding: 0 6% 3% 6%;">
+                                      <el-input v-model="mobile" v-on:input ="inputFunc(4)" @click="showTips(4)" placeholder="输入注册的手机号"></el-input>
+                                      <div class="inputError">
+                                          <span  v-if="showPhoneErr">{{showPhoneErrText}}</span>
+                                      </div>
+                                      <!-- <md-field md-clearable style="min-width: 50%;display: inline-flex;" :class="phoneNumMessageClass">
+                                        <label>输入注册的手机号</label>
+                                        <span class="md-prefix" style="font-size: medium;">+86</span>
+                                        <md-input v-model="mobile"  placeholder="" v-on:input ="inputFunc(4)" @click="showTips(4)"></md-input>
+                                        <span class="md-error" v-if="showPhoneNumEmpty">手机号码不能为空</span>
+                                        <span class="md-error" v-if="showPhoneNumError">手机号填写不正确</span>
+                                      </md-field> -->
+                                    </div>
+                                    <v-layout row wrap>
+                                      <v-flex xl8 lg8 md8 sm8 xs12 style="padding: 0 6% 3% 6%">
+                                        <el-input v-model="VerificationCode" v-on:input ="inputFunc(1)" @click="showTips(1)" placeholder="输入验证码"></el-input>
+                                        <div class="inputError">
+                                            <span  v-if="showVCEmpty">{{vcErrText}}</span>
+                                        </div>
+                                        <!-- <md-field style="display: inline-flex;" :class="VCMessageClass">
+                                          <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
+                                          <span class="md-error" v-if="showVCEmpty">{{vcErrText}}</span>
+                                        </md-field> -->
+                                      </v-flex>
+                                      <v-flex xl4 lg4 md4 sm4 xs12>
+                                          <el-button v-if="!showCount" style="margin-left: -16%;" @click="getVerificationCode(1)">{{verftext}}</el-button>
+                                          <el-button v-if="showCount" disabled style="margin-left: -16%;" @click="getVerificationCode(1)">{{phonetime}}{{verftext}}</el-button>
+                                      </v-flex>
+                                    </v-layout>
                                 </div>
-                                <v-layout row wrap>
-                                  <v-flex xl8 lg8 md8 sm8 xs12 style="padding: 0 6% 3% 6%">
-                                    <md-field style="display: inline-flex;" :class="VCMessageClass">
-                                      <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
-                                      <span class="md-error" v-if="showVCEmpty">{{vcErrText}}</span>
-                                    </md-field>
-                                  </v-flex>
-                                  <v-flex xl4 lg4 md4 sm4 xs12>
-                                      <el-button v-if="!showCount" style="margin: 13px 0 0 5px;" @click="getVerificationCode(1)">{{verftext}}</el-button>
-                                      <el-button v-if="showCount" disabled style="margin: 13px 0 0 5px;" @click="getVerificationCode(1)">{{phonetime}}{{verftext}}</el-button>
-                                  </v-flex>
-                                </v-layout>
-                            </div>
-                            <div v-if="!changeCheckWay">
-                                <div class="md-layout-item md-size-100" style="padding: 0 6% 3% 6%;">
-                                  <md-field md-clearable  :class="emailMessageClass" >
-                                    <md-input v-model="email" placeholder="输入注册使用的邮箱" v-on:input ="inputFunc(5)" @click="showTips(5)" required></md-input>
-                                    <span class="md-error" v-if="showEmailEmpty">邮箱不能为空</span>
-                                    <span class="md-error" v-if="showEmailError">邮箱格式不正确</span>
-                                  </md-field>
+                                <div v-if="!changeCheckWay">
+                                    <div class="md-layout-item md-size-100" style="padding: 0 6% 3% 6%;">
+                                      <el-input v-model="email" v-on:input ="inputFunc(5)" @click="showTips(5)" placeholder="输入注册使用的邮箱"></el-input>
+                                      <div class="inputError">
+                                          <span  v-if="showEmailErr">{{showEmailErrText}}</span>
+                                      </div>
+                                      <!-- <md-field md-clearable  :class="emailMessageClass" >
+                                        <md-input v-model="email" placeholder="输入注册使用的邮箱" v-on:input ="inputFunc(5)" @click="showTips(5)" required></md-input>
+                                        <span class="md-error" v-if="showEmailEmpty">邮箱不能为空</span>
+                                        <span class="md-error" v-if="showEmailError">邮箱格式不正确</span>
+                                      </md-field> -->
+                                    </div>
+                                    <v-layout row wrap>
+                                      <v-flex xl8 lg8 md8 sm8 xs12 style="padding: 0 6% 3% 6%">
+                                        <el-input v-model="VerificationCode" v-on:input ="inputFunc(1)" @click="showTips(1)" placeholder="输入验证码"></el-input>
+                                        <div class="inputError">
+                                            <span  v-if="showVCEmpty">{{vcErrText}}</span>
+                                        </div>
+                                        <!-- <md-field style="display: inline-flex;" :class="VCMessageClass">
+                                          <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
+                                          <span class="md-error" v-if="showVCEmpty">{{vcErrText}}</span>
+                                        </md-field> -->
+                                      </v-flex>
+                                      <v-flex xl4 lg4 md4 sm4 xs12>
+                                        <el-button v-if="!showCount" style="margin-left: -16%;"  @click="getVerificationCode(2)">{{verftext}}</el-button>
+                                        <el-button v-if="showCount" disabled style="margin-left: -16%;"  @click="getVerificationCode(2)">{{emailtime}}{{verftext}}</el-button>
+                                      </v-flex>
+                                    </v-layout>
                                 </div>
-                                <v-layout row wrap>
-                                  <v-flex xl8 lg8 md8 sm8 xs12 style="padding: 0 6% 3% 6%">
-                                    <md-field style="display: inline-flex;" :class="VCMessageClass">
-                                      <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
-                                      <span class="md-error" v-if="showVCEmpty">{{vcErrText}}</span>
-                                    </md-field>
-                                  </v-flex>
-                                  <v-flex xl4 lg4 md4 sm4 xs12>
-                                    <el-button v-if="!showCount" style="margin: 13px 0 0 5px;"  @click="getVerificationCode(2)">{{verftext}}</el-button>
-                                    <el-button v-if="showCount" disabled style="margin: 13px 0 0 5px;"  @click="getVerificationCode(2)">{{emailtime}}{{verftext}}</el-button>
-                                  </v-flex>
-                                </v-layout>
-                            </div>
-                          </v-card-text>
+                              </v-card-text>
+                            </v-flex>
+                            <v-flex xl1 hidden-xl-and-down></v-flex>
+                          </v-layout>
                         </v-card>
                       </v-flex>
                       <v-flex xl3 lg3 md1 hidden-sm-and-down></v-flex>
@@ -191,6 +220,10 @@
 </style>
 
 <style scoped>
+.inputError {
+  color: red;
+  text-align: left;
+}
 </style>
 
 <script>
@@ -223,6 +256,10 @@ export default {
     // currentStep3: false,
     passwordFirst: "",
     passwordSecond: "",
+    showPhoneErr: "",
+    showPhoneErrText: "",
+    showEmailErr: "",
+    showEmailErrText: "",
     showPhoneNumEmpty: false,
     showPhoneNumError: false,
     showPasswordfEmpty: false,
@@ -301,21 +338,22 @@ export default {
           }
           break;
         case 4:
-          if (this.mobile.length == 0) {
-            this.showPhoneNumEmpty = true;
-          } else {
-            this.showPhoneNumEmpty = false;
-            this.showPhoneNumError = !this.isTelCode(this.mobile);
-            this.phoneNumHasMessages = !this.isTelCode(this.mobile);
+          //如果手机为空，提示不能为空
+          this.showPhoneErr = this.mobile == "" ? true : false;
+          this.showPhoneErrText = "手机号码不能为空";
+          //不为空，判断格式是否正确
+          if (!this.showPhoneErr) {
+            this.showPhoneErr = !this.isTelCode(this.mobile);
+            this.showPhoneErrText = "手机号填写不正确";
           }
           break;
         case 5:
-          if (this.email.length == 0) {
-            this.showEmailEmpty = true;
-          } else {
-            this.showEmailEmpty = false;
-            this.showEmailError = !this.isEmail(this.email);
-            this.emailHasMessages = !this.isEmail(this.email);
+          this.showEmailErr = this.email == "" ? true : false;
+          this.showEmailErrText = "邮箱不能为空";
+          //不为空，判断格式是否正确
+          if (!this.showEmailErr) {
+            this.showEmailErr = !this.isEmail(this.email);
+            this.showEmailErrText = "邮箱填写不正确";
           }
           break;
         default:
@@ -358,24 +396,22 @@ export default {
           break;
         case 4:
           //如果手机为空，提示不能为空
-          this.showPhoneNumEmpty = this.passwordSecond == "" ? true : false;
+          this.showPhoneErr = this.mobile == "" ? true : false;
+          this.showPhoneErrText = "手机号码不能为空";
           //不为空，判断格式是否正确
-          if (this.showPhoneNumEmpty) {
-            this.phoneNumHasMessages = true;
-          } else {
-            this.showPhoneNumError = this.isTelCode(this.mobile);
-            this.phoneNumHasMessages = this.showPhoneNumError;
+          if (!this.showPhoneErr) {
+            this.showPhoneErr = !this.isTelCode(this.mobile);
+            this.showPhoneErrText = "手机号填写不正确";
           }
           break;
         case 5:
           //如果邮箱为空，提示不能为空
-          this.showEmailEmpty = this.email == "" ? true : false;
+          this.showEmailErr = this.email == "" ? true : false;
+          this.showEmailErrText = "邮箱不能为空";
           //不为空，判断格式是否正确
-          if (this.showEmailEmpty) {
-            this.emailHasMessages = true;
-          } else {
-            this.showEmailError = this.isEmail(this.mobile);
-            this.emailHasMessages = this.showEmailError;
+          if (!this.showEmailErr) {
+            this.showEmailErr = !this.isEmail(this.email);
+            this.showEmailErrText = "邮箱填写不正确";
           }
           break;
         default:

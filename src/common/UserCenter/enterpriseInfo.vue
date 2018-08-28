@@ -36,7 +36,10 @@
                         <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">统一社会信用代码/组织机构代码：</span>
                     </div>
                     <div class="md-layout-item md-size-40">
-                        <el-input v-model="OrganizationCode"  placeholder=""></el-input>
+                        <el-input v-model="OrganizationCode"  placeholder="9位或18位数字或大写字母组成" v-on:input ="inputFunc(3)" @click="showTips(3)"></el-input>
+                        <div class="inputError">
+                            <span  v-if="showOrganizationCodeErr">{{OrganizationCodeErr}}</span>
+                        </div>
                     </div>
                     <div class="md-layout-item md-size-25"></div>
                 </div>
@@ -388,7 +391,9 @@ export default {
     showenterpriseSNameErr: false,
     enterpriseSNameErr: "",
     enterpriseNameHasMessages: false,
-    enterpriseSNameHasMessages: false
+    enterpriseSNameHasMessages: false,
+    showOrganizationCodeErr:false,
+    OrganizationCodeErr:""
   }),
   mounted: function() {
     this.get_industry_type();
@@ -425,6 +430,9 @@ export default {
             this.enterpriseSNameErr = "企业简称字符长度不能超过8位";
           }
           break;
+          case 3:
+          this.showOrganizationCodeErr = !this.checkOrganizationCode(this.OrganizationCode);
+          this.OrganizationCodeErr = "组织机构代码/企业统一社会信用代码不合法";
         default:
           break;
       }
@@ -461,9 +469,18 @@ export default {
             this.enterpriseSNameErr = "企业简称字符长度不能超过8位";
           }
           break;
+          case 3:
+          this.showOrganizationCodeErr = !this.checkOrganizationCode(this.OrganizationCode);
+          this.OrganizationCodeErr = "组织机构代码/企业统一社会信用代码不合法";
         default:
           break;
       }
+    },
+    checkOrganizationCode(e){
+      let reg1 = /^[0-9A-Z]{8}[0-9X]{1}$/;
+      let reg2 = /^[159Y]{1}[1239]{1}[0-9]{6}[0-9A-Z]{10}$/;
+      let text = e.toUpperCase();
+      return reg1.test(text)|| reg2.test(text);
     },
     updateLogo(e) {
       let _this = this;

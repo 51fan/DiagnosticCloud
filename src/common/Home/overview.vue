@@ -267,7 +267,10 @@
                         <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">统一社会信用代码/组织机构代码：</span>
                     </div>
                     <div class="md-layout-item md-size-40">
-                        <el-input v-model="OrganizationCode"  placeholder=""></el-input>
+                        <el-input v-model="OrganizationCode"  placeholder="9位或18位数字或大写字母组成" v-on:input ="inputFunc(3)" @click="showTips(3)"></el-input>
+                        <div class="inputError">
+                            <span  v-if="showOrganizationCodeErr">{{OrganizationCodeErr}}</span>
+                        </div>
                     </div>
                     <div class="md-layout-item md-size-25"></div>
                 </div>
@@ -497,7 +500,9 @@ export default {
     enterpriseNameErr: "",
     enterpriseSNameErr: "",
     selectIndustry1: "",
-    selectIndustry2: ""
+    selectIndustry2: "",
+    showOrganizationCodeErr: false,
+    OrganizationCodeErr: ""
   }),
   mounted: function() {
     if (!this.firstLogin) {
@@ -672,6 +677,11 @@ export default {
             this.enterpriseSNameErr = "企业简称字符长度不能超过8位";
           }
           break;
+        case 3:
+          this.showOrganizationCodeErr = !this.checkOrganizationCode(
+            this.OrganizationCode
+          );
+          this.OrganizationCodeErr = "组织机构代码/企业统一社会信用代码不合法";
         default:
           break;
       }
@@ -707,9 +717,21 @@ export default {
             this.enterpriseSNameErr = "企业简称字符长度不能超过8位";
           }
           break;
+        case 3:
+          this.showOrganizationCodeErr = !this.checkOrganizationCode(
+            this.OrganizationCode
+          );
+          this.OrganizationCodeErr = "组织机构代码/企业统一社会信用代码不合法";
         default:
           break;
       }
+    },
+    checkOrganizationCode(e) {
+      var reg1 = /^[0-9A-Z]{8}[0-9X]{1}$/;
+      var reg2 = /^[159Y]{1}[1239]{1}[0-9]{6}[0-9A-Z]{10}$/;
+
+      let text = e.toUpperCase();
+      return reg1.test(text) || reg2.test(text);
     },
     viewEnterpriseInfo() {
       this.$store.commit("home/getTabsactiveIndex", "4");
@@ -856,14 +878,41 @@ export default {
             }
             $this.position = $this.InfoArray.user_enter.position;
             $this.username =
-              $this.InfoArray.user_enter.name !== null?( $this.InfoArray.user_enter.name==""?$this.useremail: $this.InfoArray.user_enter.name):$this.useremail;
+              $this.InfoArray.user_enter.name !== null
+                ? $this.InfoArray.user_enter.name == ""
+                  ? $this.useremail
+                  : $this.InfoArray.user_enter.name
+                : $this.useremail;
             $this.department =
-              $this.InfoArray.user_enter.department !== null? ($this.InfoArray.user_enter.department==""?"部门": $this.InfoArray.user_enter.department):"部门";
+              $this.InfoArray.user_enter.department !== null
+                ? $this.InfoArray.user_enter.department == ""
+                  ? "部门"
+                  : $this.InfoArray.user_enter.department
+                : "部门";
             $this.position =
-              $this.InfoArray.user_enter.position !== null? ($this.InfoArray.user_enter.position==""?"职位": $this.InfoArray.user_enter.position):"职位";
-            $this.companyName =$this.InfoArray.user_enter.enterpriseName !== null? ($this.InfoArray.user_enter.enterpriseName==""?"公司名称": $this.InfoArray.user_enter.enterpriseName):"公司名称";
-            $this.PersonalimageSrc =$this.InfoArray.user_enter.image !== null? ($this.InfoArray.user_enter.image==""?"/static/imgs/ic_user.png" :"/IMAGE/" +$this.InfoArray.user_enter.image ):"/static/imgs/ic_user.png";
-            $this.conmpanyLogo =$this.InfoArray.user_enter.logo!==null?($this.InfoArray.user_enter.logo == "" ? "/static/imgs/updateLogo.png": "/IMAGE/" + $this.InfoArray.user_enter.logo):"/static/imgs/updateLogo.png";
+              $this.InfoArray.user_enter.position !== null
+                ? $this.InfoArray.user_enter.position == ""
+                  ? "职位"
+                  : $this.InfoArray.user_enter.position
+                : "职位";
+            $this.companyName =
+              $this.InfoArray.user_enter.enterpriseName !== null
+                ? $this.InfoArray.user_enter.enterpriseName == ""
+                  ? "公司名称"
+                  : $this.InfoArray.user_enter.enterpriseName
+                : "公司名称";
+            $this.PersonalimageSrc =
+              $this.InfoArray.user_enter.image !== null
+                ? $this.InfoArray.user_enter.image == ""
+                  ? "/static/imgs/ic_user.png"
+                  : "/IMAGE/" + $this.InfoArray.user_enter.image
+                : "/static/imgs/ic_user.png";
+            $this.conmpanyLogo =
+              $this.InfoArray.user_enter.logo !== null
+                ? $this.InfoArray.user_enter.logo == ""
+                  ? "/static/imgs/updateLogo.png"
+                  : "/IMAGE/" + $this.InfoArray.user_enter.logo
+                : "/static/imgs/updateLogo.png";
           }
         })
         .catch(error => {
@@ -903,8 +952,8 @@ export default {
             value: data.id
           });
           $this.$store.commit("evlaluating/getReportParm", {
-            key: "name",
-            value: data.name
+            key: "enterpriseId",
+            value: data.enterpriseId
           });
           $this.$store.commit("evlaluating/getCurrentEvaluationId", data.id);
           $this.$store.commit("evlaluating/getCurrentEvaluationIdx", data.idx);
@@ -914,7 +963,24 @@ export default {
             data.name
           );
           $this.$store.commit("evlaluating/changeSeeReport", true);
-          $this.$router.push("/evaluating");
+          // let apikey = "";
+          // let request = {
+          //     evaluationId: e.id,
+          //     idx: e.idx,
+          //     session_id: $this.session_id
+          //   },
+          //   param = {
+          //     apikey,
+          //     request
+          //   },
+          //   // type = "GET",
+          //   // url = "/static/jsons/sorce.json";
+          //   type = "POST",
+          //   url = "/IBUS/DAIG_SYS/report_datas_statistic";
+            
+            $this.$router.push("/evaluating");
+          // $this.getReport_datas_statistic(type, url, param);
+
           //   setTimeout(function() {
           //     $this.$root.eventBus.$emit("viewReport", true);
           //   });
@@ -1005,6 +1071,31 @@ export default {
       this.$store.commit("evlaluating/changeSeeReport", false);
       //路由跳转
       this.$router.push("/evaluating");
+    },
+    getReport_datas_statistic(type, url, param) {
+      let $this = this;
+      const loading = this.$loading({
+        lock: true,
+        text: "加载中",
+        spinner: "el-icon-loading",
+        background: "rgba(61, 61, 61, 0.4)"
+      });
+      this.$http({
+        method: type,
+        url: url,
+        data: param
+      }).then(res => {
+        if (res.data.errorCode !== 0) {
+          console.log(res.data.errorMsg);
+          return;
+        }
+        $this.$store.commit("evlaluating/getReportParm", {
+          key: "datas",
+          value: res.data.return
+        });
+        loading.close();
+        $this.$router.push("/evaluating");
+      });
     }
   },
   created: () => {}

@@ -20,6 +20,7 @@ const state = {
     reportParm: {
       name: "",
       evaluationId: "",
+      enterpriseId:"",
       idx: "",
       datas: Object
     }

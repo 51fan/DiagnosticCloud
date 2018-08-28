@@ -757,7 +757,7 @@ export default {
           this.showPositionErr = false;
           if (this.position.length > 10) {
             this.showPositionErr = true;
-            this.positionErr = "部门名字长度不能超过10位";
+            this.positionErr = "职位名字长度不能超过10位";
           }
           break;
         default:
@@ -777,7 +777,7 @@ export default {
           this.showPositionErr = false;
           if (this.position.length > 10) {
             this.showPositionErr = true;
-            this.positionErr = "部门名字长度不能超过10位";
+            this.positionErr = "职位名字长度不能超过10位";
           }
           break;
         default:

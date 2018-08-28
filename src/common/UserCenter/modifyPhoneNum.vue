@@ -203,6 +203,10 @@
   border: 1px solid lightgray;
   background-color: rgba(211, 211, 211, 0.28);
 }
+.inputError {
+  color: red;
+  text-align: left;
+}
 </style>
 
 <script>

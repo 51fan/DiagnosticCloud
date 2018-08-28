@@ -51,7 +51,7 @@
         <evaluationEnd v-if="evaluationfinished" @viewfinishedReport="isViewReport"></evaluationEnd>
 
         <!-- 答题报告-->
-        <evaluationsReport v-if="isShowReport && reportParm.datas.testTime" :reportParm="reportParm" ></evaluationsReport>
+        <evaluationsReport v-if="isShowReport" :reportParm="reportParm" ></evaluationsReport>
     </div>
 </template>
 
@@ -274,28 +274,11 @@ export default {
     },
     isViewReport(bool) {
       //debugger;
-      let apikey = "";
-      let request = {
-          evaluationId: this.currentEvaluationId,
-          idx: this.currentEvaluationIdx,
-          session_id: this.session_id
-        },
-        param = {
-          apikey,
-          request
-        },
-        // type = "GET",
-        // url = "/static/jsons/sorce.json";
-        type = "POST",
-        url = "/IBUS/DAIG_SYS/getTotalScoreInfo";
       this.$store.commit("evlaluating/changeEvaluationfinished", false);
       // this.evaluationfinished = false;
       // this.isShowReport = bool;
       this.$store.commit("evlaluating/changeIsShowReport", bool);
 
-      //提交后台，将评价主表ID和答案{questionId:"问题id",answer:"题目序号",evaluationId:"问卷id",status:"0未完成 1完成",idx:"评测主表id"}发到后台
-
-      this.getTotalScoreInfo(type, url, param);
     },
     getQuestionData(type, url, param) {
       let $this = this;
@@ -480,23 +463,6 @@ export default {
         this.showAlert = true;
         this.AlertMessage = "请完成当前答题后再进入下一题";
       }
-    },
-    getTotalScoreInfo(type, url, param) {
-      let $this = this;
-      this.$http({
-        method: type,
-        url: url,
-        data: param
-      }).then(res => {
-        if (res.data.errorCode !== 0) {
-          console.log(res.data.errorMsg);
-          return;
-        }
-        $this.$store.commit("evlaluating/getReportParm", {
-          key: "datas",
-          value: res.data.return
-        });
-      });
     }
   },
   computed: {

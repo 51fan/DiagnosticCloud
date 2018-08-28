@@ -309,8 +309,8 @@ export default {
             value: e.id
           });
           $this.$store.commit("evlaluating/getReportParm", {
-            key: "name",
-            value: e.name
+            key: "enterpriseId",
+            value: e.enterpriseId
           });
           $this.$store.commit("evlaluating/getCurrentEvaluationId", e.id);
           $this.$store.commit("evlaluating/getCurrentEvaluationIdx", e.idx);

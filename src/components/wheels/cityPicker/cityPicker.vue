@@ -181,7 +181,7 @@ export default {
         if (e === this.city[index3].value) {
           this.quArray = this.city[index3].children;
           this.qu = this.city[index3].children[0].value;
-          this.selectCounty = this.this.city[index3].children[0].value;
+          this.selectCounty = this.city[index3].children[0].value;
           this.E = this.quArray[0].value;
           // console.log(this.E)
         }

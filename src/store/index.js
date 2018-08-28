@@ -87,8 +87,7 @@ const mutations = {
     } else {
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('user');
-      // window.localStorage.removeItem('UsereMail');
-      // window.localStorage.removeItem('UsereMobile');
+      
       window.localStorage.setItem('autoLogin30days', state.autoLogin30days);
     }
   },

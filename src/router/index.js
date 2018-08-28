@@ -113,8 +113,6 @@ router.beforeEach(function (to, from, next) {
   const token = store.state.token ? store.state.token : window.localStorage.getItem("token");
   if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
 
-    let $this = this;
-
     if (token) { // 通过vuex state获取当前的token是否存在
       store.commit("loginPage/getSession_id", token);
 

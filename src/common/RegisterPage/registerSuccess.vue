@@ -44,8 +44,8 @@ export default {
   methods: {
     goHome() {
       this.$store.commit("home/changeShowHomeBgImge", true);
-      this.$store.commit("home/showTabsFun", true);
-      this.$store.commit("home/showLogin", true);
+      this.$store.commit("home/showTabsFun", false);
+      this.$store.commit("home/showLogin", false);
       this.$router.push("/loginPage");
     },
     goEmail() {
