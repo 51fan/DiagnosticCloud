@@ -332,10 +332,8 @@ export default {
   },
   watch: {
     time: function(newVal, oldVal) {
-      //   debugger;
       if (newVal == 0) {
         clearInterval(this.counter);
-        //隐藏导航菜单
         this.showCount = false;
         this.verftext = "重新获取验证码";
       }

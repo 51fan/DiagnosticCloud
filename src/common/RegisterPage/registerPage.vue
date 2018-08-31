@@ -92,6 +92,10 @@
                 <div class="md-layout-item md-size-10" ></div>
               </div>
               
+              <div>
+                <el-checkbox v-model="agreeChecked">您已阅读并同意</el-checkbox><span style="color:#009199;cursor: pointer;text-decoration-line: underline;" @click="openProtocol()">《华制诊断云用户协议》</span>
+              </div>
+
               <div class="md-layout-item md-size-100" style="display: inline-flex;">
                 <div class="md-layout-item md-size-10" ></div>
                 <div class="md-layout-item md-size-80" >
@@ -99,6 +103,9 @@
                 </div>
                 <div class="md-layout-item md-size-10" ></div>
               </div>
+
+
+
               <div class="md-layout-item md-size-100">
                     <div style=" margin-top: 30px;cursor: pointer;" @click="OldAccountsLogin()">
                         <span @click="goLoginPge()" style="cursor: pointer;color:#009199;">使用已有账户登录</span>
@@ -111,6 +118,20 @@
                     :md-active.sync="showAlert"
                     :md-content="AlertMessage"
                     md-confirm-text="知道了" />
+
+              <md-dialog :md-active.sync="showProtocol" style="width: 600px;height: 700px;">
+                <md-dialog-title>用户协议</md-dialog-title>
+
+                <iframe src="/static/华制诊断云最终用户使用协议.pdf" width="100%" height="100%" style="height: 600px;">
+                  This browser does not support PDFs. Please download the PDF to view it: <a href="/static/华制诊断云最终用户使用协议.pdf" rel="external nofollow" >Download PDF</a>
+                </iframe>
+
+                <md-dialog-actions style="justify-content: center;">
+                  <md-button class="md-primary" @click="showProtocol = false">已确认，我知道了</md-button>
+                  <!-- <md-button class="md-primary" @click="showDialog = false">Save</md-button> -->
+                </md-dialog-actions>
+              </md-dialog>
+
           </div>
           </div>
         </div>
@@ -160,7 +181,9 @@ export default {
     fpassWordErrText: "密码不能为空",
     spassWordErrText: "密码不能为空",
     phoneErrText: "手机号码不能为空",
-    vccodeErrText: "验证码不能为空"
+    vccodeErrText: "验证码不能为空",
+    agreeChecked:false,
+    showProtocol:false,
     // showdisableBtn:false
   }),
   methods: {
@@ -423,6 +446,11 @@ export default {
         this.AlertMessage = this.vccodeErrText;
         return;
       }
+      if(!this.agreeChecked){
+        this.showAlert = true;
+        this.AlertMessage = "请先阅读用户协议然后勾选同意按钮，再进行下一步操作";
+        return;
+      }
       $this
         .$http({
           method: type,
@@ -468,6 +496,9 @@ export default {
       let _this = this;
       _this.time = num;
       _this.counter = setInterval(_this.countDown, 1000);
+    },
+    openProtocol(){
+      this.showProtocol = true;
     }
   },
   computed: {

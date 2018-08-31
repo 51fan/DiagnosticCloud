@@ -278,6 +278,8 @@ export default {
           $this.$store.commit("evlaluating/getCurrentEvaluationId", e.id);
           $this.$store.commit("evlaluating/getCurrentEvaluationIdx", e.idx);
           $this.$store.commit("evlaluating/getCurrentEvaluationName", e.name);
+          $this.$store.commit("evlaluating/changeSeeReport", false);
+          $this.$store.commit("evlaluating/changeIsShowReport", false);
           $this.$store.commit(
             "evlaluating/getCurrentIndex",
             e.answered_count + 1

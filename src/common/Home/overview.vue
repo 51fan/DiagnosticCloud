@@ -1003,7 +1003,7 @@ export default {
             "evlaluating/getQuestionIndex",
             data.answered_count + 1
           );
-          $this.$store.commit("evlaluating/changeSeeReport", false);
+          $this.$store.commit("evlaluating/changeIsShowReport", false);
           $this.$store.commit("evlaluating/changeEvaluationStart", true);
           $this.$router.push("/evaluating");
           break;
