@@ -41,7 +41,7 @@
                 <div class="md-layout-item md-size-10">
                     <!-- <img src="/static/imgs/logo_magpie.png" @click="gohome()" style="cursor: pointer;" alt="扁鹊云"> -->
                     <div class="md-toolbar-section-end">
-                      <img src="/static/imgs/logo_magpie.png" alt="扁鹊云">
+                      <img src="/static/imgs/huazhilogo.png" alt="扁鹊云">
                     </div>
                 </div>
                 <div class="md-layout-item md-size-80">

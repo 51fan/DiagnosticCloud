@@ -21,16 +21,19 @@
             <div class="md-layout-item md-size-60">
               <div class="md-layout-item md-size-20"></div>
               <div class="md-layout-item md-size-60">
-                <el-input v-model="email" placeholder="您要跟换的新邮箱" style="padding: 12px;"></el-input>
+                <div style="padding: 20px;font-size: 30pt;margin: 20px;color: rgb(0, 145, 153);">
+                  <span>更换邮箱</span>
+                </div>
+                <el-input v-model="email" placeholder="您要更换的新邮箱" style="padding: 12px;"></el-input>
                 <el-input v-model="usermobile" placeholder="" disabled style="padding: 12px;"></el-input>
                 <div class="md-layout-item md-size-100" style="display: inline-flex;padding: 12px;">
-                    <div class="md-layout-item md-size-60">
+                    <div class="md-layout-item md-size-40">
                         <el-input  v-model="VerificationCode" placeholder="输入验证码" v-on:input ="inputFunc(2)" @click="showTips(2)"></el-input>
                         <div class="inputError">
                             <span v-if="showVCErr">{{vcErrText}}</span>
                         </div>
                     </div>
-                    <div class="md-layout-item md-size-40">
+                    <div class="md-layout-item md-size-60">
                         <el-button v-if="!showCount" style="background-color: #F1F3F7;" @click="getVerificationCode(1)">{{verftext}}</el-button>
                         <el-button v-if="showCount" style="background-color: #F1F3F7;" disabled  @click="getVerificationCode(1)">{{time}}{{verftext}}</el-button>
                     </div>
@@ -310,6 +313,7 @@ export default {
             $this.showCount = false;
             $this.verftext = "获取验证码";
             $this.$store.commit("loginPage/getUseremail", $this.email);
+            $this.$store.commit("registerPage/changeUseremail", $this.email);
           }
         })
         .catch(error => {

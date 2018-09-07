@@ -1,17 +1,6 @@
 <template>
     <div class="mypanel">
       <v-stepper v-model="currentStep" style="background-color: white;">
-              <!-- <v-stepper-header>
-                <v-stepper-step :complete="currentStep > 1" step="1">验证身份</v-stepper-step>
-
-                <v-divider></v-divider>
-
-                <v-stepper-step :complete="currentStep > 2" step="2">重设密码</v-stepper-step>
-
-                <v-divider></v-divider>
-
-                <v-stepper-step step="3">完成</v-stepper-step>
-              </v-stepper-header> -->
               <v-layout row>
                 <v-stepper-step :complete="currentStep> 1" style="padding: 24px 8px 24px 24px;" step="1">验证身份</v-stepper-step>
                 <v-divider style="margin-top: 36px;"></v-divider>
@@ -53,28 +42,17 @@
                                       <div class="inputError">
                                           <span  v-if="showPhoneErr">{{showPhoneErrText}}</span>
                                       </div>
-                                      <!-- <md-field md-clearable style="min-width: 50%;display: inline-flex;" :class="phoneNumMessageClass">
-                                        <label>输入注册的手机号</label>
-                                        <span class="md-prefix" style="font-size: medium;">+86</span>
-                                        <md-input v-model="mobile"  placeholder="" v-on:input ="inputFunc(4)" @click="showTips(4)"></md-input>
-                                        <span class="md-error" v-if="showPhoneNumEmpty">手机号码不能为空</span>
-                                        <span class="md-error" v-if="showPhoneNumError">手机号填写不正确</span>
-                                      </md-field> -->
                                     </div>
                                     <v-layout row wrap>
-                                      <v-flex xl8 lg8 md8 sm8 xs12 style="padding: 0 6% 3% 6%">
+                                      <v-flex xl6 lg6 md6 sm6 xs12 style="padding: 0 6% 3% 6%">
                                         <el-input v-model="VerificationCode" v-on:input ="inputFunc(1)" @click="showTips(1)" placeholder="输入验证码"></el-input>
                                         <div class="inputError">
                                             <span  v-if="showVCEmpty">{{vcErrText}}</span>
                                         </div>
-                                        <!-- <md-field style="display: inline-flex;" :class="VCMessageClass">
-                                          <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
-                                          <span class="md-error" v-if="showVCEmpty">{{vcErrText}}</span>
-                                        </md-field> -->
                                       </v-flex>
-                                      <v-flex xl4 lg4 md4 sm4 xs12>
-                                          <el-button v-if="!showCount" style="margin-left: -16%;" @click="getVerificationCode(1)">{{verftext}}</el-button>
-                                          <el-button v-if="showCount" disabled style="margin-left: -16%;" @click="getVerificationCode(1)">{{phonetime}}{{verftext}}</el-button>
+                                      <v-flex xl6 lg6 md6 sm6 xs12>
+                                          <el-button v-if="!showCount" style="margin-left: -16%;width: 90%;" @click="getVerificationCode(1)">{{verftext}}</el-button>
+                                          <el-button v-if="showCount" disabled style="margin-left: -16%;width: 90%;" @click="getVerificationCode(1)">{{phonetime}}{{verftext}}</el-button>
                                       </v-flex>
                                     </v-layout>
                                 </div>
@@ -84,26 +62,17 @@
                                       <div class="inputError">
                                           <span  v-if="showEmailErr">{{showEmailErrText}}</span>
                                       </div>
-                                      <!-- <md-field md-clearable  :class="emailMessageClass" >
-                                        <md-input v-model="email" placeholder="输入注册使用的邮箱" v-on:input ="inputFunc(5)" @click="showTips(5)" required></md-input>
-                                        <span class="md-error" v-if="showEmailEmpty">邮箱不能为空</span>
-                                        <span class="md-error" v-if="showEmailError">邮箱格式不正确</span>
-                                      </md-field> -->
                                     </div>
                                     <v-layout row wrap>
-                                      <v-flex xl8 lg8 md8 sm8 xs12 style="padding: 0 6% 3% 6%">
+                                      <v-flex xl6 lg6 md6 sm6 xs12 style="padding: 0 6% 3% 6%">
                                         <el-input v-model="VerificationCode" v-on:input ="inputFunc(1)" @click="showTips(1)" placeholder="输入验证码"></el-input>
                                         <div class="inputError">
                                             <span  v-if="showVCEmpty">{{vcErrText}}</span>
                                         </div>
-                                        <!-- <md-field style="display: inline-flex;" :class="VCMessageClass">
-                                          <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(1)" @click="showTips(1)"></md-input>
-                                          <span class="md-error" v-if="showVCEmpty">{{vcErrText}}</span>
-                                        </md-field> -->
                                       </v-flex>
-                                      <v-flex xl4 lg4 md4 sm4 xs12>
-                                        <el-button v-if="!showCount" style="margin-left: -16%;"  @click="getVerificationCode(2)">{{verftext}}</el-button>
-                                        <el-button v-if="showCount" disabled style="margin-left: -16%;"  @click="getVerificationCode(2)">{{emailtime}}{{verftext}}</el-button>
+                                      <v-flex xl6 lg6 md6 sm6 xs12>
+                                        <el-button v-if="!showCount" style="margin-left: -16%;width: 90%;"  @click="getVerificationCode(2)">{{verftext}}</el-button>
+                                        <el-button v-if="showCount" disabled style="margin-left: -16%;width: 90%;"  @click="getVerificationCode(2)">{{emailtime}}{{verftext}}</el-button>
                                       </v-flex>
                                     </v-layout>
                                 </div>
@@ -125,7 +94,7 @@
                             <v-btn flat style="background-color: rgb(150, 150, 150);color: white;width:100%;" @click="cancel()">取消</v-btn>
                           </v-flex>
                           <v-flex xl5 lg5 md5 sm7 xs7 style="padding: 0 10px;">
-                            <v-btn class="teal"  style="width:100%;" @click="nextStep()">下一步</v-btn>
+                            <v-btn style="width:100%;color: white;background-color: rgb(0, 145, 153);" @click="nextStep()">下一步</v-btn>
                           </v-flex>
                         </v-layout>
                         <v-flex xl2 lg2 md2 hidden-sm-and-down></v-flex>
@@ -141,7 +110,7 @@
                     <span style="font-size: x-large;">重新设置账号{{acconut}} 密码</span>
                   </div>
 
-                   <v-layout row wrap>
+                  <v-layout row wrap>
                       <v-flex xl3 lg3 md1 hidden-sm-and-down></v-flex>
                       <v-flex xl6 lg6 md10 sm12 xs12 style="padding: 0 6% 0 6%;">
                         <div>
@@ -169,7 +138,7 @@
                             <v-btn flat style="background-color: rgb(150, 150, 150);color: white;width:100%;" @click="cancel()">取消</v-btn>
                           </v-flex>
                           <v-flex xl5 lg5 md5 sm7 xs7 style="padding: 0 10px;">
-                            <v-btn class="teal" style="width:100%;" @click="nextStep()">完成</v-btn>
+                            <v-btn style="width:100%;background-color: rgb(0, 145, 153);color: white;" @click="nextStep()">完成</v-btn>
                           </v-flex>
                       </v-layout>
                       <v-flex xl2 lg2 md2 hidden-sm-and-down></v-flex>
@@ -195,7 +164,6 @@
                       <div class="md-layout-item md-size-25"></div>
                     </div>
                   </div>
-
                 </v-stepper-content>
               </v-stepper-items>
       </v-stepper>
@@ -234,7 +202,6 @@ export default {
     currentStep: 0,
     showAlert: false,
     AlertMessage: "",
-    // activeStep: 0,
     verftext: "获取验证码",
     time: 0,
     phonetime: 0,
@@ -245,15 +212,12 @@ export default {
     checkWay: "mobile",
     VerificationCode: "",
     showVCEmpty: false,
-    // showVCError: false,
     VCHasMessages: false,
     phoneNumHasMessages: false,
     passwordFHasMessages: false,
     passwordSHasMessages: false,
     emailHasMessages: false,
-    // currentStep1: true,
-    // currentStep2: false,
-    // currentStep3: false,
+
     passwordFirst: "",
     passwordSecond: "",
     showPhoneErr: "",

@@ -116,6 +116,8 @@
                                                 style="width: 100%;"
                                                 v-model="date"
                                                 type="date"
+                                                format="yyyy 年 MM 月 dd 日"
+                                                value-format="yyyy-MM-dd"
                                                 disabled
                                                 placeholder="选择日期">
                                             </el-date-picker>
@@ -210,7 +212,8 @@
                                                 style="width: 100%;"
                                                 v-model="date"
                                                 type="date"
-                                                
+                                                format="yyyy 年 MM 月 dd 日"
+                                                value-format="yyyy-MM-dd"
                                                 placeholder="选择日期">
                                             </el-date-picker>
                                         </div>

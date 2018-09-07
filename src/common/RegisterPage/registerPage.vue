@@ -233,7 +233,7 @@ export default {
             } else if (!this.isPassword(this.passwordFirst)) {
               this.showPasswordfError = true;
               this.passwordFHasMessages = true;
-              this.fpassWordErrText = "密码格式不正确";
+              this.fpassWordErrText = "必须包含大小写字母、数字、特殊符号中至少两种";
             }
           }
           break;
@@ -300,7 +300,7 @@ export default {
           } else if (!this.isPassword(this.passwordFirst)) {
             this.showPasswordfError = true;
             this.passwordFHasMessages = true;
-            this.fpassWordErrText = "密码格式不正确";
+            this.fpassWordErrText = "必须包含大小写字母、数字、特殊符号中至少两种";
           } else {
             this.showPasswordfError = false;
             this.passwordFHasMessages = false;
@@ -395,7 +395,8 @@ export default {
           email: this.email,
           password: Base64.encode(this.passwordFirst),
           mobile: this.phoneNum,
-          verifyCode: this.VerificationCode
+          verifyCode: this.VerificationCode,
+          protocol:this.agreeChecked
         },
         param = {
           apikey,
