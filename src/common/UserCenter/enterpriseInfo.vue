@@ -1,299 +1,291 @@
 <template>
     <div class="mypanel">
-        <div v-if="disable" style="padding: 0 10%;">
-             <div class="md-layout" style="background-color: white;padding: 5%;">
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5"></div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span style="color:red">*</span>
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业名称：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40">
-                        <el-input  v-model="enterpriseName" v-on:input ="inputFunc(1)" @click="showTips(1)" placeholder="请输入公司名称"></el-input>
-                        <div class="inputError">
-                            <span v-if="showenterpriseNameErr">{{enterpriseNameErr}}</span>
+        <div  style="padding: 0 10%;">
+          <div style="background-color: white;padding: 5%;">
+              <v-layout row wrap>
+                <v-flex xl4 lg4   hidden-md-and-down style="border-right: 1px solid #efefef;">
+                    <div style="margin-top: 30%;">
+                        <div class="md-layout-item md-size-100" style="margin: 10px 0;">
+                            <img class="logoImage" v-bind:src="imageSrc"/>
+                        </div>
+                        <div class="md-layout-item md-size-100" style="margin: 10px 0;">
+                          <label id="realBtn" style="line-height: 1;">
+                            <input type="file" id="fileInput1" name="file" class="mFileInput" style="left:-9999px;position:absolute;"  @change='updateLogo'>
+                            <span class="uploadBtn">上传</span>
+                          </label>
+                          <div style="margin: 15px;">
+                            <span>建议像素180*180, 支持jpg和png</span>
+                          </div>
                         </div>
                     </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5"></div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span style="color:red">*</span>
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业简称：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40">
-                        <el-input v-model="enterpriseSName" v-on:input ="inputFunc(2)" @click="showTips(2)" placeholder="请输入公司简称"></el-input>
-                        <div class="inputError">
-                            <span  v-if="showenterpriseSNameErr">{{enterpriseSNameErr}}</span>
+                </v-flex>
+                <v-flex md12 sm12 xs12  hidden-lg-and-up>
+                    <div>
+                        <div class="md-layout-item md-size-100" style="margin: 10px 0;">
+                            <img class="logoImage" v-bind:src="imageSrc"/>
+                        </div>
+                        <div class="md-layout-item md-size-100" style="margin: 10px 0;">
+                          <label id="realBtn" style="line-height: 1;">
+                            <input type="file" id="fileInput1" name="file" class="mFileInput" style="left:-9999px;position:absolute;"  @change='updateLogo'>
+                            <span class="uploadBtn">上传</span>
+                          </label>
+                          <div style="margin: 15px;">
+                            <span>建议像素180*180, 支持jpg和png</span>
+                          </div>
                         </div>
                     </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5"></div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">统一社会信用代码/组织机构代码：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40">
-                        <el-input v-model="OrganizationCode"  placeholder="9位或18位数字或大写字母组成" v-on:input ="inputFunc(3)" @click="showTips(3)"></el-input>
-                        <div class="inputError">
-                            <span  v-if="showOrganizationCodeErr">{{OrganizationCodeErr}}</span>
-                        </div>
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5"></div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业图标：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40" style="text-align: left;">
-                        <!-- <img class="logoImage" v-bind:src="imageSrc"/>
-                        <el-button style="background-color: #f5f7fa;" disabled>上传</el-button> -->
-                        <img class="logoImage" v-bind:src="imageSrc"/>
-                        <!-- <md-field   ref="file">
-                            <label style="cursor: pointer;">上传</label>
-                            <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
-                        </md-field>     -->
-                        <label id="realBtn" style="line-height: 1;margin: 32px 0 0 5%;">
-                          <input type="file" id="fileInput1" name="file" class="mFileInput" style="left:-9999px;position:absolute;"  @change='updateLogo'>
-                          <span class="uploadBtn">上传</span>
-                        </label>
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5">
-                    </div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span style="color:red">*</span>
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">所在地区：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40" style="text-align: left;">
-                        <cityPicker style="width:100%;text-align: left;" ></cityPicker>
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5">
-                    </div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span style="color:red">*</span>
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">所属行业：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40" style="text-align: left;">
-                      <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                        <div class="md-layout-item md-size-35 md-medium-size-35 md-small-size-80 md-xsmall-size-100">
-                          <el-select
-                              v-model="selectIndustry1"
-                              @change="choseIndusty1"
-                              filterable
-                              placeholder="请选择">
-                              <el-option
-                                  v-for="item in Industry1"
-                                  :key="item.id"
-                                  :label="item.lable"
-                                  :value="item.title">
-                              </el-option>
-                          </el-select>
-                        </div>
-                        <div class="md-layout-item md-size-30 md-medium-size-32 md-small-size-80 md-xsmall-size-100">
-                          <el-select
-                              v-model="selectIndustry2"
-                              @change="choseIndusty2"
-                              filterable
-                              placeholder="请选择">
-                              <el-option
-                                  v-for="item in Industry2"
-                                  :key="item.id"
-                                  :label="item.lable"
-                                  :value="item.title">
-                              </el-option>
-                          </el-select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5">
-                    </div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业规模：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40" style="text-align: left;">
-                       <el-select v-model="companySize"  placeholder="请选择" style="width: 100%">
-                            <el-option value="100人以内"></el-option>
-                            <el-option value="500人以内"></el-option>
-                            <el-option value="1000人以内"></el-option>
-                            <el-option value="大于1000人"></el-option>
-                        </el-select>
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5">
-                    </div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">年销售收入：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40" style="text-align: left;">
-                       <el-select v-model="companyInput"  placeholder="请选择" style="width: 100%">
-                            <el-option value="1000万以内"></el-option>
-                            <el-option value="5000万以内"></el-option>
-                            <el-option value="1亿以内"></el-option>
-                            <el-option value="大于1亿"></el-option>
-                        </el-select>
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                
-                <div class="md-layout-item md-size-100" style="padding-top: 2%;display: inline-flex;">
-                    <div class="md-layout-item md-size-35">
-                    </div>
-                    <div class="md-layout-item md-size-40" style="display: inline-flex;">
-                        <div class="md-layout-item md-size-35" style="margin-right: 10px;">
-                            <el-button style="background-color: rgb(150, 150, 150);color: white;width: 100%;" @click="cancel()">取消</el-button>
-                        </div>
-                        <div class="md-layout-item md-size-63">
-                            <el-button  style="background-color: rgb(0, 145, 153);color: white;width: 100%;" @click="save()">保存</el-button>
-                        </div>
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>   
-            </div>
-        </div>
-        <div v-if="!disable" style="padding: 0 10%;">
-            <div class="md-layout" style="background-color: white;padding: 5%;">
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5"></div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span style="color:red">*</span>
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业名称：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40">
-                        <el-input v-model="enterpriseName" disabled placeholder="请输入公司名称"></el-input>
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5"></div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span style="color:red">*</span>
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业简称：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40">
-                        <el-input v-model="enterpriseSName" disabled placeholder="请输入公司简称"></el-input>
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5"></div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">统一社会信用代码/组织机构代码：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40">
-                        <el-input v-model="OrganizationCode" disabled placeholder=""></el-input>
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5"></div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业图标：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40" style="text-align: left;">
-                        <img class="logoImage" v-bind:src="imageSrc"/>
-                        <el-button style="background-color: #f5f7fa;padding: 5px 15px;margin-left: 5%;" disabled>上传</el-button>
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5">
-                    </div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span style="color:red">*</span>
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">所在地区：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40" style="text-align: left;">
-                        <cityPicker style="width:100%;text-align: left;" ></cityPicker>
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5">
-                    </div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span style="color:red">*</span>
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">所属行业：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40" style="text-align: left;">
-                      <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                        <div class="md-layout-item md-size-35 md-medium-size-35 md-small-size-80 md-xsmall-size-100">
-                          <el-select v-model="vaule1" disabled placeholder="请选择">
-                              <el-option :value="selectIndustry1"></el-option>
-                          </el-select>
-                        </div>
-                        <div class="md-layout-item md-size-30 md-medium-size-32 md-small-size-80 md-xsmall-size-100">
-                           <el-select v-model="vaule2" disabled placeholder="请选择">
-                              <el-option :value="selectIndustry2"></el-option>
-                          </el-select>
-                        </div>
-                      </div>    
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5">
-                    </div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业规模：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40" style="text-align: left;">
-                       <el-select v-model="companySize" disabled placeholder="请选择" style="width: 100%">
-                            <el-option>100人以内</el-option>
-                            <el-option>500人以内</el-option>
-                            <el-option>1000人以内</el-option>
-                            <el-option>大于1000人</el-option>
-                        </el-select>
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
-                    <div class="md-layout-item md-size-5">
-                    </div>
-                    <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
-                        <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">年销售收入：</span>
-                    </div>
-                    <div class="md-layout-item md-size-40" style="text-align: left;">
-                       <el-select v-model="companyInput" disabled placeholder="请选择" style="width: 100%">
-                            <el-option>1000万以内</el-option>
-                            <el-option>5000万以内</el-option>
-                            <el-option>1亿以内</el-option>
-                            <el-option>大于1亿</el-option>
-                        </el-select>
-                    </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                
-                <div class="md-layout-item md-size-100" style="padding-top: 2%;display: inline-flex;">
-                    <div class="md-layout-item md-size-35">
-                    </div>
-                    <div class="md-layout-item md-size-40" style="display: inline-flex;">
-                        <!-- <div class="md-layout-item md-size-35" style="margin-right: 10px;">
-                            <el-button style="background-color: rgb(150, 150, 150);color: white;width: 100%;" @click="cancel()">取消</el-button>
-                        </div>
-                        <div class="md-layout-item md-size-63">
+                </v-flex>
+                <v-flex v-if="disable" xl8 lg8 md12 sm12 xs12>
+                    <div class="md-layout" style="background-color: white;padding: 5%;">
+                        <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
                             
-                        </div> -->
-                        <el-button  style="background-color: rgb(0, 145, 153);color: white;width: 100%;" @click="modify()">修改</el-button>
+                            <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
+                                <span style="color:red">*</span>
+                                <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业名称：</span>
+                            </div>
+                            <div class="md-layout-item md-size-60">
+                                <el-input  v-model="NewenterpriseName" v-on:input ="inputFunc(1)" @click="showTips(1)" placeholder="请输入公司名称"></el-input>
+                                <div class="inputError">
+                                    <span v-if="showenterpriseNameErr">{{enterpriseNameErr}}</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
+                            
+                            <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
+                                <span style="color:red">*</span>
+                                <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业简称：</span>
+                            </div>
+                            <div class="md-layout-item md-size-60">
+                                <el-input v-model="NewenterpriseSName" v-on:input ="inputFunc(2)" @click="showTips(2)" placeholder="请输入公司简称"></el-input>
+                                <div class="inputError">
+                                    <span  v-if="showenterpriseSNameErr">{{enterpriseSNameErr}}</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
+                            
+                            <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
+                                <div>
+                                  <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">统一社会信用代码/</span>
+                                </div>
+                                <div>
+                                  <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">组织机构代码：</span>
+                                </div>
+                            </div>
+                            <div class="md-layout-item md-size-60" style="margin-top: 2%;">
+                                <el-input v-model="NewOrganizationCode"  placeholder="9位或18位数字或大写字母组成" v-on:input ="inputFunc(3)" @click="showTips(3)"></el-input>
+                                <div class="inputError">
+                                    <span  v-if="showOrganizationCodeErr">{{OrganizationCodeErr}}</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
+                            
+                            <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
+                                <span style="color:red">*</span>
+                                <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">所在地区：</span>
+                            </div>
+                            <div class="md-layout-item md-size-60" style="text-align: left;">
+                                <cityPicker style="width:100%;text-align: left;" ></cityPicker>
+                            </div>
+                            
+                        </div>
+                        <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
+                            
+                            <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
+                                <span style="color:red">*</span>
+                                <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">所属行业：</span>
+                            </div>
+                            <div class="md-layout-item md-size-60" style="text-align: left;">
+                              <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                                <div class="md-layout-item md-size-35 md-medium-size-35 md-small-size-80 md-xsmall-size-100">
+                                  <el-select
+                                      v-model="selectIndustry1"
+                                      @change="choseIndusty1"
+                                      filterable
+                                      placeholder="请选择">
+                                      <el-option
+                                          v-for="item in Industry1"
+                                          :key="item.id"
+                                          :label="item.lable"
+                                          :value="item.title">
+                                      </el-option>
+                                  </el-select>
+                                </div>
+                                <div class="md-layout-item md-size-30 md-medium-size-32 md-small-size-80 md-xsmall-size-100">
+                                  <el-select
+                                      v-model="selectIndustry2"
+                                      @change="choseIndusty2"
+                                      filterable
+                                      placeholder="请选择">
+                                      <el-option
+                                          v-for="item in Industry2"
+                                          :key="item.id"
+                                          :label="item.lable"
+                                          :value="item.title">
+                                      </el-option>
+                                  </el-select>
+                                </div>
+                              </div>
+                            </div>
+                            
+                        </div>
+                        <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
+                            
+                            <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
+                                <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业规模：</span>
+                            </div>
+                            <div class="md-layout-item md-size-60" style="text-align: left;">
+                              <el-select v-model="NewcompanySize"  placeholder="请选择" style="width: 100%">
+                                    <el-option value="100人以内"></el-option>
+                                    <el-option value="500人以内"></el-option>
+                                    <el-option value="1000人以内"></el-option>
+                                    <el-option value="大于1000人"></el-option>
+                                </el-select>
+                            </div>
+                            
+                        </div>
+                        <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
+                            
+                            <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
+                                <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">年销售收入：</span>
+                            </div>
+                            <div class="md-layout-item md-size-60" style="text-align: left;">
+                              <el-select v-model="NewcompanyInput"  placeholder="请选择" style="width: 100%">
+                                    <el-option value="1000万以内"></el-option>
+                                    <el-option value="5000万以内"></el-option>
+                                    <el-option value="1亿以内"></el-option>
+                                    <el-option value="大于1亿"></el-option>
+                                </el-select>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="md-layout-item md-size-100" style="padding-top: 2%;display: inline-flex;">
+                            <div class="md-layout-item md-size-30">
+                            </div>
+                            <div class="md-layout-item md-size-60" style="display: inline-flex;">
+                                <div class="md-layout-item md-size-35" style="margin-right: 10px;">
+                                    <el-button style="background-color: rgb(150, 150, 150);color: white;width: 100%;" @click="cancel()">取消</el-button>
+                                </div>
+                                <div class="md-layout-item md-size-63">
+                                    <el-button  style="background-color: rgb(0, 145, 153);color: white;width: 100%;" @click="save()">保存</el-button>
+                                </div>
+                            </div>
+                            
+                        </div>   
                     </div>
-                    <div class="md-layout-item md-size-25"></div>
-                </div>
-                
-            </div>
+                </v-flex>
+                <v-flex v-if="!disable" xl8 lg8 md12 sm12 xs12>
+                  <div class="md-layout" style="padding: 5%;">
+                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">    
+                        <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
+                            <span style="color:red">*</span>
+                            <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业名称：</span>
+                        </div>
+                        <div class="md-layout-item md-size-60">
+                            <el-input v-model="OldenterpriseName" disabled placeholder="请输入公司名称"></el-input>
+                        </div>    
+                    </div>
+                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">    
+                        <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
+                            <span style="color:red">*</span>
+                            <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业简称：</span>
+                        </div>
+                        <div class="md-layout-item md-size-60">
+                            <el-input v-model="OldenterpriseSName" disabled placeholder="请输入公司简称"></el-input>
+                        </div>    
+                    </div>
+                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">    
+                        <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
+                            <div>
+                              <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">统一社会信用代码/</span>
+                            </div>
+                            <div>
+                              <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">组织机构代码：</span>
+                            </div>
+                        </div>
+                        <div class="md-layout-item md-size-60" style="margin-top: 2%;">
+                            <el-input v-model="OldOrganizationCode" disabled placeholder="9位或18位数字或大写字母组成"></el-input>
+                        </div>    
+                    </div>
+                  
+                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">    
+                        <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
+                            <span style="color:red">*</span>
+                            <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">所在地区：</span>
+                        </div>
+                        <div class="md-layout-item md-size-60" style="text-align: left;">
+                            <cityPicker style="width:100%;text-align: left;" ></cityPicker>
+                        </div>    
+                    </div>
+                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">    
+                        <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
+                            <span style="color:red">*</span>
+                            <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">所属行业：</span>
+                        </div>
+                        <div class="md-layout-item md-size-60" style="text-align: left;">
+                          <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                            <div class="md-layout-item md-size-35 md-medium-size-35 md-small-size-80 md-xsmall-size-100">
+                              <el-select v-model="vaule1" disabled placeholder="请选择">
+                                  <el-option :value="selectIndustry1"></el-option>
+                              </el-select>
+                            </div>
+                            <div class="md-layout-item md-size-30 md-medium-size-32 md-small-size-80 md-xsmall-size-100">
+                              <el-select v-model="vaule2" disabled placeholder="请选择">
+                                  <el-option :value="selectIndustry2"></el-option>
+                              </el-select>
+                            </div>
+                          </div>    
+                        </div>    
+                    </div>
+                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">    
+                        <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
+                            <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业规模：</span>
+                        </div>
+                        <div class="md-layout-item md-size-60" style="text-align: left;">
+                          <el-select v-model="OldcompanySize" disabled placeholder="请选择" style="width: 100%">
+                                <el-option>100人以内</el-option>
+                                <el-option>500人以内</el-option>
+                                <el-option>1000人以内</el-option>
+                                <el-option>大于1000人</el-option>
+                            </el-select>
+                        </div>    
+                    </div>
+                    <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">    
+                        <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
+                            <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">年销售收入：</span>
+                        </div>
+                        <div class="md-layout-item md-size-60" style="text-align: left;">
+                          <el-select v-model="OldcompanyInput" disabled placeholder="请选择" style="width: 100%">
+                                <el-option>1000万以内</el-option>
+                                <el-option>5000万以内</el-option>
+                                <el-option>1亿以内</el-option>
+                                <el-option>大于1亿</el-option>
+                            </el-select>
+                        </div>    
+                    </div>
+                    
+                    <div class="md-layout-item md-size-100" style="padding-top: 2%;display: inline-flex;">
+                        <div class="md-layout-item md-size-30">
+                        </div>
+                        <div class="md-layout-item md-size-60" style="display: inline-flex;">
+                            <el-button  style="background-color: rgb(0, 145, 153);color: white;width: 100%;" @click="modify()">修改</el-button>
+                        </div>
+                        
+                    </div>  
+                  </div>
+                </v-flex>
+              </v-layout>
+          </div>
+            
         </div>
+        
         <md-dialog-alert style="z-index: 111"
                   class="md-primary md-raised"
                   :md-active.sync="showAlert"
@@ -320,8 +312,8 @@
 .logoImage {
   margin: 0 1%;
   width: 45%;
-  max-width: 80px;
-  max-height: 60px;
+  max-width: 180px;
+  max-height: 180px;
 }
 .cardstyle {
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
@@ -343,7 +335,7 @@
   text-align: left;
 }
 .uploadBtn {
-  padding: 5px 12px;
+  padding: 5px 15px;
   border: 1px solid #ccc;
   display: inline-block;
   cursor: pointer;
@@ -374,12 +366,18 @@ export default {
     Industry2: "",
     selectIndustry1: "",
     selectIndustry2: "",
-    companySize: "",
-    OrganizationCode: "",
-    companyInput: "",
-    enterpriseName: "",
-    enterpriseSName: "",
-    imageSrc: "/static/imgs/noImage.png",
+    OldcompanySize: "",
+    OldOrganizationCode: "",
+    OldcompanyInput: "",
+    OldenterpriseName: "",
+    OldenterpriseSName: "",
+    NewenterpriseName: "",
+    NewenterpriseSName: "",
+    NewOrganizationCode: "",
+    NewcompanySize: "",
+    NewcompanyInput: "",
+    imageSrc: "",
+    // NewimageSrc: "",
     imageStaticSrc: "",
     upadteSrc: "",
     updateData: "",
@@ -392,8 +390,8 @@ export default {
     enterpriseSNameErr: "",
     enterpriseNameHasMessages: false,
     enterpriseSNameHasMessages: false,
-    showOrganizationCodeErr:false,
-    OrganizationCodeErr:""
+    showOrganizationCodeErr: false,
+    OrganizationCodeErr: ""
   }),
   mounted: function() {
     this.get_industry_type();
@@ -405,12 +403,12 @@ export default {
           this.showenterpriseNameErr = false;
           //   this.enterpriseNameHasMessages = false;
           //如果邮箱为空，提示不能为空
-          if (this.enterpriseName.length == "") {
+          if (this.NewenterpriseName.length == "") {
             this.showenterpriseNameErr = true;
             // this.enterpriseNameHasMessages = true;
             this.enterpriseNameErr = "企业名称不能为空";
           }
-          if (this.enterpriseName.length > 32) {
+          if (this.NewenterpriseName.length > 32) {
             this.showenterpriseNameErr = true;
             // this.enterpriseNameHasMessages = true;
             this.enterpriseNameErr = "企业名称字符长度不能超过32位";
@@ -419,19 +417,21 @@ export default {
         case 2:
           this.showenterpriseSNameErr = false;
           this.enterpriseSNameHasMessages = false;
-          if (this.enterpriseSName.length == "") {
+          if (this.NewenterpriseSName.length == "") {
             this.showenterpriseSNameErr = true;
             // this.enterpriseSNameHasMessages = true;
             this.enterpriseSNameErr = "企业简称不能为空";
           }
-          if (this.enterpriseSName.length > 8) {
+          if (this.NewenterpriseSName.length > 8) {
             this.showenterpriseSNameErr = true;
             // this.enterpriseSNameHasMessages = true;
             this.enterpriseSNameErr = "企业简称字符长度不能超过8位";
           }
           break;
-          case 3:
-          this.showOrganizationCodeErr = !this.checkOrganizationCode(this.OrganizationCode);
+        case 3:
+          this.showOrganizationCodeErr = !this.checkOrganizationCode(
+            this.NewOrganizationCode
+          );
           this.OrganizationCodeErr = "组织机构代码/企业统一社会信用代码不合法";
         default:
           break;
@@ -443,12 +443,12 @@ export default {
           this.showenterpriseNameErr = false;
           //   this.enterpriseNameHasMessages = false;
           //如果邮箱为空，提示不能为空
-          if (this.enterpriseName.length == "") {
+          if (this.NewenterpriseName.length == "") {
             this.showenterpriseNameErr = true;
             // this.enterpriseNameHasMessages = true;
             this.enterpriseNameErr = "企业名称不能为空";
           }
-          if (this.enterpriseName.length > 32) {
+          if (this.NewenterpriseName.length > 32) {
             this.showenterpriseNameErr = true;
             // this.enterpriseNameHasMessages = true;
             this.enterpriseNameErr = "企业名称字符长度不能超过32位";
@@ -458,60 +458,88 @@ export default {
         case 2:
           this.showenterpriseSNameErr = false;
           //   this.enterpriseSNameHasMessages = false;
-          if (this.enterpriseSName.length == "") {
+          if (this.NewenterpriseSName.length == "") {
             this.showenterpriseSNameErr = true;
             // this.enterpriseSNameHasMessages = true;
             this.enterpriseSNameErr = "企业简称不能为空";
           }
-          if (this.enterpriseSName.length > 8) {
+          if (this.NewenterpriseSName.length > 8) {
             this.showenterpriseSNameErr = true;
             // this.enterpriseSNameHasMessages = true;
             this.enterpriseSNameErr = "企业简称字符长度不能超过8位";
           }
           break;
-          case 3:
-          this.showOrganizationCodeErr = !this.checkOrganizationCode(this.OrganizationCode);
+        case 3:
+          this.showOrganizationCodeErr = !this.checkOrganizationCode(
+            this.NewOrganizationCode
+          );
           this.OrganizationCodeErr = "组织机构代码/企业统一社会信用代码不合法";
         default:
           break;
       }
     },
-    checkOrganizationCode(e){
+    checkOrganizationCode(e) {
       let reg1 = /^[0-9A-Z]{8}[0-9X]{1}$/;
       let reg2 = /^[159Y]{1}[1239]{1}[0-9]{6}[0-9A-Z]{10}$/;
       let text = e.toUpperCase();
-      return reg1.test(text)|| reg2.test(text);
+      return reg1.test(text) || reg2.test(text);
     },
     updateLogo(e) {
-      let _this = this;
+      let $this = this;
       let files = e.target.files[0];
       if (files) {
         if (this.beforeAvatarUpload(files)) {
           let reader = new FileReader();
           reader.readAsDataURL(files);
           reader.onloadend = function() {
-            _this.updateData = this.result;
+            $this.updateData = this.result;
             if (this.result) {
-              _this.imageSrc = this.result;
-              _this.uploadImageBase64();
+              $this.imageSrc = this.result;
+              $this.uploadImageBase64();
             }
           };
           reader.onloadend();
         }
-        //this.imageSrc =  _this.src;
+        //this.imageSrc =  $this.src;
       } else {
-        _this.imageSrc = "";
+        $this.imageSrc = "";
       }
     },
     cancel() {
       this.disable = false;
       this.showenterpriseNameErr = false;
+      this.NewenterpriseName = this.OldenterpriseName;
+      this.NewenterpriseSName = this.OldenterpriseSName;
+      this.NewOrganizationCode = this.OldOrganizationCode;
+      this.NewcompanySize = this.OldcompanySize;
+      this.NewcompanyInput = this.OldcompanyInput;
+      // this.NewimageSrc = this.imageSrc;
+      this.selectProvince = this.province;
+      this.selectCity = this.city;
+      this.selectCounty = this.area;
+      this.selectIndustry1 = this.vaule1;
+      this.selectIndustry2 = this.vaule2;
       this.$store.commit("UserCenter/changeShowCityPicker", false);
       //   this.imgUrl = this.imageStaticSrc;
       //   this.imageSrc =
       //     this.imageStaticSrc == ""
       //       ? "/static/imgs/noImage.png"
       //       : "/IMAGE/" + this.imageStaticSrc;
+    },
+    modify() {
+      this.disable = true;
+      this.province = this.selectProvince;
+      this.city = this.selectCity;
+      this.area = this.selectCounty;
+      this.NewenterpriseName = this.OldenterpriseName;
+      this.NewenterpriseSName = this.OldenterpriseSName;
+      this.NewOrganizationCode = this.OldOrganizationCode;
+      this.NewcompanySize = this.OldcompanySize;
+      this.NewcompanyInput = this.OldcompanyInput;
+      // this.NewimageSrc = this.imageSrc;
+      this.selectIndustry1 = this.vaule1;
+      this.selectIndustry2 = this.vaule2;
+      this.$store.commit("UserCenter/changeShowCityPicker", true);
     },
     save() {
       let $this = this,
@@ -520,10 +548,10 @@ export default {
         url = " /IBUS/DAIG_SYS/modifyEnterpriseInfo ",
         request = {
           email: this.useremail,
-          enterpriseName: this.enterpriseName,
-          shortName: this.enterpriseSName,
-          logo: this.imgUrl ? this.imgUrl : this.imageStaticSrc,
-          enterpriseCode: this.OrganizationCode,
+          enterpriseName: this.NewenterpriseName,
+          shortName: this.NewenterpriseSName,
+          // logo: this.imgUrl ? this.imgUrl : this.imageStaticSrc,
+          enterpriseCode: this.NewOrganizationCode,
           province: this.selectProvince,
           city: this.selectCity,
           area: this.selectCounty,
@@ -532,8 +560,8 @@ export default {
           industryL3: "",
           industryL4: "",
           industryL5: "",
-          scale: this.companySize,
-          income: this.companyInput,
+          scale: this.NewcompanySize,
+          income: this.NewcompanyInput,
           session_id: this.session_id
         },
         param = {
@@ -543,22 +571,22 @@ export default {
       this.vaule1 = this.selectIndustry1;
       this.vaule2 = this.selectIndustry2;
 
-      if (this.enterpriseName.length == "") {
+      if (this.NewenterpriseName.length == "") {
         this.showAlert = true;
         this.AlertMessage = "企业名称不能为空";
         return;
       }
-      if (this.enterpriseSName == "") {
+      if (this.NewenterpriseSName == "") {
         this.showAlert = true;
         this.AlertMessage = "企业简称不能为空";
         return;
       }
-      if (this.enterpriseName.length > 32) {
+      if (this.NewenterpriseName.length && this.NewenterpriseName.length > 32) {
         this.showAlert = true;
         this.AlertMessage = "企业名称字符长度不能超过32位";
         return;
       }
-      if (this.enterpriseSName.length > 8) {
+      if (this.NewenterpriseSName.length && this.NewenterpriseSName.length > 8) {
         this.showAlert = true;
         this.AlertMessage = "企业简称字符长度不能超过8位";
         return;
@@ -587,9 +615,22 @@ export default {
             $this.showAlert = true;
             $this.AlertMessage = res.data.errorMsg;
           } else {
+            
+            $this.province = $this.selectProvince ;
+            $this.city = $this.selectCity;
+            $this.area = $this.selectCounty ;
+            $this.OldenterpriseName = $this.NewenterpriseName;
+            $this.OldenterpriseSName = $this.NewenterpriseSName;
+            $this.OldOrganizationCode = $this.NewOrganizationCode ;
+            $this.OldcompanySize = $this.NewcompanySize;
+            $this.OldcompanyInput = $this.NewcompanyInput;
+            $this.vaule1 = $this.selectIndustry1;
+            $this.vaule2 = $this.selectIndustry2;
+
             $this.disable = false;
             $this.$store.commit("UserCenter/changeShowCityPicker", false);
-            this.disable = false;
+            // $this.imageSrc = $this.NewimageSrc;
+
             //显示导航菜单
             // $this.$store.commit("home/showTabsFun", true);
             // $this.$store.commit("home/getTabsactiveIndex", "1");
@@ -600,10 +641,7 @@ export default {
           console.log(error);
         });
     },
-    modify() {
-      this.disable = true;
-      this.$store.commit("UserCenter/changeShowCityPicker", true);
-    },
+
     uploadImageBase64() {
       let $this = this,
         apikey = "",
@@ -697,25 +735,25 @@ export default {
           request
         })
         .then(res => {
-          $this.enterpriseName = res.data.return.enterpriseName;
-          $this.enterpriseSName = res.data.return.shortName;
+          $this.OldenterpriseName = res.data.return.enterpriseName;
+          $this.OldenterpriseSName = res.data.return.shortName;
           $this.imageSrc =
             res.data.return.logo == ""
-              ? "/static/imgs/noImage.png"
+              ? "/static/imgs/ic_logo.png"
               : "/IMAGE/" + res.data.return.logo;
-          $this.imageStaticSrc = res.data.return.logo;
-          $this.province = res.data.return.province;
-          $this.city = res.data.return.city;
+          // $this.imageStaticSrc = res.data.return.logo;
+          // $this.province = res.data.return.province;
+          // $this.city = res.data.return.city;
           $this.area = res.data.return.area;
+          $this.OldcompanySize = res.data.return.scale;
+          $this.OldcompanyInput = res.data.return.income;
+          $this.OldOrganizationCode = res.data.return.enterpriseCode;
           $this.selectIndustry1 = res.data.return.industryL1;
           $this.selectIndustry2 = res.data.return.industryL2;
           $this.vaule1 =
             $this.selectIndustry1 == "" ? "" : $this.selectIndustry1;
           $this.vaule2 =
             $this.selectIndustry2 == "" ? "" : $this.selectIndustry2;
-          $this.companySize = res.data.return.scale;
-          $this.companyInput = res.data.return.income;
-          $this.OrganizationCode = res.data.return.enterpriseCode;
         })
         .catch(err => {
           console.log(err);
@@ -749,14 +787,29 @@ export default {
     session_id() {
       return this.$store.state.loginPage.session_id;
     },
-    selectProvince() {
-      return this.$store.state.UserCenter.enterpriseInfo.selectProvince;
+    selectProvince: {
+      get: function() {
+        return this.$store.state.UserCenter.enterpriseInfo.selectProvince;
+      },
+      set: function(newValue) {
+        this.$store.state.UserCenter.enterpriseInfo.selectProvince = newValue;
+      }
     },
-    selectCity() {
-      return this.$store.state.UserCenter.enterpriseInfo.selectCity;
+    selectCity: {
+      get: function() {
+        return this.$store.state.UserCenter.enterpriseInfo.selectCity;
+      },
+      set: function(newValue) {
+        this.$store.state.UserCenter.enterpriseInfo.selectCity = newValue;
+      }
     },
-    selectCounty() {
-      return this.$store.state.UserCenter.enterpriseInfo.selectCounty;
+    selectCounty: {
+      get: function() {
+        return this.$store.state.UserCenter.enterpriseInfo.selectCounty;
+      },
+      set: function(newValue) {
+        this.$store.state.UserCenter.enterpriseInfo.selectCounty = newValue;
+      }
     },
     enterpriseNameMessageClass() {
       return {

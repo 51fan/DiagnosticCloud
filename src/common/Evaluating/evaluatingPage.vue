@@ -220,7 +220,7 @@ export default {
         key: "evaluationId",
         value: this.currentEvaluationId
       });
-      this.getQuestionData(type, url, param);
+      this.getQuestionDatas(type, url, param);
     } else {
       $this.isViewReport(true);
     }
@@ -278,47 +278,60 @@ export default {
       // this.evaluationfinished = false;
       // this.isShowReport = bool;
       this.$store.commit("evlaluating/changeIsShowReport", bool);
+    },
+    getQuestionDatas() {
+      console.log("page");
 
+      this.$store.commit("evlaluating/changeShowevaluatingPage", true);
+      this.questionsAllList = this.questionsData.return;
+      this.questionCounts = this.questionsData.count;
+      this.currentIndex = this.questionsData.answered_count;
+      this.questionIndex = this.questionsData.answered_count;
+      this.fillValue =
+        (this.questionIndex / this.questionCounts).toFixed(2) * 100;
+      // console.log($this.fillValue)
+      this.questionsList.push(this.questionsAllList[this.questionIndex - 1]);
     },
-    getQuestionData(type, url, param) {
-      let $this = this;
-      $this
-        .$http({
-          method: type,
-          url: url,
-          data: param
-        })
-        .then(res => {
-          //debugger;
-          if (res.data.errorCode !== 0) {
-            if (res.data.errorCode == "-8") {
-              $this.$store.commit(
-                "evlaluating/changeShowevaluatingPage",
-                false
-              );
-              $this.$store.commit("evlaluating/changeShowErrAlert", true);
-            } else {
-              $this.showAlert = true;
-              $this.AlertMessage = res.data.errorMsg;
-            }
-          } else {
-            $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
-            $this.questionsAllList = res.data.return;
-            $this.questionCounts = res.data.count;
-            $this.currentIndex = res.data.answered_count;
-            $this.questionIndex = res.data.answered_count;
-            $this.fillValue =  ($this.questionIndex/$this.questionCounts).toFixed(2)*100;
-            // console.log($this.fillValue)
-            $this.questionsList.push(
-              $this.questionsAllList[$this.questionIndex - 1]
-            );
-          }
-          // console.log($this.questionsList);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+    // getQuestionData(type, url, param) {
+    //   let $this = this;
+    //   $this
+    //     .$http({
+    //       method: type,
+    //       url: url,
+    //       data: param
+    //     })
+    //     .then(res => {
+    //       if (res.data.errorCode !== 0) {
+    //         if (res.data.errorCode == "-8") {
+    //           $this.$store.commit(
+    //             "evlaluating/changeShowevaluatingPage",
+    //             false
+    //           );
+    //           $this.$store.commit("evlaluating/changeShowErrAlert", true);
+    //         } else {
+    //           $this.showAlert = true;
+    //           $this.AlertMessage = res.data.errorMsg;
+    //         }
+    //       } else {
+    //         console.log("page");
+
+    //         $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
+    //         $this.questionsAllList = res.data.return;
+    //         $this.questionCounts = res.data.count;
+    //         $this.currentIndex = res.data.answered_count;
+    //         $this.questionIndex = res.data.answered_count;
+    //         $this.fillValue =  ($this.questionIndex/$this.questionCounts).toFixed(2)*100;
+    //         // console.log($this.fillValue)
+    //         $this.questionsList.push(
+    //           $this.questionsAllList[$this.questionIndex - 1]
+    //         );
+    //       }
+    //       // console.log($this.questionsList);
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
     addAnswerFunService(type, url, param) {
       let $this = this;
       $this
@@ -513,6 +526,9 @@ export default {
     },
     seeReport() {
       return this.$store.state.evlaluating.evaluatingPage.seeReport;
+    },
+    questionsData() {
+      return this.$store.state.evlaluating.evaluationCard.questionsData;
     }
   },
   created: () => {}

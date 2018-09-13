@@ -2,7 +2,7 @@
     <footer class="mainfooter">
      <div class="footer-container">
        <div class="main-footer-section">
-        <a>关于扁鹊云</a>
+        <a>关于华制诊断云</a>
         <a>License</a>
        </div>
        <div style="float:right">

@@ -1,5 +1,10 @@
 <template>
     <div class="mypanel">
+      <v-layout row wrap>
+        <v-flex xl6 lg6 md6 sm6 xs12>
+          
+        </v-flex>
+      </v-layout>
       <div class="md-layout-item md-size-100" style="display: inline-flex;">
         <div v-if="showLoginPage" class="md-layout-item md-size-65" style="color: white;font-size: xx-large;">
           <div style="margin: 22% 0 0 0;">

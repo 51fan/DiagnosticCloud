@@ -1,5 +1,5 @@
 <template>
-    <div style="text-align: center;padding: 10px;">
+    <div style="text-align: left;padding: 10px 0 10px;">
         <div style="text-align: center;display: inline-flex">
             <span style="padding: 0 15px">热度:</span>
             <div id="starBg" class="star_bg">                    	

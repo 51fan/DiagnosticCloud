@@ -67,8 +67,12 @@
               <div class="md-layout-item md-size-20"></div>
             </div>
         </div>
+        <md-dialog-alert
+                  class="md-primary md-raised"
+                  :md-active.sync="showAlert"
+                  :md-content="AlertMessage"
+                  md-confirm-text="知道了" />
     </div>
-    
 </template>
 
 <script>
@@ -86,7 +90,9 @@ export default {
     // phonetime: 0,
     verftext: "获取验证码",
     vcErrText: "",
-    showVCErr: false
+    showVCErr: false,
+    showAlert: false,
+    AlertMessage: ""
   }),
   methods: {
     goHome() {
@@ -135,6 +141,9 @@ export default {
       if (hash[newurl]) {
         // window.location.href = hash[url];
         window.open(hash[newurl]);
+      } else {
+        this.showAlert = true;
+        this.AlertMessage = "无法跳转至相应邮箱页面，请在浏览器中打开";
       }
     },
     reSendActiveEmail() {
@@ -326,7 +335,7 @@ export default {
       return this.$store.state.registerPage.useremail;
     },
     usermobile() {
-      return this.$store.state.loginPage.usermobile;
+      return this.$store.state.registerPage.usermobile;
     },
     session_id() {
       return this.$store.state.loginPage.session_id;

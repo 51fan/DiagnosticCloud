@@ -133,7 +133,6 @@ export default {
           }
         }
       }
-
       // 分类区级
       for (var item1 in this.city) {
         for (var item2 in this.block) {
@@ -148,16 +147,20 @@ export default {
         for (var i in this.provinceArray) {
           if (this.provinceArray[i].id === this.selectProvince) {
             this.shiArray = this.provinceArray[i].children;
-            console.log(this.shiArray);
+            // console.log(this.shiArray);
           }
         }
         for (var j in this.city) {
           if (this.city[j].id === this.selectCity) {
             this.quArray = this.city[j].children;
-            console.log(this.quArray);
+            // console.log(this.quArray);
           }
         }
       }
+
+      this.choseProvince(this.selectProvince);
+      this.choseCity(this.selectCity);
+      this.choseBlock(this.selectCounty);
     },
     // 选省
     choseProvince(e) {
@@ -166,11 +169,13 @@ export default {
           this.shiArray = this.provinceArray[index2].children;
           this.selectCity = this.provinceArray[index2].children[0].value;
           debugger;
-          this.selectCounty = this.provinceArray[index2].children[0].children[0].value;
+          this.selectCounty = this.provinceArray[
+            index2
+          ].children[0].children[0].value;
           this.quArray = this.provinceArray[index2].children[0].children;
-        //   this.selectCounty = this.provinceArray[
-        //     index2
-        //   ].children[0].children[0].value;
+          //   this.selectCounty = this.provinceArray[
+          //     index2
+          //   ].children[0].children[0].value;
           this.E = this.quArray[0].value;
         }
       }

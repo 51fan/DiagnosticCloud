@@ -11,7 +11,7 @@
                                 <div class="md-layout-item md-size-40">
                                     <div class="md-layout-item md-size-100">
                                         <div class="md-layout-item md-size-100" style="text-align:center;">
-                                            <img style="width:120pt;height: 120pt;border-radius: 50%;" class="logoImage" v-bind:src="imageSrc"/>
+                                            <img style="width:120px;height: 120px;border-radius: 50%;" class="logoImage" v-bind:src="imageSrc"/>
                                         </div>
                                         <div class="md-layout-item md-size-100" style="display: inline-flex;">
                                             <div class="md-layout-item md-size-10"></div>
@@ -25,6 +25,7 @@
                                                     <span class="uploadBtn">更换头像</span>
                                                     <!-- <md-button class="md-dense md-raised md-primary" style="width:30%;background-color: rgb(150, 150, 150);">更换头像</md-button> -->
                                                 </label>
+                                                <div style="margin: 10px;">建议像素120*120, 支持jpg和png</div>
                                             </div>
                                             <div class="md-layout-item md-size-10"></div>
                                         </div>
@@ -487,7 +488,7 @@ export default {
     disable: false,
     showAlert: false,
     AlertMessage: "",
-    imageSrc: "/static/imgs/noImage.png",
+    imageSrc: "/static/imgs/ic_user.png",
     upadteSrc: "",
     imageUrl: "",
     canEditName: false,
@@ -657,24 +658,24 @@ export default {
         });
     },
     updateLogo(e) {
-      let _this = this;
+      let $this = this;
       let files = e.target.files[0];
       if (files) {
         if (this.beforeAvatarUpload(files)) {
           let reader = new FileReader();
           reader.readAsDataURL(files);
           reader.onloadend = function() {
-            _this.updateData = this.result;
+            $this.updateData = this.result;
             if (this.result) {
-              _this.imageSrc = this.result;
-              _this.uploadImageBase64();
+              $this.imageSrc = this.result;
+              $this.uploadImageBase64();
             }
           };
           reader.onloadend();
         }
-        //this.imageSrc =  _this.src;
+        //this.imageSrc =  $this.src;
       } else {
-        _this.imageSrc = "";
+        $this.imageSrc = "";
       }
     },
     uploadImageBase64() {

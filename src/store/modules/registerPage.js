@@ -1,6 +1,7 @@
 // initial state
 const state = {
-  useremail:""
+  useremail:"",
+  usermobile: "",
 }
 
 // getters
@@ -11,6 +12,9 @@ const actions = {}
 const mutations = {
   changeUseremail(state, value) {
     state.useremail = value;
+  },
+  changeUsermobile(state, value) {
+    state.usermobile = value;
   }
 }
 

@@ -13,7 +13,7 @@
                     <div class="md-layout-item md-size-50" style="display: inline-flex;">
                         <div class="md-layout-item md-size-20" ></div>
                         <div class="md-layout-item md-size-60" style="display: inline-flex;">
-                            <input type="text" v-model="searchKey" placeholder="请输入" style="width: 100%;height: 44px;background: #efefef;margin-top: 5px;border: 1px solid #dcdfe6;padding: 0 15px;" @change="searchfun"/>
+                            <input type="text" v-model="searchKey" placeholder="请输入" style="width: 100%;height: 44px;background: #efefef;margin-top: 5px;border: 1px solid #dcdfe6;padding: 0 15px;outline: none;" @change="searchfun"/>
                             <i class="material-icons" style="cursor: pointer;background-color: #009199;color:white;padding: 8px;margin: 5px 0;" @click="searchfun()">search</i>
                         </div>
                         <div class="md-layout-item md-size-20" ></div>
@@ -21,7 +21,8 @@
                 </div>
             </div>
             <div class="centerBody">
-                <div v-if="!hasTest">
+                <div v-if="!hasNoReslut">
+                  <div v-if="!hasTest">
                     <md-card>
                         <md-ripple>
                             <div class="md-layout" style="width:100%;cursor: pointer;" @click="goEvalution()">
@@ -34,6 +35,49 @@
                             </div>
                         </md-ripple>
                     </md-card>
+                  </div>
+                  <div v-if="hasTest">
+                      <div v-for="info in InfoArray" :key="info.idx" :info="info">
+                          <md-card>
+                              <md-ripple>
+                                  <div class="md-layout" style="width:100%">
+                                      <div class="md-layout-item md-size-40" >
+                                          <md-card-content>
+                                              <div class="md-layout">
+                                                  <div class="md-layout-item md-size-15" >
+                                                      <img :src="imgSrc" >
+                                                  </div>
+                                                  <div class="md-layout-item md-size-85" >
+                                                      <div style="padding: 10px 5px;">{{info.name}}</div>
+                                                      <div style="padding: 0 5px;">{{info.remark}}</div>
+                                                  </div>
+                                              </div>
+                                          </md-card-content>
+                                      </div>
+                                      <div class="md-layout-item md-size-15" >
+                                          <md-card-content style="margin: 24px 0;">
+                                              <div>测评时间：{{info.startTime.slice(0, 10)}}</div>
+                                              <div v-if="info.endTime">完成时间：{{info.endTime.slice(0, 10)}}</div> 
+                                          </md-card-content>
+                                      </div>
+                                      <div class="md-layout-item md-size-30" >
+                                          <md-card-content style="margin: 28px 0;">
+                                              <el-progress v-if="info.completeStatus == 1" :percentage="100" status="success"></el-progress>
+                                              <el-progress v-if="info.completeStatus == 0" :percentage="info.complete_degree" ></el-progress>
+                                          </md-card-content>
+                                      </div>
+                                      <div class="md-layout-item md-size-15" style="text-align: center;" >
+                                          <md-card-content style="margin: 24px 0;">
+                                              <span v-if="info.completeStatus == 1" style="color:rgba(16, 129, 165, 0.9);cursor: pointer;" @click="gohead(info)">查看报告</span>
+                                              <span v-if="info.completeStatus == 0" style="color:rgba(16, 129, 165, 0.9);cursor: pointer;margin-right:10%" @click="gohead(info)">继续</span>
+                                              <span v-if="info.completeStatus == 0" style="color:rgba(16, 129, 165, 0.9);cursor: pointer;" @click="showDeleDialog(info)">废弃</span>
+                                          </md-card-content>
+                                      </div>
+                                  </div>
+                              </md-ripple>
+                          </md-card>
+                      </div>
+                  </div>
                 </div>
                 <div v-if="hasNoCompletedTest">
                     <md-card>
@@ -63,47 +107,19 @@
                         </md-ripple>
                     </md-card>
                 </div>
-                <div v-if="hasTest">
-                    <div v-for="info in InfoArray" :key="info.idx" :info="info">
-                        <md-card>
-                            <md-ripple>
-                                <div class="md-layout" style="width:100%">
-                                    <div class="md-layout-item md-size-40" >
-                                        <md-card-content>
-                                            <div class="md-layout">
-                                                <div class="md-layout-item md-size-15" >
-                                                    <img :src="imgSrc" >
-                                                </div>
-                                                <div class="md-layout-item md-size-85" >
-                                                    <div style="padding: 10px 5px;">{{info.name}}</div>
-                                                    <div style="padding: 0 5px;">{{info.remark}}</div>
-                                                </div>
-                                            </div>
-                                        </md-card-content>
-                                    </div>
-                                    <div class="md-layout-item md-size-15" >
-                                        <md-card-content style="margin: 24px 0;">
-                                            <div>测评时间：{{info.startTime.slice(0, 10)}}</div>
-                                            <div v-if="info.endTime">完成时间：{{info.endTime.slice(0, 10)}}</div> 
-                                        </md-card-content>
-                                    </div>
-                                    <div class="md-layout-item md-size-30" >
-                                        <md-card-content style="margin: 28px 0;">
-                                            <el-progress v-if="info.completeStatus == 1" :percentage="100" status="success"></el-progress>
-                                            <el-progress v-if="info.completeStatus == 0" :percentage="info.complete_degree" ></el-progress>
-                                        </md-card-content>
-                                    </div>
-                                    <div class="md-layout-item md-size-15" style="text-align: center;" >
-                                        <md-card-content style="margin: 24px 0;">
-                                            <span v-if="info.completeStatus == 1" style="color:rgba(16, 129, 165, 0.9);cursor: pointer;" @click="gohead(info)">查看报告</span>
-                                            <span v-if="info.completeStatus == 0" style="color:rgba(16, 129, 165, 0.9);cursor: pointer;margin-right:10%" @click="gohead(info)">继续</span>
-                                            <span v-if="info.completeStatus == 0" style="color:rgba(16, 129, 165, 0.9);cursor: pointer;" @click="showDeleDialog(info)">废弃</span>
-                                        </md-card-content>
-                                    </div>
+                <div v-if="hasNoReslut">
+                  <md-card>
+                        <md-ripple>
+                            <div class="md-layout" style="width:100%;cursor: pointer;">
+                                <div class="md-layout-item md-size-20" ></div>
+                                <div class="md-layout-item md-size-60" style="text-align: center;height: 400px;padding: 8%;">
+                                    <div style="font-size: x-large;padding: 20px;">搜索无合适结果,请重新搜素</div>
+                                    <!-- <span style="color: #009199;text-decoration: underline;font-size: medium;">去测评</span> -->
                                 </div>
-                            </md-ripple>
-                        </md-card>
-                    </div>
+                                <div class="md-layout-item md-size-20" ></div>
+                            </div>
+                        </md-ripple>
+                    </md-card>
                 </div>
             </div>
             <el-pagination
@@ -212,7 +228,8 @@ export default {
     showDeleted: false,
     hasNoCompletedTest: false,
     hasNodisCompletedTest: false,
-    deleDialogTitle: ""
+    deleDialogTitle: "",
+    hasNoReslut: false
   }),
   mounted: function() {},
   methods: {
@@ -373,7 +390,7 @@ export default {
             }
             $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
           } else {
-            $this.hasNodisCompletedTest = true;
+            $this.hasNodisCompletedTest = $this.hasNoReslut?false:true;
             $this.InfoArray = [];
           }
           break;
@@ -400,7 +417,7 @@ export default {
             }
             $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
           } else {
-            $this.hasNoCompletedTest = true;
+            $this.hasNoCompletedTest = $this.hasNoReslut?false:true;
             $this.InfoArray = [];
           }
           break;
@@ -457,8 +474,13 @@ export default {
                   }
                 }
               }
+              $this.hasNoReslut = false;
               $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
             } else {
+              $this.hasNoReslut = true;
+              $this.hasNoCompletedTest = false;
+              $this.hasNodisCompletedTest = false;
+              // $this.hasTest = false;
               $this.InfoArray = [];
             }
           }

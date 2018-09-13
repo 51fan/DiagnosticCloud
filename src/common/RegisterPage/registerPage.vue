@@ -62,32 +62,22 @@
               <div class="md-layout-item md-size-100" style="display: inline-flex;">
                 <div class="md-layout-item md-size-10" ></div>
                 <div class="md-layout-item md-size-80" >
-                    <div v-if="!showCount" class="md-layout-item md-size-100" style="display: inline-flex;">
+                    <div  class="md-layout-item md-size-100" style="display: inline-flex;">
                       <div class="md-layout-item md-size-65" >
-                          <md-field  :class="VCMessageClass">
+                         <el-input  v-model="VerificationCode" placeholder="输入验证码" v-on:input ="inputFunc(5)" @click="showTips(5)"></el-input>
+                         <div class="inputError" v-if="showVCError" >
+                             <span>{{vccodeErrText}}</span>
+                         </div>
+                          <!-- <md-field  :class="VCMessageClass">
                             <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(5)" @click="showTips(5)"></md-input>
-                            <!-- <span class="md-error" v-if="showVCEmpty"></span> -->
                             <span class="md-error" v-if="showVCError">{{vccodeErrText}}</span>
-                          </md-field> 
+                          </md-field>  -->
                       </div>
                       <div class="md-layout-item md-size-35" >
-                          <md-button  class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0;background-color: #f9f9fb;color: black;" @click="getVerificationCode()">{{verftext}}</md-button>
+                          <md-button v-if="!showCount" class="md-dense md-raised md-primary" style="display: inline-flex;background-color: #f9f9fb;color: black;" @click="getVerificationCode()">{{verftext}}</md-button>
+                          <el-button v-if="showCount"  @click="getVerificationCode(1)" disabled>{{time}}{{verftext}}</el-button>
                       </div>
                     </div>  
-                    <div v-if="showCount" class="md-layout-item md-size-100" style="display: inline-flex;">
-                        <div class="md-layout-item md-size-65" >
-                            <md-field :class="VCMessageClass">
-                              <md-input v-model="VerificationCode"  placeholder="输入验证码" v-on:input ="inputFunc(5)" @click="showTips(5)"></md-input>
-                              <!-- <span class="md-error" v-if="showVCEmpty">短信验证码不能为空</span> -->
-                              <span class="md-error" v-if="showVCError">{{vccodeErrText}}</span>
-                          </md-field>
-                        </div>
-                        <div class="md-layout-item md-size-35" >
-                          <el-button  style="margin: 13px 0 0 5px;" @click="getVerificationCode(1)" disabled>{{time}}{{verftext}}</el-button>
-                            <!-- <md-button class="md-dense md-raised md-primary" style="display: inline-flex;margin: 18px 0 0 0;background-color: #f9f9fb;color: black;" @click="getVerificationCode()">{{verftext}}</md-button> -->
-                            <!-- <span v-if="showText" style="color:red">{{time}}</span><span v-if="showText">秒后重新获取</span> -->
-                        </div>
-                  </div>
                 </div>
                 <div class="md-layout-item md-size-10" ></div>
               </div>
@@ -138,7 +128,65 @@
         <registerSuccess v-if="!showRegisterPage"></registerSuccess>
     </div>
 </template>
-
+<style>
+.el-input__inner {
+  -webkit-appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border-radius: 0 !important;
+  border: none !important;
+  box-sizing: border-box;
+  color: #606266;
+  display: inline-block;
+  font-size: inherit;
+  height: 40px;
+  line-height: 40px;
+  outline: 0;
+  padding: 0 15px;
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 100%;
+  border-bottom: 1px solid black !important;
+}
+</style>
+<style scoped>
+.mypanel {
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 5%;
+  text-align: center;
+  text-align: -webkit-center;
+}
+.cardstyle {
+  box-shadow: 0 14px 1px -2px rgba(0, 0, 0, 0.2),
+    0 14px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12);
+  position: relative;
+  z-index: 1;
+  border-radius: 20px;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: color, background-color;
+  will-change: color, background-color;
+  /* width: 40%; */
+  padding: 5%;
+  border: 1px solid lightgray;
+  /* background-color: rgba(235, 238, 245, 0.64); */
+  background-color: white;
+}
+.loginHeadTitle {
+  min-height: 48px;
+  margin: 4px 0 24px;
+  padding-top: 16px;
+  font-size: x-large;
+  /* display: flex; */
+  position: relative;
+  font-family: inherit;
+  /* width: 400px; */
+}
+.inputError {
+  color: red;
+  text-align: left;
+  font-size: 12px;
+}
+</style>
 <script>
 import registerSuccess from "./registerSuccess.vue";
 import base64 from "js-base64";
@@ -182,8 +230,8 @@ export default {
     spassWordErrText: "密码不能为空",
     phoneErrText: "手机号码不能为空",
     vccodeErrText: "验证码不能为空",
-    agreeChecked:false,
-    showProtocol:false,
+    agreeChecked: false,
+    showProtocol: false
     // showdisableBtn:false
   }),
   methods: {
@@ -233,7 +281,8 @@ export default {
             } else if (!this.isPassword(this.passwordFirst)) {
               this.showPasswordfError = true;
               this.passwordFHasMessages = true;
-              this.fpassWordErrText = "必须包含大小写字母、数字、特殊符号中至少两种";
+              this.fpassWordErrText =
+                "必须包含大小写字母、数字、特殊符号中至少两种";
             }
           }
           break;
@@ -300,7 +349,8 @@ export default {
           } else if (!this.isPassword(this.passwordFirst)) {
             this.showPasswordfError = true;
             this.passwordFHasMessages = true;
-            this.fpassWordErrText = "必须包含大小写字母、数字、特殊符号中至少两种";
+            this.fpassWordErrText =
+              "必须包含大小写字母、数字、特殊符号中至少两种";
           } else {
             this.showPasswordfError = false;
             this.passwordFHasMessages = false;
@@ -396,7 +446,7 @@ export default {
           password: Base64.encode(this.passwordFirst),
           mobile: this.phoneNum,
           verifyCode: this.VerificationCode,
-          protocol:this.agreeChecked
+          protocol: this.agreeChecked
         },
         param = {
           apikey,
@@ -447,9 +497,10 @@ export default {
         this.AlertMessage = this.vccodeErrText;
         return;
       }
-      if(!this.agreeChecked){
+      if (!this.agreeChecked) {
         this.showAlert = true;
-        this.AlertMessage = "请先阅读用户协议然后勾选同意按钮，再进行下一步操作";
+        this.AlertMessage =
+          "请先阅读用户协议然后勾选同意按钮，再进行下一步操作";
         return;
       }
       $this
@@ -470,6 +521,10 @@ export default {
             $this.$store.commit("home/showTabsFun", false);
             $this.$store.commit("home/showLogin", false);
             $this.$store.commit("registerPage/changeUseremail", $this.email);
+            $this.$store.commit(
+              "registerPage/changeUsermobile",
+              $this.phoneNum
+            );
           }
         })
         .catch(error => {
@@ -498,7 +553,7 @@ export default {
       _this.time = num;
       _this.counter = setInterval(_this.countDown, 1000);
     },
-    openProtocol(){
+    openProtocol() {
       this.showProtocol = true;
     }
   },
@@ -543,39 +598,6 @@ export default {
 };
 </script>
 
-<style scoped>
-.mypanel {
-  padding-left: 10%;
-  padding-right: 10%;
-  padding-top: 5%;
-  text-align: center;
-  text-align: -webkit-center;
-}
-.cardstyle {
-  box-shadow: 0 14px 1px -2px rgba(0, 0, 0, 0.2),
-    0 14px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12);
-  position: relative;
-  z-index: 1;
-  border-radius: 20px;
-  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  transition-property: color, background-color;
-  will-change: color, background-color;
-  /* width: 40%; */
-  padding: 5%;
-  border: 1px solid lightgray;
-  /* background-color: rgba(235, 238, 245, 0.64); */
-  background-color: white;
-}
-.loginHeadTitle {
-  min-height: 48px;
-  margin: 4px 0 24px;
-  padding-top: 16px;
-  font-size: x-large;
-  /* display: flex; */
-  position: relative;
-  font-family: inherit;
-  /* width: 400px; */
-}
-</style>
+
 
 

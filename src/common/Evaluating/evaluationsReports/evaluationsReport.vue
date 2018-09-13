@@ -1,6 +1,6 @@
 <template>
    <div style="background-color: white;">
-        <h2 style="text-align: center;padding: 90px 0px;font-size: 30px;font-size: 36px;font-weight: 300;background-color: #009199;">
+        <h2 style="text-align: center;padding: 90px 0px;font-size: 30px;font-size: 36px;font-weight: 300;background-color: #009199;color: white;">
             {{reportData.testName}}测评报告
         </h2>
         <v-layout row wrap>
@@ -888,9 +888,11 @@ export default {
         });
         showData.push(arry);
       });
-      this.chartData7.rows = showData;
-      window.addEventListener("resize", () => {
-        $this.$refs.bar7.echarts.resize();
+      this.$nextTick(function() {
+        $this.chartData7.rows = showData;
+        window.addEventListener("resize", () => {
+          $this.$refs.bar7.echarts.resize();
+        });
       });
     },
     showChart8() {
@@ -1203,9 +1205,11 @@ export default {
         });
         showData.push(arry);
       });
-      this.chartData12.rows = showData;
-      window.addEventListener("resize", () => {
-        $this.$refs.bar12.echarts.resize();
+      this.$nextTick(function() {
+        $this.chartData12.rows = showData;
+        window.addEventListener("resize", () => {
+          $this.$refs.bar12.echarts.resize();
+        });
       });
     },
     showChart13() {

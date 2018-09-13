@@ -1,24 +1,24 @@
 <template>
     <div @click="beginEvaluation()">
-        <md-card md-with-hover style="width: 100%;">
+        <md-card md-with-hover style="width: 100%;margin: 0;">
           <md-ripple>
           <md-card-header>
-                            <md-avatar>
-              <img src="../../../assets/images/ico.png">
-              </md-avatar>
+              <!-- <md-avatar>
+                <img src="../../../assets/images/ico.png">
+              </md-avatar> -->
 
               <!-- <md-card-header-text style="padding: 10px 10px 0 10px;"> -->
-              <div class="md-title" style="font-size: 18px; padding-top: 8px;">{{evalution.name}}</div>
+              <div class="md-title" style="font-size: 22px; padding-top: 8px;white-space: nowrap;text-overflow: ellipsis;overflow:hidden;font-weight: 600;padding-left: 8px;">{{evalution.name}}</div>
               <!-- <div class="md-subhead"></div> -->
               <!-- </md-card-header-text> -->
 
           </md-card-header>
           <md-card-area >
-            <md-card-content style="height: 120px; overflow: hidden; float: left; margin-bottom: 8px;">
+            <md-card-content style="color:RGBA(96, 96, 96, 1);height: 120px; overflow: hidden; float: left; margin-bottom: 8px;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;">
               {{evalution.description}}
             </md-card-content>
           </md-card-area>
-          <div style="clear:both">
+          <div style="clear:both;">
             <scoreStar :score="evalution.heat"></scoreStar>
           </div>
 
@@ -81,13 +81,16 @@ export default {
     name: String,
     showAlert: false,
     AlertMessage: "",
-    showErrAlert:false
+    showErrAlert: false
   }),
   methods: {
     beginEvaluation() {
       // this.$router.push({path:'/evaluatingPage', query: {id:this.id, name:this.name}});
       if (this.session_id) {
         this.getQuestionData();
+        // this.$store.commit("evlaluating/changeShowevaluatingPage", true);
+        // this.$store.commit("evlaluating/getCurrentEvaluationName", this.name);
+        // this.$store.commit("evlaluating/getCurrentEvaluationId", this.id);
       } else {
         this.showAlert = true;
         this.AlertMessage = "请登录后再开始评测";
@@ -131,12 +134,16 @@ export default {
               $this.AlertMessage = res.data.errorMsg;
             }
           } else {
+            debugger;
+            console.log("card");
+            console.log(res);
             $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
             $this.$store.commit(
               "evlaluating/getCurrentEvaluationName",
               this.name
             );
             $this.$store.commit("evlaluating/getCurrentEvaluationId", this.id);
+            $this.$store.commit("evlaluating/changeQuestions", res.data);
           }
           // console.log($this.questionsList);
         })

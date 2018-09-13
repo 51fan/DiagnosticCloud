@@ -23,7 +23,10 @@
           <div class="md-layout-item md-size-60">
             <div class="md-layout-item md-size-20"></div>
             <div class="md-layout-item md-size-60">
-              <el-input v-model="email" placeholder="您要跟换的新邮箱" style="padding: 12px;"></el-input>
+              <div style="padding: 20px;font-size: 30pt;margin: 20px;color: rgb(0, 145, 153);">
+                <span>更换邮箱</span>
+              </div>
+              <el-input v-model="email" placeholder="您要更换的新邮箱" style="padding: 12px;"></el-input>
               <el-input v-model="usermobile" placeholder="" disabled style="padding: 12px;"></el-input>
               <div class="md-layout-item md-size-100" style="display: inline-flex;padding: 12px;">
                   <div class="md-layout-item md-size-40">
@@ -34,7 +37,7 @@
                   </div>
                   <div class="md-layout-item md-size-60">
                       <el-button v-if="!showCount" style="background-color: #F1F3F7;" @click="getVerificationCode(1)">{{verftext}}</el-button>
-                      <el-button v-if="showCount" style="background-color: #F1F3F7;" disabled  @click="getVerificationCode(1)">{{time}}{{verftext}}</el-button>
+                      <el-button v-if="showCount" style="background-color: #F1F3F7;" disabled>{{time}}{{verftext}}</el-button>
                   </div>
               </div>
             </div>
@@ -154,6 +157,9 @@ export default {
       if (hash[url]) {
         // window.location.href = hash[url];
         window.open(hash[url]);
+      } else {
+        this.showAlert = true;
+        this.AlertMessage = "无法跳转至相应邮箱页面，请在浏览器中打开";
       }
     },
     reSendActiveEmail() {
@@ -323,6 +329,7 @@ export default {
             $this.showCount = false;
             $this.verftext = "获取验证码";
             $this.$store.commit("loginPage/getUseremail", $this.email);
+            $this.$store.commit("loginPage/getUsermobile", $this.usermobile);
           }
         })
         .catch(error => {

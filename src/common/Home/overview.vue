@@ -10,7 +10,7 @@
                 <div style="width: 90%;padding-bottom: 2%;margin: 0 5%;height:200px">
                     <div class="md-layout-item md-size-100" style="display: inline-flex;border-bottom: 1px solid lightgray;height: 100%;">
                         <div class="md-layout-item md-size-20" style="text-align:center;">
-                            <md-avatar style="width: 96pt;height: 96pt;border-radius: 50%;"><img :src="PersonalimageSrc" /></md-avatar>
+                            <md-avatar style="margin-top: 25%;"><img :src="PersonalimageSrc" /></md-avatar>
                         </div>
                         <div class="md-layout-item md-size-60">
                             <div style="margin: 7% 4% 1%;">{{username}}，欢迎您</div>
@@ -43,14 +43,46 @@
                             </md-ripple>
                         </md-card>
                     </div>
-                    <div v-if="!showdiscompletedNoMessage" class="md-layout-item md-size-30 md-medium-size-33 md-small-size-50 md-xsmall-size-100"  v-for="info in discompletedArray" :key="info.idx" :info="info" style="display: inline-flex;min-height: 200px;" @click="gohead(info,2)">
-                      <md-card style="width: 100%;margin-bottom: 16px;" md-with-hover>
+                    <div v-if="!showcompletedNoMessage">
+                        <v-layout row wrap>
+                          <v-flex xl12 lg12 md12 sm12 xs12>
+                            <v-layout row wrap>
+                              <v-flex xl3 lg4 md5 sm5 xs12 style="margin: 10px 5px;" v-for="info in discompletedArray" :key="info.idx" :info="info"  @click="gohead(info,2)">
+                                  <md-card style="width:100%;margin: 0;" md-with-hover>
+                                    <md-card-header>
+                                      <div style="font-weight: 600;color: #009199;white-space: nowrap;text-overflow: ellipsis;overflow:hidden;">{{info.name}}</div>
+                                    </md-card-header>
+
+                                     <md-card-content style="height: 60px;overflow: hidden;">
+                                      <span :title="info.remark"> {{info.remark}}</span>
+                                      </md-card-content>
+                                      <md-card-content style="min-height: 60px;">
+                                        测评时间：{{info.startTime.slice(0, 10)}}
+                                      </md-card-content>
+                                      <md-card-actions>
+                                          <div class="md-layout-item md-size-100" style="display: inline-flex;text-align:center;">
+                                              <div class="md-layout-item md-size-75">
+                                                  <el-progress :percentage="info.complete_degree" ></el-progress>
+                                              </div>
+                                              <div class="md-layout-item md-size-25">
+                                                  <span style="color:rgb(47, 165, 172);" >继续</span>
+                                              </div>
+                                          </div>
+                                      </md-card-actions>
+                                  </md-card>
+                              </v-flex>
+                            </v-layout>
+                          </v-flex>
+                        </v-layout>
+                     </div>
+                    <!-- <div v-if="!showdiscompletedNoMessage" class="md-layout-item md-size-30 md-medium-size-33 md-small-size-50 md-xsmall-size-100"  v-for="info in discompletedArray" :key="info.idx" :info="info" style="display: inline-flex;min-height: 200px;" @click="gohead(info,2)">
+                      <md-card style="width:300px;margin-bottom: 16px;" md-with-hover>
                         <md-card-header>
-                          <div style="font-weight: 600;color: #009199;">{{info.name}}</div>
+                          <div style="font-weight: 600;color: #009199;white-space: nowrap;text-overflow: ellipsis;overflow:hidden;">{{info.name}}</div>
                         </md-card-header>
 
-                        <md-card-content style="min-height: 60px;">
-                          {{info.remark}}
+                        <md-card-content style="height: 60px;overflow: hidden;">
+                         <span :title="info.remark"> {{info.remark}}</span>
                         </md-card-content>
                         <md-card-content style="min-height: 60px;">
                           测评时间：{{info.startTime.slice(0, 10)}}
@@ -67,7 +99,7 @@
                         </md-card-actions>
                         
                       </md-card>
-                    </div>
+                    </div> -->
                     <div v-if="showdiscompletedMore" style="padding: 2% 12%;text-align: right;" >
                       <span @click="more()" style="cursor: pointer;">查看更多</span>
                     </div>
@@ -90,147 +122,43 @@
                             </md-ripple>
                         </md-card>
                      </div>
-                     <div v-if="!showcompletedNoMessage" class="md-layout-item md-size-30 md-medium-size-33 md-small-size-50 md-xsmall-size-100" v-for="info in completedArray" :key="info.idx" :info="info" style="display: inline-flex;min-height: 200px;" @click="gohead(info,1)">
-                      <md-card style="width: 100%;margin-bottom: 16px;" md-with-hover>
-                        <md-card-header>
-                          <div style="font-weight: 600;color: #009199;">{{info.name}}</div>
-                        </md-card-header>
+                     <div v-if="!showcompletedNoMessage">
+                        <v-layout row wrap>
+                          <v-flex xl12 lg12 md12 sm12 xs12>
+                            <v-layout row wrap>
+                              <v-flex xl3 lg4 md5 sm5 xs12 style="margin: 10px 5px;" v-for="info in completedArray" :key="info.idx" :info="info"  @click="gohead(info,1)">
+                                  <md-card style="width:100%;margin: 0;" md-with-hover>
+                                    <md-card-header>
+                                      <div style="font-weight: 600;color: #009199;white-space: nowrap;text-overflow: ellipsis;overflow:hidden;">{{info.name}}</div>
+                                    </md-card-header>
 
-                        <md-card-content style="min-height: 60px;">
-                          {{info.remark}}
-                        </md-card-content>
-                        <md-card-actions>
-                            <div class="md-layout-item md-size-100" style="display: inline-flex;text-align:center;">
-                                <div class="md-layout-item md-size-65">
-                                    <span>完成时间：{{info.endTime.slice(0, 10)}}</span>
-                                </div>
-                                <div class="md-layout-item md-size-35">
-                                    <span style="color:rgb(47, 165, 172);">查看报告</span>
-                                </div>
-                            </div>
-                        </md-card-actions>
-                      </md-card>
-                    </div>
-                    <div v-if="showcompletedMore" style="padding: 2% 12%;text-align: right;" >
-                      <span @click="more()" style="cursor: pointer;">查看更多</span>
-                    </div>
+                                    <md-card-content style="min-height: 60px;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;">
+                                      {{info.remark}}
+                                    </md-card-content>
+                                    <md-card-actions>
+                                        <div class="md-layout-item md-size-100" style="display: inline-flex;text-align:center;">
+                                            <div class="md-layout-item md-size-65">
+                                                <span>完成时间：{{info.endTime.slice(0, 10)}}</span>
+                                            </div>
+                                            <div class="md-layout-item md-size-35">
+                                                <span style="color:rgb(47, 165, 172);">查看报告</span>
+                                            </div>
+                                        </div>
+                                    </md-card-actions>
+                                  </md-card>
+                              </v-flex>
+                            </v-layout>
+                          </v-flex>
+                        </v-layout>
+                     </div>
+                     <div v-if="showcompletedMore" style="padding: 2% 12%;text-align: right;" >
+                       <span @click="more()" style="cursor: pointer;">查看更多</span>
+                     </div>
                 </div>
             </div>
         </div>
         <md-dialog :md-active.sync="firstLogin" style="width: 60%;overflow: overlay;">
           <md-dialog-title style="border-bottom: 1px solid lightgray;padding: 2% 5%;font-size: 20pt;">完善企业信息</md-dialog-title>
-
-            <!-- <div class="infobody">
-                <div>
-                        <div>
-                            <div class="infoItem">
-                                    <span style="color:red;margin: 6% 0;">*</span>
-                                    <span class="spantitle">企业名称：</span>
-                                    <md-field :class="enterpriseNameMessageClass">
-                                        <md-input v-model="enterpriseName" v-on:input ="inputFunc(1)" @click="showTips(1)" placeholder="给目标起个名字吧"  required></md-input>
-                                        <span class="md-error" v-if="showenterpriseNameErr">{{enterpriseNameErr}}</span>
-                                    </md-field>
-                                </div>
-                            </div>
-                        <div>
-                            <div class="infoItem">
-                                <span style="color:red;margin: 6% 0;">*</span>
-                                <span class="spantitle">企业简称：</span>
-                                <md-field :class="enterpriseSNameMessageClass">
-                                    <md-input v-model="enterpriseSName" v-on:input ="inputFunc(2)" @click="showTips(2)" placeholder="给目标起个名字吧"  required></md-input>
-                                    <span class="md-error" v-if="showenterpriseSNameErr">{{enterpriseSNameErr}}</span>
-                                </md-field>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="infoItem">
-                                <span style="margin: 6% 0;width:26%">企业图标：</span>
-                                <md-field style=" width:48%;margin-right: 5%;"  ref="file">
-                                    <label style="cursor: pointer;">上传logo</label>
-                                    <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
-                                </md-field>
-                                <md-avatar><img :src="imageSrc"/></md-avatar>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="infoItem">
-                                <span class="spantitle">组织机构代码：</span>
-                                <md-field>
-                                    <label></label>
-                                    <md-input v-model="OrganizationCode"></md-input>
-                                </md-field>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="infoItem">
-                                <span style="color:red;margin: 6% 0;">*</span>
-                                <span class="spantitle" style="width:24%">所在地区：</span>
-                                    <cityPicker style="width:74%;margin:4% 0 0 0"></cityPicker>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="infoItem">
-                                <span style="color:red;margin: 6% 0;">*</span>
-                                <span class="spantitle" style="width:24%">所属行业：</span>
-                                <div class="md-layout-item" style="width:75%">
-                                    <md-field>
-                                        <md-select v-model="selectIndustry1" name="Industry" id="Industry" md-dense>
-                                            <md-option value="australia1">化学制品</md-option>
-                                            <md-option value="brazil1">容器与包装</md-option>
-                                            <md-option value="japan1">金属与采矿</md-option>
-                                            <md-option value="united-states6">纸品与林业产品</md-option>
-                                            <md-option value="australia2">电器设备</md-option>
-                                            <md-option value="brazil">机械制造</md-option>
-                                            <md-option value="japan5">汽车零配件</md-option>
-                                            <md-option value="united-states4">汽车</md-option>
-                                            <md-option value="australia3">家庭耐用消费品</md-option>
-                                            <md-option value="brazil2">休闲设备与日用品</md-option>
-                                            <md-option value="japan">纺织品、服装与奢侈品</md-option>
-                                            <md-option value="united-states3">饮料</md-option>
-                                            <md-option value="australia6">食品</md-option>
-                                            <md-option value="brazil3">烟草</md-option>
-                                            <md-option value="japan">居家用品</md-option>
-                                            <md-option value="united-states">制药</md-option>
-                                            <md-option value="united-states1">通讯设备、电子设备、仪器和元器件</md-option>
-                                            <md-option value="united-states2">半导体产品和设备</md-option>
-                                        </md-select>
-                                    </md-field>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="infoItem">
-                                <span class="spantitle" style="width:24%">企业规模：</span>
-                                <div class="md-layout-item" style="width:75%">
-                                    <md-field>
-                                        <md-select v-model="companySize" name="companySize" id="companySize" md-dense>
-                                            <md-option value="australia">100人以内</md-option>
-                                            <md-option value="brazil">500人以内</md-option>
-                                            <md-option value="japan">1000人以内</md-option>
-                                            <md-option value="united-states">大于1000人</md-option>
-                                        </md-select>
-                                    </md-field>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="infoItem">
-                                <span class="spantitle" style="width:24%">年销售收入：</span>
-                                <div class="md-layout-item" style="width:75%">
-                                    <md-field>
-                                        <md-select v-model="companyInput" name="companyInput" id="companyInput" md-dense>
-                                            <md-option value="australia">1000万以内</md-option>
-                                            <md-option value="brazil">5000万以内</md-option>
-                                            <md-option value="japan">1亿以内</md-option>
-                                            <md-option value="united-states">大于1亿</md-option>
-                                        </md-select>
-                                    </md-field>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-                <md-button class="md-dense md-raised md-primary" style="width:10%;" @click="save()">完成</md-button>
-            </div> -->
             <div  style="padding: 0 10%;">
              <div class="md-layout" style="background-color: white;padding: 1% 3% 5% 3%;">
                 <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">

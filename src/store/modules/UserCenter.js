@@ -27,9 +27,6 @@ const mutations = {
   changePasswordcheckWay(state, value) {
     state.modifyPassword.checkWay = value;
   },
-  // changePasswordVerificationCode(state, value) {
-  //   state.modifyPassword.VerificationCode = value;
-  // },
   changeShowCityPicker(state, value) {
     state.enterpriseInfo.showCityPicker = value;
   },

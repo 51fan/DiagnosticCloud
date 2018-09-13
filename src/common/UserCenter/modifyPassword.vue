@@ -40,7 +40,7 @@
                             <div v-if="changeCheckWay">
                               <div class="md-layout-item md-size-100" style="padding: 0 6% 3% 6%;text-align: left;">
                                 <span>我们将会向您的手机</span>
-                                <span style="color: rgb(0, 145, 153);">+86{{usermobile}}</span>
+                                <span style="color: rgb(0, 145, 153);">{{usermobile}}</span>
                                 <span> 发送验证短信，请将收到的验证码填入下方完成验证</span>
                               </div>
                               <v-layout row wrap>
@@ -51,8 +51,8 @@
                                   </div>
                                 </v-flex>
                                 <v-flex xl5 lg5 md5 sm5 xs12>
-                                    <el-button v-if="!showCount" style="margin-left: -16%;" @click="getVerificationCode(1)">{{verftext}}</el-button>
-                                    <el-button v-if="showCount" disabled style="margin-left: -16%;" @click="getVerificationCode(1)">{{phonetime}}{{verftext}}</el-button>
+                                    <el-button v-if="!showPhoneCount" style="margin-left: -16%;" @click="getVerificationCode(1)">{{PhoneCounttext}}</el-button>
+                                    <el-button v-if="showPhoneCount" disabled style="margin-left: -16%;" @click="getVerificationCode(1)">{{phonetime}}{{PhoneCounttext}}</el-button>
                                 </v-flex>
                               </v-layout>
                             </div>
@@ -70,8 +70,8 @@
                                   </div>
                                 </v-flex>
                                 <v-flex xl5 lg5 md5 sm5 xs12>
-                                  <el-button v-if="!showCount" style="margin-left: -16%;"  @click="getVerificationCode(2)">{{verftext}}</el-button>
-                                  <el-button v-if="showCount" disabled style="margin-left: -16%;"  @click="getVerificationCode(2)">{{emailtime}}{{verftext}}</el-button>
+                                  <el-button v-if="!showEmialCount" style="margin-left: -16%;"  @click="getVerificationCode(2)">{{EmialCounttext}}</el-button>
+                                  <el-button v-if="showEmialCount" disabled style="margin-left: -16%;"  @click="getVerificationCode(2)">{{emailtime}}{{EmialCounttext}}</el-button>
                                 </v-flex>
                               </v-layout>
                             </div>
@@ -206,11 +206,16 @@ export default {
     emailtime: 0,
     time: 0,
     counter: "",
+    phonetimeCounter: "",
+    emailtimeCounter: "",
     showAlert: false,
     AlertMessage: "",
-    showCount: false,
+    showPhoneCount: false,
+    showEmialCount: false,
     VerificationCode: "",
-    verftext: "获取验证码",
+    // verftext: "获取验证码",
+    PhoneCounttext: "获取验证码",
+    EmialCounttext: "获取验证码",
     vcErrText: "",
     showVCErr: false,
     acconut: "",
@@ -370,11 +375,6 @@ export default {
       }
     },
     getVerificationCode(index) {
-      if (this.changeCheckWay) {
-        if (this.phonetime !== 0) return;
-      } else {
-        if (this.emailtime !== 0) return;
-      }
       let $this = this,
         apikey = "",
         type = "post",
@@ -392,16 +392,19 @@ export default {
           url = "/IBUS/DAIG_SYS/sendSms";
           request.mobile = this.usermobile;
           request.type = 1;
+          this.PhoneCounttext = "获取验证码";
           break;
         case 2:
           url = "/IBUS/DAIG_SYS/resetPasswordByEmail";
           request.email = this.useremail;
           request.type = 0;
+          this.EmialCounttext = "获取验证码";
           break;
         default:
+          // this.verftext = "获取验证码";
           break;
       }
-      this.verftext = "获取验证码";
+
       //请求接口
       $this
         .$http({
@@ -416,14 +419,16 @@ export default {
             $this.AlertMessage = res.data.errorMsg;
           } else {
             if ($this.changeCheckWay) {
-              $this.showCount = true;
+              $this.showPhoneCount = true;
+              $this.showEmialCount = false;
               // $this.showPhoneText = true;
-              $this.verftext = "秒后重新获取验证码";
+              $this.PhoneCounttext = "秒后重新获取验证码";
               $this.goLogin(60);
             } else {
-              $this.showCount = true;
+              $this.showPhoneCount = false;
+              $this.showEmialCount = true;
               // $this.showEmailText = true;
-              $this.verftext = "秒后重新获取验证码";
+              $this.EmialCounttext = "秒后重新获取验证码";
               $this.goLogin(60);
             }
           }
@@ -513,13 +518,19 @@ export default {
       var reg = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,16}$/;
       return reg.test(pass);
     },
+    isEmail(str) {
+      let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+      return reg.test(str);
+    },
     countDown() {
       if (this.currentStep == 1) {
-        if (this.changeCheckWay) {
-          this.phonetime--;
-        } else {
-          this.emailtime--;
-        }
+        this.phonetime--;
+        this.emailtime--;
+        // if (this.changeCheckWay) {
+        //   this.phonetime--;
+        // } else {
+        //   this.emailtime--;
+        // }
       }
       if (this.currentStep == 3) {
         this.time--;
@@ -530,10 +541,11 @@ export default {
       if (this.currentStep == 1) {
         if (this.changeCheckWay) {
           this.phonetime = num;
+          this.phonetimeCounter = setInterval(_this.countDown, 1000);
         } else {
           this.emailtime = num;
+          this.emailtimeCounter = setInterval(_this.countDown, 1000);
         }
-        this.counter = setInterval(_this.countDown, 1000);
       }
       if (this.currentStep == 3) {
         this.time = num;
@@ -560,7 +572,6 @@ export default {
   },
   watch: {
     time: function(newVal, oldVal) {
-      //   debugger;
       if (newVal == 0) {
         clearInterval(this.counter);
         if (this.currentStep == 3) {
@@ -580,26 +591,24 @@ export default {
       }
     },
     phonetime: function(newVal, oldVal) {
-      //   debugger;
       if (newVal == 0) {
-        clearInterval(this.counter);
-        if (this.showCount) {
-          this.verftext = "重新获取验证码";
+        clearInterval(this.phonetimeCounter);
+        if (this.showPhoneCount) {
+          this.PhoneCounttext = "重新获取验证码";
           if (this.changeCheckWay) {
-            this.showCount = false;
+            this.showPhoneCount = false;
             // $this.showPhoneText = true;
           }
         }
       }
     },
     emailtime: function(newVal, oldVal) {
-      //   debugger;
       if (newVal == 0) {
-        clearInterval(this.counter);
-        if (this.showCount) {
-          this.verftext = "重新获取验证码";
+        clearInterval(this.emailtimeCounter);
+        if (this.showEmialCount) {
+          this.EmialCounttext = "重新获取验证码";
           if (!this.changeCheckWay) {
-            this.showCount = false;
+            this.showEmialCount = false;
             // $this.showPhoneText = true;
           }
         }
@@ -607,15 +616,25 @@ export default {
     },
     changeCheckWay: function(newVal, oldVal) {
       if (newVal == true) {
-        clearInterval(this.counter);
-        this.phonetime = 0;
-        this.showCount = false;
-        this.verftext = "获取验证码";
+        if (this.phonetime > 0) {
+          this.showPhoneCount = true;
+          this.PhoneCounttext = "秒后重新获取验证码";
+        } else {
+          clearInterval(this.phonetimeCounter);
+          this.phonetime = 0;
+          this.showPhoneCount = false;
+          this.PhoneCounttext = "获取验证码";
+        }
       } else {
-        clearInterval(this.counter);
-        this.emailtime = 0;
-        this.showCount = false;
-        this.verftext = "获取验证码";
+        if (this.emailtime > 0) {
+          this.showEmialCount = true;
+          this.EmialCounttext = "秒后重新获取验证码";
+        } else {
+          clearInterval(this.emailtimeCounter);
+          this.emailtime = 0;
+          this.showEmialCount = false;
+          this.EmialCounttext = "获取验证码";
+        }
       }
     }
   },
@@ -637,7 +656,6 @@ export default {
     },
     changeCheckWay() {
       let showType = this.checkWay == "mobile" ? true : false;
-      //this.showCount = false;
       return showType;
     },
     usermobile: {
@@ -667,14 +685,6 @@ export default {
         this.$store.state.UserCenter.modifyPassword.checkWay = newValue;
       }
     }
-    // VerificationCode: {
-    //   get: function() {
-    //     return this.$store.state.UserCenter.modifyPassword.VerificationCode;
-    //   },
-    //   set: function(newValue) {
-    //     this.$store.state.UserCenter.modifyPassword.VerificationCode = newValue;
-    //   }
-    // }
   }
 };
 </script>

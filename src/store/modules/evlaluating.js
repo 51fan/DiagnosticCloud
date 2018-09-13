@@ -20,13 +20,14 @@ const state = {
     reportParm: {
       name: "",
       evaluationId: "",
-      enterpriseId:"",
+      enterpriseId: "",
       idx: "",
       datas: Object
     }
   },
-  evaluationCard:{
-    showErrAlert:false
+  evaluationCard: {
+    showErrAlert: false,
+    questionsData: Object
   }
 }
 
@@ -96,9 +97,12 @@ const mutations = {
   },
   changeSeeReport(state, value) {
     state.evaluatingPage.seeReport = value
-  }, 
+  },
   changeShowErrAlert(state, value) {
-    state.evaluatingPage.evaluationCard.showErrAlert = value
+    state.evaluationCard.showErrAlert = value
+  },
+  changeQuestions(state, value) {
+    state.evaluationCard.questionsData = value
   },
 }
 
