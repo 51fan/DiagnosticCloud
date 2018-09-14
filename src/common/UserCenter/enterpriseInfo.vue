@@ -1,6 +1,6 @@
 <template>
     <div class="mypanel">
-        <div  style="padding: 0 10%;">
+        <div>
           <div style="background-color: white;padding: 5%;">
               <v-layout row wrap>
                 <v-flex xl4 lg4   hidden-md-and-down style="border-right: 1px solid #efefef;">
@@ -103,7 +103,7 @@
                             </div>
                             <div class="md-layout-item md-size-60" style="text-align: left;">
                               <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                <div class="md-layout-item md-size-35 md-medium-size-35 md-small-size-80 md-xsmall-size-100">
+                                <div class="md-layout-item md-size-40 md-medium-size-35 md-small-size-80 md-xsmall-size-100">
                                   <el-select
                                       v-model="selectIndustry1"
                                       @change="choseIndusty1"
@@ -117,7 +117,7 @@
                                       </el-option>
                                   </el-select>
                                 </div>
-                                <div class="md-layout-item md-size-30 md-medium-size-32 md-small-size-80 md-xsmall-size-100">
+                                <div class="md-layout-item md-size-40 md-medium-size-32 md-small-size-80 md-xsmall-size-100">
                                   <el-select
                                       v-model="selectIndustry2"
                                       @change="choseIndusty2"
@@ -231,12 +231,12 @@
                         </div>
                         <div class="md-layout-item md-size-60" style="text-align: left;">
                           <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                            <div class="md-layout-item md-size-35 md-medium-size-35 md-small-size-80 md-xsmall-size-100">
+                            <div class="md-layout-item md-size-40 md-medium-size-35 md-small-size-80 md-xsmall-size-100">
                               <el-select v-model="vaule1" disabled placeholder="请选择">
                                   <el-option :value="selectIndustry1"></el-option>
                               </el-select>
                             </div>
-                            <div class="md-layout-item md-size-30 md-medium-size-32 md-small-size-80 md-xsmall-size-100">
+                            <div class="md-layout-item md-size-40 md-medium-size-32 md-small-size-80 md-xsmall-size-100">
                               <el-select v-model="vaule2" disabled placeholder="请选择">
                                   <el-option :value="selectIndustry2"></el-option>
                               </el-select>
@@ -586,7 +586,10 @@ export default {
         this.AlertMessage = "企业名称字符长度不能超过32位";
         return;
       }
-      if (this.NewenterpriseSName.length && this.NewenterpriseSName.length > 8) {
+      if (
+        this.NewenterpriseSName.length &&
+        this.NewenterpriseSName.length > 8
+      ) {
         this.showAlert = true;
         this.AlertMessage = "企业简称字符长度不能超过8位";
         return;
@@ -615,13 +618,12 @@ export default {
             $this.showAlert = true;
             $this.AlertMessage = res.data.errorMsg;
           } else {
-            
-            $this.province = $this.selectProvince ;
+            $this.province = $this.selectProvince;
             $this.city = $this.selectCity;
-            $this.area = $this.selectCounty ;
+            $this.area = $this.selectCounty;
             $this.OldenterpriseName = $this.NewenterpriseName;
             $this.OldenterpriseSName = $this.NewenterpriseSName;
-            $this.OldOrganizationCode = $this.NewOrganizationCode ;
+            $this.OldOrganizationCode = $this.NewOrganizationCode;
             $this.OldcompanySize = $this.NewcompanySize;
             $this.OldcompanyInput = $this.NewcompanyInput;
             $this.vaule1 = $this.selectIndustry1;
@@ -690,15 +692,15 @@ export default {
         file.type === "image/jpeg" ||
         file.type === "image/gif" ||
         file.type === "image/bmp";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isLt2M = file.size / 1024 / 1024 > 1;
 
       if (!isJPG) {
         this.$message.error("上传图片只能是 JPG、png、jpeg、gif、bmp 格式!");
       }
-      if (!isLt2M) {
+      if (isLt2M) {
         this.$message.error("上传图片大小不能超过 1MB!");
       }
-      return isJPG && isLt2M;
+      return isJPG && !isLt2M;
     },
     get_industry_type() {
       let $this = this,
@@ -773,12 +775,17 @@ export default {
         .then(res => {
           //   console.log(res);
           $this.Industry2 = res.data.return;
+          if ($this.Industry2 !== []) {
+            $this.selectIndustry2 = $this.Industry2[0].title;
+          }
         })
         .catch(err => {
           console.log(err);
         });
     },
-    choseIndusty2() {}
+    choseIndusty2(e) {
+      this.selectIndustry2 = e;
+    }
   },
   computed: {
     useremail() {

@@ -1,27 +1,27 @@
 <template>
     <div class="mypanel" style="font-size: xx-large;">
         <div class="md-layout" style="flex-wrap: nowrap;background-color: white;">
-            <div class="md-layout-item md-size-20" style="border-right: 1px solid lightgray;">
+            <div class="md-layout-item md-size-25" style="border-right: 1px solid lightgray;">
                 <img style="padding: 25% 10% 10%;" :src="conmpanyLogo"/>
                 <div style="font-size: medium;padding: 5%;">{{companyName}}</div>
                 <div  style="color:rgb(47, 165, 172);font-size: small;cursor: pointer;padding: 5%;" @click="viewEnterpriseInfo()">查看企业信息</div>
             </div>
-            <div class="md-layout-item md-size-80" style="text-align: left;padding-top: 2%;font-size: medium;">
+            <div class="md-layout-item md-size-75" style="text-align: left;padding-top: 2%;font-size: medium;">
                 <div style="width: 90%;padding-bottom: 2%;margin: 0 5%;height:200px">
                     <div class="md-layout-item md-size-100" style="display: inline-flex;border-bottom: 1px solid lightgray;height: 100%;">
-                        <div class="md-layout-item md-size-20" style="text-align:center;">
-                            <md-avatar style="margin-top: 25%;"><img :src="PersonalimageSrc" /></md-avatar>
+                        <div class="md-layout-item md-xlarge-size-15 md-large-size-18 md-medium-size-25 md-small-size-30 md-xsmall-size-40" style="text-align:left;margin-top: 3%;">
+                          <img  style="width:120px;height: 120px;border-radius: 50%;" :src="PersonalimageSrc" />
                         </div>
-                        <div class="md-layout-item md-size-60">
-                            <div style="margin: 7% 4% 1%;">{{username}}，欢迎您</div>
+                        <div class="md-layout-item md-large-size-60 md-medium-size-60 md-small-size-60 md-xsmall-size-60" style="margin: 6% 0px;">
+                            <div style="margin: 0 4% 1%;font-size: 24px;">{{username}}，欢迎您</div>
                             <div style="margin: 3% 3%;">
-                                <span style="margin: 1%;">{{position}}</span>
+                                <span style="margin: 1%;color: rgba(120, 120, 120, 1);">{{position}}</span>
                                 <span style="border-right: 2px solid #a7acb7;"></span>
-                                <span style="margin: 1%;">{{department}}</span>
+                                <span style="margin: 1%;color: rgba(120, 120, 120, 1);">{{department}}</span>
                                 <span style="margin: 3%;color:rgb(47, 165, 172);cursor: pointer;font-size: small;" @click="viewPersonalInfo()">进入个人中心</span>
                             </div>
                         </div>
-                        <div class="md-layout-item md-size-20"></div>
+                        <div class="md-layout-item md-large-size-20 md-medium-hide"></div>
                     </div>
                 </div>
                 
@@ -34,7 +34,7 @@
                                     <div class="md-layout-item md-size-20" ></div>
                                     <div class="md-layout-item md-size-60" style="text-align: center;height: 200px;padding: 5%;">
                                         <div style="font-size: x-large;padding: 20px;">
-                                            <span>您当前无正在进行中的测评</span>
+                                            您当前无正在进行中的测评
                                         </div>
                                         <span style="color: #009199;text-decoration: underline;font-size: medium;">去测评</span>
                                     </div>
@@ -47,8 +47,9 @@
                         <v-layout row wrap>
                           <v-flex xl12 lg12 md12 sm12 xs12>
                             <v-layout row wrap>
-                              <v-flex xl3 lg4 md5 sm5 xs12 style="margin: 10px 5px;" v-for="info in discompletedArray" :key="info.idx" :info="info"  @click="gohead(info,2)">
-                                  <md-card style="width:100%;margin: 0;" md-with-hover>
+                              <v-flex xl4 lg6 md6 sm12 xs12 v-for="info in discompletedArray" :key="info.idx" :info="info"  @click="gohead(info,2)">
+                                <div style="padding: 5px;">
+                                  <md-card style="width:100%;margin:0;" md-with-hover>
                                     <md-card-header>
                                       <div style="font-weight: 600;color: #009199;white-space: nowrap;text-overflow: ellipsis;overflow:hidden;">{{info.name}}</div>
                                     </md-card-header>
@@ -70,36 +71,12 @@
                                           </div>
                                       </md-card-actions>
                                   </md-card>
+                                </div>
                               </v-flex>
                             </v-layout>
                           </v-flex>
                         </v-layout>
                      </div>
-                    <!-- <div v-if="!showdiscompletedNoMessage" class="md-layout-item md-size-30 md-medium-size-33 md-small-size-50 md-xsmall-size-100"  v-for="info in discompletedArray" :key="info.idx" :info="info" style="display: inline-flex;min-height: 200px;" @click="gohead(info,2)">
-                      <md-card style="width:300px;margin-bottom: 16px;" md-with-hover>
-                        <md-card-header>
-                          <div style="font-weight: 600;color: #009199;white-space: nowrap;text-overflow: ellipsis;overflow:hidden;">{{info.name}}</div>
-                        </md-card-header>
-
-                        <md-card-content style="height: 60px;overflow: hidden;">
-                         <span :title="info.remark"> {{info.remark}}</span>
-                        </md-card-content>
-                        <md-card-content style="min-height: 60px;">
-                          测评时间：{{info.startTime.slice(0, 10)}}
-                        </md-card-content>
-                        <md-card-actions>
-                            <div class="md-layout-item md-size-100" style="display: inline-flex;text-align:center;">
-                                <div class="md-layout-item md-size-75">
-                                    <el-progress :percentage="info.complete_degree" ></el-progress>
-                                </div>
-                                <div class="md-layout-item md-size-25">
-                                    <span style="color:rgb(47, 165, 172);" >继续</span>
-                                </div>
-                            </div>
-                        </md-card-actions>
-                        
-                      </md-card>
-                    </div> -->
                     <div v-if="showdiscompletedMore" style="padding: 2% 12%;text-align: right;" >
                       <span @click="more()" style="cursor: pointer;">查看更多</span>
                     </div>
@@ -126,7 +103,8 @@
                         <v-layout row wrap>
                           <v-flex xl12 lg12 md12 sm12 xs12>
                             <v-layout row wrap>
-                              <v-flex xl3 lg4 md5 sm5 xs12 style="margin: 10px 5px;" v-for="info in completedArray" :key="info.idx" :info="info"  @click="gohead(info,1)">
+                              <v-flex xl4 lg6 md6 sm12 xs12 v-for="info in completedArray" :key="info.idx" :info="info"  @click="gohead(info,1)">
+                                <div style="padding:5px">
                                   <md-card style="width:100%;margin: 0;" md-with-hover>
                                     <md-card-header>
                                       <div style="font-weight: 600;color: #009199;white-space: nowrap;text-overflow: ellipsis;overflow:hidden;">{{info.name}}</div>
@@ -146,13 +124,14 @@
                                         </div>
                                     </md-card-actions>
                                   </md-card>
+                                </div>
                               </v-flex>
                             </v-layout>
                           </v-flex>
                         </v-layout>
                      </div>
-                     <div v-if="showcompletedMore" style="padding: 2% 12%;text-align: right;" >
-                       <span @click="more()" style="cursor: pointer;">查看更多</span>
+                     <div v-if="showcompletedMore" style="padding: 2% 3%;text-align: right;" >
+                       <span @click="more()" style="cursor: pointer;color:RGBA(0, 145, 153, 1);font-size: 18px;font-weight: 500;">查看更多</span>
                      </div>
                 </div>
             </div>
@@ -406,9 +385,9 @@ export default {
     enterpriseName: "",
     enterpriseSName: "",
     OrganizationCode: "",
-    conmpanyLogo: "/static/imgs/company.png",
+    conmpanyLogo: "/static/imgs/ic_logo.png",
     PersonalimageSrc: "/static/imgs/ic_user.png",
-    imageSrc: "/static/imgs/noImage.png",
+    imageSrc: "/static/imgs/ic_logo.png",
     upadteSrc: "",
     updateData: "",
     imgUrl: "",
@@ -741,15 +720,15 @@ export default {
         file.type === "image/jpeg" ||
         file.type === "image/gif" ||
         file.type === "image/bmp";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isLt2M = file.size / 1024 / 1024 >1;
 
       if (!isJPG) {
         this.$message.error("上传图片只能是 JPG、png、jpeg、gif、bmp 格式!");
       }
-      if (!isLt2M) {
+      if (isLt2M) {
         this.$message.error("上传图片大小不能超过 1MB!");
       }
-      return isJPG && isLt2M;
+      return isJPG && !isLt2M;
     },
     getUserTestAllInfo() {
       let $this = this,
@@ -838,9 +817,9 @@ export default {
             $this.conmpanyLogo =
               $this.InfoArray.user_enter.logo !== null
                 ? $this.InfoArray.user_enter.logo == ""
-                  ? "/static/imgs/updateLogo.png"
+                  ? "/static/imgs/ic_logo.png"
                   : "/IMAGE/" + $this.InfoArray.user_enter.logo
-                : "/static/imgs/updateLogo.png";
+                : "/static/imgs/ic_logo.png";
           }
         })
         .catch(error => {
@@ -932,8 +911,7 @@ export default {
             data.answered_count + 1
           );
           $this.$store.commit("evlaluating/changeIsShowReport", false);
-          $this.$store.commit("evlaluating/changeEvaluationStart", true);
-          $this.$router.push("/evaluating");
+          $this.getQuestionData(data.id);
           break;
         default:
           break;
@@ -973,12 +951,17 @@ export default {
           request
         })
         .then(res => {
-          console.log(res);
           $this.Industry2 = res.data.return;
+          if ($this.Industry2 !== []) {
+            $this.selectIndustry2 = $this.Industry2[0].title;
+          }
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    choseIndusty2(e){
+      this.selectIndustry2 = e;
     },
     goEvalution() {
       this.$store.commit("home/getTabsactiveIndex", "2");
@@ -1024,6 +1007,62 @@ export default {
         loading.close();
         $this.$router.push("/evaluating");
       });
+    },
+    getQuestionData(id) {
+      let $this = this;
+      let apikey = "",
+        request = {
+          id: id,
+          session_id: this.session_id
+        },
+        // url = "/static/jsons/evaluation.json",
+        // type = "GET",
+        url = "/IBUS/DAIG_SYS/getQuestion",
+        type = "POST",
+        param = {
+          apikey,
+          request
+        };
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          //debugger;
+          if (res.data.errorCode !== 0) {
+            if (res.data.errorCode == "-8") {
+              $this.$store.commit(
+                "evlaluating/changeShowevaluatingPage",
+                false
+              );
+              // $this.$store.commit("evlaluating/changeShowErrAlert", true);
+              $this.showErrAlert = true;
+              $this.AlertMessage = res.data.errorMsg;
+            } else {
+              $this.showAlert = true;
+              $this.AlertMessage = res.data.errorMsg;
+            }
+          } else {
+            console.log("card");
+
+            $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
+            $this.$store.commit(
+              "evlaluating/getCurrentEvaluationName",
+              this.name
+            );
+            $this.$store.commit("evlaluating/getCurrentEvaluationId", id);
+            $this.$store.commit("evlaluating/changeQuestions", res.data);
+            $this.$store.commit("evlaluating/changeEvaluationStart", true);
+
+            $this.$router.push("/evaluating");
+          }
+          // console.log($this.questionsList);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
   created: () => {}

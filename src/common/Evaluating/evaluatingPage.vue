@@ -25,10 +25,10 @@
               
                 <!--上一题  -->
                 <!-- <div class="panelContentbodyleft" @click="preItem()"> -->
-                <div  class="md-layout-item md-size-10 textCenter highlight" style="padding-top: 25%;" @click="preItem()">
+                <div v-if="questionIndex!==1" class="md-layout-item md-size-10 textCenter highlight" style="padding-top: 25%;" @click="preItem()">
                     <md-icon class="iconSize"  >keyboard_arrow_left</md-icon>
                 </div>
-            
+                <div v-if="questionIndex==1" class="md-layout-item md-size-10" style="padding-top: 25%;"></div>
                 <!--试题正文  -->
                 <div class="md-layout-item textCenter" style="background-color: white;">
                   <answerPage v-for="question in questionsList" :key="question.id" :question="question"  @selectedAnswer="pushAnswer"></answerPage>
@@ -36,9 +36,10 @@
 
                 <!--下一题  -->
                 <!-- <div class="panelContentbodyRight" @click="nextItem()"> -->
-                <div  class="md-layout-item md-size-10 textCenter highlight" style="padding-top: 25%;" @click="nextItem()">
+                <div v-if="questionIndex!==questionCounts" class="md-layout-item md-size-10 textCenter highlight" style="padding-top: 25%;" @click="nextItem()">
                     <md-icon class="iconSize"  >keyboard_arrow_right</md-icon>
                 </div>
+                <div v-if="questionIndex==questionCounts" class="md-layout-item md-size-10" style="padding-top: 25%;"></div>
                  <md-dialog-alert
                   class="md-primary md-raised"
                   :md-active.sync="showAlert"
@@ -405,6 +406,7 @@ export default {
             $this.$store.commit("evlaluating/changeEvaluationfinished", true);
             $this.$store.commit("evlaluating/getCurrentIndex", 1);
             $this.$store.commit("evlaluating/getQuestionIndex", 1);
+            $this.createReportData();
           })
           .catch(err => {
             console.log(err);
@@ -476,6 +478,41 @@ export default {
         this.showAlert = true;
         this.AlertMessage = "请完成当前答题后再进入下一题";
       }
+    },
+    createReportData() {
+      let apikey = "";
+      let request = {
+          evaluationId: this.currentEvaluationId,
+          idx: this.currentEvaluationIdx,
+          session_id: this.session_id
+        },
+        param = {
+          apikey,
+          request
+        },
+        // type = "GET",
+        // url = "/static/jsons/sorce.json";
+        type = "POST",
+        url = "/IBUS/DAIG_SYS/report_datas_statistic";
+      this.getReport_datas_statistic(type, url, param);
+    },
+    getReport_datas_statistic(type, url, param) {
+      let $this = this;
+      this.$http({
+        method: type,
+        url: url,
+        data: param
+      }).then(res => {
+        if (res.data.errorCode !== 0) {
+          console.log(res.data.errorMsg);
+          return;
+        }
+        $this.$store.commit("evlaluating/getReportParm", {
+          key: "datas",
+          value: res.data.return
+        });
+        $this.$emit("viewfinishedReport", true);
+      });
     }
   },
   computed: {

@@ -1,12 +1,19 @@
 <template>
     <div class="mypanel">
-        <div v-if="showRegisterPage" class="md-layout-item md-size-100" style="display: inline-flex;">
-          <div class="md-layout-item md-size-65" style="color: white;font-size: xx-large;">
-            <div style="margin: 15% 0 0 0;">中国企业核心能力</div>
-            <div style="margin: 3% 0 0 96px;">测评分析和改善领域最大</div>
-            <div style="margin: 3% 99px 0 0;">服务提供商</div>
+        <div v-if="showRegisterPage" class="md-layout-item md-size-100" style="display: inline-flex;height:600px;">
+          <div class="md-layout-item md-xlarge-1 md-large-1 md-medium-1    md-small-size-10 md-xsmall-hide"></div>
+          <div class="md-layout-item  md-xlarge-size-65   md-large-size-65   md-medium-size-60 md-small-hide    md-xsmall-hide" style="color: white;font-size: xx-large;">
+            <div style="margin: 12% 0 0 0;">
+              <span>中国企业核心能力</span>
+            </div>
+            <div style="margin: 3% 0 0 96px;">
+              <span>测评分析和改善领域最大</span>
+            </div>
+            <div style="margin: 3% 99px 0 0;">
+              <span>服务提供商</span>
+            </div>
           </div>
-          <div class="md-layout-item md-size-30">
+          <div class="md-layout-item md-xlarge-size-30   md-large-size-40   md-medium-size-40 md-small-size-80 md-xsmall-size-100">
             <div class="cardstyle">
               <div class="md-layout-item md-size-100" style="display: inline-flex;">
                 <div class="md-layout-item md-size-10" ></div>
@@ -122,8 +129,9 @@
                 </md-dialog-actions>
               </md-dialog>
 
+            </div>
           </div>
-          </div>
+          <div class="md-layout-item md-xlarge-1 md-large-1 md-medium-1    md-small-size-10 md-xsmall-hide"></div>
         </div>
         <registerSuccess v-if="!showRegisterPage"></registerSuccess>
     </div>

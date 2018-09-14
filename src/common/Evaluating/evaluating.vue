@@ -8,7 +8,6 @@
               <!-- 搜索栏 -->
               <div style="width: 30%;margin-left: 35%;padding-bottom: 52px;">
                   <md-field>
-                      <!-- <md-input v-model="searchKey" placeholder="关键字搜索" @change="searchfun" style="background-color: #406171;"></md-input> -->
                       <input type="text" v-model="searchKey" @change="searchfun" placeholder="请输入" style="width: 100%;background:rgba(87, 174, 179, 0.3);border:none;padding: 0 15px;outline: none;"/>
                       <i class="material-icons" style="cursor: pointer;background-color: #009199;padding: 4px;" @click="searchfun()">search</i>       
                   </md-field>
@@ -17,15 +16,10 @@
           <div style="width: 80%;margin: 0 10%;background-color: white;">
             <el-tabs v-model="categoryName" style="padding: 0 20px;" @tab-click="categorySelectFun">
               <el-tab-pane style="padding:0 20px;" v-for="category in categories" :label="category.name" :key="category.name" :name="category.name"></el-tab-pane>
-              <!-- <el-tab-pane label="全部" name="first"></el-tab-pane>
-              <el-tab-pane label="测评中" name="second"></el-tab-pane>
-              <el-tab-pane label="已完成" name="third"></el-tab-pane> -->
+
             </el-tabs>
           </div>
-          
-          <!-- <md-tabs style="width: 80%;margin: 0 10%;">
-              <md-tab :md-label="category.name" v-for="category in categories" :category="category" :key="category.name" @click="categorySelectFun(category.name)"></md-tab>
-          </md-tabs> -->
+
           <div class="md-layout mypanel">
             <v-layout row wrap>
                <v-flex xl12 lg12 md12 sm12 xs12>
@@ -34,17 +28,25 @@
                       <EvaluationCard :evalution="evalution" style="width：100%;margin: 10px 5px;"></EvaluationCard>
                    </v-flex>
                  </v-layout>
+                 <div v-if="hasNoReslut">
+                    <md-card style="width: 100%;margin: 10px 0;">
+                       <div class="md-layout" style="width:100%;">
+                           <div class="md-layout-item md-size-20" ></div>
+                           <div class="md-layout-item md-size-60" style="text-align: center;height: 400px;padding: 8%;">
+                               <div style="font-size: x-large;padding: 20px;">搜索无合适结果,请重新搜素</div>
+                           </div>
+                           <div class="md-layout-item md-size-20" ></div>
+                       </div>
+                    </md-card>
+                 </div>
                </v-flex>
             </v-layout>
-              <!-- <EvaluationCard  class="md-layout-item md-size-25  md-medium-size-33 md-small-size-50 md-xsmall-size-100" v-for="evalution in evalutionLists" :evalution="evalution" :key="evalution.id"></EvaluationCard> -->
           </div>
         </div>
         <div v-if="showevaluatingPage">
           <EvaluatingPage></EvaluatingPage>
         </div>
-        <!-- <div v-if="showmask">
-          <md-progress-spinner class="md-primary" md-mode="indeterminate"></md-progress-spinner>
-        </div> -->
+
         <md-dialog-alert
                   class="md-primary md-raised"
                   :md-active.sync="showErrAlert"
@@ -109,8 +111,8 @@ textarea:-ms-input-placeholder {
 </style>
 <style>
 .el-tabs__item {
-  font-size: 16px!important;
-  font-weight: 600!important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
 }
 </style>
 
@@ -137,7 +139,8 @@ export default {
       searchArry: [],
       showEvaluationArray: [],
       alertMessage: "正在答卷数量不能超过三个,请先完全其他正在答题的测评",
-      categoryName: "全部"
+      categoryName: "全部",
+      hasNoReslut: false
     };
   },
   props: {
@@ -160,10 +163,13 @@ export default {
   },
   methods: {
     categorySelectFun(e) {
+      this.searchKey = '';
       let targetArrays = [];
       if (e.label == "全部") {
+        this.hasNoReslut = false;
         this.evalutionLists = this.evalutionAllLists;
       } else {
+        this.hasNoReslut = false;
         this.evalutionAllLists.forEach(function(item) {
           if (item.categories == e.label) {
             targetArrays.push(item);
@@ -208,6 +214,7 @@ export default {
           request
         };
       if (this.searchKey == "") {
+        $this.hasNoReslut = false;
         $this.evalutionLists = $this.evalutionAllLists;
       } else {
         $this
@@ -223,6 +230,7 @@ export default {
             } else {
               $this.searchArry = res.data.result;
               if ($this.searchArry && $this.searchArry.length > 0) {
+                $this.hasNoReslut = false;
                 let array = [];
                 for (var i in $this.searchArry) {
                   for (var j in $this.evalutionLists)
@@ -232,7 +240,8 @@ export default {
                 }
                 $this.evalutionLists = array;
               } else {
-                $this.evalutionLists = $this.evalutionAllLists;
+                $this.hasNoReslut = true;
+                $this.evalutionLists = [];
               }
             }
           })

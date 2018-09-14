@@ -1,8 +1,8 @@
 <template>
 <div>
     <div>
-        <md-app>
-          <md-app-toolbar class="md-large md-dense md-transparent" >
+        <md-app :md-scrollbar='scrollbar' >
+          <md-app-toolbar class="md-large md-dense md-transparent">
             <!-- <div class="md-toolbar-row">
               <div class="md-toolbar-section-start">
                 <md-button class="md-icon-button" @click="toggleMenu" v-if="showUserCenterButton" >
@@ -37,14 +37,15 @@
               </div>
             </div> -->
 
-            <div class="md-toolbar-row">
+            <div class="md-toolbar-row" style="margin: 1px 0px;">
                 <div class="md-layout-item md-size-10">
                     <!-- <img src="/static/imgs/logo_magpie.png" @click="gohome()" style="cursor: pointer;" alt="扁鹊云"> -->
-                    <div class="md-toolbar-section-end">
-                      <img src="/static/imgs/huazhilogo.png" alt="扁鹊云">
-                    </div>
+                    
                 </div>
-                <div class="md-layout-item md-size-80">
+                <div class="md-layout-item md-size-80" style="display: inline-flex;">
+                  <div class="md-toolbar-section-start">
+                    <img style="width: 180px" src="/static/imgs/huazhilogo.png" alt="扁鹊云">
+                  </div>
                   <div style="text-align: end;" v-if="showTabs">
                     <el-menu :default-active="tabsActiveIndex" style="display: inline-flex;padding-right: 35%;"  mode="horizontal" @select="handleSelect">
                       <el-menu-item index="1">工作台</el-menu-item>
@@ -53,13 +54,11 @@
                       <el-menu-item index="4">企业设置</el-menu-item>
                     </el-menu>
                   </div>
-                </div>
-                <div class="md-layout-item md-size-10">
-                  <div class="md-toolbar-section-start" v-if="showLogin">
+                  <div class="md-toolbar-section-end" v-if="showLogin">
                       <md-menu>
                         <md-button class="md-icon-button"  md-menu-trigger>
-                            <md-icon v-if="!showPersonalimageSrc">account_circle</md-icon>
-                            <md-avatar v-if="showPersonalimageSrc" style="width: 48px;height: 48px;"><img :src="PersonalimageSrc" style="border-radius: 50%;" /></md-avatar>
+                            <!-- <md-icon v-if="!showPersonalimageSrc">account_circle</md-icon> -->
+                            <md-avatar style="width: 48px;height: 48px;"><img :src="PersonalimageSrc" style="border-radius: 50%;" /></md-avatar>
                         </md-button>
 
                         <md-menu-content>
@@ -84,45 +83,14 @@
                       </md-menu>
                   </div>
                 </div>
+                <div class="md-layout-item md-size-10">
+                  
+                </div>
             </div>
           </md-app-toolbar>
 
-          <!-- <md-app-drawer :md-active.sync="showUserCenter" md-persistent="full">
-            <md-toolbar class="md-transparent" md-elevation="0">
-              <span>用户中心</span>
-
-              <div class="md-toolbar-section-end">
-                <md-button class="md-icon-button md-dense" @click="toggleMenu">
-                  <md-icon>keyboard_arrow_left</md-icon>
-                </md-button>
-              </div>
-            </md-toolbar>
-
-            <md-list>
-              <md-list-item>
-                <md-icon>move_to_inbox</md-icon>
-                <span class="md-list-item-text usercenterspan"  @click="goRouter(1)">个人信息</span>
-              </md-list-item>
-
-              <md-list-item>
-                <md-icon>send</md-icon>
-                <span class="md-list-item-text usercenterspan" @click="goRouter(2)">企业信息</span>
-              </md-list-item>
-
-              <md-list-item>
-                <md-icon>delete</md-icon>
-                <span class="md-list-item-text usercenterspan" @click="goRouter(3)">修改密码</span>
-              </md-list-item>
-
-              <md-list-item>
-                <md-icon>error</md-icon>
-                <span class="md-list-item-text usercenterspan" @click="goRouter(4)">退出登录</span>
-              </md-list-item>
-            </md-list>
-          </md-app-drawer> -->
-
           <md-app-content style="background-color: #f1f3f4" :class="{'homebgImge':showHomeBgImge}">
-          <router-view></router-view>
+            <router-view></router-view>
           </md-app-content>
             
         </md-app>
@@ -130,17 +98,16 @@
 </div>
 </template>
 <style>
-.el-menu--horizontal>.el-menu-item{
-  color: #000000!important;
+.el-menu--horizontal > .el-menu-item {
+  color: #000000 !important;
 }
-.el-menu-item.is-active{
-  border-bottom-color:#009199!important;
-  color: #066666!important;
+.el-menu-item.is-active {
+  border-bottom-color: #009199 !important;
+  color: #066666 !important;
 }
-.el-menu-item{
-  font-size: larger!important;
+.el-menu-item {
+  font-size: larger !important;
 }
-
 </style>
 
 <style lang="scss" scoped>
@@ -187,8 +154,9 @@ export default {
     evaluating
   },
   data: () => ({
-    PersonalimageSrc: "",
-    showPersonalimageSrc: false
+    PersonalimageSrc: "/static/imgs/ic_user.png",
+    showPersonalimageSrc: false,
+    scrollbar:false
   }),
   mounted: function() {
     if (this.userImage !== null && this.userImage !== "") {
@@ -196,7 +164,7 @@ export default {
       this.PersonalimageSrc = "/IMAGE/" + this.userImage;
     } else {
       this.showPersonalimageSrc = false;
-      this.PersonalimageSrc = "";
+      this.PersonalimageSrc = "/static/imgs/ic_user.png";
     }
   },
   computed: {
@@ -209,9 +177,6 @@ export default {
     showTabs() {
       return this.$store.state.home.showTabs;
     },
-    // showUserCenterButton() {
-    //   return this.$store.state.home.showUserCenterButton;
-    // },
     showUserCenter() {
       return this.$store.state.home.showUserCenter;
     },
@@ -232,7 +197,7 @@ export default {
     },
     userImage() {
       return this.$store.state.loginPage.userImage;
-    },
+    }
   },
   watch: {
     userImage: function(newVal, oldVal) {
@@ -241,7 +206,7 @@ export default {
         this.PersonalimageSrc = "/IMAGE/" + newVal;
       } else {
         this.showPersonalimageSrc = false;
-        this.PersonalimageSrc = "";
+        this.PersonalimageSrc =  "/static/imgs/ic_user.png";
       }
     }
   },

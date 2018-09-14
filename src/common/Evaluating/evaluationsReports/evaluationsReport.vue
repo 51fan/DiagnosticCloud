@@ -12,7 +12,10 @@
                         <v-divider style="color: lightgrey;"></v-divider>
                     </v-flex>
                     <div style="margin: 60px 0;">
-                        <h3  style="text-align: left;margin: 36px 0;font-size: 30pt;font-weight: 600;letter-spacing: normal;">{{reportData.enterpriseName}}</h3>
+                        <!-- <h3  style="text-align: left;margin: 36px 0;font-size: 30pt;font-weight: 600;letter-spacing: normal;">{{reportData.enterpriseName}}</h3> -->
+                        <div style="text-align: left;margin: 36px 0;font-size: 30pt;font-weight: 600;letter-spacing: normal;line-height: 40px;">
+                          <span>{{reportData.enterpriseName}}</span>
+                        </div>
                         <v-layout row wrap>
                             <v-flex lg6 md6 sm6 xs6 style="text-align:left;margin:10px 0;">
                                 <span style="color: #929292;">收入规模：</span><span style="font-weight: 600;">{{reportData.income}}</span>
@@ -21,7 +24,7 @@
                                 <span style="color: #929292;">人员规模：</span><span style="font-weight: 600;">{{reportData.scale}}</span>
                             </v-flex>
                             <v-flex lg6 md6 sm6 xs6 style="text-align:left;margin:10px 0;">
-                                <span style="color: #929292;">企业区域：</span><span style="font-weight: 600;">{{reportData.province}}</span><span>/</span><span>{{reportData.city}}</span><span>/</span><span>{{reportData.area}}</span>
+                                <span style="color: #929292;">企业区域：</span><span style="font-weight: 600;">{{reportData.province}}</span><span style="font-weight: 600;">/</span><span style="font-weight: 600;">{{reportData.city}}</span><span style="font-weight: 600;">/</span><span style="font-weight: 600;">{{reportData.area}}</span>
                             </v-flex>
                             <v-flex lg6 md6 sm6 xs6 style="text-align:left;margin:10px 0;">
                                 <span style="color: #929292;">行业类别：</span><span style="font-weight: 600;">{{reportData.industryL1}}</span>
@@ -1301,8 +1304,8 @@ export default {
             $this.reportData.city = res.data.return.report_info.city;
             $this.reportData.area = res.data.return.report_info.area;
 
-            $this.chart1X = res.data.return.table_data[0][0] + "%";
-            $this.chart1Y = res.data.return.table_data[0][1] + "%";
+            $this.chart1X = res.data.return.table_data[0][0];
+            $this.chart1Y = res.data.return.table_data[0][1];
             $this.chart1Others = res.data.return.table_data.slice(1);
             for (let index in res.data.return.report_info.expL1) {
               $this.chart1ExpValue.push(
@@ -1381,11 +1384,11 @@ export default {
               return (
                 params.name +
                 " <br/>" +
-                "制造水平" +
+                xAxis +
                 params.value[0] +
                 "%" +
                 " <br/>" +
-                "智能水平" +
+                yAxis +
                 params.value[1] +
                 "%"
               );
@@ -1488,11 +1491,11 @@ export default {
               return (
                 params.name +
                 " <br/>" +
-                "制造水平" +
+                xAxis +
                 params.value[0] +
                 "%" +
                 " <br/>" +
-                "智能水平" +
+                yAxis +
                 params.value[1] +
                 "%"
               );

@@ -50,40 +50,41 @@ export default {
       //     .then(res => {
 
       //     });
-      let apikey = "";
-      let request = {
-          evaluationId: this.currentEvaluationId,
-          idx: this.currentEvaluationIdx,
-          session_id: this.session_id
-        },
-        param = {
-          apikey,
-          request
-        },
-        // type = "GET",
-        // url = "/static/jsons/sorce.json";
-        type = "POST",
-        url = "/IBUS/DAIG_SYS/report_datas_statistic";
-      this.getReport_datas_statistic(type, url, param);
+      // let apikey = "";
+      // let request = {
+      //     evaluationId: this.currentEvaluationId,
+      //     idx: this.currentEvaluationIdx,
+      //     session_id: this.session_id
+      //   },
+      //   param = {
+      //     apikey,
+      //     request
+      //   },
+      //   // type = "GET",
+      //   // url = "/static/jsons/sorce.json";
+      //   type = "POST",
+      //   url = "/IBUS/DAIG_SYS/report_datas_statistic";
+      // this.getReport_datas_statistic(type, url, param);
+      this.$emit("viewfinishedReport", true);
     },
-    getReport_datas_statistic(type, url, param) {
-      let $this = this;
-      this.$http({
-        method: type,
-        url: url,
-        data: param
-      }).then(res => {
-        if (res.data.errorCode !== 0) {
-          console.log(res.data.errorMsg);
-          return;
-        }
-        $this.$store.commit("evlaluating/getReportParm", {
-          key: "datas",
-          value: res.data.return
-        });
-        $this.$emit("viewfinishedReport", true);
-      });
-    }
+    // getReport_datas_statistic(type, url, param) {
+    //   let $this = this;
+    //   this.$http({
+    //     method: type,
+    //     url: url,
+    //     data: param
+    //   }).then(res => {
+    //     if (res.data.errorCode !== 0) {
+    //       console.log(res.data.errorMsg);
+    //       return;
+    //     }
+    //     $this.$store.commit("evlaluating/getReportParm", {
+    //       key: "datas",
+    //       value: res.data.return
+    //     });
+    //     $this.$emit("viewfinishedReport", true);
+    //   });
+    // }
   }
 };
 </script>

@@ -1,13 +1,9 @@
 <template>
     <div class="mypanel">
-      <v-layout row wrap>
-        <v-flex xl6 lg6 md6 sm6 xs12>
-          
-        </v-flex>
-      </v-layout>
-      <div class="md-layout-item md-size-100" style="display: inline-flex;">
-        <div v-if="showLoginPage" class="md-layout-item md-size-65" style="color: white;font-size: xx-large;">
-          <div style="margin: 22% 0 0 0;">
+      <!-- <v-layout row wrap v-if="showLoginPage" style="display: inline-flex;height:600px;">
+        <v-flex only-sm2></v-flex>
+        <v-flex xl8 lg8 md7  hidden-sm-and-down style="color: white;font-size: xx-large;">
+          <div style="margin: 12% 0 0 0;">
             <span>中国企业核心能力</span>
           </div>
           <div style="margin: 3% 0 0 96px;">
@@ -16,9 +12,9 @@
           <div style="margin: 3% 99px 0 0;">
             <span>服务提供商</span>
           </div>
-        </div>
-        <div class="md-layout-item md-size-30" style="padding-top: 6%;">
-          <div v-if="showLoginPage" class="cardstyle">
+        </v-flex>
+         <v-flex xl4 lg4 md5 sm8 xs12 style="color: white;">
+           <div class="cardstyle">
             <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10% 0;">
               <div class="md-layout-item md-size-10" ></div>
               <div class="md-layout-item md-size-80" >
@@ -59,7 +55,102 @@
                         </md-field> 
                     </div>
                     <div class="md-layout-item md-size-40" >
-                        <!-- <div style="display: inline-block;padding: 0 0 0 10px;" @click="getPicture()"><img src="../../assets/images/check.png"/></div> -->
+                        <div style="margin: 15% 0;cursor: pointer;" @click="getPicture()"><img :src="VerificationImagesrc"/></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="md-layout-item md-size-10" ></div>
+              </div> 
+            </div>
+            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+              <div class="md-layout-item md-size-10" ></div>
+              <div class="md-layout-item md-size-80" >
+                <div>
+                    <div style="width:90%;cursor: pointer;display: inline-block;">
+                       <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                         <div class="md-layout-item md-size-60" style="text-align: left;">
+                           <md-checkbox style="display: inline-flex;" v-model="autoLogin">30天内自动登录</md-checkbox>
+                         </div>
+                         <div class="md-layout-item md-size-40" >
+                           <div style="text-align:right;margin: 17px 0" @click="forgetPassword()"><span >忘记密码</span></div>
+                         </div>
+                       </div>
+                    </div>     
+                </div>
+                    <md-button class="md-dense md-raised md-primary" style="width:95%;border-radius: 65px;margin: 15% 0 0 0;background-color: #009199;"  @click="loginFun()">登录</md-button>
+                <div>
+                    <div style="width: 90%;text-align: center;margin: 10% 0px 5%;cursor: pointer;color: #009199;" @click="registerFun()">
+                        <span>注册用户</span>
+                    </div>     
+                </div>
+              </div>
+              <div class="md-layout-item md-size-10" ></div>
+            </div>
+            
+            <md-dialog-alert
+                  class="md-primary md-raised"
+                  :md-active.sync="showAlert"
+                  :md-content="AlertMessage"
+                  md-confirm-text="知道了" />
+          </div>
+         </v-flex>
+         <v-flex only-sm2></v-flex>
+      </v-layout> -->
+      <div v-if="showLoginPage" class="md-layout-item md-size-100" style="display: inline-flex;height:600px;">
+        <div class="md-layout-item md-xlarge-size-1 md-large-size-1 md-medium-1    md-small-size-10 md-xsmall-hide"></div>
+        <div class="md-layout-item md-xlarge-size-65   md-large-size-65   md-medium-size-60 md-small-hide    md-xsmall-hide" style="color: white;font-size: xx-large;">
+          <div style="margin: 12% 0 0 0;">
+            <span>中国企业核心能力</span>
+          </div>
+          <div style="margin: 3% 0 0 96px;">
+            <span>测评分析和改善领域最大</span>
+          </div>
+          <div style="margin: 3% 99px 0 0;">
+            <span>服务提供商</span>
+          </div>
+        </div>
+        <div class="md-layout-item md-xlarge-size-30   md-large-size-40   md-medium-size-40 md-small-size-80 md-xsmall-size-100">
+          <div class="cardstyle">
+            <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10% 0;">
+              <div class="md-layout-item md-size-10" ></div>
+              <div class="md-layout-item md-size-80" >
+                <span class="loginHeadTitle">登录</span>
+              </div>
+              <div class="md-layout-item md-size-10" ></div>
+            </div>
+            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+              <div class="md-layout-item md-size-10" ></div>
+              <div class="md-layout-item md-size-80" style="margin: 5% 0;">
+                <md-field>
+                    <label>请输入手机/邮箱</label>
+                    <md-input v-model="phoneOrEmail" placeholder="账号"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-size-10" ></div>
+            </div>
+            <div class="md-layout-item md-size-100" style="display: inline-flex;">
+              <div class="md-layout-item md-size-10" ></div>
+              <div class="md-layout-item md-size-80" >
+                <md-field>
+                    <label>请输入密码</label>
+                    <md-input v-model="passWord" type="password" placeholder="密码" maxlength="16"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-size-10" ></div>
+            </div>
+            
+            <div v-if="showVerificationCode&&errCounter>1">
+              <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                <div class="md-layout-item md-size-10" ></div>
+                <div class="md-layout-item md-size-80" >
+                  <div class="md-layout-item md-size-100" style="display: inline-flex;">
+                    <div class="md-layout-item md-size-60" >
+                        <md-field style="display: inline-flex;">
+                            <label>请输入图片中的内容</label>
+                            <md-input v-model="VerificationCode" placeholder="图片验证码" maxlength="4"></md-input>
+                        </md-field> 
+                    </div>
+                    <div class="md-layout-item md-size-40" >
                         <div style="margin: 15% 0;cursor: pointer;" @click="getPicture()"><img :src="VerificationImagesrc"/></div>
                     </div>
                   </div>
@@ -97,8 +188,9 @@
                   :md-active.sync="showAlert"
                   :md-content="AlertMessage"
                   md-confirm-text="知道了" />
+          </div>
         </div>
-        </div>
+        <div class="md-layout-item md-xlarge-size-1 md-large-size-1 md-medium-1   md-small-size-10  md-xsmall-hide"></div>
       </div>
       <forgetPassword v-if="!showLoginPage"></forgetPassword>
     </div>
@@ -108,7 +200,7 @@
 .mypanel {
   padding-left: 10%;
   padding-right: 10%;
-  /* padding-top: 5%; */
+  padding-top: 5%;
   text-align: center;
   text-align: -webkit-center;
 }
@@ -259,6 +351,8 @@ export default {
                 $this.$store.commit("SET_UsereMobile", res.data.mobile);
                 if (res.data.image !== null) {
                   $this.$store.commit("SET_UserImage", res.data.image);
+                }else{
+                  $this.$store.commit("SET_UserImage", "");
                 }
                 $this.$store.commit("loginPage/getUseremail", res.data.email);
                 $this.$store.commit("loginPage/getUsermobile", res.data.mobile);
@@ -266,7 +360,6 @@ export default {
                   $this.$store.commit("loginPage/getUserImage", res.data.image);
                 } else {
                   $this.$store.commit("loginPage/getUserImage", "");
-                  $this.$store.commit("loginPage/getUserImage", res.data.image);
                 }
                 $this.$store.commit(
                   "loginPage/getSession_id",
@@ -280,7 +373,6 @@ export default {
                   $this.$store.commit("UserCenter/changeShowCityPicker", true);
                   $this.$store.commit("SET_FirstLogin", true);
                 }
-                console.log($this.autoLogin);
                 if ($this.autoLogin) {
                   $this.$store.commit("AUTOLOGIN", true);
                 } else {

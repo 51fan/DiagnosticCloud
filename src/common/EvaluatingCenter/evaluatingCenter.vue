@@ -13,8 +13,8 @@
                     <div class="md-layout-item md-size-50" style="display: inline-flex;">
                         <div class="md-layout-item md-size-20" ></div>
                         <div class="md-layout-item md-size-60" style="display: inline-flex;">
-                            <input type="text" v-model="searchKey" placeholder="请输入" style="width: 100%;height: 44px;background: #efefef;margin-top: 5px;border: 1px solid #dcdfe6;padding: 0 15px;outline: none;" @change="searchfun"/>
-                            <i class="material-icons" style="cursor: pointer;background-color: #009199;color:white;padding: 8px;margin: 5px 0;" @click="searchfun()">search</i>
+                            <input type="text" v-model="searchKey" placeholder="请输入" style="width: 100%;height: 44px;background: #efefef;border: 1px solid #dcdfe6;padding: 0 15px;outline: none;" @change="searchfun"/>
+                            <i class="material-icons" style="cursor: pointer;background-color: #009199;color:white;padding: 8px 8px 12px 8px;" @click="searchfun()">search</i>
                         </div>
                         <div class="md-layout-item md-size-20" ></div>
                     </div>
@@ -41,32 +41,32 @@
                           <md-card>
                               <md-ripple>
                                   <div class="md-layout" style="width:100%">
-                                      <div class="md-layout-item md-size-40" >
+                                      <div class="md-layout-item md-xlarge-size-40 md-large-size-40 md-medium-size-40 md-small-size-100 md-xsmall-size-100" >
                                           <md-card-content>
                                               <div class="md-layout">
                                                   <div class="md-layout-item md-size-15" >
                                                       <img :src="imgSrc" >
                                                   </div>
                                                   <div class="md-layout-item md-size-85" >
-                                                      <div style="padding: 10px 5px;">{{info.name}}</div>
-                                                      <div style="padding: 0 5px;">{{info.remark}}</div>
+                                                      <div style="padding: 10px 5px;font-size: 18px;font-weight: 600;">{{info.name}}</div>
+                                                      <div style="padding: 0 5px;color: rgba(120, 120, 120, 1);">{{info.remark}}</div>
                                                   </div>
                                               </div>
                                           </md-card-content>
                                       </div>
-                                      <div class="md-layout-item md-size-15" >
-                                          <md-card-content style="margin: 24px 0;">
+                                      <div class="md-layout-item md-xlarge-size-15 md-large-size-20 md-medium-size-25 md-small-size-45 md-xsmall-size-100" >
+                                          <md-card-content style="margin: 24px 0;color: rgba(120, 120, 120, 1);">
                                               <div>测评时间：{{info.startTime.slice(0, 10)}}</div>
-                                              <div v-if="info.endTime">完成时间：{{info.endTime.slice(0, 10)}}</div> 
+                                              <div>完成时间：{{info.endTime?info.endTime.slice(0, 10):"--"}}</div> 
                                           </md-card-content>
                                       </div>
-                                      <div class="md-layout-item md-size-30" >
+                                      <div class="md-layout-item md-xlarge-size-30 md-large-size-25 md-medium-size-20 md-small-size-40 md-xsmall-size-100" >
                                           <md-card-content style="margin: 28px 0;">
                                               <el-progress v-if="info.completeStatus == 1" :percentage="100" status="success"></el-progress>
                                               <el-progress v-if="info.completeStatus == 0" :percentage="info.complete_degree" ></el-progress>
                                           </md-card-content>
                                       </div>
-                                      <div class="md-layout-item md-size-15" style="text-align: center;" >
+                                      <div class="md-layout-item md-xlarge-size-15 md-large-size-15 md-medium-size-15 md-small-size-15 md-xsmall-size-100" style="text-align: center;" >
                                           <md-card-content style="margin: 24px 0;">
                                               <span v-if="info.completeStatus == 1" style="color:rgba(16, 129, 165, 0.9);cursor: pointer;" @click="gohead(info)">查看报告</span>
                                               <span v-if="info.completeStatus == 0" style="color:rgba(16, 129, 165, 0.9);cursor: pointer;margin-right:10%" @click="gohead(info)">继续</span>
@@ -160,6 +160,9 @@
 .md-dialog-content {
   color: red;
 }
+.el-tabs__header {
+  margin: 0 !important;
+}
 </style>
 
 <style scoped>
@@ -170,10 +173,7 @@
 
 .centerHeader {
   width: 100%;
-  text-align: right;
   padding-bottom: 1%;
-  margin-right: 16px;
-  margin-left: 16px;
   background-color: white;
 }
 .headerItem {
@@ -189,9 +189,14 @@
 }
 .md-card {
   width: 100%;
-  margin: 4px;
+  margin: 4px 0;
   display: inline-block;
   vertical-align: top;
+  box-shadow: 0 0 0 0 white, 0 0 0 0 white, 0 0 0 0 white !important;
+}
+.md-app-content .md-card {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
 }
 </style>
 
@@ -305,8 +310,7 @@ export default {
             "evlaluating/getQuestionIndex",
             e.answered_count + 1
           );
-          $this.$store.commit("evlaluating/changeEvaluationStart", true);
-          $this.$router.push("/evaluating");
+          $this.getQuestionData(e.id);
           break;
         case 1:
           $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
@@ -347,13 +351,14 @@ export default {
       let $this = this;
       switch (e.index) {
         case "0":
-          $this.hasNodisCompletedTest = false;
-          $this.hasNoCompletedTest = false;
-          if ($this.allTestInfo.length > 0) {
-            $this.hasTest = true;
-            $this.pages = Math.ceil($this.allTestInfo.length / 5);
-            $this.totalItems = $this.pages * 10;
-            for (var j = 0; j < $this.pages; j++) {
+          this.handleCurrentChange(1);
+          this.hasNodisCompletedTest = false;
+          this.hasNoCompletedTest = false;
+          if (this.allTestInfo.length > 0) {
+            this.hasTest = true;
+            this.pages = Math.ceil(this.allTestInfo.length / 5);
+            this.totalItems = this.pages * 10;
+            for (var j = 0; j < this.pages; j++) {
               $this.pageDatas[j] = [];
               for (var i in $this.allTestInfo) {
                 if (Math.floor(i / 5) == j) {
@@ -361,25 +366,26 @@ export default {
                 }
               }
             }
-            $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
+            this.InfoArray = this.pageDatas[this.currentPage - 1];
           } else {
-            $this.hasTest = false;
-            $this.InfoArray = [];
+            this.hasTest = false;
+            this.InfoArray = [];
           }
           break;
         case "1":
-          $this.hasTest = true;
-          $this.hasNoCompletedTest = false;
-          $this.discompleteTestInfo = [];
+          this.handleCurrentChange(1);
+          this.hasTest = true;
+          this.hasNoCompletedTest = false;
+          this.discompleteTestInfo = [];
           for (var i in this.allTestInfo) {
             if ($this.allTestInfo[i].completeStatus == 0) {
               $this.discompleteTestInfo.push($this.allTestInfo[i]);
             }
           }
-          if ($this.discompleteTestInfo.length > 0) {
-            $this.hasNodisCompletedTest = false;
-            $this.pages = Math.ceil($this.discompleteTestInfo.length / 5);
-            $this.totalItems = $this.pages * 10;
+          if (this.discompleteTestInfo.length > 0) {
+            this.hasNodisCompletedTest = false;
+            this.pages = Math.ceil(this.discompleteTestInfo.length / 5);
+            this.totalItems = $this.pages * 10;
             for (var j = 0; j < $this.pages; j++) {
               $this.pageDatas[j] = [];
               for (var i in $this.discompleteTestInfo) {
@@ -388,25 +394,26 @@ export default {
                 }
               }
             }
-            $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
+            this.InfoArray = this.pageDatas[this.currentPage - 1];
           } else {
-            $this.hasNodisCompletedTest = $this.hasNoReslut?false:true;
-            $this.InfoArray = [];
+            this.hasNodisCompletedTest = this.hasNoReslut ? false : true;
+            this.InfoArray = [];
           }
           break;
         case "2":
-          $this.hasTest = true;
-          $this.hasNodisCompletedTest = false;
-          $this.completeTestInfo = [];
+          this.handleCurrentChange(1);
+          this.hasTest = true;
+          this.hasNodisCompletedTest = false;
+          this.completeTestInfo = [];
           for (var i in this.allTestInfo) {
             if ($this.allTestInfo[i].completeStatus == 1) {
               $this.completeTestInfo.push($this.allTestInfo[i]);
             }
           }
-          if ($this.completeTestInfo.length > 0) {
-            $this.hasNoCompletedTest = false;
-            $this.pages = Math.ceil($this.completeTestInfo.length / 5);
-            $this.totalItems = $this.pages * 10;
+          if (this.completeTestInfo.length > 0) {
+            this.hasNoCompletedTest = false;
+            this.pages = Math.ceil(this.completeTestInfo.length / 5);
+            this.totalItems = this.pages * 10;
             for (var j = 0; j < $this.pages; j++) {
               $this.pageDatas[j] = [];
               for (var i in $this.completeTestInfo) {
@@ -415,10 +422,10 @@ export default {
                 }
               }
             }
-            $this.InfoArray = $this.pageDatas[$this.currentPage - 1];
+            this.InfoArray = this.pageDatas[this.currentPage - 1];
           } else {
-            $this.hasNoCompletedTest = $this.hasNoReslut?false:true;
-            $this.InfoArray = [];
+            this.hasNoCompletedTest = this.hasNoReslut ? false : true;
+            this.InfoArray = [];
           }
           break;
         default:
@@ -577,6 +584,62 @@ export default {
     },
     onCancel() {
       //   this.value = "Disagreed";
+    },
+    getQuestionData(id) {
+      let $this = this;
+      let apikey = "",
+        request = {
+          id: id,
+          session_id: this.session_id
+        },
+        // url = "/static/jsons/evaluation.json",
+        // type = "GET",
+        url = "/IBUS/DAIG_SYS/getQuestion",
+        type = "POST",
+        param = {
+          apikey,
+          request
+        };
+      $this
+        .$http({
+          method: type,
+          url: url,
+          data: param
+        })
+        .then(res => {
+          //debugger;
+          if (res.data.errorCode !== 0) {
+            if (res.data.errorCode == "-8") {
+              $this.$store.commit(
+                "evlaluating/changeShowevaluatingPage",
+                false
+              );
+              // $this.$store.commit("evlaluating/changeShowErrAlert", true);
+              $this.showErrAlert = true;
+              $this.AlertMessage = res.data.errorMsg;
+            } else {
+              $this.showAlert = true;
+              $this.AlertMessage = res.data.errorMsg;
+            }
+          } else {
+            console.log("card");
+
+            $this.$store.commit("evlaluating/changeShowevaluatingPage", true);
+            $this.$store.commit(
+              "evlaluating/getCurrentEvaluationName",
+              this.name
+            );
+            $this.$store.commit("evlaluating/getCurrentEvaluationId", id);
+            $this.$store.commit("evlaluating/changeQuestions", res.data);
+            $this.$store.commit("evlaluating/changeEvaluationStart", true);
+
+            $this.$router.push("/evaluating");
+          }
+          // console.log($this.questionsList);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
   created: function() {

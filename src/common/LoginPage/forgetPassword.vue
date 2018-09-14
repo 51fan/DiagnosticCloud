@@ -596,7 +596,7 @@ export default {
       //隐藏导航菜单
       this.$store.commit("home/showTabsFun", false);
       //隐藏登录按钮
-      this.$store.commit("home/showLogin", true);
+      this.$store.commit("home/showLogin", false);
       //显示用户中心
       this.$store.commit("home/showUserCenter", false);
       this.$store.commit("home/changeShowHomeBgImge", true);
@@ -619,7 +619,7 @@ export default {
           //隐藏导航菜单
           this.$store.commit("home/showTabsFun", false);
           //隐藏登录按钮
-          this.$store.commit("home/showLogin", true);
+          this.$store.commit("home/showLogin", false);
           //显示用户中心
           this.$store.commit("home/showUserCenter", false);
           this.$store.commit("home/changeShowHomeBgImge", true);

@@ -6,7 +6,8 @@
             <!-- <div style="opacity: 0.5;font-size: medium;padding: 10px 0 30px 0;">{{question.level1}}</div> -->
                 <!-- 问题-->
                 <div style="padding: 20px 0 0 0;">
-                  <label>测评项：</label><label style="font-size: x-large;padding: 10px;">{{question.question}}</label>
+                  <!-- <label>测评项：</label> -->
+                  <label style="font-size: x-large;">{{question.question}}</label>
                 </div>
         </div>
         <div style="border-top: 1px solid lightgray;padding: 5% 0 0 10%;">
@@ -18,7 +19,7 @@
                   <answerSelectd :selectLength="questionLength"></answerSelectd>
                 </div> -->
                 <div class="md-layout-item md-size-100">
-                  <div style="margin: 27px 0;">
+                  <div style="margin: 27px 0;font-size: 20px;">
                     <span class="expertText" style="margin: 8px;">预期</span><span class="currentText" style="margin: 28px;">实际</span>
                     <div class="answerItem" v-for="(item, index) in  question.answerLists" :key="item" style="width:100%">
                         <md-radio  v-model="expertObj" :value="index" style="width:5%"></md-radio>
@@ -80,6 +81,11 @@
 }
 .selectAnswer {
   background-color: rgba(10, 185, 222, 0.32);
+}
+</style>
+<style>
+.md-progress-bar.md-theme-default.md-determinate .md-progress-bar-fill{
+  background-color: #009199!important;
 }
 </style>
 

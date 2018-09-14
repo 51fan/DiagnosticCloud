@@ -2,8 +2,8 @@
     <div class="mypanel">
         <div style="margin-bottom: 10px;">
             <div class="md-layout">
-                <div class="md-layout-item md-size-10"></div>
-                <div class="md-layout-item md-size-80">
+                <!-- <div class="md-layout-item md-size-10"></div> -->
+                <div class="md-layout-item md-size-100">
                     <md-card>
                         <md-card-content>
                             <div class="md-layout-item md-size-100" style="display: inline-flex;padding: 25px;">
@@ -76,13 +76,13 @@
                         </md-card-content>
                     </md-card>
                 </div>
-                <div class="md-layout-item md-size-10"></div>
+                <!-- <div class="md-layout-item md-size-10"></div> -->
             </div>
         </div>
         <div v-if="!disable">
             <div class="md-layout">
-                <div class="md-layout-item md-size-10"></div>
-                <div class="md-layout-item md-size-80">
+                <!-- <div class="md-layout-item md-size-10"></div> -->
+                <div class="md-layout-item md-size-100">
                      <md-card style="padding: 30px 0px 50px;">
                          <md-card-content>
                             <div class="md-layout-item md-size-100" style="display: inline-flex;">
@@ -172,13 +172,13 @@
                         </div>
                      </md-card>
                 </div>
-                <div class="md-layout-item md-size-10"></div>
+                <!-- <div class="md-layout-item md-size-10"></div> -->
             </div>
         </div>
         <div v-if="disable">
              <div class="md-layout">
-                <div class="md-layout-item md-size-10"></div>
-                <div class="md-layout-item md-size-80">
+                <!-- <div class="md-layout-item md-size-10"></div> -->
+                <div class="md-layout-item md-size-100">
                      <md-card style="padding: 30px 0px 50px;">
                          <md-card-content>
                             <div class="md-layout-item md-size-100" style="display: inline-flex;">
@@ -192,8 +192,8 @@
                                              <div class="md-layout-item md-size-100" style="display: inline-flex;">
                                                 <div class="md-layout-item md-size-5"></div>
                                                 <div class="md-layout-item md-size-95">
-                                                    <md-radio v-model="sex" value="male" >男</md-radio>
-                                                    <md-radio v-model="sex" value="female" >女</md-radio> 
+                                                    <md-radio v-model="NewSex" value="male" >男</md-radio>
+                                                    <md-radio v-model="NewSex" value="female" >女</md-radio> 
                                                 </div>   
                                              </div>
                                         </div>
@@ -211,7 +211,7 @@
                                         <div class="md-layout-item md-size-60" >
                                             <el-date-picker
                                                 style="width: 100%;"
-                                                v-model="date"
+                                                v-model="NewDate"
                                                 type="date"
                                                 format="yyyy 年 MM 月 dd 日"
                                                 value-format="yyyy-MM-dd"
@@ -230,7 +230,7 @@
                                             <span>部门：</span>
                                         </div>
                                         <div class="md-layout-item md-size-60">
-                                            <el-input  v-model="department"  placeholder="" v-on:input ="inputFunc(1)" @click="showTips(1)"></el-input>
+                                            <el-input  v-model="NewDepartment"  placeholder="" v-on:input ="inputFunc(1)" @click="showTips(1)"></el-input>
                                             <div class="inputError">
                                                 <span  v-if="showDepartmentErr">{{departmentErr}}</span>
                                             </div>
@@ -247,7 +247,7 @@
                                             <span>职位：</span>
                                         </div>
                                         <div class="md-layout-item md-size-60">
-                                            <el-input  v-model="position"  placeholder="" v-on:input ="inputFunc(2)" @click="showTips(2)"></el-input>
+                                            <el-input  v-model="NewPosition"  placeholder="" v-on:input ="inputFunc(2)" @click="showTips(2)"></el-input>
                                             <div class="inputError">
                                                 <span  v-if="showPositionErr">{{positionErr}}</span>
                                             </div>
@@ -274,7 +274,7 @@
                         </div>
                      </md-card>
                 </div>
-                <div class="md-layout-item md-size-10"></div>
+                <!-- <div class="md-layout-item md-size-10"></div> -->
             </div>
         </div>
         <md-dialog-alert 
@@ -282,60 +282,6 @@
                   :md-active.sync="showAlert"
                   :md-content="AlertMessage"
                   md-confirm-text="知道了" /> 
-        <!-- <div v-if="disable">
-            <div class="md-layout">
-               <div class="md-layout-item md-size-10"></div>
-                <div class="md-layout-item md-size-80">
-                    <md-card>
-                        <md-card-content>
-                            <div class="md-layout-item md-size-100" style="display: inline-flex;">
-                                <div class="md-layout-item md-size-30" style="border-right: 1px solid rgba(211, 211, 211, 0.51);"></div>
-                                <div class="md-layout-item md-size-5"></div>
-                                <div class="md-layout-item md-size-65">
-                                    <div style="display: inline-flex;margin-top: 1%;"> 
-                                        <span style="width:55%;margin: 9% 5% 0 0;">性别：</span>
-                                        <div>
-                                            <md-radio v-model="sex" value="male" style="width:50%;" >男</md-radio>
-                                            <md-radio v-model="sex" value="female" style="width:10%;" >女</md-radio>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span  style="width:10%">出生日期：</span>
-                                        <el-date-picker
-                                            v-model="date"
-                                            type="date"
-                                            placeholder="选择日期">
-                                        </el-date-picker>
-                                    </div>
-                                    <div>
-                                        <span  style="width:10%">部门：</span>
-                                        <md-field style="width: 70%;">
-                                            <md-input v-model="department" ></md-input>
-                                        </md-field>
-                                    </div>
-                                    <div>
-                                        <span  style="width:10%">职位：</span>
-                                        <md-field style="width: 70%">
-                                            <md-input v-model="position" ></md-input>
-                                        </md-field>
-                                    </div>
-                                </div>
-                            </div>
-                        </md-card-content>
-                        <div style="text-align: -webkit-center;">
-                            <md-button class="md-dense md-raised md-primary" style="width:10%" @click="cancel()">取消</md-button>
-                            <md-button class="md-dense md-raised md-primary" style="width:10%" @click="save()">保存</md-button>
-                        </div>
-                    </md-card>
-                </div>
-                <div class="md-layout-item md-size-10"></div>
-            </div>
-            <md-dialog-alert 
-                  class="md-primary md-raised"
-                  :md-active.sync="showAlert"
-                  :md-content="AlertMessage"
-                  md-confirm-text="知道了" />       
-        </div> -->
     </div>   
 </template>
 <style>
@@ -478,12 +424,16 @@ export default {
   name: "personalInfo",
   data: () => ({
     date: "",
+    NewDate: "",
     department: "",
+    NewDepartment: "",
     position: "",
+    NewPosition: "",
     name: "",
     email: "",
     mobile: "",
     sex: "female",
+    NewSex: "female",
     company: "",
     disable: false,
     showAlert: false,
@@ -524,11 +474,11 @@ export default {
         $this.name = res.data.result.name ? res.data.result.name : "--";
         $this.imageSrc = res.data.result.image
           ? "/IMAGE/" + res.data.result.image
-          : "/static/imgs/noImage.png";
+          : "/static/imgs/ic_user.png";
         $this.email = res.data.result.email;
         $this.mobile = res.data.result.mobile;
-        $this.department = res.data.result.department;
-        $this.position = res.data.result.position;
+        $this.department = res.data.result.department?res.data.result.department:"";
+        $this.position = res.data.result.position?res.data.result.position:"";
         $this.date = res.data.result.birthday;
         $this.sex = res.data.result.gender == 0 ? "female" : "male";
         $this.company = res.data.result.shortName;
@@ -540,6 +490,17 @@ export default {
   methods: {
     cancel() {
       this.disable = false;
+      this.NewSex = this.sex;
+      this.NewDepartment = this.department;
+      this.NewPosition = this.position;
+      this.NewDate = this.date;
+    },
+    modify() {
+      this.disable = true;
+      this.NewSex = this.sex;
+      this.NewDepartment = this.department;
+      this.NewPosition = this.position;
+      this.NewDate = this.date;
     },
     comeback() {
       this.$store.commit("home/getTabsactiveIndex", "1");
@@ -556,22 +517,22 @@ export default {
         url = " /IBUS/DAIG_SYS/modifyUserInfo",
         request = {
           email: this.useremail,
-          position: this.position ? this.position : "",
-          department: this.department ? this.department : "",
-          birthday: this.date ? this.date : "",
-          gender: this.sex == "female" ? 0 : 1,
+          position: this.NewPosition ? this.NewPosition : "",
+          department: this.NewDepartment ? this.NewDepartment : "",
+          birthday: this.NewDate ? this.NewDate : "",
+          gender: this.NewSex == "female" ? 0 : 1,
           session_id: this.session_id
         },
         param = {
           apikey,
           request
         };
-      if (this.department.length > 10) {
+      if (this.NewDepartment.length && this.NewDepartment.length > 10) {
         this.showAlert = true;
         this.AlertMessage = "部门名字长度不能超过10位";
         return;
       }
-      if (this.position.length > 10) {
+      if (this.NewPosition.length && this.NewPosition.length > 10) {
         this.showAlert = true;
         this.AlertMessage = "职位名字长度不能超过10位";
         return;
@@ -599,8 +560,11 @@ export default {
             // // $this.$store.commit("home/showUserCenter", true);
 
             // $this.$router.push("/overview");
-
-            this.disable = false;
+            $this.sex = $this.NewSex;
+            $this.department = $this.NewDepartment;
+            $this.position = $this.NewPosition;
+            $this.date = $this.NewDate;
+            $this.disable = false;
           }
         })
         .catch(error => {
@@ -611,9 +575,6 @@ export default {
       //   this.$store.commit("home/showTabsFun", true);
 
       //   this.$router.push("/overview");
-    },
-    modify() {
-      this.disable = true;
     },
     editName() {
       this.canEditName = true;
@@ -727,17 +688,23 @@ export default {
         file.type === "image/jpeg" ||
         file.type === "image/gif" ||
         file.type === "image/bmp";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isLt2M = file.size / 1024 / 1024 > 1;
 
       if (!isJPG) {
-        this.$message.error(
-          "上传头像图片只能是 JPG、png、jpeg、gif、bmp 格式!"
-        );
+        this.showAlert = true;
+        this.AlertMessage = "上传头像图片只能是 JPG、png、jpeg、gif、bmp 格式!";
+        return;
+        // this.$message.error(
+        //   "上传头像图片只能是 JPG、png、jpeg、gif、bmp 格式!"
+        // );
       }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 1MB!");
+      if (isLt2M) {
+        this.showAlert = true;
+        this.AlertMessage = "上传头像图片大小不能超过 1MB！";
+        return;
+        // this.$message.error("上传头像图片大小不能超过 1MB!");
       }
-      return isJPG && isLt2M;
+      return isJPG && !isLt2M;
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
@@ -752,14 +719,14 @@ export default {
       switch (index) {
         case 1:
           this.showDepartmentErr = false;
-          if (this.department.length > 10) {
+          if (this.NewDepartment.length > 10) {
             this.showDepartmentErr = true;
             this.departmentErr = "部门名字长度不能超过10位";
           }
           break;
         case 2:
           this.showPositionErr = false;
-          if (this.position.length > 10) {
+          if (this.NewPosition.length > 10) {
             this.showPositionErr = true;
             this.positionErr = "职位名字长度不能超过10位";
           }
@@ -772,14 +739,14 @@ export default {
       switch (index) {
         case 1:
           this.showDepartmentErr = false;
-          if (this.department.length > 10) {
+          if (this.NewDepartment.length > 10) {
             this.showDepartmentErr = true;
             this.departmentErr = "部门名字长度不能超过10位";
           }
           break;
         case 2:
           this.showPositionErr = false;
-          if (this.position.length > 10) {
+          if (this.NewPosition.length > 10) {
             this.showPositionErr = true;
             this.positionErr = "职位名字长度不能超过10位";
           }
