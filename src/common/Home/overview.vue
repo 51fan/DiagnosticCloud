@@ -43,7 +43,7 @@
                             </md-ripple>
                         </md-card>
                     </div>
-                    <div v-if="!showcompletedNoMessage">
+                    <div v-if="!showdiscompletedNoMessage">
                         <v-layout row wrap>
                           <v-flex xl12 lg12 md12 sm12 xs12>
                             <v-layout row wrap>
@@ -181,26 +181,20 @@
                     </div>
                     <div class="md-layout-item md-size-25"></div>
                 </div>
-                <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
+                <!-- <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
                     <div class="md-layout-item md-size-5"></div>
                     <div class="md-layout-item md-size-30" style="margin: 10px 0;text-align: right;">
                         <span class="spantitle" style="font-size: 16px;color: rgba(0,0,0,0.42);">企业图标：</span>
                     </div>
                     <div class="md-layout-item md-size-40" style="text-align: left;">
-                        <!-- <img class="logoImage" v-bind:src="imageSrc"/>
-                        <el-button style="background-color: #f5f7fa;" disabled>上传</el-button> -->
                         <img class="logoImage" v-bind:src="imageSrc"/>
-                        <!-- <md-field   ref="file">
-                            <label style="cursor: pointer;">上传</label>
-                            <md-file style="cursor: pointer;" v-model="upadteSrc" accept="image/*" @change="updateLogo"/>
-                        </md-field>     -->
                         <label id="realBtn" class="btn btn-info">
                             <input type="file" id="fileInput1" name="file" class="mFileInput" style="left:-9999px;position:absolute;"  @change='updateLogo'>
                             <span class="uploadBtn">上传</span>
                         </label>
                     </div>
                     <div class="md-layout-item md-size-25"></div>
-                </div>
+                </div> -->
                 <div class="md-layout-item md-size-100" style="display: inline-flex;margin: 10px 0;">
                     <div class="md-layout-item md-size-5">
                     </div>
@@ -482,7 +476,7 @@ export default {
           email: this.useremail,
           enterpriseName: this.enterpriseName,
           shortName: this.enterpriseSName,
-          logo: this.imgUrl,
+          // logo: this.imgUrl,
           enterpriseCode: this.OrganizationCode,
           province: this.selectProvince,
           city: this.selectCity,

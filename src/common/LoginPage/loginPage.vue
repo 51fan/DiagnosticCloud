@@ -96,6 +96,7 @@
          </v-flex>
          <v-flex only-sm2></v-flex>
       </v-layout> -->
+      
       <div v-if="showLoginPage" class="md-layout-item md-size-100" style="display: inline-flex;height:600px;">
         <div class="md-layout-item md-xlarge-size-1 md-large-size-1 md-medium-1    md-small-size-10 md-xsmall-hide"></div>
         <div class="md-layout-item md-xlarge-size-65   md-large-size-65   md-medium-size-60 md-small-hide    md-xsmall-hide" style="color: white;font-size: xx-large;">

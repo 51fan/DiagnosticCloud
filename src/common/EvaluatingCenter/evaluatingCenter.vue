@@ -137,6 +137,12 @@
                   :md-active.sync="showAlert"
                   :md-content="AlertMessage"
                   md-confirm-text="知道了" />
+        <md-dialog-alert style="z-index: 111"
+                  class="md-primary md-raised"
+                  :md-active.sync="showSessionAlert"
+                  :md-content="AlertSessionMessage"
+                  @md-confirm="showSessionAlertfun"
+                  md-confirm-text="知道了" />
         <md-dialog-confirm
                     :md-active.sync="showDeleted"
                     :md-title="deleDialogTitle"
@@ -234,7 +240,9 @@ export default {
     hasNoCompletedTest: false,
     hasNodisCompletedTest: false,
     deleDialogTitle: "",
-    hasNoReslut: false
+    hasNoReslut: false,
+    showSessionAlert: false,
+    AlertSessionMessage: ""
   }),
   mounted: function() {},
   methods: {
@@ -260,9 +268,12 @@ export default {
           data: param
         })
         .then(res => {
-          if (res.data.errorCode !== 0) {
+          if (res.data.errorCode !== 0 && res.data.errorCode !== -3) {
             $this.showAlert = true;
             $this.AlertMessage = res.data.errorMsg;
+          } else if (res.data.errorCode == -3) {
+            $this.showSessionAlert = true;
+            $this.AlertSessionMessage = res.data.errorMsg;
           } else {
             // $this.InfoArray = res.data.return.info;
             $this.allTestInfo = res.data.return.info;
@@ -640,6 +651,27 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    showSessionAlertfun() {
+      this.showSessionAlert = false;
+      //修改登录状态
+      $this.$store.commit("loginPage/changeLoginState", false);
+      //显示登录按钮
+      $this.$store.commit("home/showLogin", false);
+      // //隐藏用户中心按钮
+      // $this.$store.commit("home/showUserCenterButton", false);
+      // //隐藏用户中心
+      // $this.$store.commit("home/showUserCenter", false);
+      //隐藏导航菜单
+      $this.$store.commit("home/showTabsFun", false);
+      //显示首页背景图
+      $this.$store.commit("home/changeShowHomeBgImge", true);
+      //清楚头像图片
+      $this.$store.commit("loginPage/getUserImage", "");
+      //清除session信息
+      $this.$store.commit("LOGOUT");
+      //跳转到登录页
+      $this.$router.push("/loginPage");
     }
   },
   created: function() {

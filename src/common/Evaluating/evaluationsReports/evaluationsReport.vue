@@ -55,23 +55,23 @@
                                 <div style="margin: 30px 0;">
                                     <div style="margin: 10px;">
                                         <span>贵公司的整体水平超过了</span>
-                                        <span style="color:#02929A;font-size:14px;font-weight: 600;">{{beyondALLact}}%</span>
+                                        <span style="color:#1b96ef;font-size:14px;font-weight: 600;">{{beyondALLact}}%</span>
                                         <span>的企业，期望水平超过了</span>
-                                        <span style="color:#FF963D;font-size:14px;font-weight: 600;">{{beyondALLexp}}%</span>
+                                        <span style="color:#c23531;font-size:14px;font-weight: 600;">{{beyondALLexp}}%</span>
                                         <span>的企业；</span>
                                     </div>
                                     <div style="margin: 10px;">
                                         <span>在{{beyondL11.label}}上，企业超过了</span>
-                                        <span style="color:#02929A;font-size:14px;font-weight: 600;">{{beyondL11.active}}%</span>
+                                        <span style="color:#1b96ef;font-size:14px;font-weight: 600;">{{beyondL11.active}}%</span>
                                         <span>的企业，期望水平超过了</span>
-                                        <span style="color:#FF963D;font-size:14px;font-weight: 600;">{{beyondL11.expect}}%</span>
+                                        <span style="color:#c23531;font-size:14px;font-weight: 600;">{{beyondL11.expect}}%</span>
                                         <span>的企业；</span>
                                     </div>
                                     <div style="margin: 10px;">
                                         <span>在{{beyondL12.label}}上，企业超过了</span>
-                                        <span style="color:#02929A;font-size:14px;font-weight: 600;">{{beyondL12.active}}%</span>
+                                        <span style="color:#1b96ef;font-size:14px;font-weight: 600;">{{beyondL12.active}}%</span>
                                         <span>的企业，期望水平超过了</span>
-                                        <span style="color:#FF963D;font-size:14px;font-weight: 600;">{{beyondL12.expect}}%</span>
+                                        <span style="color:#c23531;font-size:14px;font-weight: 600;">{{beyondL12.expect}}%</span>
                                         <span>的企业；</span>
                                     </div>
                                 </div>
@@ -106,9 +106,9 @@
                                         <v-flex v-for="item in repoertLevel2Data1.key" :key="item.label" style="margin: 10px 0;" lg6 md6 sm12 xs12>
                                             <span style="font-size:16px;font-weight: 600;margin: 10px;">{{item.label}}</span>
                                             <span>该模块的能力成熟度为：</span>
-                                            <span style="color:#02929A;font-size:14px;font-weight: 600;">{{item.active}}%</span>
+                                            <span style="color:#1b96ef;font-size:14px;font-weight: 600;">{{item.active}}%</span>
                                             <span style="margin-left:20px;">期望：</span>
-                                            <span style="color:#FF963D;font-size:14px;font-weight: 600;">{{item.expect}}%</span>
+                                            <span style="color:#c23531;font-size:14px;font-weight: 600;">{{item.expect}}%</span>
                                         </v-flex>
                                         <!-- <v-flex v-for="item in repoertLevel2Data1.key" :key="item.label" lg1 hidden-lg-and-down></v-flex> -->
                                     </v-layout>
@@ -226,9 +226,9 @@
                                       <v-flex v-for="item in repoertLevel2Data2.key" :key="item.label" style="margin: 10px 0;" lg4 md6 sm12 xs12>
                                           <span style="font-size:16px;font-weight: 600;margin: 10px;">{{item.label}}</span>
                                           <span>该模块的能力成熟度为：</span>
-                                          <span style="color:#02929A;font-size:14px;font-weight: 600;">{{item.active}}%</span>
+                                          <span style="color:#1b96ef;font-size:14px;font-weight: 600;">{{item.active}}%</span>
                                           <span style="margin-left:20px;">期望：</span>
-                                          <span style="color:#FF963C;font-size:14px;font-weight: 600;">{{item.expect}}%</span>
+                                          <span style="color:#c23531;font-size:14px;font-weight: 600;">{{item.expect}}%</span>
                                       </v-flex>
                                       <v-flex v-for="item in repoertLevel2Data2.key" :key="item.label" lg1 hidden-lg-and-down></v-flex>
                                   </v-layout>
@@ -1436,7 +1436,7 @@ export default {
             symbolSize: 20,
             itemStyle: {
               normal: {
-                color: "#02929A"
+                color: "#1b96ef"
               }
             },
             data: [
@@ -1452,7 +1452,7 @@ export default {
             symbolSize: 20,
             itemStyle: {
               normal: {
-                color: "#FF963D"
+                color: "#c23531"
               }
             },
             data: [
@@ -1468,7 +1468,7 @@ export default {
             data: othersValue,
             itemStyle: {
               normal: {
-                color: "#0094FF"
+                color:  "#FDE6A9"
               }
             }
           }
@@ -1543,7 +1543,7 @@ export default {
             symbolSize: 20,
             itemStyle: {
               normal: {
-                color: "#02929A"
+                color: "#1b96ef"
               }
             },
             data: [

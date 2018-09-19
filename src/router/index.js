@@ -106,14 +106,60 @@ const router = new Router({
   ],
   // mode: "history"
 })
+      // let url = "/IBUS/DAIG_SYS/check_login",
+      //   type = "post",
+      //   request = {
+      //     id: token
+      //   },
+      //   apikey = "";
+      // let param = {
+      //   apikey,
+      //   request
+      // };
 
+      // axios({
+      //     method: type,
+      //     url: url,
+      //     data: param
+      //   })
+      //   .then(res => {
+      //     if (res.data.errorCode == 0) {
+      //       store.commit("loginPage/getSession_id", token);
+
+      //       store.commit("loginPage/getUseremail", window.localStorage.getItem('UsereMail'));
+      //       store.commit("loginPage/getUsermobile", window.localStorage.getItem('UsereMobile'));
+      //       store.commit("loginPage/getUserImage", window.localStorage.getItem('UserImage'));
+      //       store.commit("loginPage/changefirstLogin", window.sessionStorage.getItem('firstLogin') == "true" ? 1 : 0);
+      //       //修改登录状态
+      //       store.commit("loginPage/changeLoginState", true);
+      //       //保持激活的菜单
+      //       store.commit("home/getTabsactiveIndex", store.state.activeTab);
+      //       store.commit("home/showLogin", true);
+      //       store.commit("home/showTabsFun", true);
+      //       //隐藏首页背景图
+      //       store.commit("home/changeShowHomeBgImge", false);
+      //       next()
+      //     } else {
+      //       //显示首页背景图
+      //       store.commit("home/changeShowHomeBgImge", true);
+      //       //激活工作台菜单
+      //       // store.commit("home/getTabsactiveIndex", "1");
+      //       // store.commit("ACTIVE", "1");
+      //       next({
+      //         path: '/loginPage',
+      //         // query: {redirect: to.fullPath} // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      //       })
+      //     }
+      //   })
 // 注册全局钩子用来拦截导航
 router.beforeEach(function (to, from, next) {
   // debugger;
   const token = store.state.token ? store.state.token : window.localStorage.getItem("token");
+
   if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
 
     if (token) { // 通过vuex state获取当前的token是否存在
+      
       store.commit("loginPage/getSession_id", token);
 
       store.commit("loginPage/getUseremail", window.localStorage.getItem('UsereMail'));
@@ -129,6 +175,7 @@ router.beforeEach(function (to, from, next) {
       //隐藏首页背景图
       store.commit("home/changeShowHomeBgImge", false);
       next()
+
     } else {
       //如果没有token，判断是否勾选了自动登录
       if (store.state.autoLogin30days == "true") {
@@ -149,30 +196,39 @@ router.beforeEach(function (to, from, next) {
             data: param
           })
           .then(res => {
-            console.log("autologin");
-            store.commit("SET_TOKEN", window.localStorage.getItem("token"));
-            store.commit("GET_USER", window.localStorage.getItem("user"));
-            store.commit("ACTIVE", "1");
-            store.commit("loginPage/getUseremail", window.localStorage.getItem('UsereMail'));
-            store.commit("loginPage/getUsermobile", window.localStorage.getItem('UsereMobile'));
-            store.commit("loginPage/getUserImage", window.localStorage.getItem('UserImage'));
-            store.commit("home/getTabsactiveIndex", "1");
-            store.commit("home/showLogin", true);
-            store.commit("home/showTabsFun", true);
-            store.commit("evlaluating/changeShowevaluatingPage", false);
-            if (to.fullPath !== "/loginPage") {
-              //隐藏首页背景图
-              store.commit("home/changeShowHomeBgImge", false);
+            if (res.data.errorCode == 0){
+              console.log("autologin");
+              store.commit("SET_TOKEN", window.localStorage.getItem("token"));
+              store.commit("GET_USER", window.localStorage.getItem("user"));
+              store.commit("ACTIVE", "1");
+              store.commit("loginPage/getUseremail", window.localStorage.getItem('UsereMail'));
+              store.commit("loginPage/getUsermobile", window.localStorage.getItem('UsereMobile'));
+              store.commit("loginPage/getUserImage", window.localStorage.getItem('UserImage'));
+              store.commit("home/getTabsactiveIndex", "1");
+              store.commit("home/showLogin", true);
+              store.commit("home/showTabsFun", true);
+              store.commit("evlaluating/changeShowevaluatingPage", false);
+              if (to.fullPath !== "/loginPage") {
+                //隐藏首页背景图
+                store.commit("home/changeShowHomeBgImge", false);
+              }
+              router.push("/overview");
+            }else{
+              console.log("noautologin");
+              next({
+                path: '/loginPage',
+                // query: {redirect: to.fullPath} // 将跳转的路由path作为参数，登录成功后跳转到该路由
+              })
             }
-            router.push("/overview");
+            
           });
       } else {
         console.log("noautologin");
         //显示首页背景图
         store.commit("home/changeShowHomeBgImge", true);
         //激活工作台菜单
-        store.commit("home/getTabsactiveIndex", "1");
-        store.commit("ACTIVE", "1");
+        // store.commit("home/getTabsactiveIndex", "1");
+        // store.commit("ACTIVE", "1");
         next({
           path: '/loginPage',
           // query: {redirect: to.fullPath} // 将跳转的路由path作为参数，登录成功后跳转到该路由
